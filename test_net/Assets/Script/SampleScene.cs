@@ -8,6 +8,8 @@ public class SampleScene : MonoBehaviourPunCallbacks
 {
     [SerializeField] private InputField roomName;
 
+    private bool logInFirst = true;
+    private bool logOutFirst = false;
     private bool first = true;
 
     private void Start()
@@ -20,15 +22,40 @@ public class SampleScene : MonoBehaviourPunCallbacks
 
     public void LogIn()
     {
-        if (first)
+        if (logInFirst)
         {
             if (roomName.text.ToString() != "")
             {
                 // PhotonServerSettingsの設定内容を使ってマスターサーバーへ接続する
                 PhotonNetwork.ConnectUsingSettings();
-                first = false;
+                logInFirst = false;
+                logOutFirst = true;
             }
         }
+    }
+
+    public void LogOut()
+    {
+        if (logOutFirst)
+        {
+            //ルームから抜ける処理
+            PhotonNetwork.LeaveRoom();
+            logOutFirst = false;
+            logInFirst = true;
+        }
+    }
+
+    // ルームから退出した時に呼ばれるコールバック
+    public override void OnLeftRoom()
+    {
+        Debug.Log("ルームから退出しました");
+        PhotonNetwork.LeaveLobby();
+    }
+
+    // ロビーへ参加した時に呼ばれるコールバック
+    public override void OnJoinedLobby()
+    {
+        Debug.Log("ロビーへ参加しました");
     }
 
     // マスターサーバーへの接続が成功した時に呼ばれるコールバック
@@ -36,9 +63,14 @@ public class SampleScene : MonoBehaviourPunCallbacks
     {
         var roomOptions = new RoomOptions();
         roomOptions.MaxPlayers = 2;
-
         // "Room"という名前のルームに参加する（ルームが存在しなければ作成して参加する）
-        PhotonNetwork.JoinOrCreateRoom(roomName.text.ToString(), roomOptions, TypedLobby.Default);
+        if (first)
+        {
+            PhotonNetwork.JoinOrCreateRoom(roomName.text.ToString(), roomOptions, TypedLobby.Default);
+            first = false;
+        }
+
+        Debug.Log("参加中");
     }
 
     // ゲームサーバーへの接続が成功した時に呼ばれるコールバック
