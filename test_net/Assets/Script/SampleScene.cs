@@ -20,7 +20,7 @@ public class SampleScene : MonoBehaviourPunCallbacks
         
     }
 
-    public void LogIn()
+    public void LogIn(int room)
     {
         if (logInFirst)
         {

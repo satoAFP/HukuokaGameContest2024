@@ -11,7 +11,7 @@ public class AvatarController : MonoBehaviourPunCallbacks
 
     private void Start()
     {
-        text = GameObject.FindWithTag("Bullet").GetComponent<Text>();
+        //text = GameObject.FindWithTag("Bullet").GetComponent<Text>();
     }
 
     private void Update()
@@ -24,26 +24,26 @@ public class AvatarController : MonoBehaviourPunCallbacks
         }
         
         
-        var players = PhotonNetwork.PlayerList;
-        var test = GameObject.FindWithTag("Finish").GetComponent<AvatarContainer>().GetEnumerator();
+        //var players = PhotonNetwork.PlayerList;
+        //var test = GameObject.FindWithTag("Finish").GetComponent<AvatarContainer>().GetEnumerator();
 
-        int a = 0;
+        //int a = 0;
 
-        while (test.MoveNext())
-        {
-            a++;
-        }
+        //while (test.MoveNext())
+        //{
+        //    a++;
+        //}
 
 
-        if (PhotonNetwork.LocalPlayer.IsLocal)
-        {
-            text.text = "Local:" + PhotonNetwork.LocalPlayer.ActorNumber + ":" + PhotonNetwork.LocalPlayer.NickName + ":" + a;
-        }
+        //if (PhotonNetwork.LocalPlayer.IsLocal)
+        //{
+        //    text.text = "Local:" + PhotonNetwork.LocalPlayer.ActorNumber + ":" + PhotonNetwork.LocalPlayer.NickName + ":" + a;
+        //}
 
-        if (PhotonNetwork.LocalPlayer.IsMasterClient)
-        {
-            text.text = "Master:" + PhotonNetwork.LocalPlayer.ActorNumber + ":" + PhotonNetwork.LocalPlayer.NickName + ":" + a;
-        }
+        //if (PhotonNetwork.LocalPlayer.IsMasterClient)
+        //{
+        //    text.text = "Master:" + PhotonNetwork.LocalPlayer.ActorNumber + ":" + PhotonNetwork.LocalPlayer.NickName + ":" + a;
+        
 
     }
 }
