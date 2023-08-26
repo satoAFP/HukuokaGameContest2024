@@ -7,11 +7,11 @@ using UnityEngine.UI;
 // MonoBehaviourPunCallbacksを継承して、photonViewプロパティを使えるようにする
 public class AvatarController : MonoBehaviourPunCallbacks
 {
-    private Text text;
+    
 
     private void Start()
     {
-        //text = GameObject.FindWithTag("Bullet").GetComponent<Text>();
+        ManagerAccessor.Instance.dataManager.text.text = photonView.OwnerActorNr + ":" + PhotonNetwork.NickName + ":" + PhotonNetwork.IsMasterClient;
     }
 
     private void Update()

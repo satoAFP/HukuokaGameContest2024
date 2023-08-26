@@ -19,8 +19,6 @@ public class LogInSystem : MonoBehaviourPunCallbacks
     {
         // プレイヤー自身の名前を"Player"に設定する
         PhotonNetwork.NickName = "Player";
-
-        
     }
 
     public void LogIn(int room)
@@ -28,11 +26,11 @@ public class LogInSystem : MonoBehaviourPunCallbacks
         //画面を触れなくする
         NoTapArea.SetActive(true);
 
-        // PhotonServerSettingsの設定内容を使ってマスターサーバーへ接続する
-        PhotonNetwork.ConnectUsingSettings();
-
         //ルーム番号設定
         roomNumber = room;
+
+        // PhotonServerSettingsの設定内容を使ってマスターサーバーへ接続する
+        PhotonNetwork.ConnectUsingSettings();
     }
 
     // マスターサーバーへの接続が成功した時に呼ばれるコールバック
@@ -49,9 +47,8 @@ public class LogInSystem : MonoBehaviourPunCallbacks
         var roomOptions = new RoomOptions();
         roomOptions.MaxPlayers = 2;
 
-        for (int i = 0; i < 5; i++)
-            PhotonNetwork.CreateRoom("Room" + i, roomOptions, TypedLobby.Default);
-
+        //ルームの作成
+        PhotonNetwork.CreateRoom("Room" + roomNumber, roomOptions, TypedLobby.Default);
     }
 
 
@@ -61,30 +58,30 @@ public class LogInSystem : MonoBehaviourPunCallbacks
         PhotonNetwork.JoinRoom("Room" + roomNumber);
     }
 
+    //ルームの参加が失敗した時に呼ばれるコールバック
     public override void OnJoinRoomFailed(short returnCode, string message)
     {
-        Debug.Log("参加に失敗");
+        //画面を触れるようにする
+        NoTapArea.SetActive(false);
+        //Photonのサーバーから切断する
+        PhotonNetwork.Disconnect();
+        ManagerAccessor.Instance.dataManager.text.text = "ルーム参加失敗" + roomNumber;
     }
 
     // ルームの作成が失敗した時に呼ばれるコールバック
     public override void OnCreateRoomFailed(short returnCode, string message)
     {
-        Debug.Log("ルームの作成に失敗しました");
+        //失敗時はそのルームに参加する
+        PhotonNetwork.JoinRoom("Room" + roomNumber);
+        ManagerAccessor.Instance.dataManager.text.text = "ルーム作成失敗" + roomNumber;
     }
 
     // ゲームサーバーへの接続が成功した時に呼ばれるコールバック
     public override void OnJoinedRoom()
     {
-        Debug.Log("参加に成功");
+        ManagerAccessor.Instance.sceneMoveManager.SceneMoveName("GameTest");
 
-        var players = PhotonNetwork.PlayerList;
-        Debug.Log(players.Length);
+        
 
-        // ランダムな座標に自身のアバター（ネットワークオブジェクト）を生成する
-        var position = new Vector3(Random.Range(-3f, 3f), Random.Range(-3f, 3f));
-        PhotonNetwork.Instantiate("Avatar", position, Quaternion.identity);
-
-        position = new Vector3(Random.Range(-3f, 3f), Random.Range(-3f, 3f));
-        PhotonNetwork.Instantiate("Block", position, Quaternion.identity);
     }
 }
