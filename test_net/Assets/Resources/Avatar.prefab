@@ -11,11 +11,12 @@ GameObject:
   - component: {fileID: 2186945145474806553}
   - component: {fileID: 3281353898543592482}
   - component: {fileID: 8712827351243070092}
-  - component: {fileID: 240595198431383088}
+  - component: {fileID: 8659956767534430028}
   - component: {fileID: 1385950595002767740}
   - component: {fileID: 5226286168327482328}
   - component: {fileID: 1046249299908696261}
   - component: {fileID: 9140700735780643334}
+  - component: {fileID: 8861691235975493993}
   m_Layer: 0
   m_Name: Avatar
   m_TagString: Untagged
@@ -116,7 +117,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!50 &240595198431383088
+--- !u!50 &8659956767534430028
 Rigidbody2D:
   serializedVersion: 4
   m_ObjectHideFlags: 0
@@ -128,10 +129,10 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 0.0001
+  m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 0
+  m_GravityScale: 1
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
@@ -200,3 +201,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f0e23316d6a40e4e96341e2b697c769, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &8861691235975493993
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4645120399147915654}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5607737c6620fe14788d0bf04660f316, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 0.03

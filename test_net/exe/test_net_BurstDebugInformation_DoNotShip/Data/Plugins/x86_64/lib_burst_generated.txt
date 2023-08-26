@@ -112,6 +112,7 @@ Library: lib_burst_generated
 --compilation-defines=ENABLE_TERRAIN
 --compilation-defines=ENABLE_TILEMAP
 --compilation-defines=ENABLE_TIMELINE
+--compilation-defines=ENABLE_INPUT_SYSTEM
 --compilation-defines=ENABLE_LEGACY_INPUT_MANAGER
 --compilation-defines=TEXTCORE_FONT_ENGINE_1_5_OR_NEWER
 --compilation-defines=PHOTON_UNITY_NETWORKING
@@ -125,6 +126,8 @@ Library: lib_burst_generated
 --compilation-defines=PACKAGE_UITOOLKIT
 --compilation-defines=CSHARP_7_OR_LATER
 --compilation-defines=CSHARP_7_3_OR_NEWER
+--compilation-defines=PACKAGE_INPUT_SYSTEM_EXISTS
+--compilation-defines=PACKAGE_INPUT_SYSTEM_1_2_0_OR_NEWER_EXISTS
 --compilation-defines=MODULE_AI_EXISTS
 --compilation-defines=MODULE_ANIMATION_EXISTS
 --compilation-defines=MODULE_PHYSICS_EXISTS
@@ -133,6 +136,11 @@ Library: lib_burst_generated
 --compilation-defines=ENABLE_ANIMATION_BURST
 --compilation-defines=TIMELINE_FRAMEACCURATE
 --compilation-defines=ENABLE_SPRITESHAPE_BURST
+--compilation-defines=UNITY_INPUT_SYSTEM_ENABLE_VR
+--compilation-defines=UNITY_INPUT_SYSTEM_ENABLE_XR
+--compilation-defines=UNITY_INPUT_SYSTEM_ENABLE_PHYSICS
+--compilation-defines=UNITY_INPUT_SYSTEM_ENABLE_PHYSICS2D
+--compilation-defines=UNITY_INPUT_SYSTEM_ENABLE_UI
 --linker-options=PdbAltPath="test_net_Data/Plugins/x86_64"
 --generate-link-xml=Temp\burst.link.xml
 --debug=Full
@@ -158,6 +166,7 @@ Library: lib_burst_generated
 --root-assembly=C:\Users\佐藤航介\Desktop\HukuokaGameContest2024\test_net\Temp\StagingArea\Data\Managed\PhotonChat.dll
 --root-assembly=C:\Users\佐藤航介\Desktop\HukuokaGameContest2024\test_net\Temp\StagingArea\Data\Managed\Unity.2D.Tilemap.Extras.dll
 --root-assembly=C:\Users\佐藤航介\Desktop\HukuokaGameContest2024\test_net\Temp\StagingArea\Data\Managed\Unity.InternalAPIEngineBridge.001.dll
+--root-assembly=C:\Users\佐藤航介\Desktop\HukuokaGameContest2024\test_net\Temp\StagingArea\Data\Managed\Unity.InputSystem.dll
 --assembly-folder=C:\Users\佐藤航介\Desktop\HukuokaGameContest2024\test_net\Temp\StagingArea\Data\Managed\
 --pdb-search-paths=Temp/ManagedSymbols/
 --method=Unity.Burst.BurstCompiler+BurstCompilerHelper, Unity.Burst, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null::IsBurstEnabled()--8c2be93e18276203cbd918daa2748a10
@@ -278,6 +287,7 @@ Library: lib_burst_generated
 --compilation-defines=ENABLE_TERRAIN
 --compilation-defines=ENABLE_TILEMAP
 --compilation-defines=ENABLE_TIMELINE
+--compilation-defines=ENABLE_INPUT_SYSTEM
 --compilation-defines=ENABLE_LEGACY_INPUT_MANAGER
 --compilation-defines=TEXTCORE_FONT_ENGINE_1_5_OR_NEWER
 --compilation-defines=PHOTON_UNITY_NETWORKING
@@ -291,6 +301,8 @@ Library: lib_burst_generated
 --compilation-defines=PACKAGE_UITOOLKIT
 --compilation-defines=CSHARP_7_OR_LATER
 --compilation-defines=CSHARP_7_3_OR_NEWER
+--compilation-defines=PACKAGE_INPUT_SYSTEM_EXISTS
+--compilation-defines=PACKAGE_INPUT_SYSTEM_1_2_0_OR_NEWER_EXISTS
 --compilation-defines=MODULE_AI_EXISTS
 --compilation-defines=MODULE_ANIMATION_EXISTS
 --compilation-defines=MODULE_PHYSICS_EXISTS
@@ -299,6 +311,11 @@ Library: lib_burst_generated
 --compilation-defines=ENABLE_ANIMATION_BURST
 --compilation-defines=TIMELINE_FRAMEACCURATE
 --compilation-defines=ENABLE_SPRITESHAPE_BURST
+--compilation-defines=UNITY_INPUT_SYSTEM_ENABLE_VR
+--compilation-defines=UNITY_INPUT_SYSTEM_ENABLE_XR
+--compilation-defines=UNITY_INPUT_SYSTEM_ENABLE_PHYSICS
+--compilation-defines=UNITY_INPUT_SYSTEM_ENABLE_PHYSICS2D
+--compilation-defines=UNITY_INPUT_SYSTEM_ENABLE_UI
 --linker-options=PdbAltPath="test_net_Data/Plugins/x86_64"
 --generate-link-xml=Temp\burst.link.xml
 --debug=Full
@@ -324,6 +341,7 @@ Library: lib_burst_generated
 --root-assembly=C:\Users\佐藤航介\Desktop\HukuokaGameContest2024\test_net\Temp\StagingArea\Data\Managed\PhotonChat.dll
 --root-assembly=C:\Users\佐藤航介\Desktop\HukuokaGameContest2024\test_net\Temp\StagingArea\Data\Managed\Unity.2D.Tilemap.Extras.dll
 --root-assembly=C:\Users\佐藤航介\Desktop\HukuokaGameContest2024\test_net\Temp\StagingArea\Data\Managed\Unity.InternalAPIEngineBridge.001.dll
+--root-assembly=C:\Users\佐藤航介\Desktop\HukuokaGameContest2024\test_net\Temp\StagingArea\Data\Managed\Unity.InputSystem.dll
 --assembly-folder=C:\Users\佐藤航介\Desktop\HukuokaGameContest2024\test_net\Temp\StagingArea\Data\Managed\
 --pdb-search-paths=Temp/ManagedSymbols/
 --method=Unity.Burst.BurstCompiler+BurstCompilerHelper, Unity.Burst, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null::IsBurstEnabled()--8c2be93e18276203cbd918daa2748a10
