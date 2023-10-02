@@ -464,6 +464,7 @@ GameObject:
   m_Component:
   - component: {fileID: 729342209}
   - component: {fileID: 729342208}
+  - component: {fileID: 729342216}
   - component: {fileID: 729342210}
   - component: {fileID: 729342212}
   - component: {fileID: 729342214}
@@ -474,7 +475,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!212 &729342208
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -549,7 +550,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 729342207}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0293b04a33b38ed49a1dac14f4466884, type: 3}
   m_Name: 
@@ -624,6 +625,35 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &729342216
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 729342207}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2870724e4700dfa44b3fc433561db923, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _action:
+    m_Name: Action
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 76c05a05-a700-4b8d-986d-45635685e702
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings:
+    - m_Name: 
+      m_Id: 91977c13-7f8c-4e7e-a285-079f925ec738
+      m_Path: <Gamepad>/buttonEast
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Action
+      m_Flags: 0
+    m_Flags: 0
 --- !u!1 &870451410
 GameObject:
   m_ObjectHideFlags: 0
@@ -1248,6 +1278,10 @@ PrefabInstance:
     - target: {fileID: 3272500998240595349, guid: abd5d4b0c610ba74080c2cca3fbca84d, type: 3}
       propertyPath: m_Name
       value: testplayer
+      objectReference: {fileID: 0}
+    - target: {fileID: 3272500998240595349, guid: abd5d4b0c610ba74080c2cca3fbca84d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3272500998240595375, guid: abd5d4b0c610ba74080c2cca3fbca84d, type: 3}
       propertyPath: m_RootOrder
