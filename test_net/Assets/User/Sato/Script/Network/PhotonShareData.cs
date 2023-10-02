@@ -14,7 +14,7 @@ public class PhotonShareData : MonoBehaviourPunCallbacks, IPunObservable
     public string Text
     {
         get { return _text; }
-        set { _text = value; ManagerAccessor.Instance.dataManager.RequestOwner(); }
+        set { _text = value; }
     }
 
     void Awake()
@@ -30,21 +30,20 @@ public class PhotonShareData : MonoBehaviourPunCallbacks, IPunObservable
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
-        Debug.Log("aaa");
-        // オーナーの場合
-        if (stream.IsWriting)
-        {
-            stream.SendNext(this._text);
-            stream.SendNext(ManagerAccessor.Instance.dataManager.isOwnerClear);
-            stream.SendNext(ManagerAccessor.Instance.dataManager.isClientClear);
-        }
-        // オーナー以外の場合
-        else
-        {
-            this._text = (string)stream.ReceiveNext();
-            ManagerAccessor.Instance.dataManager.isOwnerClear = (bool)stream.ReceiveNext();
-            ManagerAccessor.Instance.dataManager.isClientClear = (bool)stream.ReceiveNext();
-        }
+        //// オーナーの場合
+        //if (stream.IsWriting)
+        //{
+        //    stream.SendNext(this._text);
+        //    stream.SendNext(ManagerAccessor.Instance.dataManager.isOwnerClear);
+        //    stream.SendNext(ManagerAccessor.Instance.dataManager.isClientClear);
+        //}
+        //// オーナー以外の場合
+        //else
+        //{
+        //    this._text = (string)stream.ReceiveNext();
+        //    ManagerAccessor.Instance.dataManager.isOwnerClear = (bool)stream.ReceiveNext();
+        //    ManagerAccessor.Instance.dataManager.isClientClear = (bool)stream.ReceiveNext();
+        //}
     }
 
     

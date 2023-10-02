@@ -16,13 +16,13 @@ public class DataManager : MonoBehaviourPunCallbacks
     public bool GetSetIsOwnerClear
     {
         get { return isOwnerClear; }
-        set { isOwnerClear = value; RequestOwner(); }
+        set { isOwnerClear = value; }
     }
 
     public bool GetSetIsClientClear
     {
         get { return isClientClear; }
-        set { isClientClear = value; RequestOwner(); }
+        set { isClientClear = value;}
     }
 
 
@@ -40,14 +40,14 @@ public class DataManager : MonoBehaviourPunCallbacks
     }
 
     //オーナーでなくてもデータ変更可能にする
-    public void RequestOwner()
-    {
-        if (this.photonView.IsMine == false)
-        {
-            if (this.photonView.OwnershipTransfer != OwnershipOption.Request)
-                Debug.LogError("OwnershipTransferをRequestに変更してください。");
-            else
-                this.photonView.RequestOwnership();
-        }
-    }
+    //public void RequestOwner()
+    //{
+    //    if (this.photonView.IsMine == false)
+    //    {
+    //        if (this.photonView.OwnershipTransfer != OwnershipOption.Request)
+    //            Debug.LogError("OwnershipTransferをRequestに変更してください。");
+    //        else
+    //            this.photonView.RequestOwnership();
+    //    }
+    //}
 }
