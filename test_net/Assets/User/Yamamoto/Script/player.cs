@@ -1,9 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using Photon.Pun;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class player : MonoBehaviour
+public class player : MonoBehaviourPunCallbacks
 {
     [SerializeField, Header("移動速度")]
     private float moveSpeed;
@@ -21,12 +22,19 @@ public class player : MonoBehaviour
     {
         //PlayerのRigidbody2Dコンポーネントを取得する
         rigid = GetComponent<Rigidbody2D>();
+
+        //名前とIDを設定
+        gameObject.name = "Player" + photonView.OwnerActorNr;
     }
     void Update()
     {
-        Move();//移動処理をON
-
+        //操作が競合しないための設定
+        if (photonView.IsMine)
+        {
+            Move();//移動処理をON
+        }
     }
+
     private void Move()//移動処理（計算部分）
     {
         //プレイヤーが入力した方向に横方向限定で移動速度分の力を加える
@@ -34,24 +42,28 @@ public class player : MonoBehaviour
     }
 
 
-    //in
-    
     public void OnMove(InputAction.CallbackContext context)
     {
-        //移動方向の入力情報がInputdirectionの中に入るようになる
-        inputDirection = context.ReadValue<Vector2>();
-
+        //操作が競合しないための設定
+        if (photonView.IsMine)
+        {
+            //移動方向の入力情報がInputdirectionの中に入るようになる
+            inputDirection = context.ReadValue<Vector2>();
+        }
     }
 
     public void Onjump(InputAction.CallbackContext context)
     {
-        //Input Systemからジャンプの入力があった時に呼ばれる
-        if (!context.performed)
+        //操作が競合しないための設定
+        if (photonView.IsMine)
         {
-            return;
+            //Input Systemからジャンプの入力があった時に呼ばれる
+            if (!context.performed)
+            {
+                return;
+            }
+
+            rigid.AddForce(Vector2.up * jumpSpeed, ForceMode2D.Impulse);
         }
-
-        rigid.AddForce(Vector2.up * jumpSpeed, ForceMode2D.Impulse);
-
     }
 }
