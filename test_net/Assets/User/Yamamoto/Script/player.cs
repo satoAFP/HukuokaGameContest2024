@@ -26,19 +26,14 @@ public class player : MonoBehaviourPunCallbacks
         //–¼‘O‚ÆID‚ğİ’è
         gameObject.name = "Player" + photonView.OwnerActorNr;
 
-        //if(gameObject.name== "Player2")
-        //{
-        //    GetComponent<PlayerInput>().enabled = false;
-        //}
     }
     void Update()
     {
 
-        Move();//ˆÚ“®ˆ—‚ğON
         //‘€ì‚ª‹£‡‚µ‚È‚¢‚½‚ß‚Ìİ’è
         if (photonView.IsMine)
         {
-           
+            Move();//ˆÚ“®ˆ—‚ğON
         }
     }
 
