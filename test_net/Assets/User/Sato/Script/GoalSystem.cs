@@ -37,14 +37,10 @@ public class GoalSystem : MonoBehaviourPunCallbacks
         if (master == 1)
         {
             ManagerAccessor.Instance.dataManager.GetSetIsOwnerClear = true;
-            text.text = "オーナーでクリア";
-            Debug.Log("c");
         }
         else
         {
             ManagerAccessor.Instance.dataManager.GetSetIsClientClear = true;
-            text.text = "オーナーじゃなくクリア";
-            Debug.Log("d");
         }
     }
 
