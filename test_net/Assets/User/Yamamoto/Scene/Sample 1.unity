@@ -783,7 +783,19 @@ MonoBehaviour:
     m_ActionId: 6515d2cb-1d55-41bf-b0e1-15a38ce9f394
     m_ActionName: UI/TrackedDeviceOrientation
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 729342216}
+        m_TargetAssemblyTypeName: player, Assembly-CSharp
+        m_MethodName: Onjump
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: b350f6fb-e6a5-4a9b-b978-df2bbbe25939
     m_ActionName: Player/Jump[/Keyboard/w,/XInputControllerWindows/buttonSouth]
   m_NeverAutoSwitchControlSchemes: 0
@@ -804,7 +816,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 5
-  jumpSpeed: 0
+  jumpSpeed: 5
 --- !u!58 &729342217
 CircleCollider2D:
   m_ObjectHideFlags: 0
