@@ -33,15 +33,18 @@ public class player : MonoBehaviourPunCallbacks
     }
     void Update()
     {
+
+        Move();//移動処理をON
         //操作が競合しないための設定
         if (photonView.IsMine)
         {
-            Move();//移動処理をON
+           
         }
     }
 
     private void Move()//移動処理（計算部分）
     {
+
         //プレイヤーが入力した方向に横方向限定で移動速度分の力を加える
         rigid.velocity = new Vector2(inputDirection.x * moveSpeed, rigid.velocity.y);
     }
