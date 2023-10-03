@@ -9,8 +9,14 @@ public class AvatarTransformView : MonoBehaviourPunCallbacks, IPunObservable
     private Vector3 p2;
     private float elapsedTime;
 
+    private bool onKey = false;
+    private bool first = true;
+
+    private Vector3 memPos = new Vector3(0, 0, 0);
+
     private void Start()
     {
+        memPos = transform.position;
         p1 = transform.position;
         p2 = p1;
         elapsedTime = 0f;
@@ -18,11 +24,30 @@ public class AvatarTransformView : MonoBehaviourPunCallbacks, IPunObservable
 
     private void Update()
     {
+        if(Input.GetKey(KeyCode.A)|| Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.S))
+        {
+            photonView.RPC(nameof(RpcMoving), RpcTarget.Others, true);
+            first = true;
+        }
+        else
+        {
+            photonView.RPC(nameof(RpcMoving), RpcTarget.Others, false);
+            Debug.Log("aaa");
+            if(first)
+            {
+                memPos = transform.position;
+                first = false;
+            }
+        }
+
         if (!photonView.IsMine)
         {
-            // 他プレイヤーのネットワークオブジェクトは、補間処理を行う
-            elapsedTime += Time.deltaTime;
-            transform.position = Vector3.LerpUnclamped(p1, p2, elapsedTime / InterpolationPeriod);
+            if (onKey)
+            {
+                // 他プレイヤーのネットワークオブジェクトは、補間処理を行う
+                elapsedTime += Time.deltaTime;
+                transform.position = Vector3.LerpUnclamped(p1, p2, elapsedTime / InterpolationPeriod);
+            }
         }
     }
 
@@ -41,5 +66,11 @@ public class AvatarTransformView : MonoBehaviourPunCallbacks, IPunObservable
             // 経過時間をリセットする
             elapsedTime = 0f;
         }
+    }
+
+    [PunRPC]
+    private void RpcMoving(bool onkey)
+    {
+        onKey = onkey;
     }
 }
