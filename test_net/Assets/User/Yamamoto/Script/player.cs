@@ -45,18 +45,18 @@ public class player : MonoBehaviourPunCallbacks
     public void OnMove(InputAction.CallbackContext context)
     {
         //‘€ì‚ª‹£‡‚µ‚È‚¢‚½‚ß‚Ìİ’è
-        if (photonView.IsMine)
-        {
+        //if (photonView.IsMine)
+        //{
             //ˆÚ“®•ûŒü‚Ì“ü—Íî•ñ‚ªInputdirection‚Ì’†‚É“ü‚é‚æ‚¤‚É‚È‚é
             inputDirection = context.ReadValue<Vector2>();
-        }
+        //}
     }
 
     public void Onjump(InputAction.CallbackContext context)
     {
         //‘€ì‚ª‹£‡‚µ‚È‚¢‚½‚ß‚Ìİ’è
-        if (photonView.IsMine)
-        {
+        //if (photonView.IsMine)
+        //{
             //Input System‚©‚çƒWƒƒƒ“ƒv‚Ì“ü—Í‚ª‚ ‚Á‚½‚ÉŒÄ‚Î‚ê‚é
             if (!context.performed)
             {
@@ -64,6 +64,6 @@ public class player : MonoBehaviourPunCallbacks
             }
 
             rigid.AddForce(Vector2.up * jumpSpeed, ForceMode2D.Impulse);
-        }
+        //}
     }
 }
