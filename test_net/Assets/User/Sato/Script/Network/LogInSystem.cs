@@ -9,12 +9,29 @@ public class LogInSystem : MonoBehaviourPunCallbacks
 {
     [SerializeField] private GameObject NoTapArea;
 
-    private int roomNumber = 0;
+    
+    private int roomNumber = 0;         //ルーム番号
+    private bool logInSuccess = false;  //ログイン成功時
 
     private void Start()
     {
         // プレイヤー自身の名前を"Player"に設定する
         PhotonNetwork.NickName = "Player";
+    }
+
+    private void Update()
+    {
+        if(logInSuccess)
+        {
+            //ルーム内の人数カウント
+            int i = 0;
+            foreach (var p in PhotonNetwork.PlayerList)
+                i++;
+
+            //メンバーがそろったらシーン移動
+            if (i == 2)
+                ManagerAccessor.Instance.sceneMoveManager.SceneMoveName("GameTest");
+        }
     }
 
     public void LogIn(int room)
@@ -75,9 +92,7 @@ public class LogInSystem : MonoBehaviourPunCallbacks
     // ゲームサーバーへの接続が成功した時に呼ばれるコールバック
     public override void OnJoinedRoom()
     {
-        ManagerAccessor.Instance.sceneMoveManager.SceneMoveName("GameTest");
-
-        
-
+        //接続成功
+        logInSuccess = true;
     }
 }
