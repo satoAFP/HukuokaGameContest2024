@@ -13,25 +13,36 @@ public class GoalSystem : MonoBehaviourPunCallbacks
     // Update is called once per frame
     void Update()
     {
-        text.text = ManagerAccessor.Instance.dataManager.GetSetIsOwnerClear + ":" + ManagerAccessor.Instance.dataManager.GetSetIsClientClear;
+        //text.text = ManagerAccessor.Instance.dataManager.GetSetIsOwnerClear + ":" + ManagerAccessor.Instance.dataManager.GetSetIsClientClear;
         //Debug.Log(ManagerAccessor.Instance.dataManager.GetSetIsOwnerClear + ":" + ManagerAccessor.Instance.dataManager.GetSetIsClientClear);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.transform.tag == "Player")
+        if (collision.gameObject.name == "Player1")
         {
-            //オーナーの時
-            if (PhotonNetwork.LocalPlayer.IsMasterClient)
-            {
-                photonView.RPC(nameof(RpcClearCheck), RpcTarget.Others, 1);
-            }
-            else
-            {
-                photonView.RPC(nameof(RpcClearCheck), RpcTarget.Others, 0);
-            }
+            photonView.RPC(nameof(RpcClearCheck), RpcTarget.All, 1);
 
-            
+            //int i = 0;
+            ////オーナーの時
+            //if (photonView.IsMine)
+            //{
+
+            //    text.text = "オーナーです";
+            //    Debug.Log("a");
+            //}
+            //else
+            //{
+
+            //    text.text = "オーナーじゃないです";
+            //    Debug.Log("b");
+            //}
+
+
+        }
+        if (collision.gameObject.name == "Player2")
+        {
+            photonView.RPC(nameof(RpcClearCheck), RpcTarget.All, 0);
         }
     }
 
@@ -42,12 +53,14 @@ public class GoalSystem : MonoBehaviourPunCallbacks
         if (master == 1)
         {
             ManagerAccessor.Instance.dataManager.GetSetIsOwnerClear = true;
-            Debug.Log("master");
+            text.text = "オーナーでクリア";
+            Debug.Log("c");
         }
         else
         {
             ManagerAccessor.Instance.dataManager.GetSetIsClientClear = true;
-            Debug.Log("not-master");
+            text.text = "オーナーじゃなくクリア";
+            Debug.Log("d");
         }
     }
 

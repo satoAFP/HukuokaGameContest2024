@@ -13,7 +13,7 @@ public class GameStart : MonoBehaviourPunCallbacks
 
         //ランダムな座標に自身のアバター（ネットワークオブジェクト）を生成する
         var position = new Vector3(Random.Range(-3f, 3f), Random.Range(-3f, 3f));
-        PhotonNetwork.Instantiate("Avatar", position, Quaternion.identity);
+        GameObject clone = PhotonNetwork.Instantiate("Avatar", position, Quaternion.identity);
 
         if (PhotonNetwork.IsMasterClient)
         {
