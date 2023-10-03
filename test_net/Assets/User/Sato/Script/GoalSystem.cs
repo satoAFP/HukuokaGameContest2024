@@ -23,22 +23,6 @@ public class GoalSystem : MonoBehaviourPunCallbacks
         {
             photonView.RPC(nameof(RpcClearCheck), RpcTarget.All, 1);
 
-            //int i = 0;
-            ////オーナーの時
-            //if (photonView.IsMine)
-            //{
-
-            //    text.text = "オーナーです";
-            //    Debug.Log("a");
-            //}
-            //else
-            //{
-
-            //    text.text = "オーナーじゃないです";
-            //    Debug.Log("b");
-            //}
-
-
         }
         if (collision.gameObject.name == "Player2")
         {
