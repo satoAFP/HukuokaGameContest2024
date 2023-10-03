@@ -5,41 +5,34 @@ using UnityEngine;
 
 public class testplayer : MonoBehaviourPunCallbacks
 {
+    [SerializeField, Header("移動速度")]
+    private float moveSpeed;
 
-   [SerializeField,Header("テスト用プレイヤー速度")] private float speed;
-
-    // Start is called before the first frame update
+    
     void Start()
     {
+        //名前とIDを設定
         gameObject.name = "Player" + photonView.OwnerActorNr;
     }
 
-    // Update is called once per frame
+
     void Update()
     {
+        //操作が競合しないための設定
         if (photonView.IsMine)
         {
-            Vector2 position = transform.position;
+            // 入力をxに代入
+            float x = Input.GetAxis("Horizontal");
 
-            if (Input.GetKey(KeyCode.A))
-            {
-                position.x -= speed;
-            }
-            if (Input.GetKey(KeyCode.D))
-            {
-                position.x += speed;
-            }
-            if (Input.GetKey(KeyCode.W))
-            {
-                position.y += speed;
-            }
-            if (Input.GetKey(KeyCode.S))
-            {
-                position.y -= speed;
-            }
+            //Rigidbody2Dを取得
+            Rigidbody2D rb = GetComponent<Rigidbody2D>();
 
+            //x軸に加わる力を格納
+            Vector2 force = new Vector2(x * 10, 0);
 
-            transform.position = position;
+            //Rigidbody2Dに力を加える
+            rb.AddForce(force);
         }
+           
     }
 }
