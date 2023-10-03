@@ -11,10 +11,6 @@ public class LogInSystem : MonoBehaviourPunCallbacks
 
     private int roomNumber = 0;
 
-    private bool logInFirst = true;
-    private bool logOutFirst = false;
-    private bool first = true;
-
     private void Start()
     {
         // プレイヤー自身の名前を"Player"に設定する

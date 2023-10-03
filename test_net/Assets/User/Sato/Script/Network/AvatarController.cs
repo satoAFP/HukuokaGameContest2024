@@ -7,8 +7,6 @@ using UnityEngine.UI;
 // MonoBehaviourPunCallbacksを継承して、photonViewプロパティを使えるようにする
 public class AvatarController : MonoBehaviourPunCallbacks
 {
-    
-
     private void Start()
     {
         ManagerAccessor.Instance.dataManager.text.text = photonView.OwnerActorNr + ":" + PhotonNetwork.NickName + ":" + PhotonNetwork.IsMasterClient;

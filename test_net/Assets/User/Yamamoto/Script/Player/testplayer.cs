@@ -11,7 +11,7 @@ public class testplayer : MonoBehaviourPunCallbacks
     // Start is called before the first frame update
     void Start()
     {
-        
+        gameObject.name = "Player" + photonView.OwnerActorNr;
     }
 
     // Update is called once per frame
@@ -21,22 +21,23 @@ public class testplayer : MonoBehaviourPunCallbacks
         {
             Vector2 position = transform.position;
 
-            if (Input.GetKey("left"))
+            if (Input.GetKey(KeyCode.A))
             {
                 position.x -= speed;
             }
-            else if (Input.GetKey("right"))
+            if (Input.GetKey(KeyCode.D))
             {
                 position.x += speed;
             }
-            else if (Input.GetKey("up"))
+            if (Input.GetKey(KeyCode.W))
             {
                 position.y += speed;
             }
-            else if (Input.GetKey("down"))
+            if (Input.GetKey(KeyCode.S))
             {
                 position.y -= speed;
             }
+
 
             transform.position = position;
         }

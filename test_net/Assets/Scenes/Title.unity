@@ -1502,6 +1502,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   text: {fileID: 1265428159}
+  chat: {fileID: 0}
+  clear: {fileID: 0}
 --- !u!4 &1352978598
 Transform:
   m_ObjectHideFlags: 0
