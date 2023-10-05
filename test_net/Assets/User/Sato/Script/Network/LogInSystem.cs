@@ -28,9 +28,11 @@ public class LogInSystem : MonoBehaviourPunCallbacks
             foreach (var p in PhotonNetwork.PlayerList)
                 i++;
 
+            Debug.Log(i);
+
             //メンバーがそろったらシーン移動
-            if (i == 2)
-                ManagerAccessor.Instance.sceneMoveManager.SceneMoveName("GameTest");
+            //if (i == 2)
+            //    ManagerAccessor.Instance.sceneMoveManager.SceneMoveName("GameTest");
         }
     }
 
@@ -92,6 +94,7 @@ public class LogInSystem : MonoBehaviourPunCallbacks
     // ゲームサーバーへの接続が成功した時に呼ばれるコールバック
     public override void OnJoinedRoom()
     {
+        ManagerAccessor.Instance.sceneMoveManager.SceneMoveName("GameTest");
         //接続成功
         logInSuccess = true;
     }

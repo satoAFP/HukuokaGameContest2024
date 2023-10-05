@@ -47,6 +47,7 @@ public class AvatarTransformView : MonoBehaviourPunCallbacks, IPunObservable
                 // 他プレイヤーのネットワークオブジェクトは、補間処理を行う
                 elapsedTime += Time.deltaTime;
                 transform.position = Vector3.LerpUnclamped(p1, p2, elapsedTime / InterpolationPeriod);
+                Debug.Log("aaa");
             }
         }
     }
