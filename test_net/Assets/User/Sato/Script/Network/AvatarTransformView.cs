@@ -57,6 +57,7 @@ public class AvatarTransformView : MonoBehaviourPunCallbacks, IPunObservable
         if (stream.IsWriting)
         {
             stream.SendNext(transform.position);
+            Debug.Log("aaa");
         }
         else
         {
