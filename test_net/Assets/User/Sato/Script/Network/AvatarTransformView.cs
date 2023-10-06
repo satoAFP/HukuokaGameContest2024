@@ -24,31 +24,25 @@ public class AvatarTransformView : MonoBehaviourPunCallbacks, IPunObservable
 
     private void Update()
     {
-        if(Input.GetKey(KeyCode.A)|| Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.S))
-        {
-            photonView.RPC(nameof(RpcMoving), RpcTarget.Others, true);
-            first = true;
-        }
-        else
-        {
-            photonView.RPC(nameof(RpcMoving), RpcTarget.Others, false);
-            Debug.Log("aaa");
-            if(first)
-            {
-                memPos = transform.position;
-                first = false;
-            }
-        }
-
         if (!photonView.IsMine)
         {
-            if (onKey)
+            if (!(Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.S)))
             {
-                // 他プレイヤーのネットワークオブジェクトは、補間処理を行う
-                elapsedTime += Time.deltaTime;
-                transform.position = Vector3.LerpUnclamped(p1, p2, elapsedTime / InterpolationPeriod);
-                Debug.Log("aaa");
+                if (first)
+                {
+                    memPos = transform.position;
+                    first = false;
+                }
             }
+            else
+            {
+                first = true;
+            }
+
+            // 他プレイヤーのネットワークオブジェクトは、補間処理を行う
+            elapsedTime += Time.deltaTime;
+            transform.position = Vector3.LerpUnclamped(p1, p2, elapsedTime / InterpolationPeriod);
+            Debug.Log("bbb");
         }
     }
 
@@ -57,7 +51,6 @@ public class AvatarTransformView : MonoBehaviourPunCallbacks, IPunObservable
         if (stream.IsWriting)
         {
             stream.SendNext(transform.position);
-            Debug.Log("aaa");
         }
         else
         {
@@ -67,6 +60,7 @@ public class AvatarTransformView : MonoBehaviourPunCallbacks, IPunObservable
             p2 = (Vector3)stream.ReceiveNext();
             // 経過時間をリセットする
             elapsedTime = 0f;
+            Debug.Log("aaa");
         }
     }
 
