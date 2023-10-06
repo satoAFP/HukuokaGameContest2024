@@ -1135,6 +1135,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gimmickButton:
   - {fileID: 625718702}
+  - {fileID: 837494555}
   door: {fileID: 1984723842}
 --- !u!4 &872206522
 Transform:
