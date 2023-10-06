@@ -16,7 +16,7 @@ public class LogInSystem : MonoBehaviourPunCallbacks
     private void Start()
     {
         // プレイヤー自身の名前を"Player"に設定する
-        PhotonNetwork.NickName = "Player";
+        PhotonNetwork.NickName = "Player" + Random.Range(0, 1000);
     }
 
     private void Update()
