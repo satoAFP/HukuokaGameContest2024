@@ -16,7 +16,7 @@ public class LogInSystem : MonoBehaviourPunCallbacks
     private void Start()
     {
         // プレイヤー自身の名前を"Player"に設定する
-        PhotonNetwork.NickName = "Player";
+        PhotonNetwork.NickName = "Player" + Random.Range(0, 1000);
     }
 
     private void Update()
@@ -94,7 +94,13 @@ public class LogInSystem : MonoBehaviourPunCallbacks
     // ゲームサーバーへの接続が成功した時に呼ばれるコールバック
     public override void OnJoinedRoom()
     {
-        ManagerAccessor.Instance.sceneMoveManager.SceneMoveName("GameTest");
+        if (roomNumber < 5)
+            ManagerAccessor.Instance.sceneMoveManager.SceneMoveName("GameTest");
+        else if (roomNumber == 5)
+            ManagerAccessor.Instance.sceneMoveManager.SceneMoveName("Sato");
+        else if (roomNumber == 6)
+            ManagerAccessor.Instance.sceneMoveManager.SceneMoveName("Yamamoto");
+
         //接続成功
         logInSuccess = true;
     }

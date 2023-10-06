@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
-public class GoalSystem : MonoBehaviourPunCallbacks
+public class GoalSystem : CGimmick
 {
     [SerializeField] private Text text;
 
@@ -13,35 +13,22 @@ public class GoalSystem : MonoBehaviourPunCallbacks
     // Update is called once per frame
     void Update()
     {
-        //text.text = ManagerAccessor.Instance.dataManager.GetSetIsOwnerClear + ":" + ManagerAccessor.Instance.dataManager.GetSetIsClientClear;
-        //Debug.Log(ManagerAccessor.Instance.dataManager.GetSetIsOwnerClear + ":" + ManagerAccessor.Instance.dataManager.GetSetIsClientClear);
+        
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.name == "Player1")
         {
-            photonView.RPC(nameof(RpcClearCheck), RpcTarget.All, 1);
+            photonView.RPC(nameof(RpcClearCheck), RpcTarget.All, PLAYER1);
 
         }
         if (collision.gameObject.name == "Player2")
         {
-            photonView.RPC(nameof(RpcClearCheck), RpcTarget.All, 0);
+            photonView.RPC(nameof(RpcClearCheck), RpcTarget.All, PLAYER2);
         }
     }
 
-    [PunRPC]
-    private void RpcClearCheck(int master)
-    {
-        //オーナーの時
-        if (master == 1)
-        {
-            ManagerAccessor.Instance.dataManager.GetSetIsOwnerClear = true;
-        }
-        else
-        {
-            ManagerAccessor.Instance.dataManager.GetSetIsClientClear = true;
-        }
-    }
+    
 
 }

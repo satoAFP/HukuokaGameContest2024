@@ -6,9 +6,6 @@ using UnityEngine.UI;
 
 public class DataManager : MonoBehaviourPunCallbacks
 {
-    //自身がオーナーかどうか
-    [System.NonSerialized] public bool isOwner = false;
-
     //それぞれのクリア状況
     [System.NonSerialized] public bool isOwnerClear = false;
     [System.NonSerialized] public bool isClientClear = false;
@@ -25,6 +22,22 @@ public class DataManager : MonoBehaviourPunCallbacks
         set { isClientClear = value;}
     }
 
+    //それぞれのボタン入力状況
+    [System.NonSerialized] public string ownerName = "";
+    [System.NonSerialized] public string clientName = "";
+
+    //public bool GetSetIsOwnerButton
+    //{
+    //    get { return isOwnerButton; }
+    //    set { isOwnerButton = value; }
+    //}
+
+    //public bool GetSetIsClientButton
+    //{
+    //    get { return isClientButton; }
+    //    set { isClientButton = value; }
+    //}
+
 
 
     public Text text;
@@ -38,16 +51,4 @@ public class DataManager : MonoBehaviourPunCallbacks
     {
         ManagerAccessor.Instance.dataManager = this;
     }
-
-    //オーナーでなくてもデータ変更可能にする
-    //public void RequestOwner()
-    //{
-    //    if (this.photonView.IsMine == false)
-    //    {
-    //        if (this.photonView.OwnershipTransfer != OwnershipOption.Request)
-    //            Debug.LogError("OwnershipTransferをRequestに変更してください。");
-    //        else
-    //            this.photonView.RequestOwnership();
-    //    }
-    //}
 }

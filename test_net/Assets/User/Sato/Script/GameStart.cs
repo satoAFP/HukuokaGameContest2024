@@ -6,6 +6,9 @@ using UnityEngine;
 
 public class GameStart : MonoBehaviourPunCallbacks
 {
+    private const int PLAYER1 = 1;
+    private const int PLAYER2 = 2;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -20,11 +23,7 @@ public class GameStart : MonoBehaviourPunCallbacks
             //position = new Vector3(Random.Range(-3f, 3f), Random.Range(-3f, 3f));
             PhotonNetwork.Instantiate("ShareDatas", position, Quaternion.identity);
         }
+
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
