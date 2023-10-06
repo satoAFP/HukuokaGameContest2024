@@ -26,19 +26,29 @@ public class player : MonoBehaviourPunCallbacks
         //名前とIDを設定
         gameObject.name = "Player" + photonView.OwnerActorNr;
 
+        // デバイス一覧を取得
+        foreach (var device in InputSystem.devices)
+        {
+            // デバイス名をログ出力
+            Debug.Log(device.name);
+        }
+
     }
     void Update()
     {
-
+        Move();//移動処理をON
         //操作が競合しないための設定
-        if (!photonView.IsMine)
+        if (photonView.IsMine)
         {
-            Move();//移動処理をON
+          
         }
+
     }
 
     private void Move()//移動処理（計算部分）
     {
+
+        
 
         //プレイヤーが入力した方向に横方向限定で移動速度分の力を加える
         rigid.velocity = new Vector2(inputDirection.x * moveSpeed, rigid.velocity.y);
@@ -47,25 +57,36 @@ public class player : MonoBehaviourPunCallbacks
 
     public void OnMove(InputAction.CallbackContext context)
     {
-        //操作が競合しないための設定
-        if (!photonView.IsMine)
+        if (gameObject.name == "Player2")
         {
+            Debug.Log("プレイヤー2認識");
+        }
+
+
+        //操作が競合しないための設定
+        if (photonView.IsMine)
+        {
+            Debug.Log("スティック動かして移動している");
             //移動方向の入力情報がInputdirectionの中に入るようになる
             inputDirection = context.ReadValue<Vector2>();
+        }
+        else
+        {
+            Debug.Log("識別できてない");
         }
     }
 
     public void Onjump(InputAction.CallbackContext context)
     {
-        //操作が競合しないための設定
-        if (!photonView.IsMine)
+        //Input Systemからジャンプの入力があった時に呼ばれる
+        if (!context.performed)
         {
-            //Input Systemからジャンプの入力があった時に呼ばれる
-            if (!context.performed)
-            {
-                return;
-            }
+            return;
+        }
 
+        //操作が競合しないための設定
+        if (photonView.IsMine)
+        {
             rigid.AddForce(Vector2.up * jumpSpeed, ForceMode2D.Impulse);
         }
     }
