@@ -23,11 +23,13 @@ public class GimmickButtonManagement : CGimmick
 
         for (int i = 0; i < gimmickButton.Count; i++)
         {
-            if (gimmickButton[0].GetComponent<GimmickButton>().isButton == true)
+            if (gimmickButton[i].GetComponent<GimmickButton>().isButton == true)
             {
                 count++;
             }
         }
+
+        Debug.Log(count+":"+ gimmickButton[0].GetComponent<GimmickButton>().isButton + ":" + gimmickButton[1].GetComponent<GimmickButton>().isButton);
 
         if (gimmickButton.Count == count) 
         {
