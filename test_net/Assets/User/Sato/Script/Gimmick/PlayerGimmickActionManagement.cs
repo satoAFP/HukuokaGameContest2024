@@ -46,7 +46,6 @@ public class PlayerGimmickActionManagement : CGimmick
             {
                 //‰Ÿ‚³‚ê‚½î•ñ‚ğ‘—‚é
                 photonView.RPC(nameof(RpcShareKey), RpcTarget.All, gameObject.name, Key, true);
-                Debug.Log("aaa");
                 first = false;
             }
         }
@@ -56,7 +55,6 @@ public class PlayerGimmickActionManagement : CGimmick
             {
                 //—£‚µ‚½î•ñ‚ğ‘—‚é
                 photonView.RPC(nameof(RpcShareKey), RpcTarget.All, gameObject.name, Key, false);
-                Debug.Log("bbb");
                 first = true;
             }
         }
