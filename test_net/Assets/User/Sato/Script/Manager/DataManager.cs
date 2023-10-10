@@ -19,8 +19,22 @@ public class DataManager : MonoBehaviourPunCallbacks
     public bool GetSetIsClientClear
     {
         get { return isClientClear; }
-        set { isClientClear = value;}
+        set { isClientClear = value; }
     }
+
+    //キー入力情報
+    [System.NonSerialized] public bool isOwnerInputKey_A = false;
+    [System.NonSerialized] public bool isOwnerInputKey_D = false;
+    [System.NonSerialized] public bool isOwnerInputKey_W = false;
+    [System.NonSerialized] public bool isOwnerInputKey_S = false;
+    [System.NonSerialized] public bool isClientInputKey_A = false;
+    [System.NonSerialized] public bool isClientInputKey_D = false;
+    [System.NonSerialized] public bool isClientInputKey_W = false;
+    [System.NonSerialized] public bool isClientInputKey_S = false;
+
+
+
+
 
     //それぞれのボタン入力状況
     [System.NonSerialized] public string ownerName = "";
@@ -46,9 +60,12 @@ public class DataManager : MonoBehaviourPunCallbacks
 
     public Text clear;
 
+
     // Start is called before the first frame update
     void Start()
     {
         ManagerAccessor.Instance.dataManager = this;
     }
+
+
 }

@@ -10,11 +10,6 @@ public class GimmickButtonManagement : CGimmick
     [SerializeField, Header("”à")]
     private GameObject door;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
     // Update is called once per frame
     void Update()
@@ -30,8 +25,6 @@ public class GimmickButtonManagement : CGimmick
                 count++;
             }
         }
-
-        Debug.Log(count+":"+ gimmickButton[0].GetComponent<GimmickButton>().isButton + ":" + gimmickButton[1].GetComponent<GimmickButton>().isButton);
 
         //“¯‰Ÿ‚µ‚ª¬Œ÷‚·‚é‚ÆA”à‚ªŠJ‚­
         if (gimmickButton.Count == count) 

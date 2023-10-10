@@ -94,7 +94,7 @@ public class GimmickButton : CGimmick
     }
 
 
-    //ボタンが押されたかどうかを通信
+    //ボタン入力情報を相手に送信
     [PunRPC]
     protected void RpcButtonCheck(bool onButton)
     {
