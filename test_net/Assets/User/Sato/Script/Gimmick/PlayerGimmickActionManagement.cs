@@ -8,21 +8,23 @@ public class PlayerGimmickActionManagement : CGimmick
 {
     private enum KEY_NUMBER
     {
-        A, D, W, S
+        A, D, W, S, B
     }
 
     //ボタンが連続で反応しないよう
-    private bool first1 = true, first2 = true, first3 = true, first4 = true;
+    private bool firstA = true, firstD = true, firstW = true, firstS = true, firstB = true;
 
     private void Update()
     {
         //自身のアバターかどうか
         if (photonView.IsMine)
         {
-            ShareKey(Input.GetKey(KeyCode.A), (int)KEY_NUMBER.A, ref first1);
-            ShareKey(Input.GetKey(KeyCode.D), (int)KEY_NUMBER.D, ref first2);
-            ShareKey(Input.GetKey(KeyCode.W), (int)KEY_NUMBER.W, ref first3);
-            ShareKey(Input.GetKey(KeyCode.S), (int)KEY_NUMBER.S, ref first4);
+            //共有したいキーの数だけ増やす
+            ShareKey(Input.GetKey(KeyCode.A), (int)KEY_NUMBER.A, ref firstA);
+            ShareKey(Input.GetKey(KeyCode.D), (int)KEY_NUMBER.D, ref firstD);
+            ShareKey(Input.GetKey(KeyCode.W), (int)KEY_NUMBER.W, ref firstW);
+            ShareKey(Input.GetKey(KeyCode.S), (int)KEY_NUMBER.S, ref firstS);
+            ShareKey(Input.GetKey(KeyCode.B), (int)KEY_NUMBER.B, ref firstB);
 
             Debug.Log("A:Owner/" + ManagerAccessor.Instance.dataManager.isOwnerInputKey_A + ":Client/" + ManagerAccessor.Instance.dataManager.isClientInputKey_A);
             Debug.Log("D:Owner/" + ManagerAccessor.Instance.dataManager.isOwnerInputKey_D + ":Client/" + ManagerAccessor.Instance.dataManager.isClientInputKey_D);
@@ -46,7 +48,6 @@ public class PlayerGimmickActionManagement : CGimmick
             {
                 //押された情報を送る
                 photonView.RPC(nameof(RpcShareKey), RpcTarget.All, gameObject.name, Key, true);
-                Debug.Log("aaa");
                 first = false;
             }
         }
@@ -56,13 +57,12 @@ public class PlayerGimmickActionManagement : CGimmick
             {
                 //離した情報を送る
                 photonView.RPC(nameof(RpcShareKey), RpcTarget.All, gameObject.name, Key, false);
-                Debug.Log("bbb");
                 first = true;
             }
         }
     }
 
-
+    //共有するキーのデータ送信
     [PunRPC]
     private void RpcShareKey(string name,int key,bool onkey)
     {
@@ -76,6 +76,8 @@ public class PlayerGimmickActionManagement : CGimmick
                 ManagerAccessor.Instance.dataManager.isOwnerInputKey_W = onkey;
             if (key == (int)KEY_NUMBER.S)
                 ManagerAccessor.Instance.dataManager.isOwnerInputKey_S = onkey;
+            if (key == (int)KEY_NUMBER.B)
+                ManagerAccessor.Instance.dataManager.isOwnerInputKey_B = onkey;
 
         }
         else if (name == "Player2")
@@ -88,6 +90,8 @@ public class PlayerGimmickActionManagement : CGimmick
                 ManagerAccessor.Instance.dataManager.isClientInputKey_W = onkey;
             if (key == (int)KEY_NUMBER.S)
                 ManagerAccessor.Instance.dataManager.isClientInputKey_S = onkey;
+            if (key == (int)KEY_NUMBER.B)
+                ManagerAccessor.Instance.dataManager.isClientInputKey_B = onkey;
         }
     }
 }
