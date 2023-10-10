@@ -1,58 +1,56 @@
 using System.Collections;
 using System.Collections.Generic;
+using Photon.Pun;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-
-public class PlayerControl : MonoBehaviour
+public class PlayerControl : MonoBehaviourPunCallbacks
 {
-    private InputAction inputaction;//InputSystemを使うために必要なスクリプト
+    [SerializeField, Header("移動速度")]
+    private float moveSpeed;
 
-    [SerializeField,Header("プレイヤーのスピード")]
-    private float speed = 0;
+    [SerializeField, Header("ジャンプ速度")]
+    private float jumpSpeed;
 
-    private Rigidbody2D rb;//プレイヤーのリジットボディ
+    //入力された方向を入れる変数
+    private Vector2 inputDirection;
 
-    //入力の上下移動の判別をする
-    private float movementX;
-    private float movementY;
+    //移動方向入れる変数
+    private Rigidbody2D rigid;
 
-
-    // Start is called before the first frame update
     void Start()
     {
-        // プレイヤーにアタッチされているRigidbodyを取得
-        rb = gameObject.GetComponent<Rigidbody2D>();
+        //PlayerのRigidbody2Dコンポーネントを取得する
+        rigid = GetComponent<Rigidbody2D>();
+    }
+    void Update()
+    {
+        Move();//移動処理をON
 
-        inputaction = new InputAction();
-        inputaction.Enable();//インスタンス化したInputSystemが利用可能に
     }
 
-    /// <summary>
-    /// 移動操作（上下左右キーなど）を取得
-    /// </summary>
-    /// <param name="movementValue"></param>
-    private void OnMove(InputValue movementValue)
+    private void Move()//移動処理（計算部分）
     {
-        // Moveアクションの入力値を取得
-        Vector2 movementVector = movementValue.Get<Vector2>();
 
-        // x,y軸方向の入力値を変数に代入
-        movementX = movementVector.x;
-        movementY = movementVector.y;
+        //プレイヤーが入力した方向に横方向限定で移動速度分の力を加える
+        rigid.velocity = new Vector2(inputDirection.x * moveSpeed, rigid.velocity.y);
     }
 
-    // Update is called once per frame
-    void FixedUpdate()
+
+    public void OnMove(InputAction.CallbackContext context)
     {
+        //移動方向の入力情報がInputdirectionの中に入るようになる
+        inputDirection = context.ReadValue<Vector2>();
+    }
 
-        // 入力値を元に3軸ベクトルを作成
-        Vector3 movement = new Vector3(movementX / 5, 0.0f, movementY / 5);
+    public void Onjump(InputAction.CallbackContext context)
+    {
+        //Input Systemからジャンプの入力があった時に呼ばれる
+        if (!context.performed)
+        {
+            return;
+        }
 
-        // rigidbodyのAddForceを使用してプレイヤーを動かす。
-       // rb.AddForce(movement * speed);
-
-        transform.position += movement;
-
+        rigid.AddForce(Vector2.up * jumpSpeed, ForceMode2D.Impulse);
     }
 }
