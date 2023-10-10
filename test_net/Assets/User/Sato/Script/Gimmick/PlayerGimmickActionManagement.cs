@@ -8,11 +8,11 @@ public class PlayerGimmickActionManagement : CGimmick
 {
     private enum KEY_NUMBER
     {
-        A, D, W, S, B
+        A, D, W, S, B, LM
     }
 
     //ボタンが連続で反応しないよう
-    private bool firstA = true, firstD = true, firstW = true, firstS = true, firstB = true;
+    private bool firstA = true, firstD = true, firstW = true, firstS = true, firstB = true, firstLM = true;
 
     private void Update()
     {
@@ -25,6 +25,7 @@ public class PlayerGimmickActionManagement : CGimmick
             ShareKey(Input.GetKey(KeyCode.W), (int)KEY_NUMBER.W, ref firstW);
             ShareKey(Input.GetKey(KeyCode.S), (int)KEY_NUMBER.S, ref firstS);
             ShareKey(Input.GetKey(KeyCode.B), (int)KEY_NUMBER.B, ref firstB);
+            ShareKey(Input.GetMouseButton(0), (int)KEY_NUMBER.LM, ref firstLM);
 
             Debug.Log("A:Owner/" + ManagerAccessor.Instance.dataManager.isOwnerInputKey_A + ":Client/" + ManagerAccessor.Instance.dataManager.isClientInputKey_A);
             Debug.Log("D:Owner/" + ManagerAccessor.Instance.dataManager.isOwnerInputKey_D + ":Client/" + ManagerAccessor.Instance.dataManager.isClientInputKey_D);
@@ -32,6 +33,46 @@ public class PlayerGimmickActionManagement : CGimmick
             Debug.Log("S:Owner/" + ManagerAccessor.Instance.dataManager.isOwnerInputKey_S + ":Client/" + ManagerAccessor.Instance.dataManager.isClientInputKey_S);
         }
     }
+
+
+    //共有するキーのデータ送信
+    [PunRPC]
+    private void RpcShareKey(string name, int key, bool onkey)
+    {
+        if (name == "Player1")
+        {
+            if (key == (int)KEY_NUMBER.A)
+                ManagerAccessor.Instance.dataManager.isOwnerInputKey_A = onkey;
+            if (key == (int)KEY_NUMBER.D)
+                ManagerAccessor.Instance.dataManager.isOwnerInputKey_D = onkey;
+            if (key == (int)KEY_NUMBER.W)
+                ManagerAccessor.Instance.dataManager.isOwnerInputKey_W = onkey;
+            if (key == (int)KEY_NUMBER.S)
+                ManagerAccessor.Instance.dataManager.isOwnerInputKey_S = onkey;
+            if (key == (int)KEY_NUMBER.B)
+                ManagerAccessor.Instance.dataManager.isOwnerInputKey_B = onkey;
+            if (key == (int)KEY_NUMBER.LM)
+                ManagerAccessor.Instance.dataManager.isOwnerInputKey_LM = onkey;
+
+        }
+        else if (name == "Player2")
+        {
+            if (key == (int)KEY_NUMBER.A)
+                ManagerAccessor.Instance.dataManager.isClientInputKey_A = onkey;
+            if (key == (int)KEY_NUMBER.D)
+                ManagerAccessor.Instance.dataManager.isClientInputKey_D = onkey;
+            if (key == (int)KEY_NUMBER.W)
+                ManagerAccessor.Instance.dataManager.isClientInputKey_W = onkey;
+            if (key == (int)KEY_NUMBER.S)
+                ManagerAccessor.Instance.dataManager.isClientInputKey_S = onkey;
+            if (key == (int)KEY_NUMBER.B)
+                ManagerAccessor.Instance.dataManager.isClientInputKey_B = onkey;
+            if (key == (int)KEY_NUMBER.LM)
+                ManagerAccessor.Instance.dataManager.isClientInputKey_LM = onkey;
+        }
+    }
+
+
 
     /// <summary>
     /// キーを入力しているかどうかのデータを送る関数
@@ -62,36 +103,5 @@ public class PlayerGimmickActionManagement : CGimmick
         }
     }
 
-    //共有するキーのデータ送信
-    [PunRPC]
-    private void RpcShareKey(string name,int key,bool onkey)
-    {
-        if (name == "Player1") 
-        {
-            if (key == (int)KEY_NUMBER.A)
-                ManagerAccessor.Instance.dataManager.isOwnerInputKey_A = onkey;
-            if (key == (int)KEY_NUMBER.D)
-                ManagerAccessor.Instance.dataManager.isOwnerInputKey_D = onkey;
-            if (key == (int)KEY_NUMBER.W)
-                ManagerAccessor.Instance.dataManager.isOwnerInputKey_W = onkey;
-            if (key == (int)KEY_NUMBER.S)
-                ManagerAccessor.Instance.dataManager.isOwnerInputKey_S = onkey;
-            if (key == (int)KEY_NUMBER.B)
-                ManagerAccessor.Instance.dataManager.isOwnerInputKey_B = onkey;
-
-        }
-        else if (name == "Player2")
-        {
-            if (key == (int)KEY_NUMBER.A)
-                ManagerAccessor.Instance.dataManager.isClientInputKey_A = onkey;
-            if (key == (int)KEY_NUMBER.D)
-                ManagerAccessor.Instance.dataManager.isClientInputKey_D = onkey;
-            if (key == (int)KEY_NUMBER.W)
-                ManagerAccessor.Instance.dataManager.isClientInputKey_W = onkey;
-            if (key == (int)KEY_NUMBER.S)
-                ManagerAccessor.Instance.dataManager.isClientInputKey_S = onkey;
-            if (key == (int)KEY_NUMBER.B)
-                ManagerAccessor.Instance.dataManager.isClientInputKey_B = onkey;
-        }
-    }
+    
 }

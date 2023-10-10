@@ -28,12 +28,14 @@ public class DataManager : MonoBehaviourPunCallbacks
     [System.NonSerialized] public bool isOwnerInputKey_W = false;
     [System.NonSerialized] public bool isOwnerInputKey_S = false;
     [System.NonSerialized] public bool isOwnerInputKey_B = false;
+    [System.NonSerialized] public bool isOwnerInputKey_LM = false;
+
     [System.NonSerialized] public bool isClientInputKey_A = false;
     [System.NonSerialized] public bool isClientInputKey_D = false;
     [System.NonSerialized] public bool isClientInputKey_W = false;
     [System.NonSerialized] public bool isClientInputKey_S = false;
     [System.NonSerialized] public bool isClientInputKey_B = false;
-
+    [System.NonSerialized] public bool isClientInputKey_LM = false;
 
 
 
