@@ -13,16 +13,6 @@ public class TestInput : MonoBehaviourPunCallbacks
     [SerializeField, Header("移動速度")]
     private float moveSpeed;
 
-    //playerinputが必要な時に呼び出す
-    private void OnEnable()
-    {
-        m_inputmover.Enable();
-    }
-    private void OnDisable()
-    {
-        m_inputmover.Disable();
-    }
-
 
     // Start is called before the first frame update
     void Start()
@@ -30,12 +20,18 @@ public class TestInput : MonoBehaviourPunCallbacks
         //名前とIDを設定
         gameObject.name = "Player" + photonView.OwnerActorNr;
 
-        // デバイス一覧を取得
-        foreach (var device in InputSystem.devices)
+        OnEnable();
+
+        if (photonView.IsMine)
         {
-            // デバイス名をログ出力
-            Debug.Log(device.name);
+            // デバイス一覧を取得
+            foreach (var device in InputSystem.devices)
+            {
+                // デバイス名をログ出力
+                Debug.Log(device.name);
+            }
         }
+         
     }
 
     // Update is called once per frame
@@ -51,8 +47,24 @@ public class TestInput : MonoBehaviourPunCallbacks
             inputDirection.x * moveSpeed,
             inputDirection.y * moveSpeed,
             0.0f);
+
+            
+        }
+        else
+        {
+            OnDisable();
         }
        
 
+    }
+
+    //playerinputが必要な時に呼び出す
+    private void OnEnable()
+    {
+        m_inputmover.Enable();
+    }
+    private void OnDisable()
+    {
+        m_inputmover.Disable();
     }
 }
