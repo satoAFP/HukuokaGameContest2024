@@ -18,6 +18,8 @@ public class GameStart : MonoBehaviourPunCallbacks
         var position = new Vector3(Random.Range(-3f, 3f), Random.Range(-3f, 3f));
         GameObject clone = PhotonNetwork.Instantiate("Avatar", position, Quaternion.identity);
 
+        //PhotonNetwork.Instantiate("LiftBlock", new Vector3(2, -3.5f), Quaternion.identity);
+
         if (PhotonNetwork.IsMasterClient)
         {
             //position = new Vector3(Random.Range(-3f, 3f), Random.Range(-3f, 3f));

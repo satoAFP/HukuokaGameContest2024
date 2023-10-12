@@ -19,7 +19,7 @@ public class GimmickBlock : CGimmick
 
     private void FixedUpdate()
     {
-        if (hitOwner && hitClient && ManagerAccessor.Instance.dataManager.isOwnerInputKey_LM && ManagerAccessor.Instance.dataManager.isClientInputKey_LM) 
+        if (hitOwner /*&& hitClient*/ && ManagerAccessor.Instance.dataManager.isOwnerInputKey_LM /*&& ManagerAccessor.Instance.dataManager.isClientInputKey_LM*/) 
         {
             if(first)
             {
