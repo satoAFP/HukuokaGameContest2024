@@ -18,6 +18,8 @@ public class player : MonoBehaviourPunCallbacks
     //移動方向入れる変数
     private Rigidbody2D rigid;
 
+    private Test_net test_net;//inputsystemをスクリプトで呼び出す
+
     void Start()
     {
         //PlayerのRigidbody2Dコンポーネントを取得する
@@ -25,6 +27,9 @@ public class player : MonoBehaviourPunCallbacks
 
         //名前とIDを設定
         gameObject.name = "Player" + photonView.OwnerActorNr;
+
+        test_net = new Test_net();//スクリプトを変数に格納
+        test_net.Enable();
 
         // デバイス一覧を取得
         foreach (var device in InputSystem.devices)
@@ -36,11 +41,20 @@ public class player : MonoBehaviourPunCallbacks
     }
     void Update()
     {
-        Move();//移動処理をON
+        //Move();//移動処理をON
         //操作が競合しないための設定
         if (photonView.IsMine)
         {
           
+
+
+        }
+
+        //移動に対応したキーorスティックが押されたとき
+        if (test_net.Player.Move.triggered)
+        {
+            //プレイヤーが入力した方向に横方向限定で移動速度分の力を加える
+            rigid.velocity = new Vector2(inputDirection.x * moveSpeed, rigid.velocity.y);
         }
 
     }

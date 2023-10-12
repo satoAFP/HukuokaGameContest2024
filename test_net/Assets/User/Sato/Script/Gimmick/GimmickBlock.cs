@@ -19,7 +19,7 @@ public class GimmickBlock : CGimmick
 
     private void FixedUpdate()
     {
-        if (hitOwner && hitClient && ManagerAccessor.Instance.dataManager.isOwnerInputKey_LM && ManagerAccessor.Instance.dataManager.isClientInputKey_LM) 
+        if (hitOwner /*&& hitClient*/ && ManagerAccessor.Instance.dataManager.isOwnerInputKey_LM /*&& ManagerAccessor.Instance.dataManager.isClientInputKey_LM*/) 
         {
             if(first)
             {
@@ -32,7 +32,7 @@ public class GimmickBlock : CGimmick
                 first = false;
             }
 
-            Debug.Log("aaa");
+            //Debug.Log("aaa");
             gameObject.transform.position = dis + Player.transform.position;
 
 
