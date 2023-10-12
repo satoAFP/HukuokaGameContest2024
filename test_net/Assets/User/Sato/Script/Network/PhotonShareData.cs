@@ -24,7 +24,7 @@ public class PhotonShareData : MonoBehaviourPunCallbacks, IPunObservable
 
     private void Update()
     {
-        ManagerAccessor.Instance.dataManager.chat.text = Text;
+        //ManagerAccessor.Instance.dataManager.chat.text = Text;
         ManagerAccessor.Instance.dataManager.clear.text = ManagerAccessor.Instance.dataManager.isOwnerClear + ":" + ManagerAccessor.Instance.dataManager.isClientClear;
     }
 

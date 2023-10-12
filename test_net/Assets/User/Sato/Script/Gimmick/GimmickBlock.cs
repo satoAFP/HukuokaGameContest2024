@@ -32,7 +32,7 @@ public class GimmickBlock : CGimmick
                 first = false;
             }
 
-            Debug.Log("aaa");
+            //Debug.Log("aaa");
             gameObject.transform.position = dis + Player.transform.position;
 
 

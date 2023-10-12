@@ -12,36 +12,51 @@ public class AvatarTransformView : MonoBehaviourPunCallbacks, IPunObservable
     private bool onKey = false;
     private bool first = true;
 
-    private Vector3 memPos = new Vector3(0, 0, 0);
+
+    private Rigidbody2D rb;
 
     private void Start()
     {
-        memPos = transform.position;
         p1 = transform.position;
         p2 = p1;
         elapsedTime = 0f;
+
+        rb = GetComponent<Rigidbody2D>();
     }
 
     private void Update()
     {
-        if (!photonView.IsMine)
+        if(photonView.IsMine)
         {
-            if (!(Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.S)))
+            if (rb.velocity.magnitude > 0.1f) 
             {
                 if (first)
                 {
-                    memPos = transform.position;
+                    photonView.RPC(nameof(RpcIsMove), RpcTarget.Others, true);
                     first = false;
                 }
             }
             else
             {
-                first = true;
+                if (!first)
+                {
+                    photonView.RPC(nameof(RpcIsMove), RpcTarget.Others, false);
+                    first = true;
+                }
             }
-
-            // 他プレイヤーのネットワークオブジェクトは、補間処理を行う
+        }
+        else
+        {
             elapsedTime += Time.deltaTime;
-            transform.position = Vector3.LerpUnclamped(p1, p2, elapsedTime / InterpolationPeriod);
+            // 他プレイヤーのネットワークオブジェクトは、補間処理を行う
+            if (onKey)
+            {
+                transform.position = Vector3.LerpUnclamped(p1, p2, elapsedTime / InterpolationPeriod);
+            }
+            else
+            {
+                transform.position = p2;
+            }
         }
     }
 
@@ -50,6 +65,7 @@ public class AvatarTransformView : MonoBehaviourPunCallbacks, IPunObservable
         if (stream.IsWriting)
         {
             stream.SendNext(transform.position);
+            
         }
         else
         {
@@ -59,12 +75,11 @@ public class AvatarTransformView : MonoBehaviourPunCallbacks, IPunObservable
             p2 = (Vector3)stream.ReceiveNext();
             // 経過時間をリセットする
             elapsedTime = 0f;
-            Debug.Log("aaa");
         }
     }
 
     [PunRPC]
-    private void RpcMoving(bool onkey)
+    private void RpcIsMove(bool onkey)
     {
         onKey = onkey;
     }
