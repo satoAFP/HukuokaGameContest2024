@@ -337,6 +337,30 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 6515d2cb-1d55-41bf-b0e1-15a38ce9f394
     m_ActionName: UI/TrackedDeviceOrientation
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1424293235561273920}
+        m_TargetAssemblyTypeName: player, Assembly-CSharp
+        m_MethodName: OnAction
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: c76de7bd-b413-4b85-8b7a-55ef518f3810
+    m_ActionName: Player/Action[/XInputControllerWindows/buttonEast]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 4c76f708-f1db-4317-973e-be58ca49c14c
+    m_ActionName: Player/ActionPress[/XInputControllerWindows/buttonEast]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 164a73c6-e5b0-44db-899b-67282dc3f7db
+    m_ActionName: Player/ActionRelease[/XInputControllerWindows/buttonEast]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Gamepad
   m_DefaultActionMap: Player
