@@ -7,6 +7,8 @@ using UnityEngine.InputSystem;
 
 public class PlayerGimmickActionManagement : CGimmick
 {
+    private InputAction action;
+
     private bool isStick = false;
 
     private enum KEY_NUMBER
@@ -17,12 +19,18 @@ public class PlayerGimmickActionManagement : CGimmick
     //ボタンが連続で反応しないよう
     private bool firstA = true, firstD = true, firstW = true, firstS = true, firstB = true, firstLM = true, firstCB = true;
 
+
+    private void Start()
+    {
+        action = GetComponent<PlayerInput>().actions.FindActionMap("Player").FindAction("Move");
+    }
+
     private void Update()
     {
         //自身のアバターかどうか
         if (photonView.IsMine)
         {
-            isStick = false;
+            
 
             //共有したいキーの数だけ増やす
             ShareKey(Input.GetKey(KeyCode.A), (int)KEY_NUMBER.A, ref firstA);
@@ -37,10 +45,33 @@ public class PlayerGimmickActionManagement : CGimmick
             //Debug.Log("W:Owner/" + ManagerAccessor.Instance.dataManager.isOwnerInputKey_W + ":Client/" + ManagerAccessor.Instance.dataManager.isClientInputKey_W);
             //Debug.Log("S:Owner/" + ManagerAccessor.Instance.dataManager.isOwnerInputKey_S + ":Client/" + ManagerAccessor.Instance.dataManager.isClientInputKey_S);
 
-            if(isStick)
+            Vector2 stickValue = action.ReadValue<Vector2>();
+
+            if (stickValue.x > 0.1f)
+            {
+                Debug.Log("P右");
+                isStick = true;
+            }
+            if (stickValue.x < -0.1f)
+            {
+                Debug.Log("P左");
+                isStick = true;
+            }
+            if (stickValue.y > 0.1f)
+            {
+                Debug.Log("P上");
+                isStick = true;
+            }
+            if (stickValue.y < -0.1f)
+            {
+                Debug.Log("P下");
+                isStick = true;
+            }
+
+            if (stickValue.magnitude < 0.1f) 
                 Debug.Log("ストップ");
 
-            
+            isStick = false;
         }
     }
 
@@ -144,7 +175,7 @@ public class PlayerGimmickActionManagement : CGimmick
 
 
     //コントローラースティック入力
-    public void OnMove(InputAction.CallbackContext context)
+    public void OnMovePress(InputAction.CallbackContext context)
     {
         if (photonView.IsMine)
         {
@@ -155,28 +186,71 @@ public class PlayerGimmickActionManagement : CGimmick
 
             if (inputDirection.x > 0.1f)
             {
-                Debug.Log("右");
+                Debug.Log("P右");
                 isStick = true;
             }
             if (inputDirection.x < -0.1f)
             {
-                Debug.Log("左");
+                Debug.Log("P左");
                 isStick = true;
             }
             if (inputDirection.y > 0.1f)
             {
-                Debug.Log("上");
+                Debug.Log("P上");
                 isStick = true;
             }
             if (inputDirection.y < -0.1f)
             {
-                Debug.Log("下");
+                Debug.Log("P下");
                 isStick = true;
             }
+
+            // 入力値をログ出力
+            //Debug.Log($"OnNavigate : value = {inputDirection}");
+
             //if (inputDirection.x <= 0.1f && inputDirection.x >= -0.1f &&
             //    inputDirection.y <= 0.1f && inputDirection.y >= -0.1f) 
             //    Debug.Log("ストップ");
         }
     }
 
+
+    public void OnMoveRelease(InputAction.CallbackContext context)
+    {
+        if (photonView.IsMine)
+        {
+            // 離された瞬間でPerformedとなる
+            if (!context.performed) return;
+
+            Vector2 inputDirection = context.ReadValue<Vector2>();
+
+            if (inputDirection.x > 0.1f)
+            {
+                Debug.Log("R右");
+                isStick = true;
+            }
+            if (inputDirection.x < -0.1f)
+            {
+                Debug.Log("R左");
+                isStick = true;
+            }
+            if (inputDirection.y > 0.1f)
+            {
+                Debug.Log("R上");
+                isStick = true;
+            }
+            if (inputDirection.y < -0.1f)
+            {
+                Debug.Log("R下");
+                isStick = true;
+            }
+
+            // 入力値をログ出力
+            //Debug.Log($"OnNavigate : value = {inputDirection}");
+
+            //if (inputDirection.x <= 0.1f && inputDirection.x >= -0.1f &&
+            //    inputDirection.y <= 0.1f && inputDirection.y >= -0.1f) 
+            //    Debug.Log("ストップ");
+        }
+    }
 }
