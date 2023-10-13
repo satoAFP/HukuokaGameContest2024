@@ -114,17 +114,23 @@ public class PlayerGimmickActionManagement : CGimmick
     //ÉRÉìÉgÉçÅ[ÉâÅ[Bì¸óÕ
     public void OnActionPress(InputAction.CallbackContext context)
     {
-        // âüÇ≥ÇÍÇΩèuä‘Ç≈PerformedÇ∆Ç»ÇÈ
-        if (!context.performed) return;
+        if (photonView.IsMine)
+        {
+            // âüÇ≥ÇÍÇΩèuä‘Ç≈PerformedÇ∆Ç»ÇÈ
+            if (!context.performed) return;
 
-        ShareKey(true, (int)KEY_NUMBER.CB, ref firstCB);
+            ShareKey(true, (int)KEY_NUMBER.CB, ref firstCB);
+        }
     }
     public void OnActionRelease(InputAction.CallbackContext context)
     {
-        // ó£Ç≥ÇÍÇΩèuä‘Ç≈PerformedÇ∆Ç»ÇÈ
-        if (!context.performed) return;
+        if (photonView.IsMine)
+        {
+            // ó£Ç≥ÇÍÇΩèuä‘Ç≈PerformedÇ∆Ç»ÇÈ
+            if (!context.performed) return;
 
-        ShareKey(false, (int)KEY_NUMBER.CB, ref firstCB);
+            ShareKey(false, (int)KEY_NUMBER.CB, ref firstCB);
+        }
     }
 
 }
