@@ -2,17 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using Photon.Pun;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 
 public class PlayerGimmickActionManagement : CGimmick
 {
     private enum KEY_NUMBER
     {
-        A, D, W, S, B, LM
+        A, D, W, S, B, LM, CB
     }
 
     //ƒ{ƒ^ƒ“‚ª˜A‘±‚Å”½‰ž‚µ‚È‚¢‚æ‚¤
-    private bool firstA = true, firstD = true, firstW = true, firstS = true, firstB = true, firstLM = true;
+    private bool firstA = true, firstD = true, firstW = true, firstS = true, firstB = true, firstLM = true, firstCB = true;
 
     private void Update()
     {
@@ -53,6 +54,8 @@ public class PlayerGimmickActionManagement : CGimmick
                 ManagerAccessor.Instance.dataManager.isOwnerInputKey_B = onkey;
             if (key == (int)KEY_NUMBER.LM)
                 ManagerAccessor.Instance.dataManager.isOwnerInputKey_LM = onkey;
+            if (key == (int)KEY_NUMBER.CB)
+                ManagerAccessor.Instance.dataManager.isOwnerInputKey_CB = onkey;
 
         }
         else if (name == "Player2")
@@ -69,6 +72,8 @@ public class PlayerGimmickActionManagement : CGimmick
                 ManagerAccessor.Instance.dataManager.isClientInputKey_B = onkey;
             if (key == (int)KEY_NUMBER.LM)
                 ManagerAccessor.Instance.dataManager.isClientInputKey_LM = onkey;
+            if (key == (int)KEY_NUMBER.CB)
+                ManagerAccessor.Instance.dataManager.isClientInputKey_CB = onkey;
         }
     }
 
@@ -104,4 +109,14 @@ public class PlayerGimmickActionManagement : CGimmick
     }
 
     
+    private void OnActionPress(InputAction.CallbackContext context)
+    {
+        ShareKey(true, (int)KEY_NUMBER.CB, ref firstCB);
+    }
+
+    private void OnActionRelease(InputAction.CallbackContext context)
+    {
+        ShareKey(false, (int)KEY_NUMBER.CB, ref firstCB);
+    }
+
 }
