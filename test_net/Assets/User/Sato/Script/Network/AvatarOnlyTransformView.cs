@@ -3,11 +3,16 @@ using UnityEngine;
 
 public class AvatarOnlyTransformView : MonoBehaviourPunCallbacks, IPunObservable
 {
+    //プレイヤーが動いているか情報
+    [System.NonSerialized] public bool isPlayerMove = false;
+
     private const float InterpolationPeriod = 0.1f; // 補間にかける時間
 
     private Vector3 p1;         //自身の座標記憶用
     private Vector3 p2;         //受信した座標記憶用
     private float elapsedTime;
+
+    private Vector3 lastPosition; // 直前の位置
 
     private bool onKey = false; //移動しているかどうか
     private bool first = true;  //連続で処理が通らないため
@@ -21,25 +26,26 @@ public class AvatarOnlyTransformView : MonoBehaviourPunCallbacks, IPunObservable
         p1 = transform.position;
         p2 = p1;
         elapsedTime = 0f;
+        lastPosition = transform.position; // 最初は現在の位置を記録
 
         rb = GetComponent<Rigidbody2D>();
     }
 
     private void Update()
     {
+        Vector3 currentPosition = transform.position;
+
         //データ送信サイド
         if (PhotonNetwork.LocalPlayer.IsMasterClient)
         {
             //移動時
-            if (rb.velocity.magnitude > 0.1f)
+            if (isPlayerMove)
             {
                 if (first)
                 {
                     //移動開始時の1フレーム目だけデータ送信
                     photonView.RPC(nameof(RpcIsMove), RpcTarget.Others, true);
                     first = false;
-
-                    ManagerAccessor.Instance.dataManager.chat.text = "移動中";
                 }
             }
             //停止時
@@ -50,8 +56,6 @@ public class AvatarOnlyTransformView : MonoBehaviourPunCallbacks, IPunObservable
                     //移動終了時の1フレーム目だけデータ送信
                     photonView.RPC(nameof(RpcIsMove), RpcTarget.Others, false);
                     first = true;
-
-                    ManagerAccessor.Instance.dataManager.chat.text = "停止中";
                 }
             }
         }
@@ -73,6 +77,9 @@ public class AvatarOnlyTransformView : MonoBehaviourPunCallbacks, IPunObservable
                 transform.position = p2;
             }
         }
+
+        // 現在の位置を直前の位置として保存
+        lastPosition = currentPosition;
     }
 
     void IPunObservable.OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)

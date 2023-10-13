@@ -5,25 +5,31 @@ using UnityEngine;
 
 public class GimmickBlock : CGimmick
 {
-    //それぞれのボタン入力状況
+    //オブジェクトが持ち上がっているとき
     [System.NonSerialized] public bool liftMode = false;
 
+    //プレイヤー取得用
     private GameObject Player;
 
+    //1P、2Pがそれぞれ当たっている判定
     private bool hitOwner = false;
     private bool hitClient = false;
 
+    //ブロックとプレイヤーの距離
     private Vector3 dis = Vector3.zero;
 
+    //連続で反応しないための処理
     private bool first = true;
 
     private void FixedUpdate()
     {
-        if (hitOwner && (ManagerAccessor.Instance.dataManager.isOwnerInputKey_LM || ManagerAccessor.Instance.dataManager.isOwnerInputKey_CB) /*&&*/
-            /*hitClient && (ManagerAccessor.Instance.dataManager.isClientInputKey_LM || ManagerAccessor.Instance.dataManager.isClientInputKey_CB*/)
+        //1P、2Pが触れているかつ、アクションしているとき持ち上がる
+        if (hitOwner && (ManagerAccessor.Instance.dataManager.isOwnerInputKey_LM || ManagerAccessor.Instance.dataManager.isOwnerInputKey_CB) &&
+            hitClient && (ManagerAccessor.Instance.dataManager.isClientInputKey_LM || ManagerAccessor.Instance.dataManager.isClientInputKey_CB))
         {
             if(first)
             {
+                //持ち上がった位置に移動
                 Vector3 input = gameObject.transform.position;
                 input.y += 1;
                 gameObject.transform.localPosition = input;
@@ -33,9 +39,14 @@ public class GimmickBlock : CGimmick
                 first = false;
             }
 
-            //Debug.Log("aaa");
+            //プレイヤーに追従させる
             gameObject.transform.position = dis + Player.transform.position;
 
+            //プレイヤーが動いているとき、ブロックサイドも同期させる
+            if (Player.GetComponent<AvatarTransformView>().isPlayerMove)
+                GetComponent<AvatarOnlyTransformView>().isPlayerMove = true;
+            else
+                GetComponent<AvatarOnlyTransformView>().isPlayerMove = false;
 
             liftMode = true;
         }
@@ -43,6 +54,7 @@ public class GimmickBlock : CGimmick
         {
             if (!first)
             {
+                //元の高さに戻す
                 Vector3 input = gameObject.transform.position;
                 input.y -= 1;
                 gameObject.transform.localPosition = input;
@@ -51,6 +63,9 @@ public class GimmickBlock : CGimmick
 
                 first = true;
             }
+
+            //同期解除
+            GetComponent<AvatarOnlyTransformView>().isPlayerMove = false;
 
             liftMode = false;
         }
