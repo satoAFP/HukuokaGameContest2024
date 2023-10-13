@@ -338,7 +338,7 @@ MonoBehaviour:
     m_ActionId: 6515d2cb-1d55-41bf-b0e1-15a38ce9f394
     m_ActionName: UI/TrackedDeviceOrientation
   m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: 
+  m_DefaultControlScheme: Gamepad
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
@@ -402,14 +402,6 @@ MonoBehaviour:
       m_Groups: 
       m_Action: Inputmover
       m_Flags: 8
-    - m_Name: 
-      m_Id: bf546119-f76e-47d9-8af5-d8491cdc707b
-      m_Path: <Gamepad>/buttonEast
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Inputmover
-      m_Flags: 0
     m_Flags: 0
   moveSpeed: 0.05
 --- !u!114 &8605329434926695506
