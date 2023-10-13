@@ -1,7 +1,7 @@
 using Photon.Pun;
 using UnityEngine;
 
-public class AvatarTransformView : MonoBehaviourPunCallbacks, IPunObservable
+public class AvatarOnlyTransformView : MonoBehaviourPunCallbacks, IPunObservable
 {
     private const float InterpolationPeriod = 0.1f; // 補間にかける時間
 
@@ -28,16 +28,18 @@ public class AvatarTransformView : MonoBehaviourPunCallbacks, IPunObservable
     private void Update()
     {
         //データ送信サイド
-        if(photonView.IsMine)
+        if (PhotonNetwork.LocalPlayer.IsMasterClient)
         {
             //移動時
-            if (rb.velocity.magnitude > 0.1f) 
+            if (rb.velocity.magnitude > 0.1f)
             {
                 if (first)
                 {
                     //移動開始時の1フレーム目だけデータ送信
                     photonView.RPC(nameof(RpcIsMove), RpcTarget.Others, true);
                     first = false;
+
+                    ManagerAccessor.Instance.dataManager.chat.text = "移動中";
                 }
             }
             //停止時
@@ -48,6 +50,8 @@ public class AvatarTransformView : MonoBehaviourPunCallbacks, IPunObservable
                     //移動終了時の1フレーム目だけデータ送信
                     photonView.RPC(nameof(RpcIsMove), RpcTarget.Others, false);
                     first = true;
+
+                    ManagerAccessor.Instance.dataManager.chat.text = "停止中";
                 }
             }
         }
@@ -78,8 +82,7 @@ public class AvatarTransformView : MonoBehaviourPunCallbacks, IPunObservable
             //自身の座標送信
             stream.SendNext(transform.position);
 
-            if (gameObject.name == "LiftBlock")
-                ManagerAccessor.Instance.dataManager.chat.text = "送信中";
+            
         }
         else
         {
@@ -90,8 +93,8 @@ public class AvatarTransformView : MonoBehaviourPunCallbacks, IPunObservable
             // 経過時間をリセットする
             elapsedTime = 0f;
 
-            if (gameObject.name == "LiftBlock")
-                ManagerAccessor.Instance.dataManager.chat.text = "受信中";
+            
+            //ManagerAccessor.Instance.dataManager.chat.text = "受信中";
         }
     }
 
