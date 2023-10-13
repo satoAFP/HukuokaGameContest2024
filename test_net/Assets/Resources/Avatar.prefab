@@ -17,9 +17,8 @@ GameObject:
   - component: {fileID: 1046249299908696261}
   - component: {fileID: 9140700735780643334}
   - component: {fileID: 380356865839061132}
-  - component: {fileID: 1424293235561273920}
+  - component: {fileID: 7248784080295700648}
   - component: {fileID: 5643572740733532904}
-  - component: {fileID: 3292403183089441740}
   - component: {fileID: 8605329434926695506}
   m_Layer: 0
   m_Name: Avatar
@@ -218,7 +217,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20f5ff10824a0a64fae5b117cfde212a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1424293235561273920
+--- !u!114 &7248784080295700648
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -227,7 +226,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4645120399147915654}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f171c51ece89a85428740c91ea05e51d, type: 3}
+  m_Script: {fileID: 11500000, guid: 6b3b38699d600e74d84ad4d18841077d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 5
@@ -259,8 +258,8 @@ MonoBehaviour:
   m_ActionEvents:
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1424293235561273920}
-        m_TargetAssemblyTypeName: player, Assembly-CSharp
+      - m_Target: {fileID: 7248784080295700648}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
         m_MethodName: OnMove
         m_Mode: 0
         m_Arguments:
@@ -274,17 +273,9 @@ MonoBehaviour:
     m_ActionId: 7a24a9d8-279d-41ea-bb4f-9811311756a5
     m_ActionName: Player/Move[/XInputControllerWindows/leftStick,/Keyboard/w,/Keyboard/upArrow,/Keyboard/s,/Keyboard/downArrow,/Keyboard/a,/Keyboard/leftArrow,/Keyboard/d,/Keyboard/rightArrow]
   - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 335bd95f-018e-4ac7-937b-2aa2d0540e3c
-    m_ActionName: Player/Look[/XInputControllerWindows/rightStick,/Mouse/delta]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: ba202da7-eafe-4d54-8085-66404c58e4da
-    m_ActionName: Player/Fire[/XInputControllerWindows/rightTrigger,/Mouse/leftButton]
-  - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1424293235561273920}
-        m_TargetAssemblyTypeName: player, Assembly-CSharp
+      - m_Target: {fileID: 7248784080295700648}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
         m_MethodName: Onjump
         m_Mode: 0
         m_Arguments:
@@ -339,8 +330,8 @@ MonoBehaviour:
     m_ActionName: UI/TrackedDeviceOrientation
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1424293235561273920}
-        m_TargetAssemblyTypeName: player, Assembly-CSharp
+      - m_Target: {fileID: 7248784080295700648}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
         m_MethodName: OnAction
         m_Mode: 0
         m_Arguments:
@@ -385,73 +376,27 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 164a73c6-e5b0-44db-899b-67282dc3f7db
     m_ActionName: Player/ActionRelease[/XInputControllerWindows/buttonEast]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 77f00d38-81e7-4d49-a654-10c34683fcf5
+    m_ActionName: Player/RTriggerPress[/XInputControllerWindows/rightTrigger]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 924cdac2-46aa-48f8-936f-d2797af0e3a1
+    m_ActionName: Player/RTriggerRelease[/XInputControllerWindows/rightTrigger]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: becd644b-bc90-4158-b85f-f3fe9c7e86d0
+    m_ActionName: Player/LTriggerPress[/XInputControllerWindows/leftTrigger]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 0dfee1f5-e913-4d6f-9bf6-7f84e995ac05
+    m_ActionName: Player/LTriggerRelease[/XInputControllerWindows/leftTrigger]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Gamepad
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
---- !u!114 &3292403183089441740
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4645120399147915654}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 854f1cde40675a744b45bfc9b6e146fd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_inputmover:
-    m_Name: Inputmover
-    m_Type: 0
-    m_ExpectedControlType: 
-    m_Id: e3144104-b2b9-4fd8-9f6b-5b971419112d
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings:
-    - m_Name: 2D Vector
-      m_Id: 90dc840f-0395-4553-a06e-9300900e54e2
-      m_Path: 2DVector
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Inputmover
-      m_Flags: 4
-    - m_Name: up
-      m_Id: b0d68c73-daaf-4417-bc05-0939d9fac364
-      m_Path: 
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Inputmover
-      m_Flags: 8
-    - m_Name: down
-      m_Id: 22b0026e-be0c-4e46-816a-ea285282ece0
-      m_Path: 
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Inputmover
-      m_Flags: 8
-    - m_Name: left
-      m_Id: bf941768-d5c9-4092-8c69-575827e9fd65
-      m_Path: <Gamepad>/leftStick/left
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Inputmover
-      m_Flags: 8
-    - m_Name: right
-      m_Id: 74d20291-8fbd-474e-ba10-e7cda4c4f3cd
-      m_Path: <Gamepad>/leftStick/right
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Inputmover
-      m_Flags: 8
-    m_Flags: 0
-  moveSpeed: 0.05
 --- !u!114 &8605329434926695506
 MonoBehaviour:
   m_ObjectHideFlags: 0

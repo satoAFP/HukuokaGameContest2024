@@ -36,7 +36,7 @@ public class AvatarOnlyTransformView : MonoBehaviourPunCallbacks, IPunObservable
         Vector3 currentPosition = transform.position;
 
         //データ送信サイド
-        if (PhotonNetwork.LocalPlayer.IsMasterClient)
+        if (photonView.IsMine)
         {
             //移動時
             if (isPlayerMove)
