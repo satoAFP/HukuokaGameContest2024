@@ -133,4 +133,23 @@ public class PlayerGimmickActionManagement : CGimmick
         }
     }
 
+
+    //コントローラースティック入力
+    public void OnMove(InputAction.CallbackContext context)
+    {
+        Vector2 inputDirection = context.ReadValue<Vector2>();
+
+        if (inputDirection.x > 0)
+            Debug.Log("右");
+        if (inputDirection.x < 0)
+            Debug.Log("左");
+        if (inputDirection.y > 0)
+            Debug.Log("上");
+        if (inputDirection.y < 0)
+            Debug.Log("下");
+        if (inputDirection.x == 0 || inputDirection.y == 0) 
+            Debug.Log("ストップ");
+
+    }
+
 }
