@@ -270,16 +270,20 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 8605329434926695506}
+        m_TargetAssemblyTypeName: PlayerGimmickActionManagement, Assembly-CSharp
+        m_MethodName: OnMove
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 7a24a9d8-279d-41ea-bb4f-9811311756a5
     m_ActionName: Player/Move[/XInputControllerWindows/leftStick,/Keyboard/w,/Keyboard/upArrow,/Keyboard/s,/Keyboard/downArrow,/Keyboard/a,/Keyboard/leftArrow,/Keyboard/d,/Keyboard/rightArrow]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 335bd95f-018e-4ac7-937b-2aa2d0540e3c
-    m_ActionName: Player/Look[/XInputControllerWindows/rightStick,/Mouse/delta]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: ba202da7-eafe-4d54-8085-66404c58e4da
-    m_ActionName: Player/Fire[/XInputControllerWindows/rightTrigger,/Mouse/leftButton]
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 7248784080295700648}
@@ -384,6 +388,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 164a73c6-e5b0-44db-899b-67282dc3f7db
     m_ActionName: Player/ActionRelease[/XInputControllerWindows/buttonEast]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 77f00d38-81e7-4d49-a654-10c34683fcf5
+    m_ActionName: Player/RTriggerPress[/XInputControllerWindows/rightTrigger]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 924cdac2-46aa-48f8-936f-d2797af0e3a1
+    m_ActionName: Player/RTriggerRelease[/XInputControllerWindows/rightTrigger]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: becd644b-bc90-4158-b85f-f3fe9c7e86d0
+    m_ActionName: Player/LTriggerPress[/XInputControllerWindows/leftTrigger]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 0dfee1f5-e913-4d6f-9bf6-7f84e995ac05
+    m_ActionName: Player/LTriggerRelease[/XInputControllerWindows/leftTrigger]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Gamepad
   m_DefaultActionMap: Player
