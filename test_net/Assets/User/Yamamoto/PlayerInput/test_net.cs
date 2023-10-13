@@ -71,6 +71,42 @@ public partial class @Test_net: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": ""Press(behavior=1)"",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""RTriggerPress"",
+                    ""type"": ""Button"",
+                    ""id"": ""77f00d38-81e7-4d49-a654-10c34683fcf5"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""RTriggerRelease"",
+                    ""type"": ""Button"",
+                    ""id"": ""924cdac2-46aa-48f8-936f-d2797af0e3a1"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press(behavior=1)"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""LTriggerPress"",
+                    ""type"": ""Button"",
+                    ""id"": ""becd644b-bc90-4158-b85f-f3fe9c7e86d0"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""LTriggerRelease"",
+                    ""type"": ""Button"",
+                    ""id"": ""0dfee1f5-e913-4d6f-9bf6-7f84e995ac05"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press(behavior=1)"",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -126,6 +162,50 @@ public partial class @Test_net: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""ActionRelease"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""639b32c8-9060-49d0-83ae-bd5069ebea16"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RTriggerPress"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""600b6175-024c-4be3-9836-48715bf492b8"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RTriggerRelease"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c46043fc-1a19-472e-9b50-5d23111678bc"",
+                    ""path"": ""<Gamepad>/leftTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""LTriggerPress"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ce7e5481-ce65-4316-85a9-d0790358ec5c"",
+                    ""path"": ""<Gamepad>/leftTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""LTriggerRelease"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -718,6 +798,10 @@ public partial class @Test_net: IInputActionCollection2, IDisposable
         m_Player_Action = m_Player.FindAction("Action", throwIfNotFound: true);
         m_Player_ActionPress = m_Player.FindAction("ActionPress", throwIfNotFound: true);
         m_Player_ActionRelease = m_Player.FindAction("ActionRelease", throwIfNotFound: true);
+        m_Player_RTriggerPress = m_Player.FindAction("RTriggerPress", throwIfNotFound: true);
+        m_Player_RTriggerRelease = m_Player.FindAction("RTriggerRelease", throwIfNotFound: true);
+        m_Player_LTriggerPress = m_Player.FindAction("LTriggerPress", throwIfNotFound: true);
+        m_Player_LTriggerRelease = m_Player.FindAction("LTriggerRelease", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -796,6 +880,10 @@ public partial class @Test_net: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Action;
     private readonly InputAction m_Player_ActionPress;
     private readonly InputAction m_Player_ActionRelease;
+    private readonly InputAction m_Player_RTriggerPress;
+    private readonly InputAction m_Player_RTriggerRelease;
+    private readonly InputAction m_Player_LTriggerPress;
+    private readonly InputAction m_Player_LTriggerRelease;
     public struct PlayerActions
     {
         private @Test_net m_Wrapper;
@@ -805,6 +893,10 @@ public partial class @Test_net: IInputActionCollection2, IDisposable
         public InputAction @Action => m_Wrapper.m_Player_Action;
         public InputAction @ActionPress => m_Wrapper.m_Player_ActionPress;
         public InputAction @ActionRelease => m_Wrapper.m_Player_ActionRelease;
+        public InputAction @RTriggerPress => m_Wrapper.m_Player_RTriggerPress;
+        public InputAction @RTriggerRelease => m_Wrapper.m_Player_RTriggerRelease;
+        public InputAction @LTriggerPress => m_Wrapper.m_Player_LTriggerPress;
+        public InputAction @LTriggerRelease => m_Wrapper.m_Player_LTriggerRelease;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -829,6 +921,18 @@ public partial class @Test_net: IInputActionCollection2, IDisposable
             @ActionRelease.started += instance.OnActionRelease;
             @ActionRelease.performed += instance.OnActionRelease;
             @ActionRelease.canceled += instance.OnActionRelease;
+            @RTriggerPress.started += instance.OnRTriggerPress;
+            @RTriggerPress.performed += instance.OnRTriggerPress;
+            @RTriggerPress.canceled += instance.OnRTriggerPress;
+            @RTriggerRelease.started += instance.OnRTriggerRelease;
+            @RTriggerRelease.performed += instance.OnRTriggerRelease;
+            @RTriggerRelease.canceled += instance.OnRTriggerRelease;
+            @LTriggerPress.started += instance.OnLTriggerPress;
+            @LTriggerPress.performed += instance.OnLTriggerPress;
+            @LTriggerPress.canceled += instance.OnLTriggerPress;
+            @LTriggerRelease.started += instance.OnLTriggerRelease;
+            @LTriggerRelease.performed += instance.OnLTriggerRelease;
+            @LTriggerRelease.canceled += instance.OnLTriggerRelease;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -848,6 +952,18 @@ public partial class @Test_net: IInputActionCollection2, IDisposable
             @ActionRelease.started -= instance.OnActionRelease;
             @ActionRelease.performed -= instance.OnActionRelease;
             @ActionRelease.canceled -= instance.OnActionRelease;
+            @RTriggerPress.started -= instance.OnRTriggerPress;
+            @RTriggerPress.performed -= instance.OnRTriggerPress;
+            @RTriggerPress.canceled -= instance.OnRTriggerPress;
+            @RTriggerRelease.started -= instance.OnRTriggerRelease;
+            @RTriggerRelease.performed -= instance.OnRTriggerRelease;
+            @RTriggerRelease.canceled -= instance.OnRTriggerRelease;
+            @LTriggerPress.started -= instance.OnLTriggerPress;
+            @LTriggerPress.performed -= instance.OnLTriggerPress;
+            @LTriggerPress.canceled -= instance.OnLTriggerPress;
+            @LTriggerRelease.started -= instance.OnLTriggerRelease;
+            @LTriggerRelease.performed -= instance.OnLTriggerRelease;
+            @LTriggerRelease.canceled -= instance.OnLTriggerRelease;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -1035,6 +1151,10 @@ public partial class @Test_net: IInputActionCollection2, IDisposable
         void OnAction(InputAction.CallbackContext context);
         void OnActionPress(InputAction.CallbackContext context);
         void OnActionRelease(InputAction.CallbackContext context);
+        void OnRTriggerPress(InputAction.CallbackContext context);
+        void OnRTriggerRelease(InputAction.CallbackContext context);
+        void OnLTriggerPress(InputAction.CallbackContext context);
+        void OnLTriggerRelease(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

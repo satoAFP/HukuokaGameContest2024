@@ -31,7 +31,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
         gameObject.name = "Player" + photonView.OwnerActorNr;
 
         test_net = new Test_net();//スクリプトを変数に格納
-        test_net.Enable();
+        //test_net.Enable();
 
         // デバイス一覧を取得
         foreach (var device in InputSystem.devices)

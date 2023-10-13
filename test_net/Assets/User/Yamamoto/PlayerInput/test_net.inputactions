@@ -49,6 +49,42 @@
                     "processors": "",
                     "interactions": "Press(behavior=1)",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "RTriggerPress",
+                    "type": "Button",
+                    "id": "77f00d38-81e7-4d49-a654-10c34683fcf5",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "RTriggerRelease",
+                    "type": "Button",
+                    "id": "924cdac2-46aa-48f8-936f-d2797af0e3a1",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press(behavior=1)",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "LTriggerPress",
+                    "type": "Button",
+                    "id": "becd644b-bc90-4158-b85f-f3fe9c7e86d0",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "LTriggerRelease",
+                    "type": "Button",
+                    "id": "0dfee1f5-e913-4d6f-9bf6-7f84e995ac05",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press(behavior=1)",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -104,6 +140,50 @@
                     "processors": "",
                     "groups": "",
                     "action": "ActionRelease",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "639b32c8-9060-49d0-83ae-bd5069ebea16",
+                    "path": "<Gamepad>/rightTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RTriggerPress",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "600b6175-024c-4be3-9836-48715bf492b8",
+                    "path": "<Gamepad>/rightTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RTriggerRelease",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c46043fc-1a19-472e-9b50-5d23111678bc",
+                    "path": "<Gamepad>/leftTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "LTriggerPress",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ce7e5481-ce65-4316-85a9-d0790358ec5c",
+                    "path": "<Gamepad>/leftTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "LTriggerRelease",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
