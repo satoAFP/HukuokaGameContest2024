@@ -112,11 +112,13 @@ public class PlayerGimmickActionManagement : CGimmick
     private void OnActionPress(InputAction.CallbackContext context)
     {
         ShareKey(true, (int)KEY_NUMBER.CB, ref firstCB);
+        Debug.Log("aaa");
     }
 
     private void OnActionRelease(InputAction.CallbackContext context)
     {
         ShareKey(false, (int)KEY_NUMBER.CB, ref firstCB);
+        Debug.Log("bbb");
     }
 
 }
