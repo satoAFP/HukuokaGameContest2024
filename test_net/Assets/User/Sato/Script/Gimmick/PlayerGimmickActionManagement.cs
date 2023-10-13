@@ -7,10 +7,11 @@ using UnityEngine.InputSystem;
 
 public class PlayerGimmickActionManagement : CGimmick
 {
-    private InputAction action;
+    //インプットアクションのmove取得用
+    private InputAction actionMove;
 
-    private bool isStick = false;
 
+    //キーナンバー
     private enum KEY_NUMBER
     {
         A, D, W, S, B, LM, C_B,
@@ -23,7 +24,8 @@ public class PlayerGimmickActionManagement : CGimmick
 
     private void Start()
     {
-        action = GetComponent<PlayerInput>().actions.FindActionMap("Player").FindAction("Move");
+        //コントローラーのMove取得
+        actionMove = GetComponent<PlayerInput>().actions.FindActionMap("Player").FindAction("Move");
     }
 
     private void Update()
@@ -31,7 +33,8 @@ public class PlayerGimmickActionManagement : CGimmick
         //自身のアバターかどうか
         if (photonView.IsMine)
         {
-            
+            //移動量取得
+            Vector2 stickValue = actionMove.ReadValue<Vector2>();
 
             //共有したいキーの数だけ増やす
             ShareKey(Input.GetKey(KeyCode.A), (int)KEY_NUMBER.A, ref firstA);
@@ -41,13 +44,13 @@ public class PlayerGimmickActionManagement : CGimmick
             ShareKey(Input.GetKey(KeyCode.B), (int)KEY_NUMBER.B, ref firstB);
             ShareKey(Input.GetMouseButton(0), (int)KEY_NUMBER.LM, ref firstLM);
 
-            Debug.Log("A:Owner/" + ManagerAccessor.Instance.dataManager.isOwnerInputKey_C_L_RIGHT + ":Client/" + ManagerAccessor.Instance.dataManager.isClientInputKey_C_L_RIGHT);
-            Debug.Log("D:Owner/" + ManagerAccessor.Instance.dataManager.isOwnerInputKey_C_L_LEFT + ":Client/" + ManagerAccessor.Instance.dataManager.isClientInputKey_C_L_LEFT);
-            Debug.Log("W:Owner/" + ManagerAccessor.Instance.dataManager.isOwnerInputKey_C_L_UP + ":Client/" + ManagerAccessor.Instance.dataManager.isClientInputKey_C_L_UP);
-            Debug.Log("S:Owner/" + ManagerAccessor.Instance.dataManager.isOwnerInputKey_C_L_DOWN + ":Client/" + ManagerAccessor.Instance.dataManager.isClientInputKey_C_L_DOWN);
+            //Debug.Log("A:Owner/" + ManagerAccessor.Instance.dataManager.isOwnerInputKey_C_L_RIGHT + ":Client/" + ManagerAccessor.Instance.dataManager.isClientInputKey_C_L_RIGHT);
+            //Debug.Log("D:Owner/" + ManagerAccessor.Instance.dataManager.isOwnerInputKey_C_L_LEFT + ":Client/" + ManagerAccessor.Instance.dataManager.isClientInputKey_C_L_LEFT);
+            //Debug.Log("W:Owner/" + ManagerAccessor.Instance.dataManager.isOwnerInputKey_C_L_UP + ":Client/" + ManagerAccessor.Instance.dataManager.isClientInputKey_C_L_UP);
+            //Debug.Log("S:Owner/" + ManagerAccessor.Instance.dataManager.isOwnerInputKey_C_L_DOWN + ":Client/" + ManagerAccessor.Instance.dataManager.isClientInputKey_C_L_DOWN);
 
-            Vector2 stickValue = action.ReadValue<Vector2>();
-
+            
+            //コントローラー共有設定
             if (stickValue.x > 0.1f)
                 ShareKey(true, (int)KEY_NUMBER.C_L_RIGHT, ref firstC_L_Right);
             else
