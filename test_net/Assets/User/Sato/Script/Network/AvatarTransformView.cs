@@ -33,6 +33,7 @@ public class AvatarTransformView : MonoBehaviourPunCallbacks, IPunObservable
             //移動時
             if (rb.velocity.magnitude > 0.1f) 
             {
+                Debug.Log("移動中");
                 if (first)
                 {
                     //移動開始時の1フレーム目だけデータ送信
@@ -43,6 +44,7 @@ public class AvatarTransformView : MonoBehaviourPunCallbacks, IPunObservable
             //停止時
             else
             {
+                Debug.Log("停止中");
                 if (!first)
                 {
                     //移動終了時の1フレーム目だけデータ送信
