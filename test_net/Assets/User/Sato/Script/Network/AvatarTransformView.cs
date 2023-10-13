@@ -3,6 +3,9 @@ using UnityEngine;
 
 public class AvatarTransformView : MonoBehaviourPunCallbacks, IPunObservable
 {
+    //プレイヤーが動いているか情報
+    [System.NonSerialized] public bool isPlayerMove = false;
+
     private const float InterpolationPeriod = 0.1f; // 補間にかける時間
 
     private Vector3 p1;         //自身の座標記憶用
@@ -33,23 +36,27 @@ public class AvatarTransformView : MonoBehaviourPunCallbacks, IPunObservable
             //移動時
             if (rb.velocity.magnitude > 0.1f) 
             {
-                Debug.Log("移動中");
                 if (first)
                 {
                     //移動開始時の1フレーム目だけデータ送信
                     photonView.RPC(nameof(RpcIsMove), RpcTarget.Others, true);
                     first = false;
+
+                    //プレイヤーが動いている情報
+                    isPlayerMove = true;
                 }
             }
             //停止時
             else
             {
-                Debug.Log("停止中");
                 if (!first)
                 {
                     //移動終了時の1フレーム目だけデータ送信
                     photonView.RPC(nameof(RpcIsMove), RpcTarget.Others, false);
                     first = true;
+
+                    //プレイヤーが止まっている情報
+                    isPlayerMove = false;
                 }
             }
         }
