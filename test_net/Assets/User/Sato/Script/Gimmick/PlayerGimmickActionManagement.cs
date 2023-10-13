@@ -2,17 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using Photon.Pun;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 
 public class PlayerGimmickActionManagement : CGimmick
 {
     private enum KEY_NUMBER
     {
-        A, D, W, S, B, LM
+        A, D, W, S, B, LM, CB
     }
 
     //ボタンが連続で反応しないよう
-    private bool firstA = true, firstD = true, firstW = true, firstS = true, firstB = true, firstLM = true;
+    private bool firstA = true, firstD = true, firstW = true, firstS = true, firstB = true, firstLM = true, firstCB = true;
 
     private void Update()
     {
@@ -53,6 +54,8 @@ public class PlayerGimmickActionManagement : CGimmick
                 ManagerAccessor.Instance.dataManager.isOwnerInputKey_B = onkey;
             if (key == (int)KEY_NUMBER.LM)
                 ManagerAccessor.Instance.dataManager.isOwnerInputKey_LM = onkey;
+            if (key == (int)KEY_NUMBER.CB)
+                ManagerAccessor.Instance.dataManager.isOwnerInputKey_CB = onkey;
 
         }
         else if (name == "Player2")
@@ -69,6 +72,8 @@ public class PlayerGimmickActionManagement : CGimmick
                 ManagerAccessor.Instance.dataManager.isClientInputKey_B = onkey;
             if (key == (int)KEY_NUMBER.LM)
                 ManagerAccessor.Instance.dataManager.isClientInputKey_LM = onkey;
+            if (key == (int)KEY_NUMBER.CB)
+                ManagerAccessor.Instance.dataManager.isClientInputKey_CB = onkey;
         }
     }
 
@@ -103,5 +108,23 @@ public class PlayerGimmickActionManagement : CGimmick
         }
     }
 
-    
+    //---------------------------------------------------------------------------------------------------
+    //コントローラー入力共有
+
+    //コントローラーB入力
+    public void OnActionPress(InputAction.CallbackContext context)
+    {
+        // 押された瞬間でPerformedとなる
+        if (!context.performed) return;
+
+        ShareKey(true, (int)KEY_NUMBER.CB, ref firstCB);
+    }
+    public void OnActionRelease(InputAction.CallbackContext context)
+    {
+        // 離された瞬間でPerformedとなる
+        if (!context.performed) return;
+
+        ShareKey(false, (int)KEY_NUMBER.CB, ref firstCB);
+    }
+
 }

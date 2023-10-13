@@ -62,6 +62,33 @@ public partial class @Test_net: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Action"",
+                    ""type"": ""Button"",
+                    ""id"": ""c76de7bd-b413-4b85-8b7a-55ef518f3810"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ActionPress"",
+                    ""type"": ""Button"",
+                    ""id"": ""4c76f708-f1db-4317-973e-be58ca49c14c"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ActionRelease"",
+                    ""type"": ""Button"",
+                    ""id"": ""164a73c6-e5b0-44db-899b-67282dc3f7db"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press(behavior=1)"",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -155,17 +182,6 @@ public partial class @Test_net: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""a1d1e264-be40-4754-b9d3-76e68921eb3e"",
-                    ""path"": ""<Keyboard>/w"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard&Mouse"",
-                    ""action"": ""Jump"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""70b2db4f-45ba-467c-8e84-fed8c95ae9e6"",
                     ""path"": ""<Gamepad>/buttonSouth"",
                     ""interactions"": """",
@@ -183,6 +199,39 @@ public partial class @Test_net: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ee6ee49d-67e9-418e-a5e8-776eac711fa8"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Action"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""295d16ec-3910-46cd-927a-d89df8575259"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ActionPress"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""fc80fa68-f8d8-4ec3-8514-1805dc8e8b33"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ActionRelease"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -774,6 +823,9 @@ public partial class @Test_net: IInputActionCollection2, IDisposable
         m_Player_Look = m_Player.FindAction("Look", throwIfNotFound: true);
         m_Player_Fire = m_Player.FindAction("Fire", throwIfNotFound: true);
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
+        m_Player_Action = m_Player.FindAction("Action", throwIfNotFound: true);
+        m_Player_ActionPress = m_Player.FindAction("ActionPress", throwIfNotFound: true);
+        m_Player_ActionRelease = m_Player.FindAction("ActionRelease", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -851,6 +903,9 @@ public partial class @Test_net: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Look;
     private readonly InputAction m_Player_Fire;
     private readonly InputAction m_Player_Jump;
+    private readonly InputAction m_Player_Action;
+    private readonly InputAction m_Player_ActionPress;
+    private readonly InputAction m_Player_ActionRelease;
     public struct PlayerActions
     {
         private @Test_net m_Wrapper;
@@ -859,6 +914,9 @@ public partial class @Test_net: IInputActionCollection2, IDisposable
         public InputAction @Look => m_Wrapper.m_Player_Look;
         public InputAction @Fire => m_Wrapper.m_Player_Fire;
         public InputAction @Jump => m_Wrapper.m_Player_Jump;
+        public InputAction @Action => m_Wrapper.m_Player_Action;
+        public InputAction @ActionPress => m_Wrapper.m_Player_ActionPress;
+        public InputAction @ActionRelease => m_Wrapper.m_Player_ActionRelease;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -880,6 +938,15 @@ public partial class @Test_net: IInputActionCollection2, IDisposable
             @Jump.started += instance.OnJump;
             @Jump.performed += instance.OnJump;
             @Jump.canceled += instance.OnJump;
+            @Action.started += instance.OnAction;
+            @Action.performed += instance.OnAction;
+            @Action.canceled += instance.OnAction;
+            @ActionPress.started += instance.OnActionPress;
+            @ActionPress.performed += instance.OnActionPress;
+            @ActionPress.canceled += instance.OnActionPress;
+            @ActionRelease.started += instance.OnActionRelease;
+            @ActionRelease.performed += instance.OnActionRelease;
+            @ActionRelease.canceled += instance.OnActionRelease;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -896,6 +963,15 @@ public partial class @Test_net: IInputActionCollection2, IDisposable
             @Jump.started -= instance.OnJump;
             @Jump.performed -= instance.OnJump;
             @Jump.canceled -= instance.OnJump;
+            @Action.started -= instance.OnAction;
+            @Action.performed -= instance.OnAction;
+            @Action.canceled -= instance.OnAction;
+            @ActionPress.started -= instance.OnActionPress;
+            @ActionPress.performed -= instance.OnActionPress;
+            @ActionPress.canceled -= instance.OnActionPress;
+            @ActionRelease.started -= instance.OnActionRelease;
+            @ActionRelease.performed -= instance.OnActionRelease;
+            @ActionRelease.canceled -= instance.OnActionRelease;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -1082,6 +1158,9 @@ public partial class @Test_net: IInputActionCollection2, IDisposable
         void OnLook(InputAction.CallbackContext context);
         void OnFire(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
+        void OnAction(InputAction.CallbackContext context);
+        void OnActionPress(InputAction.CallbackContext context);
+        void OnActionRelease(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

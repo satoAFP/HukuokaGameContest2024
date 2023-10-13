@@ -104,4 +104,13 @@ public class player : MonoBehaviourPunCallbacks
             rigid.AddForce(Vector2.up * jumpSpeed, ForceMode2D.Impulse);
         }
     }
+
+    public void OnAction(InputAction.CallbackContext context)
+    {
+        //‘€ì‚ª‹£‡‚µ‚È‚¢‚½‚ß‚Ìİ’è
+        if (photonView.IsMine)
+        {
+            Debug.Log("ƒAƒNƒVƒ‡ƒ“");
+        }
+    }
 }
