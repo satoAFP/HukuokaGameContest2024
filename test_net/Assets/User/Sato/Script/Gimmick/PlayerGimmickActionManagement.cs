@@ -13,12 +13,13 @@ public class PlayerGimmickActionManagement : CGimmick
 
     private enum KEY_NUMBER
     {
-        A, D, W, S, B, LM, CB
+        A, D, W, S, B, LM, C_B,
+        C_L_RIGHT, C_L_LEFT, C_L_UP, C_L_DOWN
     }
 
     //ボタンが連続で反応しないよう
-    private bool firstA = true, firstD = true, firstW = true, firstS = true, firstB = true, firstLM = true, firstCB = true;
-
+    private bool firstA = true, firstD = true, firstW = true, firstS = true, firstB = true, firstLM = true, firstC_B = true;
+    private bool firstC_L_Right = true, firstC_L_Left = true, firstC_L_Up = true, firstC_L_Down = true;
 
     private void Start()
     {
@@ -40,38 +41,29 @@ public class PlayerGimmickActionManagement : CGimmick
             ShareKey(Input.GetKey(KeyCode.B), (int)KEY_NUMBER.B, ref firstB);
             ShareKey(Input.GetMouseButton(0), (int)KEY_NUMBER.LM, ref firstLM);
 
-            //Debug.Log("A:Owner/" + ManagerAccessor.Instance.dataManager.isOwnerInputKey_A + ":Client/" + ManagerAccessor.Instance.dataManager.isClientInputKey_A);
-            //Debug.Log("D:Owner/" + ManagerAccessor.Instance.dataManager.isOwnerInputKey_D + ":Client/" + ManagerAccessor.Instance.dataManager.isClientInputKey_D);
-            //Debug.Log("W:Owner/" + ManagerAccessor.Instance.dataManager.isOwnerInputKey_W + ":Client/" + ManagerAccessor.Instance.dataManager.isClientInputKey_W);
-            //Debug.Log("S:Owner/" + ManagerAccessor.Instance.dataManager.isOwnerInputKey_S + ":Client/" + ManagerAccessor.Instance.dataManager.isClientInputKey_S);
+            Debug.Log("A:Owner/" + ManagerAccessor.Instance.dataManager.isOwnerInputKey_C_L_RIGHT + ":Client/" + ManagerAccessor.Instance.dataManager.isClientInputKey_C_L_RIGHT);
+            Debug.Log("D:Owner/" + ManagerAccessor.Instance.dataManager.isOwnerInputKey_C_L_LEFT + ":Client/" + ManagerAccessor.Instance.dataManager.isClientInputKey_C_L_LEFT);
+            Debug.Log("W:Owner/" + ManagerAccessor.Instance.dataManager.isOwnerInputKey_C_L_UP + ":Client/" + ManagerAccessor.Instance.dataManager.isClientInputKey_C_L_UP);
+            Debug.Log("S:Owner/" + ManagerAccessor.Instance.dataManager.isOwnerInputKey_C_L_DOWN + ":Client/" + ManagerAccessor.Instance.dataManager.isClientInputKey_C_L_DOWN);
 
             Vector2 stickValue = action.ReadValue<Vector2>();
 
             if (stickValue.x > 0.1f)
-            {
-                Debug.Log("P右");
-                isStick = true;
-            }
+                ShareKey(true, (int)KEY_NUMBER.C_L_RIGHT, ref firstC_L_Right);
+            else
+                ShareKey(false, (int)KEY_NUMBER.C_L_RIGHT, ref firstC_L_Right);
             if (stickValue.x < -0.1f)
-            {
-                Debug.Log("P左");
-                isStick = true;
-            }
+                ShareKey(true, (int)KEY_NUMBER.C_L_LEFT, ref firstC_L_Left);
+            else
+                ShareKey(false, (int)KEY_NUMBER.C_L_LEFT, ref firstC_L_Left);
             if (stickValue.y > 0.1f)
-            {
-                Debug.Log("P上");
-                isStick = true;
-            }
+                ShareKey(true, (int)KEY_NUMBER.C_L_UP, ref firstC_L_Up);
+            else
+                ShareKey(false, (int)KEY_NUMBER.C_L_UP, ref firstC_L_Up);
             if (stickValue.y < -0.1f)
-            {
-                Debug.Log("P下");
-                isStick = true;
-            }
-
-            if (stickValue.magnitude < 0.1f) 
-                Debug.Log("ストップ");
-
-            isStick = false;
+                ShareKey(true, (int)KEY_NUMBER.C_L_DOWN, ref firstC_L_Down);
+            else
+                ShareKey(false, (int)KEY_NUMBER.C_L_DOWN, ref firstC_L_Down);
         }
     }
 
@@ -94,8 +86,16 @@ public class PlayerGimmickActionManagement : CGimmick
                 ManagerAccessor.Instance.dataManager.isOwnerInputKey_B = onkey;
             if (key == (int)KEY_NUMBER.LM)
                 ManagerAccessor.Instance.dataManager.isOwnerInputKey_LM = onkey;
-            if (key == (int)KEY_NUMBER.CB)
+            if (key == (int)KEY_NUMBER.C_B)
                 ManagerAccessor.Instance.dataManager.isOwnerInputKey_CB = onkey;
+            if (key == (int)KEY_NUMBER.C_L_RIGHT)
+                ManagerAccessor.Instance.dataManager.isOwnerInputKey_C_L_RIGHT = onkey;
+            if (key == (int)KEY_NUMBER.C_L_LEFT)
+                ManagerAccessor.Instance.dataManager.isOwnerInputKey_C_L_LEFT = onkey;
+            if (key == (int)KEY_NUMBER.C_L_UP)
+                ManagerAccessor.Instance.dataManager.isOwnerInputKey_C_L_UP = onkey;
+            if (key == (int)KEY_NUMBER.C_L_DOWN)
+                ManagerAccessor.Instance.dataManager.isOwnerInputKey_C_L_DOWN = onkey;
 
         }
         else if (name == "Player2")
@@ -112,8 +112,16 @@ public class PlayerGimmickActionManagement : CGimmick
                 ManagerAccessor.Instance.dataManager.isClientInputKey_B = onkey;
             if (key == (int)KEY_NUMBER.LM)
                 ManagerAccessor.Instance.dataManager.isClientInputKey_LM = onkey;
-            if (key == (int)KEY_NUMBER.CB)
+            if (key == (int)KEY_NUMBER.C_B)
                 ManagerAccessor.Instance.dataManager.isClientInputKey_CB = onkey;
+            if (key == (int)KEY_NUMBER.C_L_RIGHT)
+                ManagerAccessor.Instance.dataManager.isClientInputKey_C_L_RIGHT = onkey;
+            if (key == (int)KEY_NUMBER.C_L_LEFT)
+                ManagerAccessor.Instance.dataManager.isClientInputKey_C_L_LEFT = onkey;
+            if (key == (int)KEY_NUMBER.C_L_UP)
+                ManagerAccessor.Instance.dataManager.isClientInputKey_C_L_UP = onkey;
+            if (key == (int)KEY_NUMBER.C_L_DOWN)
+                ManagerAccessor.Instance.dataManager.isClientInputKey_C_L_DOWN = onkey;
         }
     }
 
@@ -159,7 +167,7 @@ public class PlayerGimmickActionManagement : CGimmick
             // 押された瞬間でPerformedとなる
             if (!context.performed) return;
 
-            ShareKey(true, (int)KEY_NUMBER.CB, ref firstCB);
+            ShareKey(true, (int)KEY_NUMBER.C_B, ref firstC_B);
         }
     }
     public void OnActionRelease(InputAction.CallbackContext context)
@@ -169,88 +177,8 @@ public class PlayerGimmickActionManagement : CGimmick
             // 離された瞬間でPerformedとなる
             if (!context.performed) return;
 
-            ShareKey(false, (int)KEY_NUMBER.CB, ref firstCB);
+            ShareKey(false, (int)KEY_NUMBER.C_B, ref firstC_B);
         }
     }
-
-
-    //コントローラースティック入力
-    public void OnMovePress(InputAction.CallbackContext context)
-    {
-        if (photonView.IsMine)
-        {
-            // 離された瞬間でPerformedとなる
-            if (!context.performed) return;
-
-            Vector2 inputDirection = context.ReadValue<Vector2>();
-
-            if (inputDirection.x > 0.1f)
-            {
-                Debug.Log("P右");
-                isStick = true;
-            }
-            if (inputDirection.x < -0.1f)
-            {
-                Debug.Log("P左");
-                isStick = true;
-            }
-            if (inputDirection.y > 0.1f)
-            {
-                Debug.Log("P上");
-                isStick = true;
-            }
-            if (inputDirection.y < -0.1f)
-            {
-                Debug.Log("P下");
-                isStick = true;
-            }
-
-            // 入力値をログ出力
-            //Debug.Log($"OnNavigate : value = {inputDirection}");
-
-            //if (inputDirection.x <= 0.1f && inputDirection.x >= -0.1f &&
-            //    inputDirection.y <= 0.1f && inputDirection.y >= -0.1f) 
-            //    Debug.Log("ストップ");
-        }
-    }
-
-
-    public void OnMoveRelease(InputAction.CallbackContext context)
-    {
-        if (photonView.IsMine)
-        {
-            // 離された瞬間でPerformedとなる
-            if (!context.performed) return;
-
-            Vector2 inputDirection = context.ReadValue<Vector2>();
-
-            if (inputDirection.x > 0.1f)
-            {
-                Debug.Log("R右");
-                isStick = true;
-            }
-            if (inputDirection.x < -0.1f)
-            {
-                Debug.Log("R左");
-                isStick = true;
-            }
-            if (inputDirection.y > 0.1f)
-            {
-                Debug.Log("R上");
-                isStick = true;
-            }
-            if (inputDirection.y < -0.1f)
-            {
-                Debug.Log("R下");
-                isStick = true;
-            }
-
-            // 入力値をログ出力
-            //Debug.Log($"OnNavigate : value = {inputDirection}");
-
-            //if (inputDirection.x <= 0.1f && inputDirection.x >= -0.1f &&
-            //    inputDirection.y <= 0.1f && inputDirection.y >= -0.1f) 
-            //    Debug.Log("ストップ");
-        }
-    }
+    
 }

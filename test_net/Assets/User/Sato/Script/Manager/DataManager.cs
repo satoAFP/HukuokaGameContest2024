@@ -30,6 +30,10 @@ public class DataManager : MonoBehaviourPunCallbacks
     [System.NonSerialized] public bool isOwnerInputKey_B = false;
     [System.NonSerialized] public bool isOwnerInputKey_LM = false;
     [System.NonSerialized] public bool isOwnerInputKey_CB = false;
+    [System.NonSerialized] public bool isOwnerInputKey_C_L_RIGHT = false;
+    [System.NonSerialized] public bool isOwnerInputKey_C_L_LEFT = false;
+    [System.NonSerialized] public bool isOwnerInputKey_C_L_UP = false;
+    [System.NonSerialized] public bool isOwnerInputKey_C_L_DOWN = false;
 
     [System.NonSerialized] public bool isClientInputKey_A = false;
     [System.NonSerialized] public bool isClientInputKey_D = false;
@@ -38,6 +42,10 @@ public class DataManager : MonoBehaviourPunCallbacks
     [System.NonSerialized] public bool isClientInputKey_B = false;
     [System.NonSerialized] public bool isClientInputKey_LM = false;
     [System.NonSerialized] public bool isClientInputKey_CB = false;
+    [System.NonSerialized] public bool isClientInputKey_C_L_RIGHT = false;
+    [System.NonSerialized] public bool isClientInputKey_C_L_LEFT = false;
+    [System.NonSerialized] public bool isClientInputKey_C_L_UP = false;
+    [System.NonSerialized] public bool isClientInputKey_C_L_DOWN = false;
 
 
 
