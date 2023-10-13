@@ -108,17 +108,23 @@ public class PlayerGimmickActionManagement : CGimmick
         }
     }
 
-    
-    private void OnActionPress(InputAction.CallbackContext context)
-    {
-        ShareKey(true, (int)KEY_NUMBER.CB, ref firstCB);
-        Debug.Log("aaa");
-    }
+    //---------------------------------------------------------------------------------------------------
+    //コントローラー入力共有
 
-    private void OnActionRelease(InputAction.CallbackContext context)
+    //コントローラーB入力
+    public void OnActionPress(InputAction.CallbackContext context)
     {
+        // 押された瞬間でPerformedとなる
+        if (!context.performed) return;
+
+        ShareKey(true, (int)KEY_NUMBER.CB, ref firstCB);
+    }
+    public void OnActionRelease(InputAction.CallbackContext context)
+    {
+        // 離された瞬間でPerformedとなる
+        if (!context.performed) return;
+
         ShareKey(false, (int)KEY_NUMBER.CB, ref firstCB);
-        Debug.Log("bbb");
     }
 
 }
