@@ -100,7 +100,7 @@ public class GimmickBlock : CGimmick
 
     private void OnCollisionExit2D(Collision2D collision)
     {
-        //‚¿ã‚°‚Ä‚¢‚é‚Æ‚«
+        //‚¿ã‚°‚Ä‚¢‚È‚¢‚Æ‚«
         if (!liftMode)
         {
             if (collision.gameObject.name == "Player1")

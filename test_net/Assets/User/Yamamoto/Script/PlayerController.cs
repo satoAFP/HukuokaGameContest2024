@@ -6,6 +6,12 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviourPunCallbacks
 {
+    [SerializeField, Header("宝箱")]
+    private Sprite p1Image;
+
+    [SerializeField, Header("鍵")]
+    private Sprite p2Image;
+
     [SerializeField, Header("移動速度")]
     private float moveSpeed;
 
@@ -29,6 +35,11 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
         //名前とIDを設定
         gameObject.name = "Player" + photonView.OwnerActorNr;
+
+        if (gameObject.name == "Player1")
+            GetComponent<SpriteRenderer>().sprite = p1Image;
+        if (gameObject.name == "Player2")
+            GetComponent<SpriteRenderer>().sprite = p2Image;
 
         test_net = new Test_net();//スクリプトを変数に格納
         //test_net.Enable();
