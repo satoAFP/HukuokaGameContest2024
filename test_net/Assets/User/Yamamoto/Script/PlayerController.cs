@@ -8,6 +8,8 @@ public class PlayerController : MonoBehaviourPunCallbacks
 {
     [SerializeField, Header("宝箱")]
     private Sprite p1Image;
+    [SerializeField, Header("空いた宝箱")]
+    private Sprite p1OpenImage;
 
     [SerializeField, Header("鍵")]
     private Sprite p2Image;
@@ -79,9 +81,24 @@ public class PlayerController : MonoBehaviourPunCallbacks
                 }
             }
 
+            //上ボタンの同時押し
             if(datamanager.isOwnerInputKey_C_D_UP && datamanager.isClientInputKey_C_D_UP)
             {
                 Debug.Log("上キー両押し");
+                //宝箱のプレイヤーの時、空いている箱のイラストに変更
+                if (gameObject.name == "Player1")
+                {
+                    GetComponent<SpriteRenderer>().sprite = p1OpenImage;
+                }
+                 
+            }
+            else
+            {
+                //同時に上ボタンを押していないときは画像を元に戻す
+                if (gameObject.name == "Player1")
+                {
+                    GetComponent<SpriteRenderer>().sprite = p1Image;
+                }
             }
         }
     }
