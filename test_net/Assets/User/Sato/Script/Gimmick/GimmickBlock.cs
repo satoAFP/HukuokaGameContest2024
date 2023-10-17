@@ -38,8 +38,7 @@ public class GimmickBlock : CGimmick
                 
                 first = false;
 
-                liftMode = true;
-                Player.GetComponent<PlayerController>().islift = true;
+                
             }
 
             //ÉvÉåÉCÉÑÅ[Ç…í«è]Ç≥ÇπÇÈ
@@ -51,7 +50,8 @@ public class GimmickBlock : CGimmick
             else
                 GetComponent<AvatarOnlyTransformView>().isPlayerMove = false;
 
-            
+            liftMode = true;
+            Player.GetComponent<PlayerController>().islift = true;
         }
         else
         {
@@ -66,14 +66,14 @@ public class GimmickBlock : CGimmick
 
                 first = true;
 
-                liftMode = false;
-                Player.GetComponent<PlayerController>().islift = false;
+                
             }
 
             //ìØä˙âèú
             GetComponent<AvatarOnlyTransformView>().isPlayerMove = false;
 
-            
+            liftMode = false;
+            Player.GetComponent<PlayerController>().islift = false;
         }
 
 
@@ -89,6 +89,7 @@ public class GimmickBlock : CGimmick
             if(photonView.IsMine)
             {
                 Player = collision.gameObject;
+                Debug.Log("1p");
             }
         }
 
@@ -99,6 +100,7 @@ public class GimmickBlock : CGimmick
             if (photonView.IsMine)
             {
                 Player = collision.gameObject;
+                Debug.Log("2p");
             }
         }
     }

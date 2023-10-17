@@ -66,6 +66,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
             if(!islift)
             {
                 Move();//移動処理をON
+                Debug.Log("デフォルト");
             }
             else
             {
@@ -74,6 +75,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
                    (datamanager.isOwnerInputKey_C_L_LEFT && datamanager.isClientInputKey_C_L_LEFT))
                 {
                     Move();
+                    Debug.Log("特殊");
                 }
             }
         }
