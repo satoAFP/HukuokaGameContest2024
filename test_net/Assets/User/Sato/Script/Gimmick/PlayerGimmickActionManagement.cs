@@ -7,23 +7,27 @@ using UnityEngine.InputSystem;
 
 public class PlayerGimmickActionManagement : CGimmick
 {
-    private InputAction action;
+    //インプットアクションのmove取得用
+    private InputAction actionMove;
 
-    private bool isStick = false;
 
+    //キーナンバー
     private enum KEY_NUMBER
     {
         A, D, W, S, B, LM, C_B,
-        C_L_RIGHT, C_L_LEFT, C_L_UP, C_L_DOWN
+        C_L_RIGHT, C_L_LEFT, C_L_UP, C_L_DOWN,
+        C_D_RIGHT, C_D_LEFT, C_D_UP, C_D_DOWN
     }
 
     //ボタンが連続で反応しないよう
     private bool firstA = true, firstD = true, firstW = true, firstS = true, firstB = true, firstLM = true, firstC_B = true;
     private bool firstC_L_Right = true, firstC_L_Left = true, firstC_L_Up = true, firstC_L_Down = true;
+    private bool firstC_D_Right = true, firstC_D_Left = true, firstC_D_Up = true, firstC_D_Down = true;
 
     private void Start()
     {
-        action = GetComponent<PlayerInput>().actions.FindActionMap("Player").FindAction("Move");
+        //コントローラーのMove取得
+        actionMove = GetComponent<PlayerInput>().actions.FindActionMap("Player").FindAction("Move");
     }
 
     private void Update()
@@ -31,7 +35,8 @@ public class PlayerGimmickActionManagement : CGimmick
         //自身のアバターかどうか
         if (photonView.IsMine)
         {
-            
+            //移動量取得
+            Vector2 stickValue = actionMove.ReadValue<Vector2>();
 
             //共有したいキーの数だけ増やす
             ShareKey(Input.GetKey(KeyCode.A), (int)KEY_NUMBER.A, ref firstA);
@@ -41,13 +46,13 @@ public class PlayerGimmickActionManagement : CGimmick
             ShareKey(Input.GetKey(KeyCode.B), (int)KEY_NUMBER.B, ref firstB);
             ShareKey(Input.GetMouseButton(0), (int)KEY_NUMBER.LM, ref firstLM);
 
-            Debug.Log("A:Owner/" + ManagerAccessor.Instance.dataManager.isOwnerInputKey_C_L_RIGHT + ":Client/" + ManagerAccessor.Instance.dataManager.isClientInputKey_C_L_RIGHT);
-            Debug.Log("D:Owner/" + ManagerAccessor.Instance.dataManager.isOwnerInputKey_C_L_LEFT + ":Client/" + ManagerAccessor.Instance.dataManager.isClientInputKey_C_L_LEFT);
-            Debug.Log("W:Owner/" + ManagerAccessor.Instance.dataManager.isOwnerInputKey_C_L_UP + ":Client/" + ManagerAccessor.Instance.dataManager.isClientInputKey_C_L_UP);
-            Debug.Log("S:Owner/" + ManagerAccessor.Instance.dataManager.isOwnerInputKey_C_L_DOWN + ":Client/" + ManagerAccessor.Instance.dataManager.isClientInputKey_C_L_DOWN);
+            //Debug.Log("A:Owner/" + ManagerAccessor.Instance.dataManager.isOwnerInputKey_C_D_LEFT + ":Client/" + ManagerAccessor.Instance.dataManager.isClientInputKey_C_D_LEFT);
+            //Debug.Log("D:Owner/" + ManagerAccessor.Instance.dataManager.isOwnerInputKey_C_D_RIGHT + ":Client/" + ManagerAccessor.Instance.dataManager.isClientInputKey_C_D_RIGHT);
+            //Debug.Log("W:Owner/" + ManagerAccessor.Instance.dataManager.isOwnerInputKey_C_D_UP + ":Client/" + ManagerAccessor.Instance.dataManager.isClientInputKey_C_D_UP);
+           // Debug.Log("S:Owner/" + ManagerAccessor.Instance.dataManager.isOwnerInputKey_C_L_DOWN + ":Client/" + ManagerAccessor.Instance.dataManager.isClientInputKey_C_L_DOWN);
 
-            Vector2 stickValue = action.ReadValue<Vector2>();
 
+            //コントローラー共有設定
             if (stickValue.x > 0.1f)
                 ShareKey(true, (int)KEY_NUMBER.C_L_RIGHT, ref firstC_L_Right);
             else
@@ -96,6 +101,14 @@ public class PlayerGimmickActionManagement : CGimmick
                 ManagerAccessor.Instance.dataManager.isOwnerInputKey_C_L_UP = onkey;
             if (key == (int)KEY_NUMBER.C_L_DOWN)
                 ManagerAccessor.Instance.dataManager.isOwnerInputKey_C_L_DOWN = onkey;
+            if (key == (int)KEY_NUMBER.C_D_RIGHT)
+                ManagerAccessor.Instance.dataManager.isOwnerInputKey_C_D_RIGHT = onkey;
+            if (key == (int)KEY_NUMBER.C_D_LEFT)
+                ManagerAccessor.Instance.dataManager.isOwnerInputKey_C_D_LEFT = onkey;
+            if (key == (int)KEY_NUMBER.C_D_UP)
+                ManagerAccessor.Instance.dataManager.isOwnerInputKey_C_D_UP = onkey;
+            if (key == (int)KEY_NUMBER.C_D_DOWN)
+                ManagerAccessor.Instance.dataManager.isOwnerInputKey_C_D_DOWN = onkey;
 
         }
         else if (name == "Player2")
@@ -122,6 +135,14 @@ public class PlayerGimmickActionManagement : CGimmick
                 ManagerAccessor.Instance.dataManager.isClientInputKey_C_L_UP = onkey;
             if (key == (int)KEY_NUMBER.C_L_DOWN)
                 ManagerAccessor.Instance.dataManager.isClientInputKey_C_L_DOWN = onkey;
+            if (key == (int)KEY_NUMBER.C_D_RIGHT)
+                ManagerAccessor.Instance.dataManager.isClientInputKey_C_D_RIGHT = onkey;
+            if (key == (int)KEY_NUMBER.C_D_LEFT)
+                ManagerAccessor.Instance.dataManager.isClientInputKey_C_D_LEFT = onkey;
+            if (key == (int)KEY_NUMBER.C_D_UP)
+                ManagerAccessor.Instance.dataManager.isClientInputKey_C_D_UP = onkey;
+            if (key == (int)KEY_NUMBER.C_D_DOWN)
+                ManagerAccessor.Instance.dataManager.isClientInputKey_C_D_DOWN = onkey;
         }
     }
 
@@ -180,5 +201,71 @@ public class PlayerGimmickActionManagement : CGimmick
             ShareKey(false, (int)KEY_NUMBER.C_B, ref firstC_B);
         }
     }
-    
+
+    //コントローラー十字キー上（箱を開ける）
+    public void OnOpenActionPress(InputAction.CallbackContext context)
+    {
+        if (photonView.IsMine)
+        {
+            // 押された瞬間でPerformedとなる
+            if (!context.performed) return;
+
+            ShareKey(true, (int)KEY_NUMBER.C_D_UP, ref firstC_D_Up);
+        }
+    }
+    public void OnOpenActionRelease(InputAction.CallbackContext context)
+    {
+        if (photonView.IsMine)
+        {
+            // 離された瞬間でPerformedとなる
+            if (!context.performed) return;
+
+            ShareKey(false, (int)KEY_NUMBER.C_D_UP, ref firstC_D_Up);
+        }
+    }
+
+    //コントローラー十字キー右
+    public void OnR_D_PadPress(InputAction.CallbackContext context)
+    {
+        if (photonView.IsMine)
+        {
+            // 押された瞬間でPerformedとなる
+            if (!context.performed) return;
+
+            ShareKey(true, (int)KEY_NUMBER.C_D_RIGHT, ref firstC_D_Right);
+        }
+    }
+    public void OnR_D_PadRelease(InputAction.CallbackContext context)
+    {
+        if (photonView.IsMine)
+        {
+            // 離された瞬間でPerformedとなる
+            if (!context.performed) return;
+
+            ShareKey(false, (int)KEY_NUMBER.C_D_RIGHT, ref firstC_D_Right);
+        }
+    }
+
+    //コントローラー十字キー左
+    public void OnL_D_PadPress(InputAction.CallbackContext context)
+    {
+        if (photonView.IsMine)
+        {
+            // 押された瞬間でPerformedとなる
+            if (!context.performed) return;
+
+            ShareKey(true, (int)KEY_NUMBER.C_D_LEFT, ref firstC_D_Left);
+        }
+    }
+    public void OnL_D_PadRelease(InputAction.CallbackContext context)
+    {
+        if (photonView.IsMine)
+        {
+            // 離された瞬間でPerformedとなる
+            if (!context.performed) return;
+
+            ShareKey(false, (int)KEY_NUMBER.C_D_LEFT, ref firstC_D_Left);
+        }
+    }
+
 }

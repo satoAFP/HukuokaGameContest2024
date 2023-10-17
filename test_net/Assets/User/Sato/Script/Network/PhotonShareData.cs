@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class PhotonShareData : MonoBehaviourPunCallbacks, IPunObservable
 {
-    private PhotonView photonView;
+    //private PhotonView photonView;
 
     public string _text;
 
@@ -19,7 +19,7 @@ public class PhotonShareData : MonoBehaviourPunCallbacks, IPunObservable
 
     void Awake()
     {
-        this.photonView = GetComponent<PhotonView>();
+        //this.photonView = GetComponent<PhotonView>();
     }
 
     private void Update()

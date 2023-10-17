@@ -28,8 +28,6 @@ public class LogInSystem : MonoBehaviourPunCallbacks
             foreach (var p in PhotonNetwork.PlayerList)
                 i++;
 
-            Debug.Log(i);
-
             //メンバーがそろったらシーン移動
             //if (i == 2)
             //    ManagerAccessor.Instance.sceneMoveManager.SceneMoveName("GameTest");

@@ -5,6 +5,7 @@ using Photon.Pun;
 
 
 public class CGimmick : MonoBehaviourPunCallbacks
+
 {
     protected const int PLAYER1 = 1;
     protected const int PLAYER2 = 2;
@@ -12,6 +13,7 @@ public class CGimmick : MonoBehaviourPunCallbacks
     protected bool p1_Button = false;
     protected bool p2_Button = false;
 
+    
 
     [PunRPC]
     protected void RpcClearCheck(int master)
