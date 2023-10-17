@@ -87,12 +87,57 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "OpenAction",
+                    "name": "OpenActionPress",
                     "type": "Button",
                     "id": "f87cae31-a724-4154-8cda-604430480e72",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "Press",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "OpenActionRelese",
+                    "type": "Button",
+                    "id": "9ed57fb7-7d8f-43e9-9ad4-fa4d84a55a2c",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press(behavior=1)",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "R_D_PadPress",
+                    "type": "Button",
+                    "id": "ed4b0f35-ec93-448b-8b03-a5dae06f8309",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "R_D_PadRelease",
+                    "type": "Button",
+                    "id": "55c5f59d-6a99-432d-aa0b-d85d600eda9a",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press(behavior=1)",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "L_D_PadPress",
+                    "type": "Button",
+                    "id": "25a3ff20-4335-47af-86d4-beff1f6ff5f6",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "L_D_PadRelease",
+                    "type": "Button",
+                    "id": "f2b9eed9-7ffc-41b9-bee0-c4499fac72b0",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press(behavior=1)",
                     "initialStateCheck": false
                 }
             ],
@@ -203,7 +248,62 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "OpenAction",
+                    "action": "OpenActionPress",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "39282179-45bf-4ea6-8f2c-389e73e12bde",
+                    "path": "<Gamepad>/dpad/up",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "OpenActionRelese",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d679251d-ea98-4ac9-9ed3-24d86b672aab",
+                    "path": "<Gamepad>/dpad/right",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "R_D_PadPress",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f6d8c045-d97c-498a-9197-3e47409d4d94",
+                    "path": "<Gamepad>/dpad/right",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "R_D_PadRelease",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "dfb2b769-010d-4f82-a3cc-9735c1312c19",
+                    "path": "<Gamepad>/dpad/left",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "L_D_PadPress",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e60a73de-2a86-4fb2-b24f-0c3fd02a756d",
+                    "path": "<Gamepad>/dpad/left",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "L_D_PadRelease",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

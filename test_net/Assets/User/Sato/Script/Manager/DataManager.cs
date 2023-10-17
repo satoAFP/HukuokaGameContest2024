@@ -33,7 +33,11 @@ public class DataManager : MonoBehaviourPunCallbacks
     [System.NonSerialized] public bool isOwnerInputKey_C_L_RIGHT = false;
     [System.NonSerialized] public bool isOwnerInputKey_C_L_LEFT = false;
     [System.NonSerialized] public bool isOwnerInputKey_C_L_UP = false;
-    [System.NonSerialized] public bool isOwnerInputKey_C_L_DOWN = false;
+    [System.NonSerialized] public bool isOwnerInputKey_C_L_DOWN  = false;
+    [System.NonSerialized] public bool isOwnerInputKey_C_D_RIGHT = false;//パッドの十字キー
+    [System.NonSerialized] public bool isOwnerInputKey_C_D_LEFT  = false;
+    [System.NonSerialized] public bool isOwnerInputKey_C_D_UP    = false;
+    [System.NonSerialized] public bool isOwnerInputKey_C_D_DOWN  = false;
 
     [System.NonSerialized] public bool isClientInputKey_A = false;
     [System.NonSerialized] public bool isClientInputKey_D = false;
@@ -46,6 +50,10 @@ public class DataManager : MonoBehaviourPunCallbacks
     [System.NonSerialized] public bool isClientInputKey_C_L_LEFT = false;
     [System.NonSerialized] public bool isClientInputKey_C_L_UP = false;
     [System.NonSerialized] public bool isClientInputKey_C_L_DOWN = false;
+    [System.NonSerialized] public bool isClientInputKey_C_D_RIGHT = false;//パッドの十字キー
+    [System.NonSerialized] public bool isClientInputKey_C_D_LEFT  = false;
+    [System.NonSerialized] public bool isClientInputKey_C_D_UP    = false;
+    [System.NonSerialized] public bool isClientInputKey_C_D_DOWN  = false;
 
 
 

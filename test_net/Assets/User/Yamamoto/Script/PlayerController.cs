@@ -47,11 +47,11 @@ public class PlayerController : MonoBehaviourPunCallbacks
         //test_net.Enable();
 
         // デバイス一覧を取得
-        foreach (var device in InputSystem.devices)
-        {
-            // デバイス名をログ出力
-            Debug.Log(device.name);
-        }
+        //foreach (var device in InputSystem.devices)
+        //{
+        //    // デバイス名をログ出力
+        //    Debug.Log(device.name);
+        //}
 
     }
     void Update()
@@ -77,6 +77,11 @@ public class PlayerController : MonoBehaviourPunCallbacks
                     Move();
                     Debug.Log("特殊");
                 }
+            }
+
+            if(datamanager.isOwnerInputKey_C_D_UP && datamanager.isClientInputKey_C_D_UP)
+            {
+                Debug.Log("上キー両押し");
             }
         }
     }

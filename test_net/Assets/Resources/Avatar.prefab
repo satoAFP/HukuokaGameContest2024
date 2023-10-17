@@ -162,7 +162,6 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 5226286168327482328}
   - {fileID: 380356865839061132}
-  - {fileID: 0}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -396,9 +395,101 @@ MonoBehaviour:
     m_ActionId: 0dfee1f5-e913-4d6f-9bf6-7f84e995ac05
     m_ActionName: Player/LTriggerRelease[/XInputControllerWindows/leftTrigger]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 8605329434926695506}
+        m_TargetAssemblyTypeName: PlayerGimmickActionManagement, Assembly-CSharp
+        m_MethodName: OnOpenActionPress
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: f87cae31-a724-4154-8cda-604430480e72
     m_ActionName: Player/OpenAction[/XInputControllerWindows/dpad/up]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8605329434926695506}
+        m_TargetAssemblyTypeName: PlayerGimmickActionManagement, Assembly-CSharp
+        m_MethodName: OnOpenActionRelease
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 9ed57fb7-7d8f-43e9-9ad4-fa4d84a55a2c
+    m_ActionName: Player/OpenActionRelese[/XInputControllerWindows/dpad/up]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8605329434926695506}
+        m_TargetAssemblyTypeName: PlayerGimmickActionManagement, Assembly-CSharp
+        m_MethodName: OnR_D_PadPress
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: ed4b0f35-ec93-448b-8b03-a5dae06f8309
+    m_ActionName: Player/R_D_PadPress[/XInputControllerWindows/dpad/right]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8605329434926695506}
+        m_TargetAssemblyTypeName: PlayerGimmickActionManagement, Assembly-CSharp
+        m_MethodName: OnR_D_PadRelease
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 55c5f59d-6a99-432d-aa0b-d85d600eda9a
+    m_ActionName: Player/R_D_PadRelease[/XInputControllerWindows/dpad/right]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8605329434926695506}
+        m_TargetAssemblyTypeName: PlayerGimmickActionManagement, Assembly-CSharp
+        m_MethodName: OnL_D_PadPress
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 25a3ff20-4335-47af-86d4-beff1f6ff5f6
+    m_ActionName: Player/L_D_PadPress[/XInputControllerWindows/dpad/left]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8605329434926695506}
+        m_TargetAssemblyTypeName: PlayerGimmickActionManagement, Assembly-CSharp
+        m_MethodName: OnL_D_PadRelease
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: f2b9eed9-7ffc-41b9-bee0-c4499fac72b0
+    m_ActionName: Player/L_D_PadRelease[/XInputControllerWindows/dpad/left]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Gamepad
   m_DefaultActionMap: Player
