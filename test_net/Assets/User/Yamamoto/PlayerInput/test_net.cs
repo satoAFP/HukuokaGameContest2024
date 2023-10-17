@@ -107,6 +107,15 @@ public partial class @Test_net: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": ""Press(behavior=1)"",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""OpenAction"",
+                    ""type"": ""Button"",
+                    ""id"": ""f87cae31-a724-4154-8cda-604430480e72"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -206,6 +215,17 @@ public partial class @Test_net: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""LTriggerRelease"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""11f6b7ad-5ff1-42dc-b089-cda55599d325"",
+                    ""path"": ""<Gamepad>/dpad/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""OpenAction"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -802,6 +822,7 @@ public partial class @Test_net: IInputActionCollection2, IDisposable
         m_Player_RTriggerRelease = m_Player.FindAction("RTriggerRelease", throwIfNotFound: true);
         m_Player_LTriggerPress = m_Player.FindAction("LTriggerPress", throwIfNotFound: true);
         m_Player_LTriggerRelease = m_Player.FindAction("LTriggerRelease", throwIfNotFound: true);
+        m_Player_OpenAction = m_Player.FindAction("OpenAction", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -884,6 +905,7 @@ public partial class @Test_net: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_RTriggerRelease;
     private readonly InputAction m_Player_LTriggerPress;
     private readonly InputAction m_Player_LTriggerRelease;
+    private readonly InputAction m_Player_OpenAction;
     public struct PlayerActions
     {
         private @Test_net m_Wrapper;
@@ -897,6 +919,7 @@ public partial class @Test_net: IInputActionCollection2, IDisposable
         public InputAction @RTriggerRelease => m_Wrapper.m_Player_RTriggerRelease;
         public InputAction @LTriggerPress => m_Wrapper.m_Player_LTriggerPress;
         public InputAction @LTriggerRelease => m_Wrapper.m_Player_LTriggerRelease;
+        public InputAction @OpenAction => m_Wrapper.m_Player_OpenAction;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -933,6 +956,9 @@ public partial class @Test_net: IInputActionCollection2, IDisposable
             @LTriggerRelease.started += instance.OnLTriggerRelease;
             @LTriggerRelease.performed += instance.OnLTriggerRelease;
             @LTriggerRelease.canceled += instance.OnLTriggerRelease;
+            @OpenAction.started += instance.OnOpenAction;
+            @OpenAction.performed += instance.OnOpenAction;
+            @OpenAction.canceled += instance.OnOpenAction;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -964,6 +990,9 @@ public partial class @Test_net: IInputActionCollection2, IDisposable
             @LTriggerRelease.started -= instance.OnLTriggerRelease;
             @LTriggerRelease.performed -= instance.OnLTriggerRelease;
             @LTriggerRelease.canceled -= instance.OnLTriggerRelease;
+            @OpenAction.started -= instance.OnOpenAction;
+            @OpenAction.performed -= instance.OnOpenAction;
+            @OpenAction.canceled -= instance.OnOpenAction;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -1155,6 +1184,7 @@ public partial class @Test_net: IInputActionCollection2, IDisposable
         void OnRTriggerRelease(InputAction.CallbackContext context);
         void OnLTriggerPress(InputAction.CallbackContext context);
         void OnLTriggerRelease(InputAction.CallbackContext context);
+        void OnOpenAction(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

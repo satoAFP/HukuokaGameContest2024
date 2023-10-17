@@ -81,13 +81,25 @@ public class PlayerController : MonoBehaviourPunCallbacks
         }
     }
 
+
     private void Move()//移動処理（計算部分）
     {
         //プレイヤーが入力した方向に横方向限定で移動速度分の力を加える
         rigid.velocity = new Vector2(inputDirection.x * moveSpeed, rigid.velocity.y);
     }
 
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        //プレイヤーが床または着地出来るものに乗っている時、再ジャンプ可能にする
+        if (collision.gameObject.tag == "Floor")
+        {
+            bjump = false;
 
+        }
+    }
+
+    //playerinputで起動させる関数
+    //移動処理
     public void OnMove(InputAction.CallbackContext context)
     {
         if (gameObject.name == "Player2")
@@ -109,6 +121,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
         }
     }
 
+    //ジャンプ
     public void Onjump(InputAction.CallbackContext context)
     {
         //Input Systemからジャンプの入力があった時に呼ばれる
@@ -128,19 +141,20 @@ public class PlayerController : MonoBehaviourPunCallbacks
     public void OnAction(InputAction.CallbackContext context)
     {
         //操作が競合しないための設定
+        //if (photonView.IsMine)
+        //{
+        //    Debug.Log("アクション");
+        //}
+    }
+
+    //箱オープン
+    public void OnOpenAction(InputAction.CallbackContext context)
+    {
+        //操作が競合しないための設定
         if (photonView.IsMine)
         {
-            Debug.Log("アクション");
+            Debug.Log("箱開ける");
         }
     }
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        //プレイヤーが床または着地出来るものに乗っている時、再ジャンプ可能にする
-        if (collision.gameObject.tag == "Floor")
-        {
-            bjump = false;
-
-        }
-    }
+    
 }

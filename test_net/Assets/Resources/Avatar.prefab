@@ -394,6 +394,10 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 0dfee1f5-e913-4d6f-9bf6-7f84e995ac05
     m_ActionName: Player/LTriggerRelease[/XInputControllerWindows/leftTrigger]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: f87cae31-a724-4154-8cda-604430480e72
+    m_ActionName: Player/OpenAction[/XInputControllerWindows/dpad/up]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Gamepad
   m_DefaultActionMap: Player
