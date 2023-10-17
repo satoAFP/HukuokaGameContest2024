@@ -28,6 +28,8 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
     private Test_net test_net;//inputsystemをスクリプトで呼び出す
 
+    [System.NonSerialized]public bool islift = false;//持ち上げフラグ
+
     void Start()
     {
         //PlayerのRigidbody2Dコンポーネントを取得する
@@ -54,12 +56,26 @@ public class PlayerController : MonoBehaviourPunCallbacks
     }
     void Update()
     {
-        
+
+        DataManager datamanager = ManagerAccessor.Instance.dataManager;
+
         //操作が競合しないための設定
         if (photonView.IsMine)
         {
-
-            Move();//移動処理をON
+            //持ち上げていないときは普通に移動させる
+            if(!islift)
+            {
+                Move();//移動処理をON
+            }
+            else
+            {
+                //持ち上げている時は2プレイヤーが同じ移動方向を入力時移動
+                if ((datamanager.isOwnerInputKey_C_L_RIGHT&& datamanager.isClientInputKey_C_L_RIGHT)||
+                   (datamanager.isOwnerInputKey_C_L_LEFT && datamanager.isClientInputKey_C_L_LEFT))
+                {
+                    Move();
+                }
+            }
         }
     }
 
