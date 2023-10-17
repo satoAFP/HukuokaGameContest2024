@@ -22,6 +22,12 @@ public class DataManager : MonoBehaviourPunCallbacks
         set { isClientClear = value; }
     }
 
+
+    //プレイヤーオブジェクト取得
+    [System.NonSerialized] public GameObject player1 = null;
+    [System.NonSerialized] public GameObject player2 = null;
+
+
     //キー入力情報
     [System.NonSerialized] public bool isOwnerInputKey_A = false;
     [System.NonSerialized] public bool isOwnerInputKey_D = false;
@@ -87,6 +93,22 @@ public class DataManager : MonoBehaviourPunCallbacks
     void Start()
     {
         ManagerAccessor.Instance.dataManager = this;
+    }
+
+
+    //プレイヤー取得用関数
+    public GameObject GetPlyerObj(string name)
+    {
+        //プレイヤー取得
+        GameObject[] p = GameObject.FindGameObjectsWithTag("Player");
+
+        //それぞれ名前が一致したら返す
+        if (p[0].name == name)
+            return p[0];
+        else if (p[1].name == name)
+            return p[1];
+        else
+            return null;
     }
 
 

@@ -28,65 +28,62 @@ public class GimmickBlock : CGimmick
 
     private void FixedUpdate()
     {
-        if (PhotonNetwork.LocalPlayer.IsMasterClient)
-            Player = GetPlyerObj("Player1");
-        else
-            Player = GetPlyerObj("Player2");
-
-        //1P、2Pが触れているかつ、アクションしているとき持ち上がる
-        if (hitOwner && (ManagerAccessor.Instance.dataManager.isOwnerInputKey_LM || ManagerAccessor.Instance.dataManager.isOwnerInputKey_CB) &&
-            hitClient && (ManagerAccessor.Instance.dataManager.isClientInputKey_LM || ManagerAccessor.Instance.dataManager.isClientInputKey_CB))
+        if (ManagerAccessor.Instance.dataManager.player1 != null && ManagerAccessor.Instance.dataManager.player2 != null) 
         {
-            if(first)
+            //1P、2Pが触れているかつ、アクションしているとき持ち上がる
+            if (hitOwner && (ManagerAccessor.Instance.dataManager.isOwnerInputKey_LM || ManagerAccessor.Instance.dataManager.isOwnerInputKey_CB) &&
+                hitClient && (ManagerAccessor.Instance.dataManager.isClientInputKey_LM || ManagerAccessor.Instance.dataManager.isClientInputKey_CB))
             {
-                //持ち上がった位置に移動
-                Vector3 input = gameObject.transform.position;
-                input.y += 0.5f;
-                gameObject.transform.localPosition = input;
+                if (first)
+                {
+                    //持ち上がった位置に移動
+                    Vector3 input = gameObject.transform.position;
+                    input.y += 0.5f;
+                    gameObject.transform.localPosition = input;
 
-                dis = transform.position - Player.transform.position;
-                
-                first = false;
+                    dis = transform.position - Player.transform.position;
 
-                
+                    first = false;
+
+
+                }
+
+                //プレイヤーに追従させる
+                gameObject.transform.position = dis + Player.transform.position;
+
+                //プレイヤーが動いているとき、ブロックサイドも同期させる
+                if (Player.GetComponent<AvatarTransformView>().isPlayerMove)
+                    GetComponent<AvatarOnlyTransformView>().isPlayerMove = true;
+                else
+                    GetComponent<AvatarOnlyTransformView>().isPlayerMove = false;
+
+                liftMode = true;
+                Player.GetComponent<PlayerController>().islift = true;
             }
-
-            //プレイヤーに追従させる
-            gameObject.transform.position = dis + Player.transform.position;
-
-            //プレイヤーが動いているとき、ブロックサイドも同期させる
-            if (Player.GetComponent<AvatarTransformView>().isPlayerMove)
-                GetComponent<AvatarOnlyTransformView>().isPlayerMove = true;
             else
+            {
+                if (!first)
+                {
+
+                    //元の高さに戻す
+                    Vector3 input = gameObject.transform.position;
+                    input.y -= 0.5f;
+                    gameObject.transform.localPosition = input;
+
+                    dis = new Vector3(gameObject.transform.position.x - Player.transform.position.x, gameObject.transform.position.y - Player.transform.position.y, 0);
+
+                    first = true;
+
+
+                }
+
+                //同期解除
                 GetComponent<AvatarOnlyTransformView>().isPlayerMove = false;
 
-            liftMode = true;
-            Player.GetComponent<PlayerController>().islift = true;
-        }
-        else
-        {
-            if (!first)
-            {
-
-                //元の高さに戻す
-                Vector3 input = gameObject.transform.position;
-                input.y -= 0.5f;
-                gameObject.transform.localPosition = input;
-
-                dis = new Vector3(gameObject.transform.position.x - Player.transform.position.x, gameObject.transform.position.y - Player.transform.position.y, 0);
-
-                first = true;
-
-                
+                liftMode = false;
+                Player.GetComponent<PlayerController>().islift = false;
             }
-
-            //同期解除
-            GetComponent<AvatarOnlyTransformView>().isPlayerMove = false;
-
-            liftMode = false;
-            Player.GetComponent<PlayerController>().islift = false;
         }
-
 
     }
 
