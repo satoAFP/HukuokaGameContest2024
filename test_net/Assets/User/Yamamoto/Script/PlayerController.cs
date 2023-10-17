@@ -80,8 +80,10 @@ public class PlayerController : MonoBehaviourPunCallbacks
             //持ち上げていないときは普通に移動させる
             if(!islift)
             {
+                ManagerAccessor.Instance.dataManager.player2.GetComponent<PlayerController>().islift = islift;
+
                 //isliftの状況を共有
-                if(isliftfirst)
+                if (isliftfirst)
                 {
                     photonView.RPC(nameof(RpcShareIsLift), RpcTarget.Others, false);
                     isliftfirst = false;
@@ -95,6 +97,8 @@ public class PlayerController : MonoBehaviourPunCallbacks
             }
             else
             {
+                ManagerAccessor.Instance.dataManager.player2.GetComponent<PlayerController>().islift = islift;
+
                 //isliftの状況を共有
                 if (!isliftfirst)
                 {
@@ -131,10 +135,13 @@ public class PlayerController : MonoBehaviourPunCallbacks
             if ((datamanager.isOwnerInputKey_C_L_RIGHT && datamanager.isClientInputKey_C_L_RIGHT) ||
                (datamanager.isOwnerInputKey_C_L_LEFT && datamanager.isClientInputKey_C_L_LEFT))
             {
+                Debug.Log("aaa");
                 if (islift)
                 {
+                    Debug.Log("bbb");
                     if (PhotonNetwork.LocalPlayer.IsMasterClient)
                     {
+                        Debug.Log("ccc");
                         //物を持ち上げて移動するとき、最初にプレイヤー同士の差を求める
                         if (distanceFirst)
                         {
