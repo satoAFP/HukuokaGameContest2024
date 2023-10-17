@@ -107,6 +107,60 @@ public partial class @Test_net: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": ""Press(behavior=1)"",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""OpenActionPress"",
+                    ""type"": ""Button"",
+                    ""id"": ""f87cae31-a724-4154-8cda-604430480e72"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""OpenActionRelese"",
+                    ""type"": ""Button"",
+                    ""id"": ""9ed57fb7-7d8f-43e9-9ad4-fa4d84a55a2c"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press(behavior=1)"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""R_D_PadPress"",
+                    ""type"": ""Button"",
+                    ""id"": ""ed4b0f35-ec93-448b-8b03-a5dae06f8309"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""R_D_PadRelease"",
+                    ""type"": ""Button"",
+                    ""id"": ""55c5f59d-6a99-432d-aa0b-d85d600eda9a"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press(behavior=1)"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""L_D_PadPress"",
+                    ""type"": ""Button"",
+                    ""id"": ""25a3ff20-4335-47af-86d4-beff1f6ff5f6"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""L_D_PadRelease"",
+                    ""type"": ""Button"",
+                    ""id"": ""f2b9eed9-7ffc-41b9-bee0-c4499fac72b0"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press(behavior=1)"",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -206,6 +260,72 @@ public partial class @Test_net: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""LTriggerRelease"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""11f6b7ad-5ff1-42dc-b089-cda55599d325"",
+                    ""path"": ""<Gamepad>/dpad/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""OpenActionPress"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""39282179-45bf-4ea6-8f2c-389e73e12bde"",
+                    ""path"": ""<Gamepad>/dpad/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""OpenActionRelese"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d679251d-ea98-4ac9-9ed3-24d86b672aab"",
+                    ""path"": ""<Gamepad>/dpad/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""R_D_PadPress"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f6d8c045-d97c-498a-9197-3e47409d4d94"",
+                    ""path"": ""<Gamepad>/dpad/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""R_D_PadRelease"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""dfb2b769-010d-4f82-a3cc-9735c1312c19"",
+                    ""path"": ""<Gamepad>/dpad/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""L_D_PadPress"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e60a73de-2a86-4fb2-b24f-0c3fd02a756d"",
+                    ""path"": ""<Gamepad>/dpad/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""L_D_PadRelease"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -802,6 +922,12 @@ public partial class @Test_net: IInputActionCollection2, IDisposable
         m_Player_RTriggerRelease = m_Player.FindAction("RTriggerRelease", throwIfNotFound: true);
         m_Player_LTriggerPress = m_Player.FindAction("LTriggerPress", throwIfNotFound: true);
         m_Player_LTriggerRelease = m_Player.FindAction("LTriggerRelease", throwIfNotFound: true);
+        m_Player_OpenActionPress = m_Player.FindAction("OpenActionPress", throwIfNotFound: true);
+        m_Player_OpenActionRelese = m_Player.FindAction("OpenActionRelese", throwIfNotFound: true);
+        m_Player_R_D_PadPress = m_Player.FindAction("R_D_PadPress", throwIfNotFound: true);
+        m_Player_R_D_PadRelease = m_Player.FindAction("R_D_PadRelease", throwIfNotFound: true);
+        m_Player_L_D_PadPress = m_Player.FindAction("L_D_PadPress", throwIfNotFound: true);
+        m_Player_L_D_PadRelease = m_Player.FindAction("L_D_PadRelease", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -884,6 +1010,12 @@ public partial class @Test_net: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_RTriggerRelease;
     private readonly InputAction m_Player_LTriggerPress;
     private readonly InputAction m_Player_LTriggerRelease;
+    private readonly InputAction m_Player_OpenActionPress;
+    private readonly InputAction m_Player_OpenActionRelese;
+    private readonly InputAction m_Player_R_D_PadPress;
+    private readonly InputAction m_Player_R_D_PadRelease;
+    private readonly InputAction m_Player_L_D_PadPress;
+    private readonly InputAction m_Player_L_D_PadRelease;
     public struct PlayerActions
     {
         private @Test_net m_Wrapper;
@@ -897,6 +1029,12 @@ public partial class @Test_net: IInputActionCollection2, IDisposable
         public InputAction @RTriggerRelease => m_Wrapper.m_Player_RTriggerRelease;
         public InputAction @LTriggerPress => m_Wrapper.m_Player_LTriggerPress;
         public InputAction @LTriggerRelease => m_Wrapper.m_Player_LTriggerRelease;
+        public InputAction @OpenActionPress => m_Wrapper.m_Player_OpenActionPress;
+        public InputAction @OpenActionRelese => m_Wrapper.m_Player_OpenActionRelese;
+        public InputAction @R_D_PadPress => m_Wrapper.m_Player_R_D_PadPress;
+        public InputAction @R_D_PadRelease => m_Wrapper.m_Player_R_D_PadRelease;
+        public InputAction @L_D_PadPress => m_Wrapper.m_Player_L_D_PadPress;
+        public InputAction @L_D_PadRelease => m_Wrapper.m_Player_L_D_PadRelease;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -933,6 +1071,24 @@ public partial class @Test_net: IInputActionCollection2, IDisposable
             @LTriggerRelease.started += instance.OnLTriggerRelease;
             @LTriggerRelease.performed += instance.OnLTriggerRelease;
             @LTriggerRelease.canceled += instance.OnLTriggerRelease;
+            @OpenActionPress.started += instance.OnOpenActionPress;
+            @OpenActionPress.performed += instance.OnOpenActionPress;
+            @OpenActionPress.canceled += instance.OnOpenActionPress;
+            @OpenActionRelese.started += instance.OnOpenActionRelese;
+            @OpenActionRelese.performed += instance.OnOpenActionRelese;
+            @OpenActionRelese.canceled += instance.OnOpenActionRelese;
+            @R_D_PadPress.started += instance.OnR_D_PadPress;
+            @R_D_PadPress.performed += instance.OnR_D_PadPress;
+            @R_D_PadPress.canceled += instance.OnR_D_PadPress;
+            @R_D_PadRelease.started += instance.OnR_D_PadRelease;
+            @R_D_PadRelease.performed += instance.OnR_D_PadRelease;
+            @R_D_PadRelease.canceled += instance.OnR_D_PadRelease;
+            @L_D_PadPress.started += instance.OnL_D_PadPress;
+            @L_D_PadPress.performed += instance.OnL_D_PadPress;
+            @L_D_PadPress.canceled += instance.OnL_D_PadPress;
+            @L_D_PadRelease.started += instance.OnL_D_PadRelease;
+            @L_D_PadRelease.performed += instance.OnL_D_PadRelease;
+            @L_D_PadRelease.canceled += instance.OnL_D_PadRelease;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -964,6 +1120,24 @@ public partial class @Test_net: IInputActionCollection2, IDisposable
             @LTriggerRelease.started -= instance.OnLTriggerRelease;
             @LTriggerRelease.performed -= instance.OnLTriggerRelease;
             @LTriggerRelease.canceled -= instance.OnLTriggerRelease;
+            @OpenActionPress.started -= instance.OnOpenActionPress;
+            @OpenActionPress.performed -= instance.OnOpenActionPress;
+            @OpenActionPress.canceled -= instance.OnOpenActionPress;
+            @OpenActionRelese.started -= instance.OnOpenActionRelese;
+            @OpenActionRelese.performed -= instance.OnOpenActionRelese;
+            @OpenActionRelese.canceled -= instance.OnOpenActionRelese;
+            @R_D_PadPress.started -= instance.OnR_D_PadPress;
+            @R_D_PadPress.performed -= instance.OnR_D_PadPress;
+            @R_D_PadPress.canceled -= instance.OnR_D_PadPress;
+            @R_D_PadRelease.started -= instance.OnR_D_PadRelease;
+            @R_D_PadRelease.performed -= instance.OnR_D_PadRelease;
+            @R_D_PadRelease.canceled -= instance.OnR_D_PadRelease;
+            @L_D_PadPress.started -= instance.OnL_D_PadPress;
+            @L_D_PadPress.performed -= instance.OnL_D_PadPress;
+            @L_D_PadPress.canceled -= instance.OnL_D_PadPress;
+            @L_D_PadRelease.started -= instance.OnL_D_PadRelease;
+            @L_D_PadRelease.performed -= instance.OnL_D_PadRelease;
+            @L_D_PadRelease.canceled -= instance.OnL_D_PadRelease;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -1155,6 +1329,12 @@ public partial class @Test_net: IInputActionCollection2, IDisposable
         void OnRTriggerRelease(InputAction.CallbackContext context);
         void OnLTriggerPress(InputAction.CallbackContext context);
         void OnLTriggerRelease(InputAction.CallbackContext context);
+        void OnOpenActionPress(InputAction.CallbackContext context);
+        void OnOpenActionRelese(InputAction.CallbackContext context);
+        void OnR_D_PadPress(InputAction.CallbackContext context);
+        void OnR_D_PadRelease(InputAction.CallbackContext context);
+        void OnL_D_PadPress(InputAction.CallbackContext context);
+        void OnL_D_PadRelease(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

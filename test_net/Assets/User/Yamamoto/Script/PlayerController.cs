@@ -47,11 +47,11 @@ public class PlayerController : MonoBehaviourPunCallbacks
         //test_net.Enable();
 
         // デバイス一覧を取得
-        foreach (var device in InputSystem.devices)
-        {
-            // デバイス名をログ出力
-            Debug.Log(device.name);
-        }
+        //foreach (var device in InputSystem.devices)
+        //{
+        //    // デバイス名をログ出力
+        //    Debug.Log(device.name);
+        //}
 
     }
     void Update()
@@ -78,8 +78,14 @@ public class PlayerController : MonoBehaviourPunCallbacks
                     Debug.Log("特殊");
                 }
             }
+
+            if(datamanager.isOwnerInputKey_C_D_UP && datamanager.isClientInputKey_C_D_UP)
+            {
+                Debug.Log("上キー両押し");
+            }
         }
     }
+
 
     private void Move()//移動処理（計算部分）
     {
@@ -87,7 +93,18 @@ public class PlayerController : MonoBehaviourPunCallbacks
         rigid.velocity = new Vector2(inputDirection.x * moveSpeed, rigid.velocity.y);
     }
 
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        //プレイヤーが床または着地出来るものに乗っている時、再ジャンプ可能にする
+        if (collision.gameObject.tag == "Floor")
+        {
+            bjump = false;
 
+        }
+    }
+
+    //playerinputで起動させる関数
+    //移動処理
     public void OnMove(InputAction.CallbackContext context)
     {
         if (gameObject.name == "Player2")
@@ -109,6 +126,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
         }
     }
 
+    //ジャンプ
     public void Onjump(InputAction.CallbackContext context)
     {
         //Input Systemからジャンプの入力があった時に呼ばれる
@@ -128,19 +146,20 @@ public class PlayerController : MonoBehaviourPunCallbacks
     public void OnAction(InputAction.CallbackContext context)
     {
         //操作が競合しないための設定
+        //if (photonView.IsMine)
+        //{
+        //    Debug.Log("アクション");
+        //}
+    }
+
+    //箱オープン
+    public void OnOpenAction(InputAction.CallbackContext context)
+    {
+        //操作が競合しないための設定
         if (photonView.IsMine)
         {
-            Debug.Log("アクション");
+            Debug.Log("箱開ける");
         }
     }
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        //プレイヤーが床または着地出来るものに乗っている時、再ジャンプ可能にする
-        if (collision.gameObject.tag == "Floor")
-        {
-            bjump = false;
-
-        }
-    }
+    
 }
