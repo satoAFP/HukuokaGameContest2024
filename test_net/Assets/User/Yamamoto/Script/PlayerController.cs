@@ -103,7 +103,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
                             distanceFirst = false;
                         }
 
-                        transform.position = datamanager.player1.transform.position + dis;
+                        transform.position = datamanager.player1.transform.position - dis;
                     }
                 }
             }
@@ -122,7 +122,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
                     distanceFirst = false;
                 }
 
-                transform.position = datamanager.player1.transform.position + dis;
+                transform.position = datamanager.player1.transform.position - dis;
             }
             else
             {
