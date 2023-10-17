@@ -8,8 +8,7 @@ public class GimmickBlock : CGimmick
     //オブジェクトが持ち上がっているとき
     [System.NonSerialized] public bool liftMode = false;
 
-    //プレイヤー取得用
-    private GameObject Player;
+    private GameObject Player = null;
 
     //1P、2Pがそれぞれ当たっている判定
     private bool hitOwner = false;
@@ -30,6 +29,11 @@ public class GimmickBlock : CGimmick
     {
         if (ManagerAccessor.Instance.dataManager.player1 != null && ManagerAccessor.Instance.dataManager.player2 != null) 
         {
+            if (PhotonNetwork.LocalPlayer.IsMasterClient)
+                Player = ManagerAccessor.Instance.dataManager.player1;
+            else
+                Player = ManagerAccessor.Instance.dataManager.player2;
+
             //1P、2Pが触れているかつ、アクションしているとき持ち上がる
             if (hitOwner && (ManagerAccessor.Instance.dataManager.isOwnerInputKey_LM || ManagerAccessor.Instance.dataManager.isOwnerInputKey_CB) &&
                 hitClient && (ManagerAccessor.Instance.dataManager.isClientInputKey_LM || ManagerAccessor.Instance.dataManager.isClientInputKey_CB))
