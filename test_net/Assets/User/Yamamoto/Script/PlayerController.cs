@@ -32,6 +32,10 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
     [System.NonSerialized]public bool islift = false;//持ち上げフラグ
 
+    //物を持ち上げて移動するとき、最初にプレイヤー同士の差を求める
+    private bool distanceFirst = true;
+    private Vector3 dis = Vector3.zero;
+
     void Start()
     {
         //PlayerのRigidbody2Dコンポーネントを取得する
@@ -76,6 +80,8 @@ public class PlayerController : MonoBehaviourPunCallbacks
             {
                 Move();//移動処理をON
                 Debug.Log("デフォルト");
+
+                distanceFirst = true;
             }
             else
             {
@@ -83,12 +89,45 @@ public class PlayerController : MonoBehaviourPunCallbacks
                 if ((datamanager.isOwnerInputKey_C_L_RIGHT&& datamanager.isClientInputKey_C_L_RIGHT)||
                    (datamanager.isOwnerInputKey_C_L_LEFT && datamanager.isClientInputKey_C_L_LEFT))
                 {
-                    Move();
-                    Debug.Log("特殊");
+                    if (PhotonNetwork.LocalPlayer.IsMasterClient)
+                    {
+                        Move();
+                        Debug.Log("特殊");
+                    }
+                    else
+                    {
+                        //物を持ち上げて移動するとき、最初にプレイヤー同士の差を求める
+                        if (distanceFirst)
+                        {
+                            dis = datamanager.player1.transform.position - datamanager.player2.transform.position;
+                            distanceFirst = false;
+                        }
+
+                        transform.position = datamanager.player1.transform.position + dis;
+                    }
                 }
             }
+        }
+        else
+        {
+            //持ち上げている時は2プレイヤーが同じ移動方向を入力時移動
+            if (((datamanager.isOwnerInputKey_C_L_RIGHT && datamanager.isClientInputKey_C_L_RIGHT) ||
+               (datamanager.isOwnerInputKey_C_L_LEFT && datamanager.isClientInputKey_C_L_LEFT)) &&
+               islift && PhotonNetwork.LocalPlayer.IsMasterClient)
+            {
+                //物を持ち上げて移動するとき、最初にプレイヤー同士の差を求める
+                if (distanceFirst)
+                {
+                    dis = datamanager.player1.transform.position - datamanager.player2.transform.position;
+                    distanceFirst = false;
+                }
 
-            
+                transform.position = datamanager.player1.transform.position + dis;
+            }
+            else
+            {
+                distanceFirst = true;
+            }
         }
 
         //上ボタンの同時押し

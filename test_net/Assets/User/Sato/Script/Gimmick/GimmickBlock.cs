@@ -20,10 +20,6 @@ public class GimmickBlock : CGimmick
     //連続で反応しないための処理
     private bool first = true;
 
-    private void Start()
-    {
-        
-    }
 
     private void FixedUpdate()
     {
@@ -48,8 +44,6 @@ public class GimmickBlock : CGimmick
                     dis = transform.position - Player.transform.position;
 
                     first = false;
-
-
                 }
 
                 //プレイヤーに追従させる
@@ -77,8 +71,6 @@ public class GimmickBlock : CGimmick
                     dis = new Vector3(gameObject.transform.position.x - Player.transform.position.x, gameObject.transform.position.y - Player.transform.position.y, 0);
 
                     first = true;
-
-
                 }
 
                 //同期解除
