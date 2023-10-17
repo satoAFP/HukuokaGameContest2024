@@ -70,17 +70,6 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
         DataManager datamanager = ManagerAccessor.Instance.dataManager;
 
-        //if (gameObject.name == "Player1")
-        //{
-        //    p1pos = transform.position;
-        //    Debug.Log("p1現在地=" + p1pos);
-        //}
-        //if (gameObject.name == "Player2")
-        //{
-        //    p2pos = transform.position;
-        //    Debug.Log("p2現在地=" + p1pos);
-        //}
-
         //操作が競合しないための設定
         if (photonView.IsMine)
         {
@@ -88,10 +77,11 @@ public class PlayerController : MonoBehaviourPunCallbacks
             if (PhotonNetwork.LocalPlayer.IsMasterClient)
                 ManagerAccessor.Instance.dataManager.player2.GetComponent<PlayerController>().islift = islift;
 
+            //各プレイヤーの現在座標を取得
             p1pos = ManagerAccessor.Instance.dataManager.player1.transform.position;
-            Debug.Log("p1現在地=" + p1pos);
+            //Debug.Log("p1現在地=" + p1pos);
             p2pos = ManagerAccessor.Instance.dataManager.player2.transform.position;
-            Debug.Log("p2現在地=" + p2pos);
+            //Debug.Log("p2現在地=" + p2pos);
 
             //持ち上げていないときは普通に移動させる
             if (!islift)
