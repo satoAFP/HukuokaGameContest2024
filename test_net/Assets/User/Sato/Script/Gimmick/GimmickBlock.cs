@@ -49,6 +49,7 @@ public class GimmickBlock : CGimmick
                 GetComponent<AvatarOnlyTransformView>().isPlayerMove = false;
 
             liftMode = true;
+            Player.GetComponent<PlayerController>().islift = true;
         }
         else
         {
@@ -68,6 +69,7 @@ public class GimmickBlock : CGimmick
             GetComponent<AvatarOnlyTransformView>().isPlayerMove = false;
 
             liftMode = false;
+            Player.GetComponent<PlayerController>().islift = false;
         }
 
 
