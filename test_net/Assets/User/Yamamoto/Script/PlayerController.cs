@@ -82,12 +82,12 @@ public class PlayerController : MonoBehaviourPunCallbacks
             {
                 ManagerAccessor.Instance.dataManager.player2.GetComponent<PlayerController>().islift = islift;
 
-                //isliftの状況を共有
-                if (isliftfirst)
-                {
-                    photonView.RPC(nameof(RpcShareIsLift), RpcTarget.Others, false);
-                    isliftfirst = false;
-                }
+                ////isliftの状況を共有
+                //if (isliftfirst)
+                //{
+                //    photonView.RPC(nameof(RpcShareIsLift), RpcTarget.Others, false);
+                //    isliftfirst = false;
+                //}
 
 
                 Move();//移動処理をON
@@ -99,12 +99,12 @@ public class PlayerController : MonoBehaviourPunCallbacks
             {
                 ManagerAccessor.Instance.dataManager.player2.GetComponent<PlayerController>().islift = islift;
 
-                //isliftの状況を共有
-                if (!isliftfirst)
-                {
-                    photonView.RPC(nameof(RpcShareIsLift), RpcTarget.Others, true);
-                    isliftfirst = true;
-                }
+                ////isliftの状況を共有
+                //if (!isliftfirst)
+                //{
+                //    photonView.RPC(nameof(RpcShareIsLift), RpcTarget.Others, true);
+                //    isliftfirst = true;
+                //}
 
                 //持ち上げている時は2プレイヤーが同じ移動方向を入力時移動
                 if ((datamanager.isOwnerInputKey_C_L_RIGHT&& datamanager.isClientInputKey_C_L_RIGHT)||
