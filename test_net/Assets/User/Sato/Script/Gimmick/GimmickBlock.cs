@@ -37,6 +37,9 @@ public class GimmickBlock : CGimmick
                 dis = transform.position - Player.transform.position;
                 
                 first = false;
+
+                liftMode = true;
+                Player.GetComponent<PlayerController>().islift = true;
             }
 
             //ÉvÉåÉCÉÑÅ[Ç…í«è]Ç≥ÇπÇÈ
@@ -48,8 +51,7 @@ public class GimmickBlock : CGimmick
             else
                 GetComponent<AvatarOnlyTransformView>().isPlayerMove = false;
 
-            liftMode = true;
-            Player.GetComponent<PlayerController>().islift = true;
+            
         }
         else
         {
@@ -63,13 +65,15 @@ public class GimmickBlock : CGimmick
                 dis = new Vector3(gameObject.transform.position.x - Player.transform.position.x, gameObject.transform.position.y - Player.transform.position.y, 0);
 
                 first = true;
+
+                liftMode = false;
+                Player.GetComponent<PlayerController>().islift = false;
             }
 
             //ìØä˙âèú
             GetComponent<AvatarOnlyTransformView>().isPlayerMove = false;
 
-            liftMode = false;
-            Player.GetComponent<PlayerController>().islift = false;
+            
         }
 
 
