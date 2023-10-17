@@ -86,7 +86,7 @@ public class GimmickBlock : CGimmick
         {
             hitOwner = true;
 
-            if(photonView.IsMine)
+            if(PhotonNetwork.LocalPlayer.IsMasterClient)
             {
                 Player = collision.gameObject;
                 Debug.Log("1p");
@@ -97,7 +97,9 @@ public class GimmickBlock : CGimmick
         {
             hitClient = true;
 
-            if (photonView.IsMine)
+            Debug.Log("aaa");
+
+            if (!PhotonNetwork.LocalPlayer.IsMasterClient)
             {
                 Player = collision.gameObject;
                 Debug.Log("2p");
