@@ -23,14 +23,16 @@ public class GimmickBlock : CGimmick
 
     private void Start()
     {
-        if (PhotonNetwork.LocalPlayer.IsMasterClient)
-            Player = GetPlyerObj("Player1");
-        else
-            Player = GetPlyerObj("Player2");
+        
     }
 
     private void FixedUpdate()
     {
+        if (PhotonNetwork.LocalPlayer.IsMasterClient)
+            Player = GetPlyerObj("Player1");
+        else
+            Player = GetPlyerObj("Player2");
+
         //1P、2Pが触れているかつ、アクションしているとき持ち上がる
         if (hitOwner && (ManagerAccessor.Instance.dataManager.isOwnerInputKey_LM || ManagerAccessor.Instance.dataManager.isOwnerInputKey_CB) &&
             hitClient && (ManagerAccessor.Instance.dataManager.isClientInputKey_LM || ManagerAccessor.Instance.dataManager.isClientInputKey_CB))
@@ -65,6 +67,7 @@ public class GimmickBlock : CGimmick
         {
             if (!first)
             {
+
                 //元の高さに戻す
                 Vector3 input = gameObject.transform.position;
                 input.y -= 0.5f;
