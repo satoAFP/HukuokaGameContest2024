@@ -12,6 +12,20 @@ public class CGimmick : MonoBehaviourPunCallbacks
     protected bool p1_Button = false;
     protected bool p2_Button = false;
 
+    //プレイヤー取得用関数
+    public GameObject GetPlyerObj(string name)
+    {
+        //プレイヤー取得
+        GameObject[] p = GameObject.FindGameObjectsWithTag("Player");
+
+        //それぞれ名前が一致したら返す
+        if (p[0].name == name)
+            return p[0];
+        else if (p[1].name == name)
+            return p[1];
+        else
+            return null;
+    }
 
     [PunRPC]
     protected void RpcClearCheck(int master)

@@ -21,6 +21,14 @@ public class GimmickBlock : CGimmick
     //連続で反応しないための処理
     private bool first = true;
 
+    private void Start()
+    {
+        if (PhotonNetwork.LocalPlayer.IsMasterClient)
+            Player = GetPlyerObj("Player1");
+        else
+            Player = GetPlyerObj("Player2");
+    }
+
     private void FixedUpdate()
     {
         //1P、2Pが触れているかつ、アクションしているとき持ち上がる
@@ -85,25 +93,11 @@ public class GimmickBlock : CGimmick
         if (collision.gameObject.name == "Player1")
         {
             hitOwner = true;
-
-            if(PhotonNetwork.LocalPlayer.IsMasterClient)
-            {
-                Player = collision.gameObject;
-                Debug.Log("1p");
-            }
         }
 
         if (collision.gameObject.name == "Player2")
         {
             hitClient = true;
-
-            Debug.Log("aaa");
-
-            if (!PhotonNetwork.LocalPlayer.IsMasterClient)
-            {
-                Player = collision.gameObject;
-                Debug.Log("2p");
-            }
         }
     }
 
