@@ -162,6 +162,7 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 5226286168327482328}
   - {fileID: 380356865839061132}
+  - {fileID: 0}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -180,7 +181,7 @@ MonoBehaviour:
   m_SynchronizePosition: 1
   m_SynchronizeRotation: 0
   m_SynchronizeScale: 0
-  m_UseLocal: 1
+  m_UseLocal: 0
 --- !u!114 &1046249299908696261
 MonoBehaviour:
   m_ObjectHideFlags: 0
