@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class GimmickUnlockButton : CGimmick
 {
     //‚»‚ê‚¼‚ê‚Ìƒ{ƒ^ƒ““ü—Íó‹µ
