@@ -20,6 +20,7 @@ public class GimmickUnlockButton : CGimmick
     public List<bool> ClearSituation;
 
 
+
     private void Update()
     {
         if (ManagerAccessor.Instance.dataManager.isUnlockButtonStart)
@@ -54,6 +55,29 @@ public class GimmickUnlockButton : CGimmick
                                 break;
                         }
                     }
+                    else
+                    {
+                        switch (answer[i])
+                        {
+                            case (int)Key.A:
+                                if (ManagerAccessor.Instance.dataManager.isClientInputKey_CA)
+                                    ClearSituation[i] = true;
+                                break;
+                            case (int)Key.B:
+                                if (ManagerAccessor.Instance.dataManager.isClientInputKey_CB)
+                                    ClearSituation[i] = true;
+                                break;
+                            case (int)Key.X:
+                                if (ManagerAccessor.Instance.dataManager.isClientInputKey_CX)
+                                    ClearSituation[i] = true;
+                                break;
+                            case (int)Key.Y:
+                                if (ManagerAccessor.Instance.dataManager.isClientInputKey_CY)
+                                    ClearSituation[i] = true;
+                                break;
+                        }
+                    }
+                    break;
                 }
             }
         }

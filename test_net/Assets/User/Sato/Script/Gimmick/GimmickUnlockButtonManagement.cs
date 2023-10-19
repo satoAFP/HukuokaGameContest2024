@@ -112,7 +112,7 @@ public class GimmickUnlockButtonManagement : CGimmick
         {
             if(isUnlockButtonStartFirst)
             {
-                photonView.RPC(nameof(RpcShareAnswer), RpcTarget.Others, ManagerAccessor.Instance.dataManager.isUnlockButtonStart);
+                photonView.RPC(nameof(RpcShareIsUnlockButtonStart), RpcTarget.Others, ManagerAccessor.Instance.dataManager.isUnlockButtonStart);
                 isUnlockButtonStartFirst = false;
             }
         }
@@ -120,7 +120,7 @@ public class GimmickUnlockButtonManagement : CGimmick
         {
             if (!isUnlockButtonStartFirst)
             {
-                photonView.RPC(nameof(RpcShareAnswer), RpcTarget.Others, ManagerAccessor.Instance.dataManager.isUnlockButtonStart);
+                photonView.RPC(nameof(RpcShareIsUnlockButtonStart), RpcTarget.Others, ManagerAccessor.Instance.dataManager.isUnlockButtonStart);
                 isUnlockButtonStartFirst = true;
             }
         }

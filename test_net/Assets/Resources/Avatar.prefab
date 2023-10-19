@@ -351,7 +351,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 8605329434926695506}
         m_TargetAssemblyTypeName: PlayerGimmickActionManagement, Assembly-CSharp
-        m_MethodName: OnActionPress
+        m_MethodName: OnActionPressB
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -367,7 +367,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 8605329434926695506}
         m_TargetAssemblyTypeName: PlayerGimmickActionManagement, Assembly-CSharp
-        m_MethodName: OnActionRelease
+        m_MethodName: OnActionReleaseB
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -491,6 +491,102 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: f2b9eed9-7ffc-41b9-bee0-c4499fac72b0
     m_ActionName: Player/L_D_PadRelease[/XInputControllerWindows/dpad/left]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8605329434926695506}
+        m_TargetAssemblyTypeName: PlayerGimmickActionManagement, Assembly-CSharp
+        m_MethodName: OnActionPressA
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 3484cd2b-bc1f-4ed9-b26a-093a4fac76a5
+    m_ActionName: Player/ActionPressA[/DualShock4GamepadHID/buttonEast]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8605329434926695506}
+        m_TargetAssemblyTypeName: PlayerGimmickActionManagement, Assembly-CSharp
+        m_MethodName: OnActionPressX
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: ccb1e0a7-cbbb-438c-ba1e-befc63343994
+    m_ActionName: Player/ActionPressX[/DualShock4GamepadHID/buttonEast]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8605329434926695506}
+        m_TargetAssemblyTypeName: PlayerGimmickActionManagement, Assembly-CSharp
+        m_MethodName: OnActionPressY
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: c95e6ebc-2df2-4959-896c-c0f3f236fb3b
+    m_ActionName: Player/ActionPressY[/DualShock4GamepadHID/buttonEast]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8605329434926695506}
+        m_TargetAssemblyTypeName: PlayerGimmickActionManagement, Assembly-CSharp
+        m_MethodName: OnActionReleaseA
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 436f1b29-bb6c-4e57-bcfe-e5898e13971e
+    m_ActionName: Player/ActionReleaseA[/DualShock4GamepadHID/buttonEast]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8605329434926695506}
+        m_TargetAssemblyTypeName: PlayerGimmickActionManagement, Assembly-CSharp
+        m_MethodName: OnActionReleaseX
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: d3b6a551-55f5-4749-8a4a-67c5695909fc
+    m_ActionName: Player/ActionReleaseX[/DualShock4GamepadHID/buttonEast]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8605329434926695506}
+        m_TargetAssemblyTypeName: PlayerGimmickActionManagement, Assembly-CSharp
+        m_MethodName: OnActionReleaseY
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 6aa63851-77da-41e2-9107-db6102b28fe6
+    m_ActionName: Player/ActionReleaseY[/DualShock4GamepadHID/buttonEast]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Gamepad
   m_DefaultActionMap: Player

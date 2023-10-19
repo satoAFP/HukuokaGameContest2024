@@ -386,7 +386,7 @@ public partial class @Test_net: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""e4f42e7c-4cc3-4f8a-bfbf-4857600e9cdf"",
-                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -397,7 +397,7 @@ public partial class @Test_net: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""bc0952d2-8ea1-40d1-b4da-de5c58b011a9"",
-                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -408,7 +408,7 @@ public partial class @Test_net: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""c4ec7784-dc38-4634-a706-acf1350f237f"",
-                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""path"": ""<Gamepad>/buttonWest"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -419,7 +419,7 @@ public partial class @Test_net: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""763abef3-05b5-4963-931a-32cb4c6f028f"",
-                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -430,7 +430,7 @@ public partial class @Test_net: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""9dbf81b0-b316-4388-a103-cc0ac3f29916"",
-                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -441,7 +441,7 @@ public partial class @Test_net: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""6359e2bb-6256-4f44-9e34-4886fc3ef936"",
-                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""path"": ""<Gamepad>/buttonWest"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
