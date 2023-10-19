@@ -23,6 +23,10 @@ public class PlayerController : MonoBehaviourPunCallbacks
     //入力された方向を入れる変数
     private Vector2 inputDirection;
 
+    //各プレイヤーの座標
+    private Vector2 p1pos;
+    private Vector2 p2pos;
+
     //移動方向入れる変数
     private Rigidbody2D rigid;
 
@@ -59,15 +63,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
         }
 
         test_net = new Test_net();//スクリプトを変数に格納
-        //test_net.Enable();
-
-        // デバイス一覧を取得
-        //foreach (var device in InputSystem.devices)
-        //{
-        //    // デバイス名をログ出力
-        //    Debug.Log(device.name);
-        //}
-
+    
     }
     void Update()
     {
@@ -80,6 +76,12 @@ public class PlayerController : MonoBehaviourPunCallbacks
             //1Pの画面の2Pの情報更新
             if (PhotonNetwork.LocalPlayer.IsMasterClient)
                 ManagerAccessor.Instance.dataManager.player2.GetComponent<PlayerController>().islift = islift;
+
+            //各プレイヤーの現在座標を取得
+            p1pos = ManagerAccessor.Instance.dataManager.player1.transform.position;
+            //Debug.Log("p1現在地=" + p1pos);
+            p2pos = ManagerAccessor.Instance.dataManager.player2.transform.position;
+            //Debug.Log("p2現在地=" + p2pos);
 
             //持ち上げていないときは普通に移動させる
             if (!islift)
