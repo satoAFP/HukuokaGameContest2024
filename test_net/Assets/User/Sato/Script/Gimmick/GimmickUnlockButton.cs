@@ -20,6 +20,7 @@ public class GimmickUnlockButton : CGimmick
     public List<bool> ClearSituation;
 
 
+
     private void Update()
     {
         if (ManagerAccessor.Instance.dataManager.isUnlockButtonStart)
@@ -81,9 +82,6 @@ public class GimmickUnlockButton : CGimmick
             }
         }
 
-
-        if (ManagerAccessor.Instance.dataManager.isClientInputKey_CA)
-            Debug.Log("‰Ÿ‚µ‚Ä‚é");
 
     }
 
