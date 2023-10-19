@@ -19,14 +19,6 @@ public class GimmickUnlockButton : CGimmick
 
     public List<bool> ClearSituation;
 
-    private void Start()
-    {
-        for (int i = 0; i < answer.Count; i++)
-        {
-            ClearSituation.Add(false);
-        }
-    }
-
 
     private void Update()
     {

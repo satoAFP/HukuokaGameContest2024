@@ -89,6 +89,12 @@ public class GimmickUnlockButtonManagement : CGimmick
                     for (int i = 0; i < gimmickButton.Count; i++)
                     {
                         gimmickButton[i].GetComponent<GimmickUnlockButton>().answer = answer;
+
+                        //ƒNƒŠƒAó‹µ‰Šú‰»
+                        for(int j=0;j<answer.Count;i++)
+                        {
+                            gimmickButton[i].GetComponent<GimmickUnlockButton>().ClearSituation.Add(false);
+                        }
                     }
                     isAnswerFirst = false;
                 }
