@@ -47,6 +47,8 @@ MonoBehaviour:
   - RpcShareKey
   - RpcIsMove
   - RpcShareIsLift
+  - RpcShareAnswer
+  - RpcShareIsUnlockButtonStart
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

@@ -27,50 +27,55 @@ public class DataManager : MonoBehaviourPunCallbacks
     [System.NonSerialized] public GameObject player1 = null;
     [System.NonSerialized] public GameObject player2 = null;
 
+    //アンロックボタン操作中かどうか
+    [System.NonSerialized] public bool isUnlockButtonStart = false;
 
-    //キー入力情報
+
+    //キー入力情報(マスター)
+    //キーボード入力
     [System.NonSerialized] public bool isOwnerInputKey_A = false;
     [System.NonSerialized] public bool isOwnerInputKey_D = false;
     [System.NonSerialized] public bool isOwnerInputKey_W = false;
     [System.NonSerialized] public bool isOwnerInputKey_S = false;
     [System.NonSerialized] public bool isOwnerInputKey_B = false;
-
+    //マウス入力
     [System.NonSerialized] public bool isOwnerInputKey_LM = false;
-
+    //コントローラーボタン
     [System.NonSerialized] public bool isOwnerInputKey_CA = false;
     [System.NonSerialized] public bool isOwnerInputKey_CB = false;
     [System.NonSerialized] public bool isOwnerInputKey_CX = false;
     [System.NonSerialized] public bool isOwnerInputKey_CY = false;
-
+    //コントローラー左スティック
     [System.NonSerialized] public bool isOwnerInputKey_C_L_RIGHT = false;
-    [System.NonSerialized] public bool isOwnerInputKey_C_L_LEFT = false;
-    [System.NonSerialized] public bool isOwnerInputKey_C_L_UP = false;
+    [System.NonSerialized] public bool isOwnerInputKey_C_L_LEFT  = false;
+    [System.NonSerialized] public bool isOwnerInputKey_C_L_UP    = false;
     [System.NonSerialized] public bool isOwnerInputKey_C_L_DOWN  = false;
-
-    [System.NonSerialized] public bool isOwnerInputKey_C_D_RIGHT = false;//パッドの十字キー
+    //コントローラー十字キー
+    [System.NonSerialized] public bool isOwnerInputKey_C_D_RIGHT = false;
     [System.NonSerialized] public bool isOwnerInputKey_C_D_LEFT  = false;
     [System.NonSerialized] public bool isOwnerInputKey_C_D_UP    = false;
     [System.NonSerialized] public bool isOwnerInputKey_C_D_DOWN  = false;
 
-
+    //キー入力情報(クライアント)
+    //キーボード入力
     [System.NonSerialized] public bool isClientInputKey_A = false;
     [System.NonSerialized] public bool isClientInputKey_D = false;
     [System.NonSerialized] public bool isClientInputKey_W = false;
     [System.NonSerialized] public bool isClientInputKey_S = false;
     [System.NonSerialized] public bool isClientInputKey_B = false;
-
+    //マウス入力
     [System.NonSerialized] public bool isClientInputKey_LM = false;
-
+    //コントローラーボタン
     [System.NonSerialized] public bool isClientInputKey_CA = false;
     [System.NonSerialized] public bool isClientInputKey_CB = false;
     [System.NonSerialized] public bool isClientInputKey_CX = false;
     [System.NonSerialized] public bool isClientInputKey_CY = false;
-
+    //コントローラー左スティック
     [System.NonSerialized] public bool isClientInputKey_C_L_RIGHT = false;
-    [System.NonSerialized] public bool isClientInputKey_C_L_LEFT = false;
-    [System.NonSerialized] public bool isClientInputKey_C_L_UP = false;
-    [System.NonSerialized] public bool isClientInputKey_C_L_DOWN = false;
-
+    [System.NonSerialized] public bool isClientInputKey_C_L_LEFT  = false;
+    [System.NonSerialized] public bool isClientInputKey_C_L_UP    = false;
+    [System.NonSerialized] public bool isClientInputKey_C_L_DOWN  = false;
+    //コントローラー十字キー
     [System.NonSerialized] public bool isClientInputKey_C_D_RIGHT = false;//パッドの十字キー
     [System.NonSerialized] public bool isClientInputKey_C_D_LEFT  = false;
     [System.NonSerialized] public bool isClientInputKey_C_D_UP    = false;
