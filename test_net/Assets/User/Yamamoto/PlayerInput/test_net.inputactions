@@ -33,7 +33,16 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "ActionPress",
+                    "name": "ActionPressA",
+                    "type": "Button",
+                    "id": "3484cd2b-bc1f-4ed9-b26a-093a4fac76a5",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "ActionPressB",
                     "type": "Button",
                     "id": "4c76f708-f1db-4317-973e-be58ca49c14c",
                     "expectedControlType": "Button",
@@ -42,9 +51,54 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "ActionRelease",
+                    "name": "ActionPressX",
+                    "type": "Button",
+                    "id": "ccb1e0a7-cbbb-438c-ba1e-befc63343994",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "ActionPressY",
+                    "type": "Button",
+                    "id": "c95e6ebc-2df2-4959-896c-c0f3f236fb3b",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "ActionReleaseA",
+                    "type": "Button",
+                    "id": "436f1b29-bb6c-4e57-bcfe-e5898e13971e",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press(behavior=1)",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "ActionReleaseB",
                     "type": "Button",
                     "id": "164a73c6-e5b0-44db-899b-67282dc3f7db",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press(behavior=1)",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "ActionReleaseX",
+                    "type": "Button",
+                    "id": "d3b6a551-55f5-4749-8a4a-67c5695909fc",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press(behavior=1)",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "ActionReleaseY",
+                    "type": "Button",
+                    "id": "6aa63851-77da-41e2-9107-db6102b28fe6",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "Press(behavior=1)",
@@ -182,7 +236,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "ActionPress",
+                    "action": "ActionPressB",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -193,7 +247,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "ActionRelease",
+                    "action": "ActionReleaseB",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -304,6 +358,72 @@
                     "processors": "",
                     "groups": "",
                     "action": "L_D_PadRelease",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e4f42e7c-4cc3-4f8a-bfbf-4857600e9cdf",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ActionPressY",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "bc0952d2-8ea1-40d1-b4da-de5c58b011a9",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ActionPressA",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c4ec7784-dc38-4634-a706-acf1350f237f",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ActionPressX",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "763abef3-05b5-4963-931a-32cb4c6f028f",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ActionReleaseY",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "9dbf81b0-b316-4388-a103-cc0ac3f29916",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ActionReleaseA",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "6359e2bb-6256-4f44-9e34-4886fc3ef936",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ActionReleaseX",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

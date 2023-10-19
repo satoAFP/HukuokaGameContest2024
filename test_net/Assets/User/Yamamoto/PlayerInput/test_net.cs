@@ -55,7 +55,16 @@ public partial class @Test_net: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""ActionPress"",
+                    ""name"": ""ActionPressA"",
+                    ""type"": ""Button"",
+                    ""id"": ""3484cd2b-bc1f-4ed9-b26a-093a4fac76a5"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ActionPressB"",
                     ""type"": ""Button"",
                     ""id"": ""4c76f708-f1db-4317-973e-be58ca49c14c"",
                     ""expectedControlType"": ""Button"",
@@ -64,9 +73,54 @@ public partial class @Test_net: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""ActionRelease"",
+                    ""name"": ""ActionPressX"",
+                    ""type"": ""Button"",
+                    ""id"": ""ccb1e0a7-cbbb-438c-ba1e-befc63343994"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ActionPressY"",
+                    ""type"": ""Button"",
+                    ""id"": ""c95e6ebc-2df2-4959-896c-c0f3f236fb3b"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ActionReleaseA"",
+                    ""type"": ""Button"",
+                    ""id"": ""436f1b29-bb6c-4e57-bcfe-e5898e13971e"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press(behavior=1)"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ActionReleaseB"",
                     ""type"": ""Button"",
                     ""id"": ""164a73c6-e5b0-44db-899b-67282dc3f7db"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press(behavior=1)"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ActionReleaseX"",
+                    ""type"": ""Button"",
+                    ""id"": ""d3b6a551-55f5-4749-8a4a-67c5695909fc"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press(behavior=1)"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ActionReleaseY"",
+                    ""type"": ""Button"",
+                    ""id"": ""6aa63851-77da-41e2-9107-db6102b28fe6"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": ""Press(behavior=1)"",
@@ -204,7 +258,7 @@ public partial class @Test_net: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""ActionPress"",
+                    ""action"": ""ActionPressB"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -215,7 +269,7 @@ public partial class @Test_net: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""ActionRelease"",
+                    ""action"": ""ActionReleaseB"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -326,6 +380,72 @@ public partial class @Test_net: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""L_D_PadRelease"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e4f42e7c-4cc3-4f8a-bfbf-4857600e9cdf"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ActionPressY"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""bc0952d2-8ea1-40d1-b4da-de5c58b011a9"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ActionPressA"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c4ec7784-dc38-4634-a706-acf1350f237f"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ActionPressX"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""763abef3-05b5-4963-931a-32cb4c6f028f"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ActionReleaseY"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9dbf81b0-b316-4388-a103-cc0ac3f29916"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ActionReleaseA"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6359e2bb-6256-4f44-9e34-4886fc3ef936"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ActionReleaseX"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -916,8 +1036,14 @@ public partial class @Test_net: IInputActionCollection2, IDisposable
         m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
         m_Player_Action = m_Player.FindAction("Action", throwIfNotFound: true);
-        m_Player_ActionPress = m_Player.FindAction("ActionPress", throwIfNotFound: true);
-        m_Player_ActionRelease = m_Player.FindAction("ActionRelease", throwIfNotFound: true);
+        m_Player_ActionPressA = m_Player.FindAction("ActionPressA", throwIfNotFound: true);
+        m_Player_ActionPressB = m_Player.FindAction("ActionPressB", throwIfNotFound: true);
+        m_Player_ActionPressX = m_Player.FindAction("ActionPressX", throwIfNotFound: true);
+        m_Player_ActionPressY = m_Player.FindAction("ActionPressY", throwIfNotFound: true);
+        m_Player_ActionReleaseA = m_Player.FindAction("ActionReleaseA", throwIfNotFound: true);
+        m_Player_ActionReleaseB = m_Player.FindAction("ActionReleaseB", throwIfNotFound: true);
+        m_Player_ActionReleaseX = m_Player.FindAction("ActionReleaseX", throwIfNotFound: true);
+        m_Player_ActionReleaseY = m_Player.FindAction("ActionReleaseY", throwIfNotFound: true);
         m_Player_RTriggerPress = m_Player.FindAction("RTriggerPress", throwIfNotFound: true);
         m_Player_RTriggerRelease = m_Player.FindAction("RTriggerRelease", throwIfNotFound: true);
         m_Player_LTriggerPress = m_Player.FindAction("LTriggerPress", throwIfNotFound: true);
@@ -1004,8 +1130,14 @@ public partial class @Test_net: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Move;
     private readonly InputAction m_Player_Jump;
     private readonly InputAction m_Player_Action;
-    private readonly InputAction m_Player_ActionPress;
-    private readonly InputAction m_Player_ActionRelease;
+    private readonly InputAction m_Player_ActionPressA;
+    private readonly InputAction m_Player_ActionPressB;
+    private readonly InputAction m_Player_ActionPressX;
+    private readonly InputAction m_Player_ActionPressY;
+    private readonly InputAction m_Player_ActionReleaseA;
+    private readonly InputAction m_Player_ActionReleaseB;
+    private readonly InputAction m_Player_ActionReleaseX;
+    private readonly InputAction m_Player_ActionReleaseY;
     private readonly InputAction m_Player_RTriggerPress;
     private readonly InputAction m_Player_RTriggerRelease;
     private readonly InputAction m_Player_LTriggerPress;
@@ -1023,8 +1155,14 @@ public partial class @Test_net: IInputActionCollection2, IDisposable
         public InputAction @Move => m_Wrapper.m_Player_Move;
         public InputAction @Jump => m_Wrapper.m_Player_Jump;
         public InputAction @Action => m_Wrapper.m_Player_Action;
-        public InputAction @ActionPress => m_Wrapper.m_Player_ActionPress;
-        public InputAction @ActionRelease => m_Wrapper.m_Player_ActionRelease;
+        public InputAction @ActionPressA => m_Wrapper.m_Player_ActionPressA;
+        public InputAction @ActionPressB => m_Wrapper.m_Player_ActionPressB;
+        public InputAction @ActionPressX => m_Wrapper.m_Player_ActionPressX;
+        public InputAction @ActionPressY => m_Wrapper.m_Player_ActionPressY;
+        public InputAction @ActionReleaseA => m_Wrapper.m_Player_ActionReleaseA;
+        public InputAction @ActionReleaseB => m_Wrapper.m_Player_ActionReleaseB;
+        public InputAction @ActionReleaseX => m_Wrapper.m_Player_ActionReleaseX;
+        public InputAction @ActionReleaseY => m_Wrapper.m_Player_ActionReleaseY;
         public InputAction @RTriggerPress => m_Wrapper.m_Player_RTriggerPress;
         public InputAction @RTriggerRelease => m_Wrapper.m_Player_RTriggerRelease;
         public InputAction @LTriggerPress => m_Wrapper.m_Player_LTriggerPress;
@@ -1053,12 +1191,30 @@ public partial class @Test_net: IInputActionCollection2, IDisposable
             @Action.started += instance.OnAction;
             @Action.performed += instance.OnAction;
             @Action.canceled += instance.OnAction;
-            @ActionPress.started += instance.OnActionPress;
-            @ActionPress.performed += instance.OnActionPress;
-            @ActionPress.canceled += instance.OnActionPress;
-            @ActionRelease.started += instance.OnActionRelease;
-            @ActionRelease.performed += instance.OnActionRelease;
-            @ActionRelease.canceled += instance.OnActionRelease;
+            @ActionPressA.started += instance.OnActionPressA;
+            @ActionPressA.performed += instance.OnActionPressA;
+            @ActionPressA.canceled += instance.OnActionPressA;
+            @ActionPressB.started += instance.OnActionPressB;
+            @ActionPressB.performed += instance.OnActionPressB;
+            @ActionPressB.canceled += instance.OnActionPressB;
+            @ActionPressX.started += instance.OnActionPressX;
+            @ActionPressX.performed += instance.OnActionPressX;
+            @ActionPressX.canceled += instance.OnActionPressX;
+            @ActionPressY.started += instance.OnActionPressY;
+            @ActionPressY.performed += instance.OnActionPressY;
+            @ActionPressY.canceled += instance.OnActionPressY;
+            @ActionReleaseA.started += instance.OnActionReleaseA;
+            @ActionReleaseA.performed += instance.OnActionReleaseA;
+            @ActionReleaseA.canceled += instance.OnActionReleaseA;
+            @ActionReleaseB.started += instance.OnActionReleaseB;
+            @ActionReleaseB.performed += instance.OnActionReleaseB;
+            @ActionReleaseB.canceled += instance.OnActionReleaseB;
+            @ActionReleaseX.started += instance.OnActionReleaseX;
+            @ActionReleaseX.performed += instance.OnActionReleaseX;
+            @ActionReleaseX.canceled += instance.OnActionReleaseX;
+            @ActionReleaseY.started += instance.OnActionReleaseY;
+            @ActionReleaseY.performed += instance.OnActionReleaseY;
+            @ActionReleaseY.canceled += instance.OnActionReleaseY;
             @RTriggerPress.started += instance.OnRTriggerPress;
             @RTriggerPress.performed += instance.OnRTriggerPress;
             @RTriggerPress.canceled += instance.OnRTriggerPress;
@@ -1102,12 +1258,30 @@ public partial class @Test_net: IInputActionCollection2, IDisposable
             @Action.started -= instance.OnAction;
             @Action.performed -= instance.OnAction;
             @Action.canceled -= instance.OnAction;
-            @ActionPress.started -= instance.OnActionPress;
-            @ActionPress.performed -= instance.OnActionPress;
-            @ActionPress.canceled -= instance.OnActionPress;
-            @ActionRelease.started -= instance.OnActionRelease;
-            @ActionRelease.performed -= instance.OnActionRelease;
-            @ActionRelease.canceled -= instance.OnActionRelease;
+            @ActionPressA.started -= instance.OnActionPressA;
+            @ActionPressA.performed -= instance.OnActionPressA;
+            @ActionPressA.canceled -= instance.OnActionPressA;
+            @ActionPressB.started -= instance.OnActionPressB;
+            @ActionPressB.performed -= instance.OnActionPressB;
+            @ActionPressB.canceled -= instance.OnActionPressB;
+            @ActionPressX.started -= instance.OnActionPressX;
+            @ActionPressX.performed -= instance.OnActionPressX;
+            @ActionPressX.canceled -= instance.OnActionPressX;
+            @ActionPressY.started -= instance.OnActionPressY;
+            @ActionPressY.performed -= instance.OnActionPressY;
+            @ActionPressY.canceled -= instance.OnActionPressY;
+            @ActionReleaseA.started -= instance.OnActionReleaseA;
+            @ActionReleaseA.performed -= instance.OnActionReleaseA;
+            @ActionReleaseA.canceled -= instance.OnActionReleaseA;
+            @ActionReleaseB.started -= instance.OnActionReleaseB;
+            @ActionReleaseB.performed -= instance.OnActionReleaseB;
+            @ActionReleaseB.canceled -= instance.OnActionReleaseB;
+            @ActionReleaseX.started -= instance.OnActionReleaseX;
+            @ActionReleaseX.performed -= instance.OnActionReleaseX;
+            @ActionReleaseX.canceled -= instance.OnActionReleaseX;
+            @ActionReleaseY.started -= instance.OnActionReleaseY;
+            @ActionReleaseY.performed -= instance.OnActionReleaseY;
+            @ActionReleaseY.canceled -= instance.OnActionReleaseY;
             @RTriggerPress.started -= instance.OnRTriggerPress;
             @RTriggerPress.performed -= instance.OnRTriggerPress;
             @RTriggerPress.canceled -= instance.OnRTriggerPress;
@@ -1323,8 +1497,14 @@ public partial class @Test_net: IInputActionCollection2, IDisposable
         void OnMove(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
         void OnAction(InputAction.CallbackContext context);
-        void OnActionPress(InputAction.CallbackContext context);
-        void OnActionRelease(InputAction.CallbackContext context);
+        void OnActionPressA(InputAction.CallbackContext context);
+        void OnActionPressB(InputAction.CallbackContext context);
+        void OnActionPressX(InputAction.CallbackContext context);
+        void OnActionPressY(InputAction.CallbackContext context);
+        void OnActionReleaseA(InputAction.CallbackContext context);
+        void OnActionReleaseB(InputAction.CallbackContext context);
+        void OnActionReleaseX(InputAction.CallbackContext context);
+        void OnActionReleaseY(InputAction.CallbackContext context);
         void OnRTriggerPress(InputAction.CallbackContext context);
         void OnRTriggerRelease(InputAction.CallbackContext context);
         void OnLTriggerPress(InputAction.CallbackContext context);
