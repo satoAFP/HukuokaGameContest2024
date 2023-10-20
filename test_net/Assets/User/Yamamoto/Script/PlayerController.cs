@@ -87,7 +87,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
             Debug.Log(  p1pos.x - p2pos.x);
 
-            if(p1pos.x - p2pos .x < 1.0f)
+            if(Mathf.Abs(p1pos.x - p2pos .x )< 1.0f)
             {
                 Debug.Log("密着！！隣の晩御飯！！");
             }
