@@ -20,6 +20,8 @@ public class PlayerController : MonoBehaviourPunCallbacks
     [SerializeField, Header("ジャンプ速度")]
     private float jumpSpeed;
 
+    private bool movelock = false;//移動処理を停止させる
+
     //入力された方向を入れる変数
     private Vector2 inputDirection;
 
@@ -165,17 +167,18 @@ public class PlayerController : MonoBehaviourPunCallbacks
                 if (gameObject.name == "Player1")
                 {
                     GetComponent<SpriteRenderer>().sprite = p1OpenImage;
+                    movelock = true;//箱の移動を制限
                 }
 
             }
-            else
-            {
-                //同時に上ボタンを押していないときは画像を元に戻す
-                if (gameObject.name == "Player1")
-                {
-                    GetComponent<SpriteRenderer>().sprite = p1Image;
-                }
-            }
+            //else
+            //{
+            //    //同時に上ボタンを押していないときは画像を元に戻す
+            //    if (gameObject.name == "Player1")
+            //    {
+            //        GetComponent<SpriteRenderer>().sprite = p1Image;
+            //    }
+            //}
         }
 
     }
@@ -212,9 +215,14 @@ public class PlayerController : MonoBehaviourPunCallbacks
         //操作が競合しないための設定
         if (photonView.IsMine)
         {
-            Debug.Log("スティック動かして移動している");
-            //移動方向の入力情報がInputdirectionの中に入るようになる
-            inputDirection = context.ReadValue<Vector2>();
+            //移動ロックがかかっていなければ移動
+            if(!movelock)
+            {
+                Debug.Log("スティック動かして移動している");
+                //移動方向の入力情報がInputdirectionの中に入るようになる
+                inputDirection = context.ReadValue<Vector2>();
+            }
+
         }
         else
         {
@@ -226,7 +234,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
     public void Onjump(InputAction.CallbackContext context)
     {
         //アンロックボタンが起動中
-        if (!ManagerAccessor.Instance.dataManager.isUnlockButtonStart)
+        if (!ManagerAccessor.Instance.dataManager.isUnlockButtonStart && !movelock)
         {
             //Input Systemからジャンプの入力があった時に呼ばれる
             if (!context.performed || bjump)
@@ -243,13 +251,24 @@ public class PlayerController : MonoBehaviourPunCallbacks
         }
     }
 
-    public void OnAction(InputAction.CallbackContext context)
+    //箱の蓋を閉める
+    public void OnBoxClose(InputAction.CallbackContext context)
     {
         //操作が競合しないための設定
-        //if (photonView.IsMine)
-        //{
-        //    Debug.Log("アクション");
-        //}
+        if (photonView.IsMine)
+        {
+            if(movelock)
+            {
+                Debug.Log("アクション");
+                //同時に上ボタンを押していないときは画像を元に戻す
+                if (gameObject.name == "Player1")
+                {
+                    GetComponent<SpriteRenderer>().sprite = p1Image;
+                    movelock = false;//移動可能にする
+                }      
+            }
+            
+        }
     }
 
     //箱オープン
