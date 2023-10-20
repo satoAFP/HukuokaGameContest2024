@@ -98,7 +98,6 @@ public class GimmickUnlockButton : CGimmick
             //最後の入力が終わったときクリア情報を送る
             if (ClearSituation[ClearSituation.Count - 1])
             {
-                Debug.Log(ClearSituation.Count - 1);
                 //マスターかどうか
                 if (PhotonNetwork.LocalPlayer.IsMasterClient)
                 {
