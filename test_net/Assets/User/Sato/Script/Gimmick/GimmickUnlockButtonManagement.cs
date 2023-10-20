@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using Photon.Pun;
 
 public class GimmickUnlockButtonManagement : CGimmick
@@ -13,6 +14,9 @@ public class GimmickUnlockButtonManagement : CGimmick
 
     [SerializeField, Header("“ü—Í‚·‚é”")]
     private int inputKey;
+
+    [SerializeField, Header("c‚èŠÔ")]
+    private Text timetext;
 
     [SerializeField, Header("“ü—Í‚Ì§ŒÀŠÔ")]
     private int timeLimit;
@@ -145,6 +149,12 @@ public class GimmickUnlockButtonManagement : CGimmick
                         }
                     }
                 }
+
+                timetext.text = frameCount.ToString() + "/" + timeLimit * 60;
+            }
+            else
+            {
+                timetext.text = "‘Ò‹@";
             }
 
             if (isOwnerClear)

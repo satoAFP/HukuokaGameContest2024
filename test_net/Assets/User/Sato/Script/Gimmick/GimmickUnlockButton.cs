@@ -107,10 +107,13 @@ public class GimmickUnlockButton : CGimmick
                 else
                 {
                     Debug.Log("bbb");
-                    transform.parent.GetComponent<GimmickUnlockButtonManagement>().isOwnerClear = true;
+                    transform.parent.GetComponent<GimmickUnlockButtonManagement>().isClientClear = true;
 
                 }
             }
+
+
+
         }
 
        
