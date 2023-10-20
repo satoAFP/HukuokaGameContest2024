@@ -125,7 +125,7 @@ public class GimmickUnlockButton : CGimmick
     }
 
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnCollisionStay2D(Collision2D collision)
     {
         //ÉuÉçÉbÉNÇ…êGÇÍÇƒÇ¢ÇÈîªíË
         if (PhotonNetwork.LocalPlayer.IsMasterClient)
@@ -133,10 +133,13 @@ public class GimmickUnlockButton : CGimmick
             if (collision.gameObject.name == "Player1")
             {
                 ManagerAccessor.Instance.dataManager.isUnlockButtonStart = true;
-                islocalUnlockButtonStart = true;
+                
 
                 if (!isHitPlayer2)
+                {
+                    islocalUnlockButtonStart = true;
                     isHitPlayer1 = true;
+                }
             }
         }
         else
@@ -144,10 +147,13 @@ public class GimmickUnlockButton : CGimmick
             if (collision.gameObject.name == "Player2")
             {
                 ManagerAccessor.Instance.dataManager.isUnlockButtonStart = true;
-                islocalUnlockButtonStart = true;
+                
 
                 if (!isHitPlayer1)
+                {
+                    islocalUnlockButtonStart = true;
                     isHitPlayer2 = true;
+                }
             }
         }
     }
