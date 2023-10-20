@@ -85,12 +85,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
                 p2pos = ManagerAccessor.Instance.dataManager.player2.transform.position;
             //Debug.Log("p2現在地=" + p2pos);
 
-            Debug.Log(  p1pos.x - p2pos.x);
-
-            if(Mathf.Abs(p1pos.x - p2pos .x )< 1.0f)
-            {
-                Debug.Log("密着！！隣の晩御飯！！");
-            }
+           // Debug.Log(Mathf.Abs(p1pos.x - p2pos.x));
 
             //持ち上げていないときは普通に移動させる
             if (!islift)
@@ -154,25 +149,31 @@ public class PlayerController : MonoBehaviourPunCallbacks
             }
         }
 
-        //上ボタンの同時押し
-        if (datamanager.isOwnerInputKey_C_D_UP && datamanager.isClientInputKey_C_D_UP)
+        //箱と鍵の二点間距離を取って一定の値なら箱オープン可能
+        if (Mathf.Abs(p1pos.x - p2pos.x) < 1.0f)
         {
-            Debug.Log("上キー両押し");
-            //宝箱のプレイヤーの時、空いている箱のイラストに変更
-            if (gameObject.name == "Player1")
+            Debug.Log("密着！！隣の晩御飯！！");
+            //上ボタンの同時押しで箱オープン
+            if (datamanager.isOwnerInputKey_C_D_UP && datamanager.isClientInputKey_C_D_UP)
             {
-                GetComponent<SpriteRenderer>().sprite = p1OpenImage;
-            }
+                Debug.Log("上キー両押し");
+                //宝箱のプレイヤーの時、空いている箱のイラストに変更
+                if (gameObject.name == "Player1")
+                {
+                    GetComponent<SpriteRenderer>().sprite = p1OpenImage;
+                }
 
-        }
-        else
-        {
-            //同時に上ボタンを押していないときは画像を元に戻す
-            if (gameObject.name == "Player1")
+            }
+            else
             {
-                GetComponent<SpriteRenderer>().sprite = p1Image;
+                //同時に上ボタンを押していないときは画像を元に戻す
+                if (gameObject.name == "Player1")
+                {
+                    GetComponent<SpriteRenderer>().sprite = p1Image;
+                }
             }
         }
+
     }
 
 
