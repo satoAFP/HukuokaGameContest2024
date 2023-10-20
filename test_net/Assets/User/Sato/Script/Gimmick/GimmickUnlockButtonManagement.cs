@@ -166,8 +166,6 @@ public class GimmickUnlockButtonManagement : CGimmick
                     photonView.RPC(nameof(RpcShareIsStartCount), RpcTarget.Others, isStartCount);
                     isStartCountFisrt = true;
                 }
-
-                timetext.text = "‘Ò‹@";
             }
 
 
@@ -200,7 +198,6 @@ public class GimmickUnlockButtonManagement : CGimmick
                     {
                         photonView.RPC(nameof(RpcShareIsClear), RpcTarget.Others, true);
                         isClientClearFirst = false;
-                        Debug.Log("eee");
                     }
                 }
                 else
@@ -209,7 +206,6 @@ public class GimmickUnlockButtonManagement : CGimmick
                     {
                         photonView.RPC(nameof(RpcShareIsClear), RpcTarget.Others, false);
                         isClientClearFirst = true;
-                        Debug.Log("fff");
                     }
                 }
             }
@@ -225,8 +221,6 @@ public class GimmickUnlockButtonManagement : CGimmick
         {
             door.SetActive(false);
         }
-
-        Debug.Log(isOwnerClear + ":" + isClientClear);
 
     }
 
@@ -259,12 +253,10 @@ public class GimmickUnlockButtonManagement : CGimmick
         if (PhotonNetwork.LocalPlayer.IsMasterClient)
         {
             isClientClear = data;
-            Debug.Log("ccc");
         }
         else
         {
             isOwnerClear = data;
-            Debug.Log("ddd");
         }
     }
 
