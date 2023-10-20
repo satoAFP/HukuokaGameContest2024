@@ -171,14 +171,14 @@ public class PlayerController : MonoBehaviourPunCallbacks
                 }
 
             }
-            //else if(datamanager.isOwnerInputKey_CA && movelock)
-            //{
-            //    //同時に上ボタンを押していないときは画像を元に戻す
-            //    if (gameObject.name == "Player1")
-            //    {
-            //        GetComponent<SpriteRenderer>().sprite = p1Image;
-            //    }
-            //}
+            else if (datamanager.isOwnerInputKey_CA && movelock)
+            {
+                //同時に上ボタンを押していないときは画像を元に戻す
+                if (gameObject.name == "Player1")
+                {
+                    GetComponent<SpriteRenderer>().sprite = p1Image;
+                }
+            }
         }
 
     }
@@ -256,22 +256,20 @@ public class PlayerController : MonoBehaviourPunCallbacks
         //操作が競合しないための設定
         if (photonView.IsMine)
         {
-           
-            
+            if (movelock)
+                movelock = false;//移動可能にする
         }
 
-        if (movelock)
-        {
-            Debug.Log("アクション");
-
-            GetComponent<SpriteRenderer>().sprite = p1Image;
-            movelock = false;//移動可能にする
-            //同時に上ボタンを押していないときは画像を元に戻す
-            //if (gameObject.name == "Player1")
-            //{
-              
-            //}
-        }
+        //if (movelock)
+        //{
+        //    Debug.Log("アクション");
+        //    //同時に上ボタンを押していないときは画像を元に戻す
+        //    if (gameObject.name == "Player1")
+        //    {
+        //        GetComponent<SpriteRenderer>().sprite = p1Image;
+        //        movelock = false;//移動可能にする
+        //    }
+        //}
     }
 
     //箱オープン
