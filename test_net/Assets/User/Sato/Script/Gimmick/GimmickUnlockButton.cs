@@ -11,6 +11,9 @@ public class GimmickUnlockButton : CGimmick
         A, B, X, Y
     }
 
+
+    private bool islocalUnlockButtonStart = false;
+
     //それぞれのボタン入力状況
     [System.NonSerialized] public bool isButton = false;
 
@@ -24,7 +27,7 @@ public class GimmickUnlockButton : CGimmick
     private void Update()
     {
         //アンロックボタン開始
-        if (ManagerAccessor.Instance.dataManager.isUnlockButtonStart)
+        if (islocalUnlockButtonStart)
         {
             //答えの数
             for (int i = 0; i < answer.Count; i++)
@@ -98,11 +101,12 @@ public class GimmickUnlockButton : CGimmick
                 //マスターかどうか
                 if (PhotonNetwork.LocalPlayer.IsMasterClient)
                 {
+                    Debug.Log("aaa");
                     transform.parent.GetComponent<GimmickUnlockButtonManagement>().isOwnerClear = true;
-
                 }
                 else
                 {
+                    Debug.Log("bbb");
                     transform.parent.GetComponent<GimmickUnlockButtonManagement>().isOwnerClear = true;
 
                 }
@@ -122,6 +126,7 @@ public class GimmickUnlockButton : CGimmick
             if (collision.gameObject.name == "Player1")
             {
                 ManagerAccessor.Instance.dataManager.isUnlockButtonStart = true;
+                islocalUnlockButtonStart = true;
             }
         }
         else
@@ -129,6 +134,7 @@ public class GimmickUnlockButton : CGimmick
             if (collision.gameObject.name == "Player2")
             {
                 ManagerAccessor.Instance.dataManager.isUnlockButtonStart = true;
+                islocalUnlockButtonStart = true;
             }
         }
     }
@@ -140,6 +146,7 @@ public class GimmickUnlockButton : CGimmick
             if (collision.gameObject.name == "Player1")
             {
                 ManagerAccessor.Instance.dataManager.isUnlockButtonStart = false;
+                islocalUnlockButtonStart = false;
             }
         }
         else
@@ -147,6 +154,7 @@ public class GimmickUnlockButton : CGimmick
             if (collision.gameObject.name == "Player2")
             {
                 ManagerAccessor.Instance.dataManager.isUnlockButtonStart = false;
+                islocalUnlockButtonStart = false;
             }
         }
     }
