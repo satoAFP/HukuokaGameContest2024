@@ -114,6 +114,15 @@ public class PlayerController : MonoBehaviourPunCallbacks
                 }
             }
 
+            if (datamanager.isOwnerInputKey_CA && movelock)
+            {
+                //同時に上ボタンを押していないときは画像を元に戻す
+                if (gameObject.name == "Player1")
+                {
+                    GetComponent<SpriteRenderer>().sprite = p1Image;
+                }
+            }
+
         }
         else
         {
@@ -141,6 +150,15 @@ public class PlayerController : MonoBehaviourPunCallbacks
             else
             {
                 distanceFirst = true;
+            }
+
+            if (datamanager.isOwnerInputKey_CA &&　movelock)
+            {
+                //同時に上ボタンを押していないときは画像を元に戻す
+                if (gameObject.name == "Player1")
+                {
+                    GetComponent<SpriteRenderer>().sprite = p1Image;
+                }
             }
 
         }
@@ -174,28 +192,28 @@ public class PlayerController : MonoBehaviourPunCallbacks
         }
 
 
-        if(!PhotonNetwork.LocalPlayer.IsMasterClient)
-        {
-            if (datamanager.isOwnerInputKey_CA && ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().movelock)
-            {
-                //同時に上ボタンを押していないときは画像を元に戻す
-                if (gameObject.name == "Player1")
-                {
-                    GetComponent<SpriteRenderer>().sprite = p1Image;
-                }
-            }
-        }
-        else
-        {
-            if (datamanager.isOwnerInputKey_CA && movelock)
-            {
-                //同時に上ボタンを押していないときは画像を元に戻す
-                if (gameObject.name == "Player1")
-                {
-                    GetComponent<SpriteRenderer>().sprite = p1Image;
-                }
-            }
-        }
+        //if(!PhotonNetwork.LocalPlayer.IsMasterClient)
+        //{
+        //    if (datamanager.isOwnerInputKey_CA && ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().movelock)
+        //    {
+        //        //同時に上ボタンを押していないときは画像を元に戻す
+        //        if (gameObject.name == "Player1")
+        //        {
+        //            GetComponent<SpriteRenderer>().sprite = p1Image;
+        //        }
+        //    }
+        //}
+        //else
+        //{
+        //    if (datamanager.isOwnerInputKey_CA && movelock)
+        //    {
+        //        //同時に上ボタンを押していないときは画像を元に戻す
+        //        if (gameObject.name == "Player1")
+        //        {
+        //            GetComponent<SpriteRenderer>().sprite = p1Image;
+        //        }
+        //    }
+        //}
        
 
     }
