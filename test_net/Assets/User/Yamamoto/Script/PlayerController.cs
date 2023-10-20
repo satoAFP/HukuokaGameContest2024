@@ -78,15 +78,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
                 if (ManagerAccessor.Instance.dataManager.player2 != null)
                     ManagerAccessor.Instance.dataManager.player2.GetComponent<PlayerController>().islift = islift;
 
-            //各プレイヤーの現在座標を取得
-            p1pos = ManagerAccessor.Instance.dataManager.player1.transform.position;
-            //Debug.Log("p1現在地=" + p1pos);
-            if (ManagerAccessor.Instance.dataManager.player2 != null)
-                p2pos = ManagerAccessor.Instance.dataManager.player2.transform.position;
-            //Debug.Log("p2現在地=" + p2pos);
-
-           // Debug.Log(Mathf.Abs(p1pos.x - p2pos.x));
-
+           
             //持ち上げていないときは普通に移動させる
             if (!islift)
             {
@@ -150,6 +142,16 @@ public class PlayerController : MonoBehaviourPunCallbacks
             }
 
         }
+
+        //各プレイヤーの現在座標を取得
+        p1pos = ManagerAccessor.Instance.dataManager.player1.transform.position;
+        //Debug.Log("p1現在地=" + p1pos);
+        if (ManagerAccessor.Instance.dataManager.player2 != null)
+            p2pos = ManagerAccessor.Instance.dataManager.player2.transform.position;
+        //Debug.Log("p2現在地=" + p2pos);
+
+        // Debug.Log(Mathf.Abs(p1pos.x - p2pos.x));
+
 
         //箱と鍵の二点間距離を取って一定の値なら箱オープン可能
         if (Mathf.Abs(p1pos.x - p2pos.x) < 1.0f)
