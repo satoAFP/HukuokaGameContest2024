@@ -263,12 +263,14 @@ public class PlayerController : MonoBehaviourPunCallbacks
         if (movelock)
         {
             Debug.Log("アクション");
+
+            GetComponent<SpriteRenderer>().sprite = p1Image;
+            movelock = false;//移動可能にする
             //同時に上ボタンを押していないときは画像を元に戻す
-            if (gameObject.name == "Player1")
-            {
-                GetComponent<SpriteRenderer>().sprite = p1Image;
-                movelock = false;//移動可能にする
-            }
+            //if (gameObject.name == "Player1")
+            //{
+              
+            //}
         }
     }
 
