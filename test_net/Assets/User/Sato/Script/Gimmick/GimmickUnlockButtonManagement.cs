@@ -117,7 +117,7 @@ public class GimmickUnlockButtonManagement : CGimmick
                         gimmickButton[i].GetComponent<GimmickUnlockButton>().answer = answer;
 
                         //クリア状況初期化
-                        for (int j = 0; j < answer.Count; j++)
+                        for(int j=0;j<answer.Count;j++)
                         {
                             gimmickButton[i].GetComponent<GimmickUnlockButton>().ClearSituation.Add(false);
                         }
@@ -133,7 +133,7 @@ public class GimmickUnlockButtonManagement : CGimmick
             //入力開始時の時間計算
             if (isStartCount)
             {
-                if (isStartCountFisrt)
+                if(isStartCountFisrt)
                 {
                     photonView.RPC(nameof(RpcShareIsStartCount), RpcTarget.Others, isStartCount);
                     isStartCountFisrt = false;
@@ -173,43 +173,48 @@ public class GimmickUnlockButtonManagement : CGimmick
 
 
 
-            if (isOwnerClear)
+            if (PhotonNetwork.LocalPlayer.IsMasterClient)
             {
-                if (isOwnerClearFirst)
+                if (isOwnerClear)
                 {
-                    photonView.RPC(nameof(RpcShareIsClear), RpcTarget.Others, true);
-                    isOwnerClearFirst = false;
+                    if (isOwnerClearFirst)
+                    {
+                        photonView.RPC(nameof(RpcShareIsClear), RpcTarget.Others, true);
+                        isOwnerClearFirst = false;
+                    }
+                }
+                else
+                {
+                    if (!isOwnerClearFirst)
+                    {
+                        photonView.RPC(nameof(RpcShareIsClear), RpcTarget.Others, false);
+                        isOwnerClearFirst = true;
+                    }
                 }
             }
             else
             {
-                if (!isOwnerClearFirst)
+                if (isClientClear)
                 {
-                    photonView.RPC(nameof(RpcShareIsClear), RpcTarget.Others, false);
-                    isOwnerClearFirst = true;
+                    if (isClientClearFirst)
+                    {
+                        photonView.RPC(nameof(RpcShareIsClear), RpcTarget.Others, true);
+                        isClientClearFirst = false;
+                        Debug.Log("eee");
+                    }
                 }
-            }
-            if (isClientClear)
-            {
-                if (isClientClearFirst)
+                else
                 {
-                    photonView.RPC(nameof(RpcShareIsClear), RpcTarget.Others, true);
-                    isClientClearFirst = false;
-                    Debug.Log("eee");
-                }
-            }
-            else
-            {
-                if (!isClientClearFirst)
-                {
-                    photonView.RPC(nameof(RpcShareIsClear), RpcTarget.Others, false);
-                    isClientClearFirst = true;
-                    Debug.Log("fff");
+                    if (!isClientClearFirst)
+                    {
+                        photonView.RPC(nameof(RpcShareIsClear), RpcTarget.Others, false);
+                        isClientClearFirst = true;
+                        Debug.Log("fff");
+                    }
                 }
             }
 
-
-            if (isOwnerClear && isClientClear)
+            if(isOwnerClear&&isClientClear)
             {
                 isAllClear = true;
             }
@@ -253,12 +258,12 @@ public class GimmickUnlockButtonManagement : CGimmick
     {
         if (PhotonNetwork.LocalPlayer.IsMasterClient)
         {
-            isOwnerClear = data;
+            isClientClear = data;
             Debug.Log("ccc");
         }
         else
         {
-            isClientClear = data;
+            isOwnerClear = data;
             Debug.Log("ddd");
         }
     }
