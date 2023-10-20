@@ -153,6 +153,7 @@ public class GimmickUnlockButton : CGimmick
                 {
                     islocalUnlockButtonStart = true;
                     isHitPlayer2 = true;
+                    Debug.Log("aaa");
                 }
             }
         }
