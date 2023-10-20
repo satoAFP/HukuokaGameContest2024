@@ -145,41 +145,41 @@ public class GimmickUnlockButtonManagement : CGimmick
 
 
 
-        //isUnlockButtonStartのデータ共有処理
-        if (ManagerAccessor.Instance.dataManager.isUnlockButtonStart)
-        {
-            if(isUnlockButtonStartFirst)
-            {
-                photonView.RPC(nameof(RpcShareIsUnlockButtonStart), RpcTarget.Others, ManagerAccessor.Instance.dataManager.isUnlockButtonStart);
-                isUnlockButtonStartFirst = false;
-            }
-        }
-        else
-        {
-            if (!isUnlockButtonStartFirst)
-            {
-                photonView.RPC(nameof(RpcShareIsUnlockButtonStart), RpcTarget.Others, ManagerAccessor.Instance.dataManager.isUnlockButtonStart);
-                isUnlockButtonStartFirst = true;
-            }
-        }
+        ////isUnlockButtonStartのデータ共有処理
+        //if (ManagerAccessor.Instance.dataManager.isUnlockButtonStart)
+        //{
+        //    if(isUnlockButtonStartFirst)
+        //    {
+        //        photonView.RPC(nameof(RpcShareIsUnlockButtonStart), RpcTarget.Others, ManagerAccessor.Instance.dataManager.isUnlockButtonStart);
+        //        isUnlockButtonStartFirst = false;
+        //    }
+        //}
+        //else
+        //{
+        //    if (!isUnlockButtonStartFirst)
+        //    {
+        //        photonView.RPC(nameof(RpcShareIsUnlockButtonStart), RpcTarget.Others, ManagerAccessor.Instance.dataManager.isUnlockButtonStart);
+        //        isUnlockButtonStartFirst = true;
+        //    }
+        //}
 
-        //isUnlockButtonStartのデータ共有処理
-        if (ManagerAccessor.Instance.dataManager.isUnlockButtonStart)
-        {
-            if (isUnlockButtonStartFirst)
-            {
-                photonView.RPC(nameof(RpcShareIsUnlockButtonStart), RpcTarget.Others, ManagerAccessor.Instance.dataManager.isUnlockButtonStart);
-                isUnlockButtonStartFirst = false;
-            }
-        }
-        else
-        {
-            if (!isUnlockButtonStartFirst)
-            {
-                photonView.RPC(nameof(RpcShareIsUnlockButtonStart), RpcTarget.Others, ManagerAccessor.Instance.dataManager.isUnlockButtonStart);
-                isUnlockButtonStartFirst = true;
-            }
-        }
+        ////isUnlockButtonStartのデータ共有処理
+        //if (ManagerAccessor.Instance.dataManager.isUnlockButtonStart)
+        //{
+        //    if (isUnlockButtonStartFirst)
+        //    {
+        //        photonView.RPC(nameof(RpcShareIsUnlockButtonStart), RpcTarget.Others, ManagerAccessor.Instance.dataManager.isUnlockButtonStart);
+        //        isUnlockButtonStartFirst = false;
+        //    }
+        //}
+        //else
+        //{
+        //    if (!isUnlockButtonStartFirst)
+        //    {
+        //        photonView.RPC(nameof(RpcShareIsUnlockButtonStart), RpcTarget.Others, ManagerAccessor.Instance.dataManager.isUnlockButtonStart);
+        //        isUnlockButtonStartFirst = true;
+        //    }
+        //}
 
 
         ////ボタンが押されているオブジェクトの数カウント用

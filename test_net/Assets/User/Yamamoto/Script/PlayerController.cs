@@ -81,7 +81,8 @@ public class PlayerController : MonoBehaviourPunCallbacks
             //各プレイヤーの現在座標を取得
             p1pos = ManagerAccessor.Instance.dataManager.player1.transform.position;
             //Debug.Log("p1現在地=" + p1pos);
-            p2pos = ManagerAccessor.Instance.dataManager.player2.transform.position;
+            if (ManagerAccessor.Instance.dataManager.player2 != null)
+                p2pos = ManagerAccessor.Instance.dataManager.player2.transform.position;
             //Debug.Log("p2現在地=" + p2pos);
 
             //持ち上げていないときは普通に移動させる
