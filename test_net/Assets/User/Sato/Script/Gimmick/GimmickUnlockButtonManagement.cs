@@ -35,7 +35,8 @@ public class GimmickUnlockButtonManagement : CGimmick
     //アンロックボタン起動状態を連続で動かなない用
     private bool isUnlockButtonStartFirst = true;
     //クリア状況共有を連続で動かない用
-    private bool isClearFirst = true;
+    private bool isOwnerClearFirst = true;
+    private bool isClientClearFirst = true;
 
 
     private enum Key
@@ -134,15 +135,45 @@ public class GimmickUnlockButtonManagement : CGimmick
                     //クリア状況初期化
                     for (int j = 0; j < answer.Count; j++)
                     {
-                        gimmickButton[i].GetComponent<GimmickUnlockButton>().ClearSituation.Add(false);
+                        gimmickButton[i].GetComponent<GimmickUnlockButton>().ClearSituation[j] = false;
                     }
                 }
             }
         }
 
+        if(isOwnerClear)
+        {
+            if(isOwnerClearFirst)
+            {
+                photonView.RPC(nameof(RpcShareIsClear), RpcTarget.Others, isOwnerClear);
+                isOwnerClearFirst = false;
+            }
+        }
+        else
+        {
+            if (!isOwnerClearFirst)
+            {
+                photonView.RPC(nameof(RpcShareIsClear), RpcTarget.Others, isOwnerClear);
+                isOwnerClearFirst = true;
+            }
+        }
 
-
-
+        if (isClientClear)
+        {
+            if (isClientClearFirst)
+            {
+                photonView.RPC(nameof(RpcShareIsClear), RpcTarget.Others, isClientClear);
+                isClientClearFirst = false;
+            }
+        }
+        else
+        {
+            if (!isClientClearFirst)
+            {
+                photonView.RPC(nameof(RpcShareIsClear), RpcTarget.Others, isClientClear);
+                isClientClearFirst = true;
+            }
+        }
 
 
         ////isUnlockButtonStartのデータ共有処理
