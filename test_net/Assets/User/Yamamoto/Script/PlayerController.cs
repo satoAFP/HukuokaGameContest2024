@@ -211,7 +211,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
     public void Onjump(InputAction.CallbackContext context)
     {
         //アンロックボタンが起動中
-        if (ManagerAccessor.Instance.dataManager.isUnlockButtonStart)
+        if (!ManagerAccessor.Instance.dataManager.isUnlockButtonStart)
         {
             //Input Systemからジャンプの入力があった時に呼ばれる
             if (!context.performed || bjump)
