@@ -75,7 +75,8 @@ public class PlayerController : MonoBehaviourPunCallbacks
         {
             //1Pの画面の2Pの情報更新
             if (PhotonNetwork.LocalPlayer.IsMasterClient)
-                ManagerAccessor.Instance.dataManager.player2.GetComponent<PlayerController>().islift = islift;
+                if (ManagerAccessor.Instance.dataManager.player2 != null)
+                    ManagerAccessor.Instance.dataManager.player2.GetComponent<PlayerController>().islift = islift;
 
             //各プレイヤーの現在座標を取得
             p1pos = ManagerAccessor.Instance.dataManager.player1.transform.position;
@@ -87,7 +88,6 @@ public class PlayerController : MonoBehaviourPunCallbacks
             if (!islift)
             {
                 Move();//移動処理をON
-                Debug.Log("デフォルト");
 
                 distanceFirst = true;
             }
@@ -100,7 +100,6 @@ public class PlayerController : MonoBehaviourPunCallbacks
                     if (PhotonNetwork.LocalPlayer.IsMasterClient)
                     {
                         Move();
-                        Debug.Log("特殊");
                     }
                     else
                     {
@@ -211,17 +210,21 @@ public class PlayerController : MonoBehaviourPunCallbacks
     //ジャンプ
     public void Onjump(InputAction.CallbackContext context)
     {
-        //Input Systemからジャンプの入力があった時に呼ばれる
-        if (!context.performed || bjump)
+        //アンロックボタンが起動中
+        if (ManagerAccessor.Instance.dataManager.isUnlockButtonStart)
         {
-            return;
-        }
+            //Input Systemからジャンプの入力があった時に呼ばれる
+            if (!context.performed || bjump)
+            {
+                return;
+            }
 
-        //操作が競合しないための設定
-        if (photonView.IsMine)
-        {
-            rigid.AddForce(Vector2.up * jumpSpeed, ForceMode2D.Impulse);
-            bjump = true;//一度ジャンプしたら着地するまでジャンプできなくする
+            //操作が競合しないための設定
+            if (photonView.IsMine)
+            {
+                rigid.AddForce(Vector2.up * jumpSpeed, ForceMode2D.Impulse);
+                bjump = true;//一度ジャンプしたら着地するまでジャンプできなくする
+            }
         }
     }
 
