@@ -85,6 +85,11 @@ public class PlayerController : MonoBehaviourPunCallbacks
                 p2pos = ManagerAccessor.Instance.dataManager.player2.transform.position;
             //Debug.Log("p2現在地=" + p2pos);
 
+            if(p1pos.x - p2pos .x < 1.0f)
+            {
+                Debug.Log("密着！！隣の晩御飯！！");
+            }
+
             //持ち上げていないときは普通に移動させる
             if (!islift)
             {
