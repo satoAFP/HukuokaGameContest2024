@@ -171,14 +171,14 @@ public class PlayerController : MonoBehaviourPunCallbacks
                 }
 
             }
-            //else
-            //{
-            //    //同時に上ボタンを押していないときは画像を元に戻す
-            //    if (gameObject.name == "Player1")
-            //    {
-            //        GetComponent<SpriteRenderer>().sprite = p1Image;
-            //    }
-            //}
+            else if(datamanager.isOwnerInputKey_CA && movelock)
+            {
+                //同時に上ボタンを押していないときは画像を元に戻す
+                if (gameObject.name == "Player1")
+                {
+                    GetComponent<SpriteRenderer>().sprite = p1Image;
+                }
+            }
         }
 
     }
@@ -263,7 +263,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
                 //同時に上ボタンを押していないときは画像を元に戻す
                 if (gameObject.name == "Player1")
                 {
-                    GetComponent<SpriteRenderer>().sprite = p1Image;
+                    //GetComponent<SpriteRenderer>().sprite = p1Image;
                     movelock = false;//移動可能にする
                 }      
             }
