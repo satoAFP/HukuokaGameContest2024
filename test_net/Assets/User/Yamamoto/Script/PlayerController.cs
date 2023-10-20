@@ -171,13 +171,14 @@ public class PlayerController : MonoBehaviourPunCallbacks
                 }
 
             }
-            else if (datamanager.isOwnerInputKey_CA && movelock)
+        }
+
+        if (datamanager.isOwnerInputKey_CA && movelock)
+        {
+            //同時に上ボタンを押していないときは画像を元に戻す
+            if (gameObject.name == "Player1")
             {
-                //同時に上ボタンを押していないときは画像を元に戻す
-                if (gameObject.name == "Player1")
-                {
-                    GetComponent<SpriteRenderer>().sprite = p1Image;
-                }
+                GetComponent<SpriteRenderer>().sprite = p1Image;
             }
         }
 
