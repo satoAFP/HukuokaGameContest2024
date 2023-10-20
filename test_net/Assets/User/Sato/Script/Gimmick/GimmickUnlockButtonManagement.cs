@@ -14,24 +14,35 @@ public class GimmickUnlockButtonManagement : CGimmick
     [SerializeField, Header("入力する数")]
     private int inputKey;
 
+    [SerializeField, Header("入力時の制限時間")]
+    private int timeLimit;
+
+    //入力開始情報
+    /*[System.NonSerialized]*/ public bool isStartCount = false;
+
+    //それぞれの入力状況
+    [System.NonSerialized] public bool isOwnerClear = false;
+    [System.NonSerialized] public bool isClientClear = false;
+
     //回答データ
     private List<int> answer = new List<int>();
+
+    private int frameCount = 0;
+
 
     //回答データ生成を1度しかしない用
     private bool isAnswerFirst = true;
     //アンロックボタン起動状態を連続で動かなない用
     private bool isUnlockButtonStartFirst = true;
+    //クリア状況共有を連続で動かない用
+    private bool isClearFirst = true;
+
 
     private enum Key
     {
         A,B,X,Y
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
 
     // Update is called once per frame
     void Update()
@@ -107,23 +118,68 @@ public class GimmickUnlockButtonManagement : CGimmick
             }
         }
 
-        //isUnlockButtonStartのデータ共有処理
-        if (ManagerAccessor.Instance.dataManager.isUnlockButtonStart)
+        //入力開始時の時間計算
+        if(isStartCount)
         {
-            if(isUnlockButtonStartFirst)
+            frameCount++;
+            if (frameCount == timeLimit * 60) 
             {
-                photonView.RPC(nameof(RpcShareIsUnlockButtonStart), RpcTarget.Others, ManagerAccessor.Instance.dataManager.isUnlockButtonStart);
-                isUnlockButtonStartFirst = false;
+                //入力状況初期化
+                isStartCount = false;
+                frameCount = 0;
+
+                //二つ分初期化
+                for (int i = 0; i < gimmickButton.Count; i++)
+                {
+                    //クリア状況初期化
+                    for (int j = 0; j < answer.Count; j++)
+                    {
+                        gimmickButton[i].GetComponent<GimmickUnlockButton>().ClearSituation.Add(false);
+                    }
+                }
             }
         }
-        else
-        {
-            if (!isUnlockButtonStartFirst)
-            {
-                photonView.RPC(nameof(RpcShareIsUnlockButtonStart), RpcTarget.Others, ManagerAccessor.Instance.dataManager.isUnlockButtonStart);
-                isUnlockButtonStartFirst = true;
-            }
-        }
+
+
+
+
+
+
+        ////isUnlockButtonStartのデータ共有処理
+        //if (ManagerAccessor.Instance.dataManager.isUnlockButtonStart)
+        //{
+        //    if(isUnlockButtonStartFirst)
+        //    {
+        //        photonView.RPC(nameof(RpcShareIsUnlockButtonStart), RpcTarget.Others, ManagerAccessor.Instance.dataManager.isUnlockButtonStart);
+        //        isUnlockButtonStartFirst = false;
+        //    }
+        //}
+        //else
+        //{
+        //    if (!isUnlockButtonStartFirst)
+        //    {
+        //        photonView.RPC(nameof(RpcShareIsUnlockButtonStart), RpcTarget.Others, ManagerAccessor.Instance.dataManager.isUnlockButtonStart);
+        //        isUnlockButtonStartFirst = true;
+        //    }
+        //}
+
+        ////isUnlockButtonStartのデータ共有処理
+        //if (ManagerAccessor.Instance.dataManager.isUnlockButtonStart)
+        //{
+        //    if (isUnlockButtonStartFirst)
+        //    {
+        //        photonView.RPC(nameof(RpcShareIsUnlockButtonStart), RpcTarget.Others, ManagerAccessor.Instance.dataManager.isUnlockButtonStart);
+        //        isUnlockButtonStartFirst = false;
+        //    }
+        //}
+        //else
+        //{
+        //    if (!isUnlockButtonStartFirst)
+        //    {
+        //        photonView.RPC(nameof(RpcShareIsUnlockButtonStart), RpcTarget.Others, ManagerAccessor.Instance.dataManager.isUnlockButtonStart);
+        //        isUnlockButtonStartFirst = true;
+        //    }
+        //}
 
 
         ////ボタンが押されているオブジェクトの数カウント用
@@ -159,5 +215,27 @@ public class GimmickUnlockButtonManagement : CGimmick
     private void RpcShareIsUnlockButtonStart(bool data)
     {
         ManagerAccessor.Instance.dataManager.isUnlockButtonStart = data;
+    }
+
+    //isStartCountを共有
+    [PunRPC]
+    private void RpcShareIsStartCount(bool data)
+    {
+        isStartCount = data;
+    }
+
+
+    //クリア状況を共有
+    [PunRPC]
+    private void RpcShareIsClear(bool data)
+    {
+        if (PhotonNetwork.LocalPlayer.IsMasterClient)
+        {
+            isOwnerClear = data;
+        }
+        else
+        {
+            isClientClear = data;
+        }
     }
 }

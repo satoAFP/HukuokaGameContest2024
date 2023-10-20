@@ -16,25 +16,30 @@ public class GimmickUnlockButton : CGimmick
 
     //答え
     [System.NonSerialized] public List<int> answer = new List<int>();
-
+    //回答状況
     public List<bool> ClearSituation;
 
 
 
     private void Update()
     {
+        //アンロックボタン開始
         if (ManagerAccessor.Instance.dataManager.isUnlockButtonStart)
         {
+            //答えの数
             for (int i = 0; i < answer.Count; i++)
             {
+                //クリアしている入力は飛ばされる
                 if (ClearSituation[i])
                 {
                     continue;
                 }
                 else
                 {
+                    //マスターかどうか
                     if (PhotonNetwork.LocalPlayer.IsMasterClient)
                     {
+                        //それぞれの入力とあっているかどうか
                         switch (answer[i])
                         {
                             case (int)Key.A:
@@ -80,13 +85,37 @@ public class GimmickUnlockButton : CGimmick
                     break;
                 }
             }
+
+            //最初の入力が正解の時、カウント開始
+            if (ClearSituation[0])
+            {
+                transform.parent.GetComponent<GimmickUnlockButtonManagement>().isStartCount = true;
+            }
+
+            //最後の入力が終わったときクリア情報を送る
+            if (ClearSituation[ClearSituation.Count - 1])
+            {
+                //マスターかどうか
+                if (PhotonNetwork.LocalPlayer.IsMasterClient)
+                {
+                    transform.parent.GetComponent<GimmickUnlockButtonManagement>().isOwnerClear = true;
+
+                }
+                else
+                {
+                    transform.parent.GetComponent<GimmickUnlockButtonManagement>().isOwnerClear = true;
+
+                }
+            }
         }
+
+       
 
 
     }
 
 
-    private void OnCollisionStay2D(Collision2D collision)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
         if (PhotonNetwork.LocalPlayer.IsMasterClient)
         {
@@ -100,6 +129,24 @@ public class GimmickUnlockButton : CGimmick
             if (collision.gameObject.name == "Player2")
             {
                 ManagerAccessor.Instance.dataManager.isUnlockButtonStart = true;
+            }
+        }
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (PhotonNetwork.LocalPlayer.IsMasterClient)
+        {
+            if (collision.gameObject.name == "Player1")
+            {
+                ManagerAccessor.Instance.dataManager.isUnlockButtonStart = false;
+            }
+        }
+        else
+        {
+            if (collision.gameObject.name == "Player2")
+            {
+                ManagerAccessor.Instance.dataManager.isUnlockButtonStart = false;
             }
         }
     }
