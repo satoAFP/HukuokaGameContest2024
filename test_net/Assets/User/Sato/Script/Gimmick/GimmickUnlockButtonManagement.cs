@@ -21,8 +21,11 @@ public class GimmickUnlockButtonManagement : CGimmick
     /*[System.NonSerialized]*/ public bool isStartCount = false;
 
     //それぞれの入力状況
-    [System.NonSerialized] public bool isOwnerClear = false;
-    [System.NonSerialized] public bool isClientClear = false;
+    /*[System.NonSerialized]*/ public bool isOwnerClear = false;
+    /*[System.NonSerialized]*/ public bool isClientClear = false;
+
+    //入力開始情報
+    /*[System.NonSerialized]*/ public bool isAllClear = false;
 
     //回答データ
     private List<int> answer = new List<int>();
@@ -119,118 +122,78 @@ public class GimmickUnlockButtonManagement : CGimmick
             }
         }
 
-        //入力開始時の時間計算
-        if(isStartCount)
+        //クリアしていないとき
+        if (!isAllClear)
         {
-            frameCount++;
-            if (frameCount == timeLimit * 60) 
+            //入力開始時の時間計算
+            if (isStartCount)
             {
-                //入力状況初期化
-                isStartCount = false;
-                frameCount = 0;
-
-                //二つ分初期化
-                for (int i = 0; i < gimmickButton.Count; i++)
+                frameCount++;
+                if (frameCount == timeLimit * 60)
                 {
-                    //クリア状況初期化
-                    for (int j = 0; j < answer.Count; j++)
+                    //入力状況初期化
+                    isStartCount = false;
+                    frameCount = 0;
+
+                    //二つ分初期化
+                    for (int i = 0; i < gimmickButton.Count; i++)
                     {
-                        gimmickButton[i].GetComponent<GimmickUnlockButton>().ClearSituation[j] = false;
+                        //クリア状況初期化
+                        for (int j = 0; j < answer.Count; j++)
+                        {
+                            gimmickButton[i].GetComponent<GimmickUnlockButton>().ClearSituation[j] = false;
+                        }
                     }
                 }
             }
-        }
 
-        if(isOwnerClear)
-        {
-            if(isOwnerClearFirst)
+            if (isOwnerClear)
             {
-                photonView.RPC(nameof(RpcShareIsClear), RpcTarget.Others, isOwnerClear);
-                isOwnerClearFirst = false;
+                if (isOwnerClearFirst)
+                {
+                    photonView.RPC(nameof(RpcShareIsClear), RpcTarget.Others, isOwnerClear);
+                    isOwnerClearFirst = false;
+                }
             }
+            else
+            {
+                if (!isOwnerClearFirst)
+                {
+                    photonView.RPC(nameof(RpcShareIsClear), RpcTarget.Others, isOwnerClear);
+                    isOwnerClearFirst = true;
+                }
+            }
+
+            if (isClientClear)
+            {
+                if (isClientClearFirst)
+                {
+                    photonView.RPC(nameof(RpcShareIsClear), RpcTarget.Others, isClientClear);
+                    isClientClearFirst = false;
+                }
+            }
+            else
+            {
+                if (!isClientClearFirst)
+                {
+                    photonView.RPC(nameof(RpcShareIsClear), RpcTarget.Others, isClientClear);
+                    isClientClearFirst = true;
+                }
+            }
+
+            if(isOwnerClear&&isClientClear)
+            {
+                isAllClear = true;
+            }
+
+
         }
         else
         {
-            if (!isOwnerClearFirst)
-            {
-                photonView.RPC(nameof(RpcShareIsClear), RpcTarget.Others, isOwnerClear);
-                isOwnerClearFirst = true;
-            }
+            door.SetActive(false);
         }
 
-        if (isClientClear)
-        {
-            if (isClientClearFirst)
-            {
-                photonView.RPC(nameof(RpcShareIsClear), RpcTarget.Others, isClientClear);
-                isClientClearFirst = false;
-            }
-        }
-        else
-        {
-            if (!isClientClearFirst)
-            {
-                photonView.RPC(nameof(RpcShareIsClear), RpcTarget.Others, isClientClear);
-                isClientClearFirst = true;
-            }
-        }
-
-
-        ////isUnlockButtonStartのデータ共有処理
-        //if (ManagerAccessor.Instance.dataManager.isUnlockButtonStart)
-        //{
-        //    if(isUnlockButtonStartFirst)
-        //    {
-        //        photonView.RPC(nameof(RpcShareIsUnlockButtonStart), RpcTarget.Others, ManagerAccessor.Instance.dataManager.isUnlockButtonStart);
-        //        isUnlockButtonStartFirst = false;
-        //    }
-        //}
-        //else
-        //{
-        //    if (!isUnlockButtonStartFirst)
-        //    {
-        //        photonView.RPC(nameof(RpcShareIsUnlockButtonStart), RpcTarget.Others, ManagerAccessor.Instance.dataManager.isUnlockButtonStart);
-        //        isUnlockButtonStartFirst = true;
-        //    }
-        //}
-
-        ////isUnlockButtonStartのデータ共有処理
-        //if (ManagerAccessor.Instance.dataManager.isUnlockButtonStart)
-        //{
-        //    if (isUnlockButtonStartFirst)
-        //    {
-        //        photonView.RPC(nameof(RpcShareIsUnlockButtonStart), RpcTarget.Others, ManagerAccessor.Instance.dataManager.isUnlockButtonStart);
-        //        isUnlockButtonStartFirst = false;
-        //    }
-        //}
-        //else
-        //{
-        //    if (!isUnlockButtonStartFirst)
-        //    {
-        //        photonView.RPC(nameof(RpcShareIsUnlockButtonStart), RpcTarget.Others, ManagerAccessor.Instance.dataManager.isUnlockButtonStart);
-        //        isUnlockButtonStartFirst = true;
-        //    }
-        //}
-
-
-        ////ボタンが押されているオブジェクトの数カウント用
-        //int count = 0;
-
-        ////ボタンの数だけ回す
-        //for (int i = 0; i < gimmickButton.Count; i++)
-        //{
-        //    if (gimmickButton[i].GetComponent<GimmickUnlockButton>().isButton == true)
-        //    {
-        //        count++;
-        //    }
-        //}
-
-        ////同時押しが成功すると、扉が開く
-        //if (gimmickButton.Count == count)
-        //{
-        //    door.SetActive(false);
-        //}
-
+        Debug.Log(isOwnerClear);
 
     }
 
