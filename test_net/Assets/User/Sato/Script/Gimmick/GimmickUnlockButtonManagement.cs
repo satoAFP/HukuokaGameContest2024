@@ -44,6 +44,7 @@ public class GimmickUnlockButtonManagement : CGimmick
     //クリア状況共有を連続で動かない用
     private bool isOwnerClearFirst = true;
     private bool isClientClearFirst = true;
+    private bool isStartCountFisrt = true;
 
 
     private enum Key
@@ -132,6 +133,12 @@ public class GimmickUnlockButtonManagement : CGimmick
             //入力開始時の時間計算
             if (isStartCount)
             {
+                if(isStartCountFisrt)
+                {
+                    photonView.RPC(nameof(RpcShareIsClear), RpcTarget.Others, isStartCount);
+                    isStartCountFisrt = false;
+                }
+
                 frameCount++;
                 if (frameCount == timeLimit * 60)
                 {
@@ -154,8 +161,18 @@ public class GimmickUnlockButtonManagement : CGimmick
             }
             else
             {
+                if (!isStartCountFisrt)
+                {
+                    photonView.RPC(nameof(RpcShareIsClear), RpcTarget.Others, isStartCount);
+                    isStartCountFisrt = true;
+                }
+
                 timetext.text = "待機";
             }
+
+
+
+
 
             if (isOwnerClear)
             {
