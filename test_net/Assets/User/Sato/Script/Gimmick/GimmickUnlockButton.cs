@@ -11,11 +11,19 @@ public class GimmickUnlockButton : CGimmick
         A, B, X, Y
     }
 
+    //個人で持っている触れている判定
+    private bool islocalUnlockButtonStart = false;
+
+    //どちらのプレイヤーが触れているか
+    private bool isHitPlayer1 = false;
+    private bool isHitPlayer2 = false;
+
     //それぞれのボタン入力状況
     [System.NonSerialized] public bool isButton = false;
 
     //答え
     [System.NonSerialized] public List<int> answer = new List<int>();
+
     //回答状況
     public List<bool> ClearSituation;
 
@@ -24,7 +32,7 @@ public class GimmickUnlockButton : CGimmick
     private void Update()
     {
         //アンロックボタン開始
-        if (ManagerAccessor.Instance.dataManager.isUnlockButtonStart)
+        if (islocalUnlockButtonStart)
         {
             //答えの数
             for (int i = 0; i < answer.Count; i++)
@@ -99,14 +107,16 @@ public class GimmickUnlockButton : CGimmick
                 if (PhotonNetwork.LocalPlayer.IsMasterClient)
                 {
                     transform.parent.GetComponent<GimmickUnlockButtonManagement>().isOwnerClear = true;
-
                 }
                 else
                 {
-                    transform.parent.GetComponent<GimmickUnlockButtonManagement>().isOwnerClear = true;
+                    transform.parent.GetComponent<GimmickUnlockButtonManagement>().isClientClear = true;
 
                 }
             }
+
+
+
         }
 
        
@@ -115,13 +125,21 @@ public class GimmickUnlockButton : CGimmick
     }
 
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnCollisionStay2D(Collision2D collision)
     {
+        //ブロックに触れている判定
         if (PhotonNetwork.LocalPlayer.IsMasterClient)
         {
             if (collision.gameObject.name == "Player1")
             {
                 ManagerAccessor.Instance.dataManager.isUnlockButtonStart = true;
+                
+
+                if (!isHitPlayer2)
+                {
+                    islocalUnlockButtonStart = true;
+                    isHitPlayer1 = true;
+                }
             }
         }
         else
@@ -129,17 +147,29 @@ public class GimmickUnlockButton : CGimmick
             if (collision.gameObject.name == "Player2")
             {
                 ManagerAccessor.Instance.dataManager.isUnlockButtonStart = true;
+                
+
+                if (!isHitPlayer1)
+                {
+                    islocalUnlockButtonStart = true;
+                    isHitPlayer2 = true;
+                    Debug.Log("aaa");
+                }
             }
         }
     }
 
     private void OnCollisionExit2D(Collision2D collision)
     {
+        //ブロックから離れた判定
         if (PhotonNetwork.LocalPlayer.IsMasterClient)
         {
             if (collision.gameObject.name == "Player1")
             {
                 ManagerAccessor.Instance.dataManager.isUnlockButtonStart = false;
+                islocalUnlockButtonStart = false;
+
+                isHitPlayer1 = false;
             }
         }
         else
@@ -147,6 +177,9 @@ public class GimmickUnlockButton : CGimmick
             if (collision.gameObject.name == "Player2")
             {
                 ManagerAccessor.Instance.dataManager.isUnlockButtonStart = false;
+                islocalUnlockButtonStart = false;
+
+                isHitPlayer2 = false;
             }
         }
     }

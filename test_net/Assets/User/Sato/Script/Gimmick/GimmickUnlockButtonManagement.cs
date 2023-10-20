@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using Photon.Pun;
 
 public class GimmickUnlockButtonManagement : CGimmick
@@ -14,6 +15,9 @@ public class GimmickUnlockButtonManagement : CGimmick
     [SerializeField, Header("入力する数")]
     private int inputKey;
 
+    [SerializeField, Header("残り時間")]
+    private Text timetext;
+
     [SerializeField, Header("入力時の制限時間")]
     private int timeLimit;
 
@@ -21,8 +25,11 @@ public class GimmickUnlockButtonManagement : CGimmick
     /*[System.NonSerialized]*/ public bool isStartCount = false;
 
     //それぞれの入力状況
-    [System.NonSerialized] public bool isOwnerClear = false;
-    [System.NonSerialized] public bool isClientClear = false;
+    /*[System.NonSerialized]*/ public bool isOwnerClear = false;
+    /*[System.NonSerialized]*/ public bool isClientClear = false;
+
+    //入力開始情報
+    /*[System.NonSerialized]*/ public bool isAllClear = false;
 
     //回答データ
     private List<int> answer = new List<int>();
@@ -35,7 +42,9 @@ public class GimmickUnlockButtonManagement : CGimmick
     //アンロックボタン起動状態を連続で動かなない用
     private bool isUnlockButtonStartFirst = true;
     //クリア状況共有を連続で動かない用
-    private bool isClearFirst = true;
+    private bool isOwnerClearFirst = true;
+    private bool isClientClearFirst = true;
+    private bool isStartCountFisrt = true;
 
 
     private enum Key
@@ -118,88 +127,100 @@ public class GimmickUnlockButtonManagement : CGimmick
             }
         }
 
-        //入力開始時の時間計算
-        if(isStartCount)
+        //クリアしていないとき
+        if (!isAllClear)
         {
-            frameCount++;
-            if (frameCount == timeLimit * 60) 
+            //入力開始時の時間計算
+            if (isStartCount)
             {
-                //入力状況初期化
-                isStartCount = false;
-                frameCount = 0;
-
-                //二つ分初期化
-                for (int i = 0; i < gimmickButton.Count; i++)
+                if(isStartCountFisrt)
                 {
-                    //クリア状況初期化
-                    for (int j = 0; j < answer.Count; j++)
+                    photonView.RPC(nameof(RpcShareIsStartCount), RpcTarget.Others, isStartCount);
+                    isStartCountFisrt = false;
+                }
+
+                frameCount++;
+                if (frameCount == timeLimit * 60)
+                {
+                    //入力状況初期化
+                    isStartCount = false;
+                    frameCount = 0;
+
+                    //二つ分初期化
+                    for (int i = 0; i < gimmickButton.Count; i++)
                     {
-                        gimmickButton[i].GetComponent<GimmickUnlockButton>().ClearSituation.Add(false);
+                        //クリア状況初期化
+                        for (int j = 0; j < answer.Count; j++)
+                        {
+                            gimmickButton[i].GetComponent<GimmickUnlockButton>().ClearSituation[j] = false;
+                        }
+                    }
+                }
+
+                timetext.text = frameCount.ToString() + "/" + timeLimit * 60;
+            }
+            else
+            {
+                if (!isStartCountFisrt)
+                {
+                    photonView.RPC(nameof(RpcShareIsStartCount), RpcTarget.Others, isStartCount);
+                    isStartCountFisrt = true;
+                }
+            }
+
+
+
+
+            if (PhotonNetwork.LocalPlayer.IsMasterClient)
+            {
+                if (isOwnerClear)
+                {
+                    if (isOwnerClearFirst)
+                    {
+                        photonView.RPC(nameof(RpcShareIsClear), RpcTarget.Others, true);
+                        isOwnerClearFirst = false;
+                    }
+                }
+                else
+                {
+                    if (!isOwnerClearFirst)
+                    {
+                        photonView.RPC(nameof(RpcShareIsClear), RpcTarget.Others, false);
+                        isOwnerClearFirst = true;
                     }
                 }
             }
+            else
+            {
+                if (isClientClear)
+                {
+                    if (isClientClearFirst)
+                    {
+                        photonView.RPC(nameof(RpcShareIsClear), RpcTarget.Others, true);
+                        isClientClearFirst = false;
+                    }
+                }
+                else
+                {
+                    if (!isClientClearFirst)
+                    {
+                        photonView.RPC(nameof(RpcShareIsClear), RpcTarget.Others, false);
+                        isClientClearFirst = true;
+                    }
+                }
+            }
+
+            if(isOwnerClear&&isClientClear)
+            {
+                isAllClear = true;
+            }
+
+
         }
-
-
-
-
-
-
-        ////isUnlockButtonStartのデータ共有処理
-        //if (ManagerAccessor.Instance.dataManager.isUnlockButtonStart)
-        //{
-        //    if(isUnlockButtonStartFirst)
-        //    {
-        //        photonView.RPC(nameof(RpcShareIsUnlockButtonStart), RpcTarget.Others, ManagerAccessor.Instance.dataManager.isUnlockButtonStart);
-        //        isUnlockButtonStartFirst = false;
-        //    }
-        //}
-        //else
-        //{
-        //    if (!isUnlockButtonStartFirst)
-        //    {
-        //        photonView.RPC(nameof(RpcShareIsUnlockButtonStart), RpcTarget.Others, ManagerAccessor.Instance.dataManager.isUnlockButtonStart);
-        //        isUnlockButtonStartFirst = true;
-        //    }
-        //}
-
-        ////isUnlockButtonStartのデータ共有処理
-        //if (ManagerAccessor.Instance.dataManager.isUnlockButtonStart)
-        //{
-        //    if (isUnlockButtonStartFirst)
-        //    {
-        //        photonView.RPC(nameof(RpcShareIsUnlockButtonStart), RpcTarget.Others, ManagerAccessor.Instance.dataManager.isUnlockButtonStart);
-        //        isUnlockButtonStartFirst = false;
-        //    }
-        //}
-        //else
-        //{
-        //    if (!isUnlockButtonStartFirst)
-        //    {
-        //        photonView.RPC(nameof(RpcShareIsUnlockButtonStart), RpcTarget.Others, ManagerAccessor.Instance.dataManager.isUnlockButtonStart);
-        //        isUnlockButtonStartFirst = true;
-        //    }
-        //}
-
-
-        ////ボタンが押されているオブジェクトの数カウント用
-        //int count = 0;
-
-        ////ボタンの数だけ回す
-        //for (int i = 0; i < gimmickButton.Count; i++)
-        //{
-        //    if (gimmickButton[i].GetComponent<GimmickUnlockButton>().isButton == true)
-        //    {
-        //        count++;
-        //    }
-        //}
-
-        ////同時押しが成功すると、扉が開く
-        //if (gimmickButton.Count == count)
-        //{
-        //    door.SetActive(false);
-        //}
-
+        else
+        {
+            door.SetActive(false);
+        }
 
     }
 
@@ -231,11 +252,14 @@ public class GimmickUnlockButtonManagement : CGimmick
     {
         if (PhotonNetwork.LocalPlayer.IsMasterClient)
         {
-            isOwnerClear = data;
+            isClientClear = data;
         }
         else
         {
-            isClientClear = data;
+            isOwnerClear = data;
         }
     }
+
+    
+
 }
