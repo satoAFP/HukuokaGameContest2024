@@ -16,13 +16,14 @@ public class GimmickUnlockButton : CGimmick
 
     //“š‚¦
     [System.NonSerialized] public List<int> answer = new List<int>();
-
+    //‰ñ“šó‹µ
     public List<bool> ClearSituation;
 
 
 
     private void Update()
     {
+        //
         if (ManagerAccessor.Instance.dataManager.isUnlockButtonStart)
         {
             for (int i = 0; i < answer.Count; i++)
