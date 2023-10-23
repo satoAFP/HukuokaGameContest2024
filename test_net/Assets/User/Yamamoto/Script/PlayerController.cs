@@ -114,6 +114,19 @@ public class PlayerController : MonoBehaviourPunCallbacks
                 }
             }
 
+            Debug.Log("箱側の夏");
+            if (datamanager.isOwnerInputKey_CA && movelock)
+            {
+                Debug.Log("箱側の冬");
+                //同時に上ボタンを押していないときは画像を元に戻す
+                if (gameObject.name == "Player1")
+                {
+                    GetComponent<SpriteRenderer>().sprite = p1Image;
+                    movelock = false;
+                    Debug.Log("箱側の秋");
+                }
+            }
+
         }
         else
         {
@@ -141,6 +154,16 @@ public class PlayerController : MonoBehaviourPunCallbacks
             else
             {
                 distanceFirst = true;
+            }
+
+            if (datamanager.isOwnerInputKey_CA &&　movelock)
+            {
+                //同時に上ボタンを押していないときは画像を元に戻す
+                if (gameObject.name == "Player1")
+                {
+                    GetComponent<SpriteRenderer>().sprite = p1Image;
+                 
+                }
             }
 
         }
@@ -174,28 +197,28 @@ public class PlayerController : MonoBehaviourPunCallbacks
         }
 
 
-        if(!PhotonNetwork.LocalPlayer.IsMasterClient)
-        {
-            if (datamanager.isOwnerInputKey_CA && ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().movelock)
-            {
-                //同時に上ボタンを押していないときは画像を元に戻す
-                if (gameObject.name == "Player1")
-                {
-                    GetComponent<SpriteRenderer>().sprite = p1Image;
-                }
-            }
-        }
-        else
-        {
-            if (datamanager.isOwnerInputKey_CA && movelock)
-            {
-                //同時に上ボタンを押していないときは画像を元に戻す
-                if (gameObject.name == "Player1")
-                {
-                    GetComponent<SpriteRenderer>().sprite = p1Image;
-                }
-            }
-        }
+        //if(!PhotonNetwork.LocalPlayer.IsMasterClient)
+        //{
+        //    if (datamanager.isOwnerInputKey_CA && ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().movelock)
+        //    {
+        //        //同時に上ボタンを押していないときは画像を元に戻す
+        //        if (gameObject.name == "Player1")
+        //        {
+        //            GetComponent<SpriteRenderer>().sprite = p1Image;
+        //        }
+        //    }
+        //}
+        //else
+        //{
+        //    if (datamanager.isOwnerInputKey_CA && movelock)
+        //    {
+        //        //同時に上ボタンを押していないときは画像を元に戻す
+        //        if (gameObject.name == "Player1")
+        //        {
+        //            GetComponent<SpriteRenderer>().sprite = p1Image;
+        //        }
+        //    }
+        //}
        
 
     }
@@ -271,11 +294,11 @@ public class PlayerController : MonoBehaviourPunCallbacks
     public void OnBoxClose(InputAction.CallbackContext context)
     {
         //操作が競合しないための設定
-        if (photonView.IsMine)
-        {
-            if (movelock)
-                movelock = false;//移動可能にする
-        }
+        //if (photonView.IsMine)
+        //{
+        //    if (movelock)
+        //        movelock = false;//移動可能にする
+        //}
     }
 
     //箱オープン
