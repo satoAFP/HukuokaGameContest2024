@@ -8,7 +8,7 @@ public class GimmickUnlockButton : CGimmick
 {
     private enum Key
     {
-        A, B, X, Y
+        A, B, X, Y, Right, Left, Up, Down, R1, R2, L1, L2
     }
 
     //個人で持っている触れている判定
@@ -17,6 +17,9 @@ public class GimmickUnlockButton : CGimmick
     //どちらのプレイヤーが触れているか
     private bool isHitPlayer1 = false;
     private bool isHitPlayer2 = false;
+
+    private Rigidbody2D rb2d;
+
 
     //それぞれのボタン入力状況
     [System.NonSerialized] public bool isButton = false;
@@ -27,6 +30,11 @@ public class GimmickUnlockButton : CGimmick
     //回答状況
     public List<bool> ClearSituation;
 
+
+    private void Start()
+    {
+        rb2d = GetComponent<Rigidbody2D>();
+    }
 
 
     private void Update()
@@ -44,52 +52,8 @@ public class GimmickUnlockButton : CGimmick
                 }
                 else
                 {
-                    //マスターかどうか
-                    if (PhotonNetwork.LocalPlayer.IsMasterClient)
-                    {
-                        //それぞれの入力とあっているかどうか
-                        switch (answer[i])
-                        {
-                            case (int)Key.A:
-                                if (ManagerAccessor.Instance.dataManager.isOwnerInputKey_CA)
-                                    ClearSituation[i] = true;
-                                break;
-                            case (int)Key.B:
-                                if (ManagerAccessor.Instance.dataManager.isOwnerInputKey_CB)
-                                    ClearSituation[i] = true;
-                                break;
-                            case (int)Key.X:
-                                if (ManagerAccessor.Instance.dataManager.isOwnerInputKey_CX)
-                                    ClearSituation[i] = true;
-                                break;
-                            case (int)Key.Y:
-                                if (ManagerAccessor.Instance.dataManager.isOwnerInputKey_CY)
-                                    ClearSituation[i] = true;
-                                break;
-                        }
-                    }
-                    else
-                    {
-                        switch (answer[i])
-                        {
-                            case (int)Key.A:
-                                if (ManagerAccessor.Instance.dataManager.isClientInputKey_CA)
-                                    ClearSituation[i] = true;
-                                break;
-                            case (int)Key.B:
-                                if (ManagerAccessor.Instance.dataManager.isClientInputKey_CB)
-                                    ClearSituation[i] = true;
-                                break;
-                            case (int)Key.X:
-                                if (ManagerAccessor.Instance.dataManager.isClientInputKey_CX)
-                                    ClearSituation[i] = true;
-                                break;
-                            case (int)Key.Y:
-                                if (ManagerAccessor.Instance.dataManager.isClientInputKey_CY)
-                                    ClearSituation[i] = true;
-                                break;
-                        }
-                    }
+                    //入力情報と一致するかチェック
+                    InputAnswer(i);
                     break;
                 }
             }
@@ -119,9 +83,9 @@ public class GimmickUnlockButton : CGimmick
 
         }
 
-       
 
 
+        rb2d.WakeUp();
     }
 
 
@@ -129,25 +93,31 @@ public class GimmickUnlockButton : CGimmick
     {
         if (collision.gameObject.name == "Player1")
         {
-            if (PhotonNetwork.LocalPlayer.IsMasterClient)
-                ManagerAccessor.Instance.dataManager.isUnlockButtonStart = true;
-
-
             if (!isHitPlayer2)
             {
-                islocalUnlockButtonStart = true;
+                if (PhotonNetwork.LocalPlayer.IsMasterClient)
+                {
+                    ManagerAccessor.Instance.dataManager.isUnlockButtonStart = true;
+                    transform.parent.GetComponent<GimmickUnlockButtonManagement>().answerArea.SetActive(true);
+                    islocalUnlockButtonStart = true;
+                }
+
+                
                 isHitPlayer1 = true;
             }
         }
         if (collision.gameObject.name == "Player2")
         {
-            if (!PhotonNetwork.LocalPlayer.IsMasterClient)
-                ManagerAccessor.Instance.dataManager.isUnlockButtonStart = true;
-
-
             if (!isHitPlayer1)
             {
-                islocalUnlockButtonStart = true;
+                if (!PhotonNetwork.LocalPlayer.IsMasterClient)
+                {
+                    ManagerAccessor.Instance.dataManager.isUnlockButtonStart = true;
+                    transform.parent.GetComponent<GimmickUnlockButtonManagement>().answerArea.SetActive(true);
+                    islocalUnlockButtonStart = true;
+                }
+
+                
                 isHitPlayer2 = true;
             }
         }
@@ -157,6 +127,7 @@ public class GimmickUnlockButton : CGimmick
     {
         if (collision.gameObject.name == "Player1")
         {
+            transform.parent.GetComponent<GimmickUnlockButtonManagement>().answerArea.SetActive(false);
             ManagerAccessor.Instance.dataManager.isUnlockButtonStart = false;
             islocalUnlockButtonStart = false;
 
@@ -164,6 +135,7 @@ public class GimmickUnlockButton : CGimmick
         }
         if (collision.gameObject.name == "Player2")
         {
+            transform.parent.GetComponent<GimmickUnlockButtonManagement>().answerArea.SetActive(false);
             ManagerAccessor.Instance.dataManager.isUnlockButtonStart = false;
             islocalUnlockButtonStart = false;
 
@@ -171,4 +143,123 @@ public class GimmickUnlockButton : CGimmick
         }
 
     }
+
+    /// <summary>
+    /// 回答入力取得用関数
+    /// </summary>
+    /// <param name="i">リスト内の何番目を回答中か</param>
+    private void InputAnswer(int i)
+    {
+        //マスターかどうか
+        if (PhotonNetwork.LocalPlayer.IsMasterClient)
+        {
+            //それぞれの入力とあっているかどうか
+            switch (answer[i])
+            {
+                case (int)Key.A:
+                    if (ManagerAccessor.Instance.dataManager.isOwnerInputKey_CA)
+                        ClearSituation[i] = true;
+                    break;
+                case (int)Key.B:
+                    if (ManagerAccessor.Instance.dataManager.isOwnerInputKey_CB)
+                        ClearSituation[i] = true;
+                    break;
+                case (int)Key.X:
+                    if (ManagerAccessor.Instance.dataManager.isOwnerInputKey_CX)
+                        ClearSituation[i] = true;
+                    break;
+                case (int)Key.Y:
+                    if (ManagerAccessor.Instance.dataManager.isOwnerInputKey_CY)
+                        ClearSituation[i] = true;
+                    break;
+                case (int)Key.Right:
+                    if (ManagerAccessor.Instance.dataManager.isOwnerInputKey_C_D_RIGHT)
+                        ClearSituation[i] = true;
+                    break;
+                case (int)Key.Left:
+                    if (ManagerAccessor.Instance.dataManager.isOwnerInputKey_C_D_LEFT)
+                        ClearSituation[i] = true;
+                    break;
+                case (int)Key.Up:
+                    if (ManagerAccessor.Instance.dataManager.isOwnerInputKey_C_D_UP)
+                        ClearSituation[i] = true;
+                    break;
+                case (int)Key.Down:
+                    if (ManagerAccessor.Instance.dataManager.isOwnerInputKey_C_D_DOWN)
+                        ClearSituation[i] = true;
+                    break;
+                case (int)Key.R1:
+                    if (ManagerAccessor.Instance.dataManager.isOwnerInputKey_C_R1)
+                        ClearSituation[i] = true;
+                    break;
+                case (int)Key.R2:
+                    if (ManagerAccessor.Instance.dataManager.isOwnerInputKey_C_R2)
+                        ClearSituation[i] = true;
+                    break;
+                case (int)Key.L1:
+                    if (ManagerAccessor.Instance.dataManager.isOwnerInputKey_C_L1)
+                        ClearSituation[i] = true;
+                    break;
+                case (int)Key.L2:
+                    if (ManagerAccessor.Instance.dataManager.isOwnerInputKey_C_L2)
+                        ClearSituation[i] = true;
+                    break;
+            }
+        }
+        else
+        {
+            switch (answer[i])
+            {
+                case (int)Key.A:
+                    if (ManagerAccessor.Instance.dataManager.isClientInputKey_CA)
+                        ClearSituation[i] = true;
+                    break;
+                case (int)Key.B:
+                    if (ManagerAccessor.Instance.dataManager.isClientInputKey_CB)
+                        ClearSituation[i] = true;
+                    break;
+                case (int)Key.X:
+                    if (ManagerAccessor.Instance.dataManager.isClientInputKey_CX)
+                        ClearSituation[i] = true;
+                    break;
+                case (int)Key.Y:
+                    if (ManagerAccessor.Instance.dataManager.isClientInputKey_CY)
+                        ClearSituation[i] = true;
+                    break;
+                case (int)Key.Right:
+                    if (ManagerAccessor.Instance.dataManager.isClientInputKey_C_D_RIGHT)
+                        ClearSituation[i] = true;
+                    break;
+                case (int)Key.Left:
+                    if (ManagerAccessor.Instance.dataManager.isClientInputKey_C_D_LEFT)
+                        ClearSituation[i] = true;
+                    break;
+                case (int)Key.Up:
+                    if (ManagerAccessor.Instance.dataManager.isClientInputKey_C_D_UP)
+                        ClearSituation[i] = true;
+                    break;
+                case (int)Key.Down:
+                    if (ManagerAccessor.Instance.dataManager.isClientInputKey_C_D_DOWN)
+                        ClearSituation[i] = true;
+                    break;
+                case (int)Key.R1:
+                    if (ManagerAccessor.Instance.dataManager.isClientInputKey_C_R1)
+                        ClearSituation[i] = true;
+                    break;
+                case (int)Key.R2:
+                    if (ManagerAccessor.Instance.dataManager.isClientInputKey_C_R2)
+                        ClearSituation[i] = true;
+                    break;
+                case (int)Key.L1:
+                    if (ManagerAccessor.Instance.dataManager.isClientInputKey_C_L1)
+                        ClearSituation[i] = true;
+                    break;
+                case (int)Key.L2:
+                    if (ManagerAccessor.Instance.dataManager.isClientInputKey_C_L2)
+                        ClearSituation[i] = true;
+                    break;
+            }
+        }
+    }
+
 }
