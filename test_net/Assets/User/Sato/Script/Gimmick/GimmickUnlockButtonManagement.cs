@@ -18,11 +18,21 @@ public class GimmickUnlockButtonManagement : CGimmick
     [SerializeField, Header("残り時間")]
     private Text timetext;
 
+    [SerializeField, Header("答え表示用")]
+    private Text answerText;
+
     [SerializeField, Header("入力時の制限時間")]
     private int timeLimit;
 
+    [SerializeField, Header("答えを隠すかどうか")]
+    private bool isHideAnswer;
+
+    [SerializeField, Header("隠す場合どこを隠すか(チェック入れるとPlayer1の答えが隠される)")]
+    private List<bool> isWhareHideAnswer;
+
     //入力開始情報
-    /*[System.NonSerialized]*/ public bool isStartCount = false;
+    /*[System.NonSerialized]*/
+    public bool isStartCount = false;
 
     //それぞれの入力状況
     /*[System.NonSerialized]*/ public bool isOwnerClear = false;
@@ -87,17 +97,9 @@ public class GimmickUnlockButtonManagement : CGimmick
                     }
                     ManagerAccessor.Instance.dataManager.chat.text = answer[0].ToString() + ":" + answer[1].ToString() + ":" + answer[2].ToString() + ":" + answer[3].ToString() + ":" + answer[4].ToString();
 
-                    //答え入力用ブロックに答えデータを渡す
-                    for (int i = 0; i < gimmickButton.Count; i++)
-                    {
-                        gimmickButton[i].GetComponent<GimmickUnlockButton>().answer = answer;
+                    //答え設定
+                    AnswerSet();
 
-                        //クリア状況初期化
-                        for (int j = 0; j < answer.Count; j++)
-                        {
-                            gimmickButton[i].GetComponent<GimmickUnlockButton>().ClearSituation.Add(false);
-                        }
-                    }
                     isAnswerFirst = false;
                 }
             }
@@ -110,18 +112,9 @@ public class GimmickUnlockButtonManagement : CGimmick
                 //最初の一回だけ
                 if (isAnswerFirst)
                 {
-                    ManagerAccessor.Instance.dataManager.chat.text = answer[0].ToString() + ":" + answer[1].ToString() + ":" + answer[2].ToString() + ":" + answer[3].ToString() + ":" + answer[4].ToString();
-                    //答え入力用ブロックに答えデータを渡す
-                    for (int i = 0; i < gimmickButton.Count; i++)
-                    {
-                        gimmickButton[i].GetComponent<GimmickUnlockButton>().answer = answer;
+                    //答え設定
+                    AnswerSet();
 
-                        //クリア状況初期化
-                        for(int j=0;j<answer.Count;j++)
-                        {
-                            gimmickButton[i].GetComponent<GimmickUnlockButton>().ClearSituation.Add(false);
-                        }
-                    }
                     isAnswerFirst = false;
                 }
             }
@@ -170,7 +163,7 @@ public class GimmickUnlockButtonManagement : CGimmick
 
 
 
-
+            //Player1のクリア情報送信
             if (PhotonNetwork.LocalPlayer.IsMasterClient)
             {
                 if (isOwnerClear)
@@ -190,6 +183,7 @@ public class GimmickUnlockButtonManagement : CGimmick
                     }
                 }
             }
+            //Player2のクリア情報送信
             else
             {
                 if (isClientClear)
@@ -210,6 +204,7 @@ public class GimmickUnlockButtonManagement : CGimmick
                 }
             }
 
+            //両方クリアしたらこの処理を抜ける
             if(isOwnerClear&&isClientClear)
             {
                 isAllClear = true;
@@ -219,10 +214,29 @@ public class GimmickUnlockButtonManagement : CGimmick
         }
         else
         {
+            //解除成功
             door.SetActive(false);
         }
 
     }
+
+
+    //答え設定用関数
+    private void AnswerSet()
+    {
+        //答え入力用ブロックに答えデータを渡す
+        for (int i = 0; i < gimmickButton.Count; i++)
+        {
+            gimmickButton[i].GetComponent<GimmickUnlockButton>().answer = answer;
+
+            //クリア状況初期化
+            for (int j = 0; j < answer.Count; j++)
+            {
+                gimmickButton[i].GetComponent<GimmickUnlockButton>().ClearSituation.Add(false);
+            }
+        }
+    }
+
 
     //マスターサイドで決めた答えを共有
     [PunRPC]

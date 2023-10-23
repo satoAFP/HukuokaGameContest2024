@@ -127,60 +127,48 @@ public class GimmickUnlockButton : CGimmick
 
     private void OnCollisionStay2D(Collision2D collision)
     {
-        //ブロックに触れている判定
-        if (PhotonNetwork.LocalPlayer.IsMasterClient)
+        if (collision.gameObject.name == "Player1")
         {
-            if (collision.gameObject.name == "Player1")
-            {
+            if (PhotonNetwork.LocalPlayer.IsMasterClient)
                 ManagerAccessor.Instance.dataManager.isUnlockButtonStart = true;
-                
 
-                if (!isHitPlayer2)
-                {
-                    islocalUnlockButtonStart = true;
-                    isHitPlayer1 = true;
-                }
+
+            if (!isHitPlayer2)
+            {
+                islocalUnlockButtonStart = true;
+                isHitPlayer1 = true;
             }
         }
-        else
+        if (collision.gameObject.name == "Player2")
         {
-            if (collision.gameObject.name == "Player2")
-            {
+            if (!PhotonNetwork.LocalPlayer.IsMasterClient)
                 ManagerAccessor.Instance.dataManager.isUnlockButtonStart = true;
-                
 
-                if (!isHitPlayer1)
-                {
-                    islocalUnlockButtonStart = true;
-                    isHitPlayer2 = true;
-                    Debug.Log("aaa");
-                }
+
+            if (!isHitPlayer1)
+            {
+                islocalUnlockButtonStart = true;
+                isHitPlayer2 = true;
             }
         }
     }
 
     private void OnCollisionExit2D(Collision2D collision)
     {
-        //ブロックから離れた判定
-        if (PhotonNetwork.LocalPlayer.IsMasterClient)
+        if (collision.gameObject.name == "Player1")
         {
-            if (collision.gameObject.name == "Player1")
-            {
-                ManagerAccessor.Instance.dataManager.isUnlockButtonStart = false;
-                islocalUnlockButtonStart = false;
+            ManagerAccessor.Instance.dataManager.isUnlockButtonStart = false;
+            islocalUnlockButtonStart = false;
 
-                isHitPlayer1 = false;
-            }
+            isHitPlayer1 = false;
         }
-        else
+        if (collision.gameObject.name == "Player2")
         {
-            if (collision.gameObject.name == "Player2")
-            {
-                ManagerAccessor.Instance.dataManager.isUnlockButtonStart = false;
-                islocalUnlockButtonStart = false;
+            ManagerAccessor.Instance.dataManager.isUnlockButtonStart = false;
+            islocalUnlockButtonStart = false;
 
-                isHitPlayer2 = false;
-            }
+            isHitPlayer2 = false;
         }
+
     }
 }
