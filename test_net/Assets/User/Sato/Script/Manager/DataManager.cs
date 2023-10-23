@@ -55,6 +55,11 @@ public class DataManager : MonoBehaviourPunCallbacks
     [System.NonSerialized] public bool isOwnerInputKey_C_D_LEFT  = false;
     [System.NonSerialized] public bool isOwnerInputKey_C_D_UP    = false;
     [System.NonSerialized] public bool isOwnerInputKey_C_D_DOWN  = false;
+    //コントローラー上ボタン＆トリガー
+    [System.NonSerialized] public bool isOwnerInputKey_C_R1 = false;
+    [System.NonSerialized] public bool isOwnerInputKey_C_R2 = false;
+    [System.NonSerialized] public bool isOwnerInputKey_C_L1 = false;
+    [System.NonSerialized] public bool isOwnerInputKey_C_L2 = false;
 
     //キー入力情報(クライアント)
     //キーボード入力
@@ -80,7 +85,11 @@ public class DataManager : MonoBehaviourPunCallbacks
     [System.NonSerialized] public bool isClientInputKey_C_D_LEFT  = false;
     [System.NonSerialized] public bool isClientInputKey_C_D_UP    = false;
     [System.NonSerialized] public bool isClientInputKey_C_D_DOWN  = false;
-
+    //コントローラー上ボタン＆トリガー
+    [System.NonSerialized] public bool isClientInputKey_C_R1 = false;
+    [System.NonSerialized] public bool isClientInputKey_C_R2 = false;
+    [System.NonSerialized] public bool isClientInputKey_C_L1 = false;
+    [System.NonSerialized] public bool isClientInputKey_C_L2 = false;
 
 
 

@@ -20,4 +20,5 @@ public class ManagerAccessor
 
     public SceneMoveManager sceneMoveManager;
     public DataManager dataManager;
+    public SpriteManager spriteManager;
 }

@@ -145,6 +145,24 @@ public partial class @Test_net: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
+                    ""name"": ""RButtonPress"",
+                    ""type"": ""Button"",
+                    ""id"": ""037efcd3-f5b4-4dcb-b755-ff624be9341a"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""RButtonRelease"",
+                    ""type"": ""Button"",
+                    ""id"": ""aeba42e6-df4f-4da2-ba10-82df1ad53179"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press(behavior=1)"",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""LTriggerPress"",
                     ""type"": ""Button"",
                     ""id"": ""becd644b-bc90-4158-b85f-f3fe9c7e86d0"",
@@ -163,6 +181,24 @@ public partial class @Test_net: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
+                    ""name"": ""LButtonPress"",
+                    ""type"": ""Button"",
+                    ""id"": ""7c727023-ece1-44cc-bd1a-cf33e5f0c979"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""LButtonRelease"",
+                    ""type"": ""Button"",
+                    ""id"": ""4b970128-c016-44dd-891f-6412cc3fb31d"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press(behavior=1)"",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""OpenActionPress"",
                     ""type"": ""Button"",
                     ""id"": ""f87cae31-a724-4154-8cda-604430480e72"",
@@ -175,6 +211,24 @@ public partial class @Test_net: IInputActionCollection2, IDisposable
                     ""name"": ""OpenActionRelese"",
                     ""type"": ""Button"",
                     ""id"": ""9ed57fb7-7d8f-43e9-9ad4-fa4d84a55a2c"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press(behavior=1)"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Down_D_PadPress"",
+                    ""type"": ""Button"",
+                    ""id"": ""ac47aa2f-2b04-4884-9d4f-7d6a1b472924"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Down_D_PadRelease"",
+                    ""type"": ""Button"",
+                    ""id"": ""670ad395-e74f-4430-b526-ee0858dbfe8b"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": ""Press(behavior=1)"",
@@ -281,39 +335,6 @@ public partial class @Test_net: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""RTriggerPress"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""600b6175-024c-4be3-9836-48715bf492b8"",
-                    ""path"": ""<Gamepad>/rightTrigger"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""RTriggerRelease"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""c46043fc-1a19-472e-9b50-5d23111678bc"",
-                    ""path"": ""<Gamepad>/leftTrigger"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""LTriggerPress"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""ce7e5481-ce65-4316-85a9-d0790358ec5c"",
-                    ""path"": ""<Gamepad>/leftTrigger"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""LTriggerRelease"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -446,6 +467,105 @@ public partial class @Test_net: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""ActionReleaseX"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ee055a10-06e8-4a72-9bde-3337a3b90d49"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RButtonPress"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1313e3bc-490f-43ec-b1ec-aa6ae2379783"",
+                    ""path"": ""<Gamepad>/leftShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""LButtonPress"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""600b6175-024c-4be3-9836-48715bf492b8"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RTriggerRelease"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""aaf02835-8ca1-44a9-8872-a7fbd552c865"",
+                    ""path"": ""<Gamepad>/leftShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""LButtonRelease"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d98711ad-0ebe-4dfe-933f-6a3ed4e0bfa5"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RButtonRelease"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ce7e5481-ce65-4316-85a9-d0790358ec5c"",
+                    ""path"": ""<Gamepad>/leftTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""LTriggerRelease"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c46043fc-1a19-472e-9b50-5d23111678bc"",
+                    ""path"": ""<Gamepad>/leftTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""LTriggerPress"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""670548d6-8a64-48e8-933e-0fb50ad14ff6"",
+                    ""path"": ""<Gamepad>/dpad/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Down_D_PadPress"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""aa30c324-4bdb-4beb-ac23-58b4853aade3"",
+                    ""path"": ""<Gamepad>/dpad/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Down_D_PadRelease"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1046,10 +1166,16 @@ public partial class @Test_net: IInputActionCollection2, IDisposable
         m_Player_ActionReleaseY = m_Player.FindAction("ActionReleaseY", throwIfNotFound: true);
         m_Player_RTriggerPress = m_Player.FindAction("RTriggerPress", throwIfNotFound: true);
         m_Player_RTriggerRelease = m_Player.FindAction("RTriggerRelease", throwIfNotFound: true);
+        m_Player_RButtonPress = m_Player.FindAction("RButtonPress", throwIfNotFound: true);
+        m_Player_RButtonRelease = m_Player.FindAction("RButtonRelease", throwIfNotFound: true);
         m_Player_LTriggerPress = m_Player.FindAction("LTriggerPress", throwIfNotFound: true);
         m_Player_LTriggerRelease = m_Player.FindAction("LTriggerRelease", throwIfNotFound: true);
+        m_Player_LButtonPress = m_Player.FindAction("LButtonPress", throwIfNotFound: true);
+        m_Player_LButtonRelease = m_Player.FindAction("LButtonRelease", throwIfNotFound: true);
         m_Player_OpenActionPress = m_Player.FindAction("OpenActionPress", throwIfNotFound: true);
         m_Player_OpenActionRelese = m_Player.FindAction("OpenActionRelese", throwIfNotFound: true);
+        m_Player_Down_D_PadPress = m_Player.FindAction("Down_D_PadPress", throwIfNotFound: true);
+        m_Player_Down_D_PadRelease = m_Player.FindAction("Down_D_PadRelease", throwIfNotFound: true);
         m_Player_R_D_PadPress = m_Player.FindAction("R_D_PadPress", throwIfNotFound: true);
         m_Player_R_D_PadRelease = m_Player.FindAction("R_D_PadRelease", throwIfNotFound: true);
         m_Player_L_D_PadPress = m_Player.FindAction("L_D_PadPress", throwIfNotFound: true);
@@ -1140,10 +1266,16 @@ public partial class @Test_net: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_ActionReleaseY;
     private readonly InputAction m_Player_RTriggerPress;
     private readonly InputAction m_Player_RTriggerRelease;
+    private readonly InputAction m_Player_RButtonPress;
+    private readonly InputAction m_Player_RButtonRelease;
     private readonly InputAction m_Player_LTriggerPress;
     private readonly InputAction m_Player_LTriggerRelease;
+    private readonly InputAction m_Player_LButtonPress;
+    private readonly InputAction m_Player_LButtonRelease;
     private readonly InputAction m_Player_OpenActionPress;
     private readonly InputAction m_Player_OpenActionRelese;
+    private readonly InputAction m_Player_Down_D_PadPress;
+    private readonly InputAction m_Player_Down_D_PadRelease;
     private readonly InputAction m_Player_R_D_PadPress;
     private readonly InputAction m_Player_R_D_PadRelease;
     private readonly InputAction m_Player_L_D_PadPress;
@@ -1165,10 +1297,16 @@ public partial class @Test_net: IInputActionCollection2, IDisposable
         public InputAction @ActionReleaseY => m_Wrapper.m_Player_ActionReleaseY;
         public InputAction @RTriggerPress => m_Wrapper.m_Player_RTriggerPress;
         public InputAction @RTriggerRelease => m_Wrapper.m_Player_RTriggerRelease;
+        public InputAction @RButtonPress => m_Wrapper.m_Player_RButtonPress;
+        public InputAction @RButtonRelease => m_Wrapper.m_Player_RButtonRelease;
         public InputAction @LTriggerPress => m_Wrapper.m_Player_LTriggerPress;
         public InputAction @LTriggerRelease => m_Wrapper.m_Player_LTriggerRelease;
+        public InputAction @LButtonPress => m_Wrapper.m_Player_LButtonPress;
+        public InputAction @LButtonRelease => m_Wrapper.m_Player_LButtonRelease;
         public InputAction @OpenActionPress => m_Wrapper.m_Player_OpenActionPress;
         public InputAction @OpenActionRelese => m_Wrapper.m_Player_OpenActionRelese;
+        public InputAction @Down_D_PadPress => m_Wrapper.m_Player_Down_D_PadPress;
+        public InputAction @Down_D_PadRelease => m_Wrapper.m_Player_Down_D_PadRelease;
         public InputAction @R_D_PadPress => m_Wrapper.m_Player_R_D_PadPress;
         public InputAction @R_D_PadRelease => m_Wrapper.m_Player_R_D_PadRelease;
         public InputAction @L_D_PadPress => m_Wrapper.m_Player_L_D_PadPress;
@@ -1221,18 +1359,36 @@ public partial class @Test_net: IInputActionCollection2, IDisposable
             @RTriggerRelease.started += instance.OnRTriggerRelease;
             @RTriggerRelease.performed += instance.OnRTriggerRelease;
             @RTriggerRelease.canceled += instance.OnRTriggerRelease;
+            @RButtonPress.started += instance.OnRButtonPress;
+            @RButtonPress.performed += instance.OnRButtonPress;
+            @RButtonPress.canceled += instance.OnRButtonPress;
+            @RButtonRelease.started += instance.OnRButtonRelease;
+            @RButtonRelease.performed += instance.OnRButtonRelease;
+            @RButtonRelease.canceled += instance.OnRButtonRelease;
             @LTriggerPress.started += instance.OnLTriggerPress;
             @LTriggerPress.performed += instance.OnLTriggerPress;
             @LTriggerPress.canceled += instance.OnLTriggerPress;
             @LTriggerRelease.started += instance.OnLTriggerRelease;
             @LTriggerRelease.performed += instance.OnLTriggerRelease;
             @LTriggerRelease.canceled += instance.OnLTriggerRelease;
+            @LButtonPress.started += instance.OnLButtonPress;
+            @LButtonPress.performed += instance.OnLButtonPress;
+            @LButtonPress.canceled += instance.OnLButtonPress;
+            @LButtonRelease.started += instance.OnLButtonRelease;
+            @LButtonRelease.performed += instance.OnLButtonRelease;
+            @LButtonRelease.canceled += instance.OnLButtonRelease;
             @OpenActionPress.started += instance.OnOpenActionPress;
             @OpenActionPress.performed += instance.OnOpenActionPress;
             @OpenActionPress.canceled += instance.OnOpenActionPress;
             @OpenActionRelese.started += instance.OnOpenActionRelese;
             @OpenActionRelese.performed += instance.OnOpenActionRelese;
             @OpenActionRelese.canceled += instance.OnOpenActionRelese;
+            @Down_D_PadPress.started += instance.OnDown_D_PadPress;
+            @Down_D_PadPress.performed += instance.OnDown_D_PadPress;
+            @Down_D_PadPress.canceled += instance.OnDown_D_PadPress;
+            @Down_D_PadRelease.started += instance.OnDown_D_PadRelease;
+            @Down_D_PadRelease.performed += instance.OnDown_D_PadRelease;
+            @Down_D_PadRelease.canceled += instance.OnDown_D_PadRelease;
             @R_D_PadPress.started += instance.OnR_D_PadPress;
             @R_D_PadPress.performed += instance.OnR_D_PadPress;
             @R_D_PadPress.canceled += instance.OnR_D_PadPress;
@@ -1288,18 +1444,36 @@ public partial class @Test_net: IInputActionCollection2, IDisposable
             @RTriggerRelease.started -= instance.OnRTriggerRelease;
             @RTriggerRelease.performed -= instance.OnRTriggerRelease;
             @RTriggerRelease.canceled -= instance.OnRTriggerRelease;
+            @RButtonPress.started -= instance.OnRButtonPress;
+            @RButtonPress.performed -= instance.OnRButtonPress;
+            @RButtonPress.canceled -= instance.OnRButtonPress;
+            @RButtonRelease.started -= instance.OnRButtonRelease;
+            @RButtonRelease.performed -= instance.OnRButtonRelease;
+            @RButtonRelease.canceled -= instance.OnRButtonRelease;
             @LTriggerPress.started -= instance.OnLTriggerPress;
             @LTriggerPress.performed -= instance.OnLTriggerPress;
             @LTriggerPress.canceled -= instance.OnLTriggerPress;
             @LTriggerRelease.started -= instance.OnLTriggerRelease;
             @LTriggerRelease.performed -= instance.OnLTriggerRelease;
             @LTriggerRelease.canceled -= instance.OnLTriggerRelease;
+            @LButtonPress.started -= instance.OnLButtonPress;
+            @LButtonPress.performed -= instance.OnLButtonPress;
+            @LButtonPress.canceled -= instance.OnLButtonPress;
+            @LButtonRelease.started -= instance.OnLButtonRelease;
+            @LButtonRelease.performed -= instance.OnLButtonRelease;
+            @LButtonRelease.canceled -= instance.OnLButtonRelease;
             @OpenActionPress.started -= instance.OnOpenActionPress;
             @OpenActionPress.performed -= instance.OnOpenActionPress;
             @OpenActionPress.canceled -= instance.OnOpenActionPress;
             @OpenActionRelese.started -= instance.OnOpenActionRelese;
             @OpenActionRelese.performed -= instance.OnOpenActionRelese;
             @OpenActionRelese.canceled -= instance.OnOpenActionRelese;
+            @Down_D_PadPress.started -= instance.OnDown_D_PadPress;
+            @Down_D_PadPress.performed -= instance.OnDown_D_PadPress;
+            @Down_D_PadPress.canceled -= instance.OnDown_D_PadPress;
+            @Down_D_PadRelease.started -= instance.OnDown_D_PadRelease;
+            @Down_D_PadRelease.performed -= instance.OnDown_D_PadRelease;
+            @Down_D_PadRelease.canceled -= instance.OnDown_D_PadRelease;
             @R_D_PadPress.started -= instance.OnR_D_PadPress;
             @R_D_PadPress.performed -= instance.OnR_D_PadPress;
             @R_D_PadPress.canceled -= instance.OnR_D_PadPress;
@@ -1507,10 +1681,16 @@ public partial class @Test_net: IInputActionCollection2, IDisposable
         void OnActionReleaseY(InputAction.CallbackContext context);
         void OnRTriggerPress(InputAction.CallbackContext context);
         void OnRTriggerRelease(InputAction.CallbackContext context);
+        void OnRButtonPress(InputAction.CallbackContext context);
+        void OnRButtonRelease(InputAction.CallbackContext context);
         void OnLTriggerPress(InputAction.CallbackContext context);
         void OnLTriggerRelease(InputAction.CallbackContext context);
+        void OnLButtonPress(InputAction.CallbackContext context);
+        void OnLButtonRelease(InputAction.CallbackContext context);
         void OnOpenActionPress(InputAction.CallbackContext context);
         void OnOpenActionRelese(InputAction.CallbackContext context);
+        void OnDown_D_PadPress(InputAction.CallbackContext context);
+        void OnDown_D_PadRelease(InputAction.CallbackContext context);
         void OnR_D_PadPress(InputAction.CallbackContext context);
         void OnR_D_PadRelease(InputAction.CallbackContext context);
         void OnL_D_PadPress(InputAction.CallbackContext context);

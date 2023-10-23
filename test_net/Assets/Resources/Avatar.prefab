@@ -380,19 +380,67 @@ MonoBehaviour:
     m_ActionId: 164a73c6-e5b0-44db-899b-67282dc3f7db
     m_ActionName: Player/ActionRelease[/XInputControllerWindows/buttonEast]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 8605329434926695506}
+        m_TargetAssemblyTypeName: PlayerGimmickActionManagement, Assembly-CSharp
+        m_MethodName: OnActionPressR2
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 77f00d38-81e7-4d49-a654-10c34683fcf5
     m_ActionName: Player/RTriggerPress[/XInputControllerWindows/rightTrigger]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 8605329434926695506}
+        m_TargetAssemblyTypeName: PlayerGimmickActionManagement, Assembly-CSharp
+        m_MethodName: OnActionReleaseR2
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 924cdac2-46aa-48f8-936f-d2797af0e3a1
     m_ActionName: Player/RTriggerRelease[/XInputControllerWindows/rightTrigger]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 8605329434926695506}
+        m_TargetAssemblyTypeName: PlayerGimmickActionManagement, Assembly-CSharp
+        m_MethodName: OnActionPressL2
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: becd644b-bc90-4158-b85f-f3fe9c7e86d0
     m_ActionName: Player/LTriggerPress[/XInputControllerWindows/leftTrigger]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 8605329434926695506}
+        m_TargetAssemblyTypeName: PlayerGimmickActionManagement, Assembly-CSharp
+        m_MethodName: OnActionReleaseL2
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 0dfee1f5-e913-4d6f-9bf6-7f84e995ac05
     m_ActionName: Player/LTriggerRelease[/XInputControllerWindows/leftTrigger]
   - m_PersistentCalls:
@@ -599,6 +647,102 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 6aa63851-77da-41e2-9107-db6102b28fe6
     m_ActionName: Player/ActionReleaseY[/DualShock4GamepadHID/buttonEast]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8605329434926695506}
+        m_TargetAssemblyTypeName: PlayerGimmickActionManagement, Assembly-CSharp
+        m_MethodName: OnActionPressR1
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 037efcd3-f5b4-4dcb-b755-ff624be9341a
+    m_ActionName: Player/RButtonPress[/DualShock4GamepadHID/rightShoulder]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8605329434926695506}
+        m_TargetAssemblyTypeName: PlayerGimmickActionManagement, Assembly-CSharp
+        m_MethodName: OnActionReleaseR1
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: aeba42e6-df4f-4da2-ba10-82df1ad53179
+    m_ActionName: Player/RButtonRelease[/DualShock4GamepadHID/rightShoulder]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8605329434926695506}
+        m_TargetAssemblyTypeName: PlayerGimmickActionManagement, Assembly-CSharp
+        m_MethodName: OnActionPressL1
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 7c727023-ece1-44cc-bd1a-cf33e5f0c979
+    m_ActionName: Player/LButtonPress[/DualShock4GamepadHID/leftShoulder]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8605329434926695506}
+        m_TargetAssemblyTypeName: PlayerGimmickActionManagement, Assembly-CSharp
+        m_MethodName: OnActionReleaseL1
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 4b970128-c016-44dd-891f-6412cc3fb31d
+    m_ActionName: Player/LButtonRelease[/DualShock4GamepadHID/leftShoulder]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8605329434926695506}
+        m_TargetAssemblyTypeName: PlayerGimmickActionManagement, Assembly-CSharp
+        m_MethodName: OnActionPressD_Down
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: ac47aa2f-2b04-4884-9d4f-7d6a1b472924
+    m_ActionName: Player/Down_D_PadPress[/DualShock4GamepadHID/dpad/down]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8605329434926695506}
+        m_TargetAssemblyTypeName: PlayerGimmickActionManagement, Assembly-CSharp
+        m_MethodName: OnActionReleaseD_Down
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 670ad395-e74f-4430-b526-ee0858dbfe8b
+    m_ActionName: Player/Down_D_PadRelease[/DualShock4GamepadHID/dpad/down]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Gamepad
   m_DefaultActionMap: Player
