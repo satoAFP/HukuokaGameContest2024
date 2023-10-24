@@ -29,8 +29,8 @@ public class LogInSystem : MonoBehaviourPunCallbacks
                 i++;
 
             //メンバーがそろったらシーン移動
-            //if (i == 2)
-            //    ManagerAccessor.Instance.sceneMoveManager.SceneMoveName("GameTest");
+            if (i == 2)
+                ManagerAccessor.Instance.sceneMoveManager.SceneMoveName("StageSelect");
         }
     }
 
@@ -93,13 +93,13 @@ public class LogInSystem : MonoBehaviourPunCallbacks
     public override void OnJoinedRoom()
     {
         if (roomNumber < 5)
-            ManagerAccessor.Instance.sceneMoveManager.SceneMoveName("TestStage1");
+            logInSuccess = true;
         else if (roomNumber == 5)
             ManagerAccessor.Instance.sceneMoveManager.SceneMoveName("Sato");
         else if (roomNumber == 6)
             ManagerAccessor.Instance.sceneMoveManager.SceneMoveName("Yamamoto");
 
         //接続成功
-        logInSuccess = true;
+        
     }
 }
