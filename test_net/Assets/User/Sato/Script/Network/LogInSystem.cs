@@ -93,7 +93,7 @@ public class LogInSystem : MonoBehaviourPunCallbacks
     public override void OnJoinedRoom()
     {
         if (roomNumber < 5)
-            ManagerAccessor.Instance.sceneMoveManager.SceneMoveName("GameTest");
+            ManagerAccessor.Instance.sceneMoveManager.SceneMoveName("TestStage1");
         else if (roomNumber == 5)
             ManagerAccessor.Instance.sceneMoveManager.SceneMoveName("Sato");
         else if (roomNumber == 6)
