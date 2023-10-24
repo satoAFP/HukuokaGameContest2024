@@ -26,6 +26,8 @@ public class GimmickButtonManagement : CGimmick
             }
         }
 
+        Debug.Log(count);
+
         //“¯‰Ÿ‚µ‚ª¬Œ÷‚·‚é‚ÆA”à‚ªŠJ‚­
         if (gimmickButton.Count == count) 
         {
