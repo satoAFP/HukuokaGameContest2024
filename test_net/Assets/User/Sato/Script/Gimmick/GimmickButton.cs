@@ -29,6 +29,11 @@ public class GimmickButton : MonoBehaviourPunCallbacks
     {
         if (collision.gameObject.name == "Player1")
         {
+            //押すべきボタンの画像表示
+            collision.transform.GetChild(0).gameObject.SetActive(true);
+            collision.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = ManagerAccessor.Instance.spriteManager.ArrowRight;
+
+
             //自身のオブジェクトが当たっている時しか反応させない
             if (ManagerAccessor.Instance.dataManager.isOwnerInputKey_CB)
             {
@@ -52,6 +57,11 @@ public class GimmickButton : MonoBehaviourPunCallbacks
 
         if (collision.gameObject.name == "Player2")
         {
+            //押すべきボタンの画像表示
+            collision.transform.GetChild(0).gameObject.SetActive(true);
+            collision.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = ManagerAccessor.Instance.spriteManager.ArrowRight;
+
+
             //自身のオブジェクトが当たっている時しか反応させない
             if (ManagerAccessor.Instance.dataManager.isClientInputKey_CB)
             {
@@ -79,6 +89,10 @@ public class GimmickButton : MonoBehaviourPunCallbacks
     {
         if (collision.gameObject.name == "Player1")
         {
+            //押すべきボタンの画像表示
+            collision.transform.GetChild(0).gameObject.SetActive(false);
+
+
             //自身のオブジェクトが当たっている時しか反応させない
             if (PhotonNetwork.LocalPlayer.IsMasterClient)
             {
@@ -89,6 +103,10 @@ public class GimmickButton : MonoBehaviourPunCallbacks
         }
         if (collision.gameObject.name == "Player2")
         {
+            //押すべきボタンの画像表示
+            collision.transform.GetChild(0).gameObject.SetActive(false);
+
+
             //自身のオブジェクトが当たっている時しか反応させない
             if (!PhotonNetwork.LocalPlayer.IsMasterClient)
             {

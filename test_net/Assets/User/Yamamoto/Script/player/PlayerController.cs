@@ -57,6 +57,8 @@ public class PlayerController : MonoBehaviourPunCallbacks
         //名前とIDを設定
         gameObject.name = "Player" + photonView.OwnerActorNr;
 
+       
+
         //プレイヤーによってイラストを変える＆データマネージャー設定
         if (gameObject.name == "Player1")
         {
@@ -137,7 +139,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
                 {
                     Instantiate(boardobj, new Vector2(p1pos.x, p1pos.y), Quaternion.identity);
                     generate = true;
-                    Debug.Log("p1側生成");
+                    //Debug.Log("p1側生成");
                 }
             }
 
@@ -190,7 +192,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
                     {
                         Instantiate(boardobj, new Vector2(p1pos.x, p1pos.y), Quaternion.identity);
                         generate = true;
-                        Debug.Log("p2側生成");
+                        //Debug.Log("p2側生成");
                     }
 
                 }
@@ -206,17 +208,20 @@ public class PlayerController : MonoBehaviourPunCallbacks
         //Debug.Log("p2現在地=" + p2pos);
 
         // Debug.Log(Mathf.Abs(p1pos.x - p2pos.x));
-        //if (datamanager.isOwnerInputKey_CB)
-        //{
-        //    if (gameObject.name == "Player1"&& !generate)
-        //    {
-        //        Instantiate(boardobj, new Vector2(p1pos.x, p1pos.y), Quaternion.identity);
-        //        generate = true;
-        //        movelock = true;
-        //        Debug.Log("ばか");
-        //    }
 
-        //}
+        //テスト用
+
+        if (datamanager.isOwnerInputKey_CB)
+        {
+            if (gameObject.name == "Player1" && !generate)
+            {
+                Instantiate(boardobj, new Vector2(p1pos.x, p1pos.y), Quaternion.identity);
+                generate = true;
+                movelock = true;
+                Debug.Log("ばか");
+            }
+
+        }
 
         //箱と鍵の二点間距離を取って一定の値なら箱オープン可能
         if (Mathf.Abs(p1pos.x - p2pos.x) < 1.0f)
