@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Photon.Pun;
 using UnityEngine;
 
-public class GimmickButton : CGimmick
+public class GimmickButton : MonoBehaviourPunCallbacks
 {
     //‚»‚ê‚¼‚ê‚Ìƒ{ƒ^ƒ““ü—Íó‹µ
     [System.NonSerialized] public bool isButton = false;
