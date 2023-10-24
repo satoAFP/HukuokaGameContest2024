@@ -289,12 +289,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
     //箱の蓋を閉める
     public void OnBoxClose(InputAction.CallbackContext context)
     {
-        //操作が競合しないための設定
-        //if (photonView.IsMine)
-        //{
-        //    if (movelock)
-        //        movelock = false;//移動可能にする
-        //}
+      
     }
 
     //箱オープン
