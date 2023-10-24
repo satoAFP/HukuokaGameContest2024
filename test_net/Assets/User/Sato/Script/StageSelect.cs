@@ -27,7 +27,7 @@ public class StageSelect : MonoBehaviourPunCallbacks
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.name=="Player1"|| collision.name == "Player2")
+        if (collision.gameObject.name == "Player1" || collision.gameObject.name == "Player2") 
         {
             photonView.RPC(nameof(RpcShareIsPlayerEnter), RpcTarget.All, true);
         }
