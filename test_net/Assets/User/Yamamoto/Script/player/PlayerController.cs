@@ -10,9 +10,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
     private Sprite p1Image;
     [SerializeField, Header("空いた宝箱")]
     private Sprite p1OpenImage;
-    [SerializeField, Header("板")]
-    private Sprite p1BoardImage;
-
+   
     [SerializeField, Header("鍵")]
     private Sprite p2Image;
 
@@ -22,7 +20,12 @@ public class PlayerController : MonoBehaviourPunCallbacks
     [SerializeField, Header("ジャンプ速度")]
     private float jumpSpeed;
 
+    [SerializeField, Header("板オブジェクト")]
+    private GameObject boardobj;
+
     private bool movelock = false;//移動処理を停止させる
+
+    private bool generate = false;//オブジェクト生成フラグ
 
     //入力された方向を入れる変数
     private Vector2 inputDirection;
@@ -132,8 +135,8 @@ public class PlayerController : MonoBehaviourPunCallbacks
             {
                 if (gameObject.name == "Player1")
                 {
-                    GetComponent<SpriteRenderer>().sprite = p1BoardImage;
-                    movelock = false;
+                    Instantiate(boardobj, new Vector2(p1pos.x, p1pos.y), Quaternion.identity);
+
                 }
             }
 
@@ -182,8 +185,8 @@ public class PlayerController : MonoBehaviourPunCallbacks
             {
                 if (gameObject.name == "Player1")
                 {
-                    GetComponent<SpriteRenderer>().sprite = p1BoardImage;
-                    movelock = false;
+                    
+                  
                 }
             }
 
@@ -197,7 +200,16 @@ public class PlayerController : MonoBehaviourPunCallbacks
         //Debug.Log("p2現在地=" + p2pos);
 
         // Debug.Log(Mathf.Abs(p1pos.x - p2pos.x));
+        if (datamanager.isOwnerInputKey_CB)
+        {
+            if (gameObject.name == "Player1"&& !generate)
+            {
+                Instantiate(boardobj, new Vector2(p1pos.x, p1pos.y), Quaternion.identity);
+                generate = true;
 
+            }
+
+        }
 
         //箱と鍵の二点間距離を取って一定の値なら箱オープン可能
         if (Mathf.Abs(p1pos.x - p2pos.x) < 1.0f)
