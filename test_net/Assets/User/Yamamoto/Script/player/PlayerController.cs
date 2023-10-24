@@ -10,6 +10,8 @@ public class PlayerController : MonoBehaviourPunCallbacks
     private Sprite p1Image;
     [SerializeField, Header("空いた宝箱")]
     private Sprite p1OpenImage;
+    [SerializeField, Header("板")]
+    private Sprite p1BoardImage;
 
     [SerializeField, Header("鍵")]
     private Sprite p2Image;
@@ -114,18 +116,27 @@ public class PlayerController : MonoBehaviourPunCallbacks
                 }
             }
 
-            Debug.Log("箱側の夏");
+            //コントローラーの下ボタンを押したとき箱処理中断
             if (datamanager.isOwnerInputKey_CA && movelock)
             {
-                Debug.Log("箱側の冬");
-                //同時に上ボタンを押していないときは画像を元に戻す
+                //Debug.Log("箱側の冬");
+                //箱を閉じて移動ロックを解除
                 if (gameObject.name == "Player1")
                 {
                     GetComponent<SpriteRenderer>().sprite = p1Image;
                     movelock = false;
-                    Debug.Log("箱側の秋");
+                   // Debug.Log("箱側の秋");
                 }
             }
+            else if (datamanager.isOwnerInputKey_CB && movelock)
+            {
+                if (gameObject.name == "Player1")
+                {
+                    GetComponent<SpriteRenderer>().sprite = p1BoardImage;
+                    movelock = false;
+                }
+            }
+
 
         }
         else
@@ -156,13 +167,23 @@ public class PlayerController : MonoBehaviourPunCallbacks
                 distanceFirst = true;
             }
 
+            //コントローラーの下ボタンを押したとき箱処理中断（相手側）
             if (datamanager.isOwnerInputKey_CA &&　movelock)
             {
                 //同時に上ボタンを押していないときは画像を元に戻す
                 if (gameObject.name == "Player1")
                 {
                     GetComponent<SpriteRenderer>().sprite = p1Image;
-                 
+                    movelock = false;
+
+                }
+            }
+            else if (datamanager.isOwnerInputKey_CB && movelock)
+            {
+                if (gameObject.name == "Player1")
+                {
+                    GetComponent<SpriteRenderer>().sprite = p1BoardImage;
+                    movelock = false;
                 }
             }
 
@@ -195,31 +216,6 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
             }
         }
-
-
-        //if(!PhotonNetwork.LocalPlayer.IsMasterClient)
-        //{
-        //    if (datamanager.isOwnerInputKey_CA && ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().movelock)
-        //    {
-        //        //同時に上ボタンを押していないときは画像を元に戻す
-        //        if (gameObject.name == "Player1")
-        //        {
-        //            GetComponent<SpriteRenderer>().sprite = p1Image;
-        //        }
-        //    }
-        //}
-        //else
-        //{
-        //    if (datamanager.isOwnerInputKey_CA && movelock)
-        //    {
-        //        //同時に上ボタンを押していないときは画像を元に戻す
-        //        if (gameObject.name == "Player1")
-        //        {
-        //            GetComponent<SpriteRenderer>().sprite = p1Image;
-        //        }
-        //    }
-        //}
-       
 
     }
 
@@ -293,12 +289,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
     //箱の蓋を閉める
     public void OnBoxClose(InputAction.CallbackContext context)
     {
-        //操作が競合しないための設定
-        //if (photonView.IsMine)
-        //{
-        //    if (movelock)
-        //        movelock = false;//移動可能にする
-        //}
+      
     }
 
     //箱オープン
