@@ -93,12 +93,16 @@ public class GimmickUnlockButton : CGimmick
     {
         if (collision.gameObject.name == "Player1")
         {
+            //プレイヤー2が触れていないとき
             if (!isHitPlayer2)
             {
                 if (PhotonNetwork.LocalPlayer.IsMasterClient)
                 {
-                    ManagerAccessor.Instance.dataManager.isUnlockButtonStart = true;
+                    //タイムリミットと回答データ描画
                     transform.parent.GetComponent<GimmickUnlockButtonManagement>().answerArea.SetActive(true);
+                    transform.parent.GetComponent<GimmickUnlockButtonManagement>().timeLimitSlider.SetActive(true);
+                    //オブジェクト触れている状態
+                    ManagerAccessor.Instance.dataManager.isUnlockButtonStart = true;
                     islocalUnlockButtonStart = true;
                 }
 
@@ -108,12 +112,16 @@ public class GimmickUnlockButton : CGimmick
         }
         if (collision.gameObject.name == "Player2")
         {
+            //プレイヤー1が触れていないとき
             if (!isHitPlayer1)
             {
                 if (!PhotonNetwork.LocalPlayer.IsMasterClient)
                 {
-                    ManagerAccessor.Instance.dataManager.isUnlockButtonStart = true;
+                    //タイムリミットと回答データ描画
                     transform.parent.GetComponent<GimmickUnlockButtonManagement>().answerArea.SetActive(true);
+                    transform.parent.GetComponent<GimmickUnlockButtonManagement>().timeLimitSlider.SetActive(true);
+                    //オブジェクト触れている状態
+                    ManagerAccessor.Instance.dataManager.isUnlockButtonStart = true;
                     islocalUnlockButtonStart = true;
                 }
 
@@ -127,7 +135,9 @@ public class GimmickUnlockButton : CGimmick
     {
         if (collision.gameObject.name == "Player1")
         {
+            //タイムリミットと回答データ描画終了
             transform.parent.GetComponent<GimmickUnlockButtonManagement>().answerArea.SetActive(false);
+            transform.parent.GetComponent<GimmickUnlockButtonManagement>().timeLimitSlider.SetActive(false);
             ManagerAccessor.Instance.dataManager.isUnlockButtonStart = false;
             islocalUnlockButtonStart = false;
 
@@ -135,7 +145,9 @@ public class GimmickUnlockButton : CGimmick
         }
         if (collision.gameObject.name == "Player2")
         {
+            //タイムリミットと回答データ描画終了
             transform.parent.GetComponent<GimmickUnlockButtonManagement>().answerArea.SetActive(false);
+            transform.parent.GetComponent<GimmickUnlockButtonManagement>().timeLimitSlider.SetActive(false);
             ManagerAccessor.Instance.dataManager.isUnlockButtonStart = false;
             islocalUnlockButtonStart = false;
 

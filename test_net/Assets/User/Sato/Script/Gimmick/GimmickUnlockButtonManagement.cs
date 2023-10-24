@@ -15,6 +15,9 @@ public class GimmickUnlockButtonManagement : CGimmick
     [SerializeField, Header("回答画像を格納するオブジェクト")]
     public GameObject answerArea;
 
+    [SerializeField, Header("回答画像を格納するオブジェクト")]
+    public GameObject timeLimitSlider;
+
     [SerializeField, Header("回答画像を複製するオブジェクト")]
     private GameObject initAnswer;
 
@@ -65,9 +68,14 @@ public class GimmickUnlockButtonManagement : CGimmick
         A, B, X, Y, Right, Left, Up, Down, R1, R2, L1, L2
     }
 
+    private void Start()
+    {
+        timeLimitSlider.GetComponent<Slider>().value = 1;
+    }
+
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         //マスターの時答えを設定してデータを渡す
         if (PhotonNetwork.LocalPlayer.IsMasterClient)
@@ -154,6 +162,8 @@ public class GimmickUnlockButtonManagement : CGimmick
                     }
                 }
 
+
+                timeLimitSlider.GetComponent<Slider>().value = 1 - (float)frameCount / (float)(timeLimit * 60);
                 timetext.text = frameCount.ToString() + "/" + timeLimit * 60;
             }
             else
