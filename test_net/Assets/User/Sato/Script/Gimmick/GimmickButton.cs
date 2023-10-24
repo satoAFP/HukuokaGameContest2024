@@ -8,17 +8,29 @@ public class GimmickButton : CGimmick
     //それぞれのボタン入力状況
     [System.NonSerialized] public bool isButton = false;
 
+    private Rigidbody2D rb2d;
+
     //最初しか反応しない処理
     private bool firstPushP1 = true;
     private bool firstPushP2 = true;
 
+    private void Start()
+    {
+        rb2d = GetComponent<Rigidbody2D>();
+    }
+
+    private void Update()
+    {
+        //OnCollisionStay2Dを常に動かす処理
+        rb2d.WakeUp();
+    }
 
     private void OnCollisionStay2D(Collision2D collision)
     {
         if (collision.gameObject.name == "Player1")
         {
             //自身のオブジェクトが当たっている時しか反応させない
-            if (ManagerAccessor.Instance.dataManager.isOwnerInputKey_B)
+            if (ManagerAccessor.Instance.dataManager.isOwnerInputKey_CB)
             {
                 if (firstPushP1)
                 {
@@ -41,7 +53,7 @@ public class GimmickButton : CGimmick
         if (collision.gameObject.name == "Player2")
         {
             //自身のオブジェクトが当たっている時しか反応させない
-            if (ManagerAccessor.Instance.dataManager.isClientInputKey_B)
+            if (ManagerAccessor.Instance.dataManager.isClientInputKey_CB)
             {
                 if (firstPushP2)
                 {
