@@ -16,11 +16,15 @@ public class Board : MonoBehaviourPunCallbacks
     //移動方向入れる変数
     private Collider2D collider;//板のコライダー
 
+    public int a = 0;
+
     //inputsystemをスクリプトで呼び出す
     private BoardInput boardinput;
 
     //移動を止める
     private bool movelock = false;
+    //ボタンの複数回入力を防ぐ
+    private bool pushbutton = false;
 
     private void OnDestroy()
     {
@@ -64,7 +68,22 @@ public class Board : MonoBehaviourPunCallbacks
         }
        
 
+        //ゲームパッドの右ボタンを押したとき
         if (datamanager.isOwnerInputKey_CB)
+        {
+            if(!pushbutton)
+            {
+                pushbutton = true;
+                a++;
+            }
+
+        }
+        else
+        {
+            pushbutton = false;
+        }
+
+        if (a == 2)
         {
             movelock = true;
             collider.isTrigger = false;//トリガー化解除
