@@ -211,17 +211,17 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
         //テスト用
 
-        if (datamanager.isOwnerInputKey_CB)
-        {
-            if (gameObject.name == "Player1" && !generate)
-            {
-                Instantiate(boardobj, new Vector2(p1pos.x, p1pos.y), Quaternion.identity);
-                generate = true;
-                movelock = true;
-                Debug.Log("ばか");
-            }
+        //if (datamanager.isOwnerInputKey_CB)
+        //{
+        //    if (gameObject.name == "Player1" && !generate)
+        //    {
+        //        Instantiate(boardobj, new Vector2(p1pos.x, p1pos.y), Quaternion.identity);
+        //        generate = true;
+        //        movelock = true;
+        //        Debug.Log("ばか");
+        //    }
 
-        }
+        //}
 
         //箱と鍵の二点間距離を取って一定の値なら箱オープン可能
         if (Mathf.Abs(p1pos.x - p2pos.x) < 1.0f)
