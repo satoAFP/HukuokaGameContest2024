@@ -23,6 +23,15 @@ public class PlayerController : MonoBehaviourPunCallbacks
     [SerializeField, Header("板オブジェクト")]
     private GameObject boardobj;
 
+    [SerializeField, Header("アイテム回収時間（大体60で１秒）")]
+    private int collecttime;
+
+    [SerializeField]
+    private int holdtime;//設定したアイテム回収時間を代入する
+
+    [SerializeField]
+    private GameObject currentObject;// 現在の生成されたオブジェクト
+
     private bool movelock = false;//移動処理を停止させる
 
     private bool generate = false;//オブジェクト生成フラグ
@@ -72,9 +81,10 @@ public class PlayerController : MonoBehaviourPunCallbacks
         }
 
         test_net = new Test_net();//スクリプトを変数に格納
-    
+
+        holdtime = collecttime;//設定したアイテム回収時間を代入する
     }
-    void Update()
+    void FixedUpdate()
     {
 
         DataManager datamanager = ManagerAccessor.Instance.dataManager;
@@ -211,17 +221,34 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
         //テスト用
 
-        //if (datamanager.isOwnerInputKey_CB)
-        //{
-        //    if (gameObject.name == "Player1" && !generate)
-        //    {
-        //        Instantiate(boardobj, new Vector2(p1pos.x, p1pos.y), Quaternion.identity);
-        //        generate = true;
-        //        movelock = true;
-        //        Debug.Log("ばか");
-        //    }
+        if (datamanager.isOwnerInputKey_CB)
+        {
+            Debug.Log("長押し");
 
-        //}
+            if (gameObject.name == "Player1")
+            {
+                if(!generate)
+                {
+                    currentObject = Instantiate(boardobj, new Vector2(p1pos.x, p1pos.y), Quaternion.identity);
+                    generate = true;
+                    movelock = true;
+                    Debug.Log("ばか");
+                }
+                else
+                {
+                    holdtime--;//長押しでアイテム回収
+                    if (holdtime <= 0)//回収カウントが0になると回収
+                    {
+                        Destroy(currentObject);
+                        currentObject = null;
+                        generate = false;
+                        holdtime = collecttime;
+                    }
+                }
+            
+            }
+
+        }
 
         //箱と鍵の二点間距離を取って一定の値なら箱オープン可能
         if (Mathf.Abs(p1pos.x - p2pos.x) < 1.0f)

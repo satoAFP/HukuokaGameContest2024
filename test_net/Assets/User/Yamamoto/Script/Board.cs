@@ -13,8 +13,9 @@ public class Board : MonoBehaviourPunCallbacks
     // 2軸入力を受け取るAction
     [SerializeField] private InputActionProperty _moveAction;
 
-    //移動方向入れる変数
     private Collider2D collider;//板のコライダー
+
+    private Rigidbody2D rigid;//リジッドボディ
 
     public int a = 0;
 
@@ -46,6 +47,10 @@ public class Board : MonoBehaviourPunCallbacks
     {
  
         collider = this.GetComponent<BoxCollider2D>();
+
+        //PlayerのRigidbody2Dコンポーネントを取得する
+        rigid = GetComponent<Rigidbody2D>();
+
         boardinput = new BoardInput();//スクリプトを変数に格納
 
         collider.isTrigger = true;//コライダーのトリガー化
@@ -53,7 +58,7 @@ public class Board : MonoBehaviourPunCallbacks
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         //データマネージャー取得
         DataManager datamanager = ManagerAccessor.Instance.dataManager;
@@ -87,6 +92,7 @@ public class Board : MonoBehaviourPunCallbacks
         {
             movelock = true;
             collider.isTrigger = false;//トリガー化解除
+            rigid.constraints = RigidbodyConstraints2D.FreezeAll;
         }
 
     }
