@@ -118,7 +118,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
             if (datamanager.isOwnerInputKey_CA && movelock)
             {
                 Debug.Log("箱側の冬");
-                //同時に上ボタンを押していないときは画像を元に戻す
+                //箱を閉じて移動ロックを解除
                 if (gameObject.name == "Player1")
                 {
                     GetComponent<SpriteRenderer>().sprite = p1Image;
@@ -162,7 +162,8 @@ public class PlayerController : MonoBehaviourPunCallbacks
                 if (gameObject.name == "Player1")
                 {
                     GetComponent<SpriteRenderer>().sprite = p1Image;
-                 
+                    movelock = false;
+
                 }
             }
 
