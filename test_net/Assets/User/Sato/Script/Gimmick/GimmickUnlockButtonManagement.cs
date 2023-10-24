@@ -12,6 +12,12 @@ public class GimmickUnlockButtonManagement : CGimmick
     [SerializeField, Header("扉")]
     private GameObject door;
 
+    [SerializeField, Header("回答画像を格納するオブジェクト")]
+    public GameObject answerArea;
+
+    [SerializeField, Header("回答画像を複製するオブジェクト")]
+    private GameObject initAnswer;
+
     [SerializeField, Header("入力する数")]
     private int inputKey;
 
@@ -21,8 +27,15 @@ public class GimmickUnlockButtonManagement : CGimmick
     [SerializeField, Header("入力時の制限時間")]
     private int timeLimit;
 
+    [SerializeField, Header("答えを隠すかどうか")]
+    private bool isHideAnswer;
+
+    [SerializeField, Header("隠す場合どこを隠すか(チェック入れるとPlayer1の答えが隠される)")]
+    private List<bool> isWhareHideAnswer;
+
     //入力開始情報
-    /*[System.NonSerialized]*/ public bool isStartCount = false;
+    /*[System.NonSerialized]*/
+    public bool isStartCount = false;
 
     //それぞれの入力状況
     /*[System.NonSerialized]*/ public bool isOwnerClear = false;
@@ -49,7 +62,7 @@ public class GimmickUnlockButtonManagement : CGimmick
 
     private enum Key
     {
-        A,B,X,Y
+        A, B, X, Y, Right, Left, Up, Down, R1, R2, L1, L2
     }
 
 
@@ -68,14 +81,14 @@ public class GimmickUnlockButtonManagement : CGimmick
                     //答えの生成とデータの受け渡し
                     for (int i = 0; i < inputKey; i++)
                     {
-                        answer.Add(Random.Range(0, 4));
+                        answer.Add(Random.Range(0, 12));
                         //連続で同じ数字にならないための処理
                         while (true)
                         {
                             if (i != 0)
                             {
                                 if (answer[i] == answer[i - 1])
-                                    answer[i] = Random.Range(0, 4);
+                                    answer[i] = Random.Range(0, 12);
                                 else
                                     break;
                             }
@@ -87,17 +100,9 @@ public class GimmickUnlockButtonManagement : CGimmick
                     }
                     ManagerAccessor.Instance.dataManager.chat.text = answer[0].ToString() + ":" + answer[1].ToString() + ":" + answer[2].ToString() + ":" + answer[3].ToString() + ":" + answer[4].ToString();
 
-                    //答え入力用ブロックに答えデータを渡す
-                    for (int i = 0; i < gimmickButton.Count; i++)
-                    {
-                        gimmickButton[i].GetComponent<GimmickUnlockButton>().answer = answer;
+                    //答え設定
+                    AnswerSet();
 
-                        //クリア状況初期化
-                        for (int j = 0; j < answer.Count; j++)
-                        {
-                            gimmickButton[i].GetComponent<GimmickUnlockButton>().ClearSituation.Add(false);
-                        }
-                    }
                     isAnswerFirst = false;
                 }
             }
@@ -111,17 +116,9 @@ public class GimmickUnlockButtonManagement : CGimmick
                 if (isAnswerFirst)
                 {
                     ManagerAccessor.Instance.dataManager.chat.text = answer[0].ToString() + ":" + answer[1].ToString() + ":" + answer[2].ToString() + ":" + answer[3].ToString() + ":" + answer[4].ToString();
-                    //答え入力用ブロックに答えデータを渡す
-                    for (int i = 0; i < gimmickButton.Count; i++)
-                    {
-                        gimmickButton[i].GetComponent<GimmickUnlockButton>().answer = answer;
+                    //答え設定
+                    AnswerSet();
 
-                        //クリア状況初期化
-                        for(int j=0;j<answer.Count;j++)
-                        {
-                            gimmickButton[i].GetComponent<GimmickUnlockButton>().ClearSituation.Add(false);
-                        }
-                    }
                     isAnswerFirst = false;
                 }
             }
@@ -170,7 +167,7 @@ public class GimmickUnlockButtonManagement : CGimmick
 
 
 
-
+            //Player1のクリア情報送信
             if (PhotonNetwork.LocalPlayer.IsMasterClient)
             {
                 if (isOwnerClear)
@@ -190,6 +187,7 @@ public class GimmickUnlockButtonManagement : CGimmick
                     }
                 }
             }
+            //Player2のクリア情報送信
             else
             {
                 if (isClientClear)
@@ -210,6 +208,7 @@ public class GimmickUnlockButtonManagement : CGimmick
                 }
             }
 
+            //両方クリアしたらこの処理を抜ける
             if(isOwnerClear&&isClientClear)
             {
                 isAllClear = true;
@@ -219,10 +218,100 @@ public class GimmickUnlockButtonManagement : CGimmick
         }
         else
         {
+            //解除成功
             door.SetActive(false);
         }
 
     }
+
+
+    //答え設定用関数
+    private void AnswerSet()
+    {
+        GameObject clone = null;
+        SpriteManager spriteManager = ManagerAccessor.Instance.spriteManager;
+
+        //答え入力用ブロックに答えデータを渡す
+        for (int i = 0; i < gimmickButton.Count; i++)
+        {
+            gimmickButton[i].GetComponent<GimmickUnlockButton>().answer = answer;
+
+            //クリア状況初期化
+            for (int j = 0; j < answer.Count; j++)
+            {
+                gimmickButton[i].GetComponent<GimmickUnlockButton>().ClearSituation.Add(false);
+            }
+        }
+
+        //回答描画用
+        for (int i = 0; i < answer.Count; i++)
+        {
+            switch (answer[i])
+            {
+                case (int)Key.A:
+                    clone = Instantiate(initAnswer);
+                    clone.gameObject.transform.parent = answerArea.transform;
+                    clone.GetComponent<Image>().sprite = spriteManager.ArrowDown;
+                    break;
+                case (int)Key.B:
+                    clone = Instantiate(initAnswer);
+                    clone.gameObject.transform.parent = answerArea.transform;
+                    clone.GetComponent<Image>().sprite = spriteManager.ArrowRight;
+                    break;
+                case (int)Key.X:
+                    clone = Instantiate(initAnswer);
+                    clone.gameObject.transform.parent = answerArea.transform;
+                    clone.GetComponent<Image>().sprite = spriteManager.ArrowLeft;
+                    break;
+                case (int)Key.Y:
+                    clone = Instantiate(initAnswer);
+                    clone.gameObject.transform.parent = answerArea.transform;
+                    clone.GetComponent<Image>().sprite = spriteManager.ArrowUp;
+                    break;
+                case (int)Key.Right:
+                    clone = Instantiate(initAnswer);
+                    clone.gameObject.transform.parent = answerArea.transform;
+                    clone.GetComponent<Image>().sprite = spriteManager.CrossRight;
+                    break;
+                case (int)Key.Left:
+                    clone = Instantiate(initAnswer);
+                    clone.gameObject.transform.parent = answerArea.transform;
+                    clone.GetComponent<Image>().sprite = spriteManager.CrossLeft;
+                    break;
+                case (int)Key.Up:
+                    clone = Instantiate(initAnswer);
+                    clone.gameObject.transform.parent = answerArea.transform;
+                    clone.GetComponent<Image>().sprite = spriteManager.CrossUp;
+                    break;
+                case (int)Key.Down:
+                    clone = Instantiate(initAnswer);
+                    clone.gameObject.transform.parent = answerArea.transform;
+                    clone.GetComponent<Image>().sprite = spriteManager.CrossDown;
+                    break;
+                case (int)Key.R1:
+                    clone = Instantiate(initAnswer);
+                    clone.gameObject.transform.parent = answerArea.transform;
+                    clone.GetComponent<Image>().sprite = spriteManager.R1;
+                    break;
+                case (int)Key.R2:
+                    clone = Instantiate(initAnswer);
+                    clone.gameObject.transform.parent = answerArea.transform;
+                    clone.GetComponent<Image>().sprite = spriteManager.R2;
+                    break;
+                case (int)Key.L1:
+                    clone = Instantiate(initAnswer);
+                    clone.gameObject.transform.parent = answerArea.transform;
+                    clone.GetComponent<Image>().sprite = spriteManager.L1;
+                    break;
+                case (int)Key.L2:
+                    clone = Instantiate(initAnswer);
+                    clone.gameObject.transform.parent = answerArea.transform;
+                    clone.GetComponent<Image>().sprite = spriteManager.L2;
+                    break;
+            }
+        }
+    }
+
 
     //マスターサイドで決めた答えを共有
     [PunRPC]

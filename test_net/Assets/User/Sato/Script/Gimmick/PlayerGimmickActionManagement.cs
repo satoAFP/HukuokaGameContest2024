@@ -17,6 +17,7 @@ public class PlayerGimmickActionManagement : CGimmick
     private bool firstC_A = true, firstC_B = true, firstC_X = true, firstC_Y = true;
     private bool firstC_L_Right = true, firstC_L_Left = true, firstC_L_Up = true, firstC_L_Down = true;
     private bool firstC_D_Right = true, firstC_D_Left = true, firstC_D_Up = true, firstC_D_Down = true;
+    private bool firstC_R1 = true, firstC_R2 = true, firstC_L1 = true, firstC_L2 = true;
 
     private void Start()
     {
@@ -40,10 +41,10 @@ public class PlayerGimmickActionManagement : CGimmick
             ShareKey(Input.GetKey(KeyCode.B), (int)KEY_NUMBER.B, ref firstB);
             ShareKey(Input.GetMouseButton(0), (int)KEY_NUMBER.LM, ref firstLM);
 
-            //Debug.Log("A:Owner/" + ManagerAccessor.Instance.dataManager.isOwnerInputKey_C_D_LEFT + ":Client/" + ManagerAccessor.Instance.dataManager.isClientInputKey_C_D_LEFT);
-            //Debug.Log("D:Owner/" + ManagerAccessor.Instance.dataManager.isOwnerInputKey_C_D_RIGHT + ":Client/" + ManagerAccessor.Instance.dataManager.isClientInputKey_C_D_RIGHT);
-            //Debug.Log("W:Owner/" + ManagerAccessor.Instance.dataManager.isOwnerInputKey_C_D_UP + ":Client/" + ManagerAccessor.Instance.dataManager.isClientInputKey_C_D_UP);
-           // Debug.Log("S:Owner/" + ManagerAccessor.Instance.dataManager.isOwnerInputKey_C_L_DOWN + ":Client/" + ManagerAccessor.Instance.dataManager.isClientInputKey_C_L_DOWN);
+            Debug.Log("A:Owner/" + ManagerAccessor.Instance.dataManager.isOwnerInputKey_C_D_DOWN + ":Client/" + ManagerAccessor.Instance.dataManager.isClientInputKey_C_R1);
+            //Debug.Log("D:Owner/" + ManagerAccessor.Instance.dataManager.isOwnerInputKey_C_R2 + ":Client/" + ManagerAccessor.Instance.dataManager.isClientInputKey_C_R2);
+            //Debug.Log("W:Owner/" + ManagerAccessor.Instance.dataManager.isOwnerInputKey_C_L1 + ":Client/" + ManagerAccessor.Instance.dataManager.isClientInputKey_C_L1);
+            //Debug.Log("S:Owner/" + ManagerAccessor.Instance.dataManager.isOwnerInputKey_C_L2 + ":Client/" + ManagerAccessor.Instance.dataManager.isClientInputKey_C_L2);
 
 
             //コントローラー共有設定
@@ -109,6 +110,14 @@ public class PlayerGimmickActionManagement : CGimmick
                 ManagerAccessor.Instance.dataManager.isOwnerInputKey_C_D_UP = onkey;
             if (key == (int)KEY_NUMBER.C_D_DOWN)
                 ManagerAccessor.Instance.dataManager.isOwnerInputKey_C_D_DOWN = onkey;
+            if (key == (int)KEY_NUMBER.C_R1)
+                ManagerAccessor.Instance.dataManager.isOwnerInputKey_C_R1 = onkey;
+            if (key == (int)KEY_NUMBER.C_R2)
+                ManagerAccessor.Instance.dataManager.isOwnerInputKey_C_R2 = onkey;
+            if (key == (int)KEY_NUMBER.C_L1)
+                ManagerAccessor.Instance.dataManager.isOwnerInputKey_C_L1 = onkey;
+            if (key == (int)KEY_NUMBER.C_L2)
+                ManagerAccessor.Instance.dataManager.isOwnerInputKey_C_L2 = onkey;
 
         }
         else if (name == "Player2")
@@ -149,6 +158,14 @@ public class PlayerGimmickActionManagement : CGimmick
                 ManagerAccessor.Instance.dataManager.isClientInputKey_C_D_UP = onkey;
             if (key == (int)KEY_NUMBER.C_D_DOWN)
                 ManagerAccessor.Instance.dataManager.isClientInputKey_C_D_DOWN = onkey;
+            if (key == (int)KEY_NUMBER.C_R1)
+                ManagerAccessor.Instance.dataManager.isClientInputKey_C_R1 = onkey;
+            if (key == (int)KEY_NUMBER.C_R2)
+                ManagerAccessor.Instance.dataManager.isClientInputKey_C_R2 = onkey;
+            if (key == (int)KEY_NUMBER.C_L1)
+                ManagerAccessor.Instance.dataManager.isClientInputKey_C_L1 = onkey;
+            if (key == (int)KEY_NUMBER.C_L2)
+                ManagerAccessor.Instance.dataManager.isClientInputKey_C_L2 = onkey;
         }
     }
 
@@ -296,6 +313,28 @@ public class PlayerGimmickActionManagement : CGimmick
         }
     }
 
+    //コントローラー十字キー下（箱を開ける）
+    public void OnActionPressD_Down(InputAction.CallbackContext context)
+    {
+        if (photonView.IsMine)
+        {
+            // 押された瞬間でPerformedとなる
+            if (!context.performed) return;
+
+            ShareKey(true, (int)KEY_NUMBER.C_D_DOWN, ref firstC_D_Down);
+        }
+    }
+    public void OnActionReleaseD_Down(InputAction.CallbackContext context)
+    {
+        if (photonView.IsMine)
+        {
+            // 離された瞬間でPerformedとなる
+            if (!context.performed) return;
+
+            ShareKey(false, (int)KEY_NUMBER.C_D_DOWN, ref firstC_D_Down);
+        }
+    }
+
     //コントローラー十字キー右
     public void OnR_D_PadPress(InputAction.CallbackContext context)
     {
@@ -340,4 +379,91 @@ public class PlayerGimmickActionManagement : CGimmick
         }
     }
 
+    //コントローラーR1入力
+    public void OnActionPressR1(InputAction.CallbackContext context)
+    {
+        if (photonView.IsMine)
+        {
+            // 押された瞬間でPerformedとなる
+            if (!context.performed) return;
+
+            ShareKey(true, (int)KEY_NUMBER.C_R1, ref firstC_R1);
+        }
+    }
+    public void OnActionReleaseR1(InputAction.CallbackContext context)
+    {
+        if (photonView.IsMine)
+        {
+            // 離された瞬間でPerformedとなる
+            if (!context.performed) return;
+
+            ShareKey(false, (int)KEY_NUMBER.C_R1, ref firstC_R1);
+        }
+    }
+
+    //コントローラーR2入力
+    public void OnActionPressR2(InputAction.CallbackContext context)
+    {
+        if (photonView.IsMine)
+        {
+            // 押された瞬間でPerformedとなる
+            if (!context.performed) return;
+
+            ShareKey(true, (int)KEY_NUMBER.C_R2, ref firstC_R2);
+        }
+    }
+    public void OnActionReleaseR2(InputAction.CallbackContext context)
+    {
+        if (photonView.IsMine)
+        {
+            // 離された瞬間でPerformedとなる
+            if (!context.performed) return;
+
+            ShareKey(false, (int)KEY_NUMBER.C_R2, ref firstC_R2);
+        }
+    }
+
+    //コントローラーL1入力
+    public void OnActionPressL1(InputAction.CallbackContext context)
+    {
+        if (photonView.IsMine)
+        {
+            // 押された瞬間でPerformedとなる
+            if (!context.performed) return;
+
+            ShareKey(true, (int)KEY_NUMBER.C_L1, ref firstC_L1);
+        }
+    }
+    public void OnActionReleaseL1(InputAction.CallbackContext context)
+    {
+        if (photonView.IsMine)
+        {
+            // 離された瞬間でPerformedとなる
+            if (!context.performed) return;
+
+            ShareKey(false, (int)KEY_NUMBER.C_L1, ref firstC_L1);
+        }
+    }
+
+    //コントローラーL2入力
+    public void OnActionPressL2(InputAction.CallbackContext context)
+    {
+        if (photonView.IsMine)
+        {
+            // 押された瞬間でPerformedとなる
+            if (!context.performed) return;
+
+            ShareKey(true, (int)KEY_NUMBER.C_L2, ref firstC_L2);
+        }
+    }
+    public void OnActionReleaseL2(InputAction.CallbackContext context)
+    {
+        if (photonView.IsMine)
+        {
+            // 離された瞬間でPerformedとなる
+            if (!context.performed) return;
+
+            ShareKey(false, (int)KEY_NUMBER.C_L2, ref firstC_L2);
+        }
+    }
 }

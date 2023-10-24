@@ -123,6 +123,24 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "RButtonPress",
+                    "type": "Button",
+                    "id": "037efcd3-f5b4-4dcb-b755-ff624be9341a",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "RButtonRelease",
+                    "type": "Button",
+                    "id": "aeba42e6-df4f-4da2-ba10-82df1ad53179",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press(behavior=1)",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "LTriggerPress",
                     "type": "Button",
                     "id": "becd644b-bc90-4158-b85f-f3fe9c7e86d0",
@@ -141,6 +159,24 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "LButtonPress",
+                    "type": "Button",
+                    "id": "7c727023-ece1-44cc-bd1a-cf33e5f0c979",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "LButtonRelease",
+                    "type": "Button",
+                    "id": "4b970128-c016-44dd-891f-6412cc3fb31d",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press(behavior=1)",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "OpenActionPress",
                     "type": "Button",
                     "id": "f87cae31-a724-4154-8cda-604430480e72",
@@ -153,6 +189,24 @@
                     "name": "OpenActionRelese",
                     "type": "Button",
                     "id": "9ed57fb7-7d8f-43e9-9ad4-fa4d84a55a2c",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press(behavior=1)",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Down_D_PadPress",
+                    "type": "Button",
+                    "id": "ac47aa2f-2b04-4884-9d4f-7d6a1b472924",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Down_D_PadRelease",
+                    "type": "Button",
+                    "id": "670ad395-e74f-4430-b526-ee0858dbfe8b",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "Press(behavior=1)",
@@ -259,39 +313,6 @@
                     "processors": "",
                     "groups": "",
                     "action": "RTriggerPress",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "600b6175-024c-4be3-9836-48715bf492b8",
-                    "path": "<Gamepad>/rightTrigger",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "RTriggerRelease",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "c46043fc-1a19-472e-9b50-5d23111678bc",
-                    "path": "<Gamepad>/leftTrigger",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "LTriggerPress",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "ce7e5481-ce65-4316-85a9-d0790358ec5c",
-                    "path": "<Gamepad>/leftTrigger",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "LTriggerRelease",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -424,6 +445,105 @@
                     "processors": "",
                     "groups": "",
                     "action": "ActionReleaseX",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ee055a10-06e8-4a72-9bde-3337a3b90d49",
+                    "path": "<Gamepad>/rightShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RButtonPress",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1313e3bc-490f-43ec-b1ec-aa6ae2379783",
+                    "path": "<Gamepad>/leftShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "LButtonPress",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "600b6175-024c-4be3-9836-48715bf492b8",
+                    "path": "<Gamepad>/rightTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RTriggerRelease",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "aaf02835-8ca1-44a9-8872-a7fbd552c865",
+                    "path": "<Gamepad>/leftShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "LButtonRelease",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d98711ad-0ebe-4dfe-933f-6a3ed4e0bfa5",
+                    "path": "<Gamepad>/rightShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RButtonRelease",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ce7e5481-ce65-4316-85a9-d0790358ec5c",
+                    "path": "<Gamepad>/leftTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "LTriggerRelease",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c46043fc-1a19-472e-9b50-5d23111678bc",
+                    "path": "<Gamepad>/leftTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "LTriggerPress",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "670548d6-8a64-48e8-933e-0fb50ad14ff6",
+                    "path": "<Gamepad>/dpad/down",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Down_D_PadPress",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "aa30c324-4bdb-4beb-ac23-58b4853aade3",
+                    "path": "<Gamepad>/dpad/down",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Down_D_PadRelease",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
