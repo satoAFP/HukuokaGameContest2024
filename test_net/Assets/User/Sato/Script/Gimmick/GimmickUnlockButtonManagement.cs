@@ -37,15 +37,14 @@ public class GimmickUnlockButtonManagement : CGimmick
     private List<bool> isWhareHideAnswer;
 
     //入力開始情報
-    /*[System.NonSerialized]*/
-    public bool isStartCount = false;
+    [System.NonSerialized] public bool isStartCount = false;
 
     //それぞれの入力状況
-    /*[System.NonSerialized]*/ public bool isOwnerClear = false;
-    /*[System.NonSerialized]*/ public bool isClientClear = false;
+    [System.NonSerialized] public bool isOwnerClear = false;
+    [System.NonSerialized] public bool isClientClear = false;
 
     //入力開始情報
-    /*[System.NonSerialized]*/ public bool isAllClear = false;
+    [System.NonSerialized] public bool isAllClear = false;
 
     //回答データ
     private List<int> answer = new List<int>();
@@ -162,7 +161,7 @@ public class GimmickUnlockButtonManagement : CGimmick
                     }
                 }
 
-
+                //残り時間表示
                 timeLimitSlider.GetComponent<Slider>().value = 1 - (float)frameCount / (float)(timeLimit * 60);
                 timetext.text = frameCount.ToString() + "/" + timeLimit * 60;
             }

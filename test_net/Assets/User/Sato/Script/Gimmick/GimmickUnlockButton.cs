@@ -39,94 +39,100 @@ public class GimmickUnlockButton : CGimmick
 
     private void Update()
     {
-        //アンロックボタン開始
-        if (islocalUnlockButtonStart)
+        //クリアすると動かさない
+        if (!transform.parent.GetComponent<GimmickUnlockButtonManagement>().isAllClear)
         {
-            //答えの数
-            for (int i = 0; i < answer.Count; i++)
+            //アンロックボタン開始
+            if (islocalUnlockButtonStart)
             {
-                //クリアしている入力は飛ばされる
-                if (ClearSituation[i])
+                //答えの数
+                for (int i = 0; i < answer.Count; i++)
                 {
-                    continue;
+                    //クリアしている入力は飛ばされる
+                    if (ClearSituation[i])
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        //入力情報と一致するかチェック
+                        InputAnswer(i);
+                        break;
+                    }
                 }
-                else
+
+                //最初の入力が正解の時、カウント開始
+                if (ClearSituation[0])
                 {
-                    //入力情報と一致するかチェック
-                    InputAnswer(i);
-                    break;
+                    transform.parent.GetComponent<GimmickUnlockButtonManagement>().isStartCount = true;
                 }
+
+                //最後の入力が終わったときクリア情報を送る
+                if (ClearSituation[ClearSituation.Count - 1])
+                {
+                    //マスターかどうか
+                    if (PhotonNetwork.LocalPlayer.IsMasterClient)
+                    {
+                        transform.parent.GetComponent<GimmickUnlockButtonManagement>().isOwnerClear = true;
+                    }
+                    else
+                    {
+                        transform.parent.GetComponent<GimmickUnlockButtonManagement>().isClientClear = true;
+
+                    }
+                }
+
+
+
             }
-
-            //最初の入力が正解の時、カウント開始
-            if (ClearSituation[0])
-            {
-                transform.parent.GetComponent<GimmickUnlockButtonManagement>().isStartCount = true;
-            }
-
-            //最後の入力が終わったときクリア情報を送る
-            if (ClearSituation[ClearSituation.Count - 1])
-            {
-                //マスターかどうか
-                if (PhotonNetwork.LocalPlayer.IsMasterClient)
-                {
-                    transform.parent.GetComponent<GimmickUnlockButtonManagement>().isOwnerClear = true;
-                }
-                else
-                {
-                    transform.parent.GetComponent<GimmickUnlockButtonManagement>().isClientClear = true;
-
-                }
-            }
-
-
-
+            //OnCollisionStay2Dを常に動かす処理
+            rb2d.WakeUp();
         }
-
-
-
-        rb2d.WakeUp();
     }
 
 
     private void OnCollisionStay2D(Collision2D collision)
     {
-        if (collision.gameObject.name == "Player1")
+        //クリアすると動かさない
+        if (!transform.parent.GetComponent<GimmickUnlockButtonManagement>().isAllClear)
         {
-            //プレイヤー2が触れていないとき
-            if (!isHitPlayer2)
+            if (collision.gameObject.name == "Player1")
             {
-                if (PhotonNetwork.LocalPlayer.IsMasterClient)
+                //プレイヤー2が触れていないとき
+                if (!isHitPlayer2)
                 {
-                    //タイムリミットと回答データ描画
-                    transform.parent.GetComponent<GimmickUnlockButtonManagement>().answerArea.SetActive(true);
-                    transform.parent.GetComponent<GimmickUnlockButtonManagement>().timeLimitSlider.SetActive(true);
-                    //オブジェクト触れている状態
-                    ManagerAccessor.Instance.dataManager.isUnlockButtonStart = true;
-                    islocalUnlockButtonStart = true;
-                }
+                    if (PhotonNetwork.LocalPlayer.IsMasterClient)
+                    {
+                        //タイムリミットと回答データ描画
+                        transform.parent.GetComponent<GimmickUnlockButtonManagement>().answerArea.SetActive(true);
+                        transform.parent.GetComponent<GimmickUnlockButtonManagement>().timeLimitSlider.SetActive(true);
+                        //オブジェクト触れている状態
+                        ManagerAccessor.Instance.dataManager.isUnlockButtonStart = true;
+                        islocalUnlockButtonStart = true;
+                    }
 
-                
-                isHitPlayer1 = true;
+
+                    isHitPlayer1 = true;
+                }
             }
-        }
-        if (collision.gameObject.name == "Player2")
-        {
-            //プレイヤー1が触れていないとき
-            if (!isHitPlayer1)
+            if (collision.gameObject.name == "Player2")
             {
-                if (!PhotonNetwork.LocalPlayer.IsMasterClient)
+                //プレイヤー1が触れていないとき
+                if (!isHitPlayer1)
                 {
-                    //タイムリミットと回答データ描画
-                    transform.parent.GetComponent<GimmickUnlockButtonManagement>().answerArea.SetActive(true);
-                    transform.parent.GetComponent<GimmickUnlockButtonManagement>().timeLimitSlider.SetActive(true);
-                    //オブジェクト触れている状態
-                    ManagerAccessor.Instance.dataManager.isUnlockButtonStart = true;
-                    islocalUnlockButtonStart = true;
-                }
+                    if (!PhotonNetwork.LocalPlayer.IsMasterClient)
+                    {
+                        //タイムリミットと回答データ描画
+                        transform.parent.GetComponent<GimmickUnlockButtonManagement>().answerArea.SetActive(true);
+                        transform.parent.GetComponent<GimmickUnlockButtonManagement>().timeLimitSlider.SetActive(true);
+                        //オブジェクト触れている状態
+                        ManagerAccessor.Instance.dataManager.isUnlockButtonStart = true;
+                        islocalUnlockButtonStart = true;
+                    }
 
-                
-                isHitPlayer2 = true;
+
+                    isHitPlayer2 = true;
+                }
             }
         }
     }
