@@ -24,18 +24,6 @@ public class CGimmick : MonoBehaviourPunCallbacks
         C_R1, C_R2, C_L1, C_L2
     }
 
-    [PunRPC]
-    protected void RpcClearCheck(int master)
-    {
-        //オーナーの時
-        if (master == PLAYER1)
-        {
-            ManagerAccessor.Instance.dataManager.GetSetIsOwnerClear = true;
-        }
-        else if (master == PLAYER2)
-        {
-            ManagerAccessor.Instance.dataManager.GetSetIsClientClear = true;
-        }
-    }
+    
 
 }
