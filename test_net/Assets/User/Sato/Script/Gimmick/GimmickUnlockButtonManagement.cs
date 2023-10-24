@@ -229,6 +229,8 @@ public class GimmickUnlockButtonManagement : CGimmick
         {
             //‰ğœ¬Œ÷
             door.SetActive(false);
+            answerArea.SetActive(false);
+            timeLimitSlider.SetActive(false);
         }
 
     }
