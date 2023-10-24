@@ -88,11 +88,19 @@ public class GimmickBlock : CGimmick
     {
         if (collision.gameObject.name == "Player1")
         {
+            //押すべきボタンの画像表示
+            collision.transform.GetChild(0).gameObject.SetActive(true);
+            collision.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = ManagerAccessor.Instance.spriteManager.ArrowRight;
+
             hitOwner = true;
         }
 
         if (collision.gameObject.name == "Player2")
         {
+            //押すべきボタンの画像表示
+            collision.transform.GetChild(0).gameObject.SetActive(true);
+            collision.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = ManagerAccessor.Instance.spriteManager.ArrowRight;
+
             hitClient = true;
         }
     }
@@ -105,11 +113,17 @@ public class GimmickBlock : CGimmick
         {
             if (collision.gameObject.name == "Player1")
             {
+                //押すべきボタンの画像表示
+                collision.transform.GetChild(0).gameObject.SetActive(false);
+
                 hitOwner = false;
             }
 
             if (collision.gameObject.name == "Player2")
             {
+                //押すべきボタンの画像表示
+                collision.transform.GetChild(0).gameObject.SetActive(false);
+
                 hitClient = false;
             }
         }
