@@ -14,10 +14,13 @@ public class Board : MonoBehaviourPunCallbacks
     [SerializeField] private InputActionProperty _moveAction;
 
     //移動方向入れる変数
-    //private Rigidbody2D rigid;
+    private Collider2D collider;//板のコライダー
 
     //inputsystemをスクリプトで呼び出す
     private BoardInput boardinput;
+
+    //移動を止める
+    private bool movelock = false;
 
     private void OnDestroy()
     {
@@ -37,21 +40,35 @@ public class Board : MonoBehaviourPunCallbacks
     // Start is called before the first frame update
     void Start()
     {
-        //PlayerのRigidbody2Dコンポーネントを取得する
-        //rigid = GetComponent<Rigidbody2D>();
-
+ 
+        collider = this.GetComponent<BoxCollider2D>();
         boardinput = new BoardInput();//スクリプトを変数に格納
+
+        collider.isTrigger = true;//コライダーのトリガー化
 
     }
 
     // Update is called once per frame
     void Update()
     {
+        //データマネージャー取得
+        DataManager datamanager = ManagerAccessor.Instance.dataManager;
+
         // 2軸入力読み込み
         var inputValue = _moveAction.action.ReadValue<Vector2>();
 
-        // xy軸方向で移動
-        transform.Translate(inputValue * (moveSpeed * Time.deltaTime));
+        if(!movelock)
+        {
+            // xy軸方向で移動
+            transform.Translate(inputValue * (moveSpeed * Time.deltaTime));
+        }
+       
+
+        if (datamanager.isOwnerInputKey_CB)
+        {
+            movelock = true;
+            collider.isTrigger = false;//トリガー化解除
+        }
 
     }
 }
