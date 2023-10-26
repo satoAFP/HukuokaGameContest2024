@@ -11,12 +11,20 @@ public class SceneMoveManager : MonoBehaviour
         ManagerAccessor.Instance.sceneMoveManager = this;
     }
 
+    private void Awake()
+    {
+        if (!PhotonNetwork.IsMasterClient)
+        {
+            PhotonNetwork.AutomaticallySyncScene = true;
+        }
+    }
+
     //コルーチン呼び出し用
     public void SceneMoveName(string name)
     {
-        //通信を一時止める
-        PhotonNetwork.IsMessageQueueRunning = false;
-
-        SceneManager.LoadScene(name);
+        if (PhotonNetwork.IsMasterClient)
+        {
+            PhotonNetwork.LoadLevel(name);
+        }
     }
 }

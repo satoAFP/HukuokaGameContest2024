@@ -9,19 +9,19 @@ public class StageSelect : MonoBehaviourPunCallbacks
     [SerializeField, Header("à⁄ìÆÇ∑ÇÈÉVÅ[Éìñº")] private string sceneName;
 
     private bool isPlayerEnter = false;
+    private bool first = true;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
     // Update is called once per frame
     void Update()
     {
-        if(isPlayerEnter)
+        if (isPlayerEnter)
         {
-            ManagerAccessor.Instance.sceneMoveManager.SceneMoveName(sceneName);
+            if (first)
+            {
+                ManagerAccessor.Instance.sceneMoveManager.SceneMoveName(sceneName);
+                first = false;
+            }
         }
     }
 
