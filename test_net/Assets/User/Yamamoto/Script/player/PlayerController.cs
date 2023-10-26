@@ -147,7 +147,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
             {
                 if (!generate)
                 {
-                    Instantiate(boardobj, new Vector2(p1pos.x, p1pos.y), Quaternion.identity);
+                    //Instantiate(boardobj, new Vector2(p1pos.x, p1pos.y), Quaternion.identity);
                     generate = true;
                     //Debug.Log("p1側生成");
                 }
@@ -200,7 +200,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
                 {
                     if (!generate)
                     {
-                        Instantiate(boardobj, new Vector2(p1pos.x, p1pos.y), Quaternion.identity);
+                        //Instantiate(boardobj, new Vector2(p1pos.x, p1pos.y), Quaternion.identity);
                         generate = true;
                         //Debug.Log("p2側生成");
                     }
@@ -227,12 +227,18 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
             if (gameObject.name == "Player1")
             {
-                if(!generate)
+                
+                if(currentObject == null && holdtime==collecttime)
                 {
-                    currentObject = Instantiate(boardobj, new Vector2(p1pos.x, p1pos.y), Quaternion.identity);
-                    generate = true;
-                    movelock = true;
-                    Debug.Log("ばか");
+                    //長押しで連続で生成できないようにする
+                    if (holdtime == collecttime)
+                    {
+                        currentObject = Instantiate(boardobj, new Vector2(p1pos.x, p1pos.y + 1.0f), Quaternion.identity);
+                        // generate = true;
+                        movelock = true;
+                        Debug.Log("ばか");
+                    }
+                 
                 }
                 else
                 {
@@ -241,13 +247,17 @@ public class PlayerController : MonoBehaviourPunCallbacks
                     {
                         Destroy(currentObject);
                         currentObject = null;
-                        generate = false;
-                        holdtime = collecttime;
+                       // generate = false;
+                        
                     }
                 }
             
             }
 
+        }
+        else
+        {
+            holdtime = collecttime;//ボタンを離すと回収カウントリセット
         }
 
         //箱と鍵の二点間距離を取って一定の値なら箱オープン可能
