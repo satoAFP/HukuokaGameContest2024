@@ -7,10 +7,12 @@ using UnityEngine.UI;
 
 public class LogInSystem : MonoBehaviourPunCallbacks
 {
+
     [SerializeField] private GameObject NoTapArea;
 
     
     private int roomNumber = 0;         //ルーム番号
+    private int roomMember = 2;         //ルーム内の最大人数
     private bool logInSuccess = false;  //ログイン成功時
 
     private void Start()
@@ -29,8 +31,8 @@ public class LogInSystem : MonoBehaviourPunCallbacks
                 i++;
 
             //メンバーがそろったらシーン移動
-            if (i == 2)
-                ManagerAccessor.Instance.sceneMoveManager.SceneMoveName("StageSelect");
+            //if (i == 2)
+            //    ManagerAccessor.Instance.sceneMoveManager.SceneMoveName("StageSelect");
         }
     }
 
@@ -58,7 +60,7 @@ public class LogInSystem : MonoBehaviourPunCallbacks
     {
         //ルームのログイン最大数設定
         var roomOptions = new RoomOptions();
-        roomOptions.MaxPlayers = 2;
+        roomOptions.MaxPlayers = roomMember;
 
         //ルームの作成
         PhotonNetwork.CreateRoom("Room" + roomNumber, roomOptions, TypedLobby.Default);
@@ -101,5 +103,14 @@ public class LogInSystem : MonoBehaviourPunCallbacks
 
         //接続成功
         
+    }
+
+    public override void OnPlayerEnteredRoom(Player newPlayer)
+    {
+        if (PhotonNetwork.CurrentRoom.PlayerCount == roomMember)
+        {
+            PhotonNetwork.CurrentRoom.IsOpen = false;
+            ManagerAccessor.Instance.sceneMoveManager.SceneMoveName("StageSelect");
+        }
     }
 }
