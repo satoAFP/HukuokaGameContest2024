@@ -15,7 +15,7 @@ public class GoalSystem : CGimmick
         if (ManagerAccessor.Instance.dataManager.GetSetIsOwnerClear &&
            ManagerAccessor.Instance.dataManager.GetSetIsClientClear)
         {
-            ManagerAccessor.Instance.dataManager.isClear = true;
+            ManagerAccessor.Instance.dataManager.isDeth = true;
         }
 
     }
