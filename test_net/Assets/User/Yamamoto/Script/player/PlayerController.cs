@@ -152,7 +152,8 @@ public class PlayerController : MonoBehaviourPunCallbacks
                         //í∑âüÇµÇ≈òAë±Ç≈ê∂ê¨Ç≈Ç´Ç»Ç¢ÇÊÇ§Ç…Ç∑ÇÈ
                         if (holdtime == collecttime)
                         {
-                            currentObject = Instantiate(boardobj, new Vector2(p1pos.x, p1pos.y + 1.0f), Quaternion.identity);
+                            //currentObject = Instantiate(boardobj, new Vector2(p1pos.x, p1pos.y + 1.0f), Quaternion.identity);
+                             currentObject = PhotonNetwork.Instantiate("Board", new Vector2(p1pos.x, p1pos.y + 1.0f), Quaternion.identity);
                             // generate = true;
                             movelock = true;
                             Debug.Log("p1ë§ê∂ê¨");
