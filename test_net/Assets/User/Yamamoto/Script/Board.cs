@@ -60,39 +60,43 @@ public class Board : MonoBehaviourPunCallbacks
     // Update is called once per frame
     void FixedUpdate()
     {
-        //データマネージャー取得
-        DataManager datamanager = ManagerAccessor.Instance.dataManager;
-
-        // 2軸入力読み込み
-        var inputValue = _moveAction.action.ReadValue<Vector2>();
-
-        if(!movelock)
+        //プレイヤー1側（箱）でしか操作できない
+        if (PhotonNetwork.LocalPlayer.IsMasterClient)
         {
-            // xy軸方向で移動
-            transform.Translate(inputValue * (moveSpeed * Time.deltaTime));
-        }
-       
+            //データマネージャー取得
+            DataManager datamanager = ManagerAccessor.Instance.dataManager;
 
-        //ゲームパッドの右ボタンを押したとき
-        if (datamanager.isOwnerInputKey_CB)
-        {
-            if(!pushbutton)
+            // 2軸入力読み込み
+            var inputValue = _moveAction.action.ReadValue<Vector2>();
+
+            if (!movelock)
             {
-                pushbutton = true;
-                a++;
+                // xy軸方向で移動
+                transform.Translate(inputValue * (moveSpeed * Time.deltaTime));
             }
 
-        }
-        else
-        {
-            pushbutton = false;
-        }
 
-        if (a == 2)
-        {
-            movelock = true;
-            collider.isTrigger = false;//トリガー化解除
-            rigid.constraints = RigidbodyConstraints2D.FreezeAll;
+            //ゲームパッドの右ボタンを押したとき
+            if (datamanager.isOwnerInputKey_CB)
+            {
+                if (!pushbutton)
+                {
+                    pushbutton = true;
+                    a++;
+                }
+
+            }
+            else
+            {
+                pushbutton = false;
+            }
+
+            if (a == 2)
+            {
+                movelock = true;
+                collider.isTrigger = false;//トリガー化解除
+                rigid.constraints = RigidbodyConstraints2D.FreezeAll;
+            }
         }
 
     }
