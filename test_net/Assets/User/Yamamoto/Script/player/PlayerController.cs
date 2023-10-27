@@ -203,7 +203,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
             if (datamanager.isOwnerInputKey_CA &&@movelock)
             {
                 //“¯‚Éãƒ{ƒ^ƒ“‚ğ‰Ÿ‚µ‚Ä‚¢‚È‚¢‚Æ‚«‚Í‰æ‘œ‚ğŒ³‚É–ß‚·
-                if (gameObject.name == "Player1")
+                if (gameObject.name == "Player1"&& holdtime <= 0)
                 {
                     GetComponent<SpriteRenderer>().sprite = p1Image;
                     movelock = false;

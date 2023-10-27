@@ -119,6 +119,7 @@ public class Board : MonoBehaviourPunCallbacks
         {
             holdtime--;//長押しカウントダウン
             movelock = false;
+            collider.isTrigger = true;//トリガー化
 
             //ゲームパッド下ボタン長押しで回収
             if (holdtime <= 0)//回収カウントが0になると回収
