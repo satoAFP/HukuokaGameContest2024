@@ -73,7 +73,7 @@ public class Board : MonoBehaviourPunCallbacks
         //プレイヤー側の長押しカウントを持ってくる
        // holdtime = ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().holdtime;
 
-        ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().holdtime = holdtime;
+        //ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().holdtime = holdtime;
         //プレイヤー1側（箱）でしか操作できない
         if (PhotonNetwork.LocalPlayer.IsMasterClient)
         {
