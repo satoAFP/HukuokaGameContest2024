@@ -93,11 +93,19 @@ public class Board : MonoBehaviourPunCallbacks
 
             if (a == 2)
             {
-                movelock = true;
-                collider.isTrigger = false;//トリガー化解除
-                rigid.constraints = RigidbodyConstraints2D.FreezeAll;
+                photonView.RPC(nameof(Rpc_SetBoard), RpcTarget.All);
             }
         }
 
+    }
+
+
+    //この関数は通信用
+    [PunRPC]
+    private void Rpc_SetBoard()
+    {
+        movelock = true;
+        collider.isTrigger = false;//トリガー化解除
+        rigid.constraints = RigidbodyConstraints2D.FreezeAll;
     }
 }
