@@ -33,7 +33,7 @@ public class SceneMoveManager : MonoBehaviour
     private IEnumerator DelaySceneMoveName(string name)
     {
         // 3•bŠÔ‘Ò‚Â
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(1.0f);
 
         if (PhotonNetwork.IsMasterClient)
         {
@@ -53,7 +53,7 @@ public class SceneMoveManager : MonoBehaviour
     private IEnumerator DelaySceneMoveRetry()
     {
         // 3•bŠÔ‘Ò‚Â
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(1.0f);
 
         PhotonNetwork.IsMessageQueueRunning = false;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
