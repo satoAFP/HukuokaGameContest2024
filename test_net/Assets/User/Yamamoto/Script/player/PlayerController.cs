@@ -23,12 +23,6 @@ public class PlayerController : MonoBehaviourPunCallbacks
     [SerializeField, Header("板オブジェクト")]
     private GameObject boardobj;
 
-    [SerializeField, Header("アイテム回収時間（大体60で１秒）")]
-    private int collecttime;
-
-    [SerializeField]
-    private int holdtime;//設定したアイテム回収時間を代入する
-
     [SerializeField]
     private GameObject currentObject;// 現在の生成されたオブジェクト
 
@@ -81,8 +75,6 @@ public class PlayerController : MonoBehaviourPunCallbacks
         }
 
         test_net = new Test_net();//スクリプトを変数に格納
-
-        holdtime = collecttime;//設定したアイテム回収時間を代入する
     }
     void FixedUpdate()
     {
@@ -136,13 +128,11 @@ public class PlayerController : MonoBehaviourPunCallbacks
                 //コントローラーの下ボタンを押したとき箱処理中断
                 if (datamanager.isOwnerInputKey_CA && movelock)
                 {
-                    //Debug.Log("箱側の冬");
                     //箱を閉じて移動ロックを解除
                     if (gameObject.name == "Player1")
                     {
                         GetComponent<SpriteRenderer>().sprite = p1Image;
                         movelock = false;
-                        // Debug.Log("箱側の秋");
                     }
                 }
                 else if (datamanager.isOwnerInputKey_CB && movelock)
@@ -206,41 +196,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
                 }
             }
-            //else if (datamanager.isOwnerInputKey_CB && movelock)
-            //{
-            //    if (gameObject.name == "Player1")
-            //    {
-            //        if (currentObject == null && holdtime == collecttime)
-            //        {
-            //            //長押しで連続で生成できないようにする
-            //            if (holdtime == collecttime)
-            //            {
-            //                currentObject = Instantiate(boardobj, new Vector2(p1pos.x, p1pos.y + 1.0f), Quaternion.identity);
-            //                // generate = true;
-            //                movelock = true;
-            //                Debug.Log("p2側生成");
-            //            }
-
-            //        }
-            //        else
-            //        {
-            //            holdtime--;//長押しでアイテム回収
-            //            if (holdtime <= 0)//回収カウントが0になると回収
-            //            {
-            //                Destroy(currentObject);
-            //                currentObject = null;
-            //                // generate = false;
-
-            //            }
-            //        }
-
-            //    }
-            //}
-            //else
-            //{
-            //    holdtime = collecttime;//ボタンを離すと回収カウントリセット
-            //}
-
+         
         }
 
         //各プレイヤーの現在座標を取得

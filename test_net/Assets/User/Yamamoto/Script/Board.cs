@@ -17,7 +17,7 @@ public class Board : MonoBehaviourPunCallbacks
 
     private Rigidbody2D rigid;//リジッドボディ
 
-    public int a = 0;
+    public int pushnum = 0;//ボタンを押した回数
 
     //inputsystemをスクリプトで呼び出す
     private BoardInput boardinput;
@@ -90,7 +90,7 @@ public class Board : MonoBehaviourPunCallbacks
                 if (!pushbutton)
                 {
                     pushbutton = true;
-                    a++;
+                    pushnum++;
                 }
 
             }
@@ -99,7 +99,8 @@ public class Board : MonoBehaviourPunCallbacks
                 pushbutton = false;
             }
 
-            if (a == 2)
+            //pushnumが2なのは板生成時に右ボタンが押された状態のため初期値が1になっている
+            if (pushnum == 2)
             {
                 Debug.Log("Set");
                 photonView.RPC(nameof(Rpc_SetBoard), RpcTarget.All);
@@ -108,6 +109,7 @@ public class Board : MonoBehaviourPunCallbacks
 
         }
 
+        //ゲームパッド右ボタンで回収
         if (datamanager.isOwnerInputKey_CB)
         {
             holdtime--;//長押しでアイテム回収
@@ -121,7 +123,11 @@ public class Board : MonoBehaviourPunCallbacks
             holdtime = collecttime;//ボタンを離すと回収カウントリセット
         }
 
-
+        //箱側が箱を閉じる処理を実行したとき、板を回収
+        if(datamanager.isOwnerInputKey_CA)
+        {
+            Destroy(gameObject);
+        }
 
     }
 
@@ -133,6 +139,6 @@ public class Board : MonoBehaviourPunCallbacks
         movelock = true;
         collider.isTrigger = false;//トリガー化解除
         rigid.constraints = RigidbodyConstraints2D.FreezeAll;
-        a = 0;
+        pushnum = 0;
     }
 }
