@@ -30,6 +30,15 @@ public class ResultSystem : MonoBehaviourPunCallbacks
             count = 0;
         }
 
+        if(isRetry)
+        {
+            ManagerAccessor.Instance.sceneMoveManager.SceneMoveRetry();
+        }
+
+        if (isStageSelect)
+        {
+            ManagerAccessor.Instance.sceneMoveManager.SceneMoveName("StageSelect");
+        }
     }
 
     public void Retry()
@@ -46,16 +55,14 @@ public class ResultSystem : MonoBehaviourPunCallbacks
     [PunRPC]
     private void RcpShareIsRetry()
     {
-        //isRetry = true;
-        ManagerAccessor.Instance.sceneMoveManager.SceneMoveRetry();
+        isRetry = true;
         noTapArea.SetActive(true);
     }
 
     [PunRPC]
     private void RcpShareIsStageSelect()
     {
-        //isStageSelect = true;
-        ManagerAccessor.Instance.sceneMoveManager.SceneMoveName("StageSelect");
+        isStageSelect = true;
         noTapArea.SetActive(true);
     }
 
