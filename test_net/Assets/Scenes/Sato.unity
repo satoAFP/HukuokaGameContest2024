@@ -970,6 +970,11 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 1638662336430680348, guid: 67d697408de187e4ba1fe85028b7e0b7, type: 3}
   m_PrefabInstance: {fileID: 1392108043307270878}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1392108043307270880 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8597847608699091135, guid: 67d697408de187e4ba1fe85028b7e0b7, type: 3}
+  m_PrefabInstance: {fileID: 1392108043307270878}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1469050261870931751
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1184,6 +1189,10 @@ PrefabInstance:
       propertyPath: sceneViewId
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 5118843441564053543, guid: 4eb929aeaff47a0499e1baa1f972cc36, type: 3}
+      propertyPath: noTapArea
+      value: 
+      objectReference: {fileID: 1392108043307270880}
     - target: {fileID: 5118843441564053720, guid: 4eb929aeaff47a0499e1baa1f972cc36, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
