@@ -73,7 +73,7 @@ public class Board : MonoBehaviourPunCallbacks
         //プレイヤー側の長押しカウントを持ってくる
        // holdtime = ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().holdtime;
 
-        ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().holdtime = holdtime;
+        //ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().holdtime = holdtime;
         //プレイヤー1側（箱）でしか操作できない
         if (PhotonNetwork.LocalPlayer.IsMasterClient)
         {
@@ -124,11 +124,13 @@ public class Board : MonoBehaviourPunCallbacks
             //ゲームパッド下ボタン長押しで回収
             if (holdtime <= 0)//回収カウントが0になると回収
             {
+                ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().boxopen = true;//箱を開ける
                 Destroy(gameObject);
             }
         }
         else
         {
+            ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().boxopen = false;
             holdtime = collecttime;//長押しカウントリセット
         }
     }
