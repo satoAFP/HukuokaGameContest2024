@@ -110,8 +110,8 @@ public class Board : MonoBehaviourPunCallbacks
         //ゲームパッド下ボタンで置きなおし
         if (datamanager.isOwnerInputKey_CA)
         {
-            pushnum++;
-            movelock = true;
+            //pushnum++;
+            movelock = false;
 
             //ゲームパッド下ボタン長押しで回収
             if (holdtime <= 0)//回収カウントが0になると回収
