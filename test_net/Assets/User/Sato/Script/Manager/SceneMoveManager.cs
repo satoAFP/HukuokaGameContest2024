@@ -27,10 +27,10 @@ public class SceneMoveManager : MonoBehaviour
     public void SceneMoveName(string name)
     {
         // コルーチンの起動
-        StartCoroutine(DelaySceneMoveName());
+        StartCoroutine(DelaySceneMoveName(name));
     }
 
-    private IEnumerator DelaySceneMoveName()
+    private IEnumerator DelaySceneMoveName(string name)
     {
         // 3秒間待つ
         yield return new WaitForSeconds(0.5f);
