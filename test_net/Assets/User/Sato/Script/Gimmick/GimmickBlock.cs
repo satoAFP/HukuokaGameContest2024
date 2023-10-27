@@ -20,6 +20,7 @@ public class GimmickBlock : CGimmick
     //連続で反応しないための処理
     private bool first = true;
 
+    int a = 0;
 
     private void FixedUpdate()
     {
@@ -30,9 +31,20 @@ public class GimmickBlock : CGimmick
             else
                 Player = ManagerAccessor.Instance.dataManager.player2;
 
+            Debug.Log(hitOwner + ":" + hitClient + ":" + ManagerAccessor.Instance.dataManager.isOwnerInputKey_CB + ":" + ManagerAccessor.Instance.dataManager.isOwnerInputKey_CB);
+
+            if (hitOwner)
+            {
+                Debug.Log(a+"あたってる");
+            }
+            if (!hitOwner)
+            {
+                Debug.Log(a+"あたってない");
+            }
+
             //1P、2Pが触れているかつ、アクションしているとき持ち上がる
-            if (hitOwner &&  ManagerAccessor.Instance.dataManager.isOwnerInputKey_CB &&
-                hitClient && ManagerAccessor.Instance.dataManager.isClientInputKey_CB)
+            if (hitOwner && ManagerAccessor.Instance.dataManager.isOwnerInputKey_CB &&
+            hitClient && ManagerAccessor.Instance.dataManager.isClientInputKey_CB)
             {
                 if (first)
                 {
@@ -62,7 +74,7 @@ public class GimmickBlock : CGimmick
             {
                 if (!first)
                 {
-
+                    Debug.Log("ccc");
                     //元の高さに戻す
                     Vector3 input = gameObject.transform.position;
                     input.y -= 1.0f;
@@ -71,12 +83,16 @@ public class GimmickBlock : CGimmick
                     dis = new Vector3(gameObject.transform.position.x - Player.transform.position.x, gameObject.transform.position.y - Player.transform.position.y, 0);
 
                     first = true;
+                    photonView.RPC(nameof(RpcShareIsOwner), RpcTarget.All, false);
+                    photonView.RPC(nameof(RpcShareIsClient), RpcTarget.All, false);
                 }
 
                 //同期解除
                 GetComponent<AvatarOnlyTransformView>().isPlayerMove = false;
 
                 liftMode = false;
+                //hitOwner = false;
+                //hitClient = false;
                 Player.GetComponent<PlayerController>().islift = false;
             }
         }
@@ -92,7 +108,7 @@ public class GimmickBlock : CGimmick
             collision.transform.GetChild(0).gameObject.SetActive(true);
             collision.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = ManagerAccessor.Instance.spriteManager.ArrowRight;
 
-            hitOwner = true;
+            photonView.RPC(nameof(RpcShareIsOwner), RpcTarget.All, true);
         }
 
         if (collision.gameObject.name == "Player2")
@@ -101,7 +117,7 @@ public class GimmickBlock : CGimmick
             collision.transform.GetChild(0).gameObject.SetActive(true);
             collision.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = ManagerAccessor.Instance.spriteManager.ArrowRight;
 
-            hitClient = true;
+            photonView.RPC(nameof(RpcShareIsClient), RpcTarget.All, true);
         }
     }
 
@@ -116,7 +132,7 @@ public class GimmickBlock : CGimmick
                 //押すべきボタンの画像表示
                 collision.transform.GetChild(0).gameObject.SetActive(false);
 
-                hitOwner = false;
+                photonView.RPC(nameof(RpcShareIsOwner), RpcTarget.All, false);
             }
 
             if (collision.gameObject.name == "Player2")
@@ -124,10 +140,21 @@ public class GimmickBlock : CGimmick
                 //押すべきボタンの画像表示
                 collision.transform.GetChild(0).gameObject.SetActive(false);
 
-                hitClient = false;
+                photonView.RPC(nameof(RpcShareIsClient), RpcTarget.All, false);
             }
         }
     }
 
+    [PunRPC]
+    private void RpcShareIsOwner(bool data)
+    {
+        hitOwner = data;
+    }
+
+    [PunRPC]
+    private void RpcShareIsClient(bool data)
+    {
+        hitClient = data;
+    }
 
 }
