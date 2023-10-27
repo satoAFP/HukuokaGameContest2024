@@ -955,7 +955,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dbf1f7b8b0f5ace429e32e53316bac32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  text: {fileID: 0}
 --- !u!61 &1057718084
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1828,6 +1827,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 307475504307988300, guid: e0d96d23c9a53174496ad92f449d45b4, type: 3}
+      propertyPath: sceneViewId
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 3959372731708805272, guid: e0d96d23c9a53174496ad92f449d45b4, type: 3}
       propertyPath: m_Name
       value: Board
