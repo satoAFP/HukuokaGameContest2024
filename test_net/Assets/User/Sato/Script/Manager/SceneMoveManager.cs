@@ -19,12 +19,26 @@ public class SceneMoveManager : MonoBehaviour
         }
     }
 
-    //コルーチン呼び出し用
+    /// <summary>
+    /// 引数の名前のシーンへ移動
+    /// </summary>
+    /// <param name="name">移動するシーン名</param>
     public void SceneMoveName(string name)
     {
         if (PhotonNetwork.IsMasterClient)
         {
             PhotonNetwork.LoadLevel(name);
+        }
+    }
+
+    /// <summary>
+    /// リトライ用
+    /// </summary>
+    public void SceneMoveRetry()
+    {
+        if (PhotonNetwork.IsMasterClient)
+        {
+            PhotonNetwork.LoadLevel(SceneManager.GetActiveScene().name);
         }
     }
 }
