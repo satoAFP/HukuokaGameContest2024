@@ -26,7 +26,6 @@ public class GameStart : MonoBehaviourPunCallbacks
         {
             GameObject clone = PhotonNetwork.Instantiate("Avatar", p2pos, Quaternion.identity);
         }
-        Debug.Log("aaaa");
     }
 
 }

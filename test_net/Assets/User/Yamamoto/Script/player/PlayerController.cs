@@ -93,10 +93,6 @@ public class PlayerController : MonoBehaviourPunCallbacks
                 if (ManagerAccessor.Instance.dataManager.player2 != null)
                     ManagerAccessor.Instance.dataManager.player2.GetComponent<PlayerController>().islift = islift;
 
-            //2P‚Ì‰æ–Ê‚Ì1P‚Ìî•ñXV
-            if (!PhotonNetwork.LocalPlayer.IsMasterClient)
-                if (ManagerAccessor.Instance.dataManager.player1 != null)
-                    ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().islift = islift;
 
 
             //‚¿ã‚°‚Ä‚¢‚È‚¢‚Æ‚«‚Í•’Ê‚ÉˆÚ“®‚³‚¹‚é
@@ -115,6 +111,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
                     if (PhotonNetwork.LocalPlayer.IsMasterClient)
                     {
                         Move();
+                        Debug.Log("aaaa");
                     }
                     else
                     {
@@ -128,6 +125,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
                         //2P‚ª1P‚É’Ç]‚·‚é‚æ‚¤‚É‚·‚é
                         transform.position = datamanager.player1.transform.position - dis;
+                        Debug.Log("bbb");
                     }
                 }
             }

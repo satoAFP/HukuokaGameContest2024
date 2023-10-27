@@ -55,6 +55,8 @@ MonoBehaviour:
   - Rpc_SetBoard
   - RcpShareIsRetry
   - RcpShareIsStageSelect
+  - RpcShareIsClient
+  - RpcShareIsOwner
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
