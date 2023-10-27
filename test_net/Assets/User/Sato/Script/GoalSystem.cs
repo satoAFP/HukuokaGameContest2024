@@ -7,9 +7,6 @@ using UnityEngine.UI;
 
 public class GoalSystem : CGimmick
 {
-    [SerializeField,Header("ƒŠƒUƒ‹ƒg")] private GameObject Result;
-
-
 
     // Update is called once per frame
     void Update()
@@ -18,7 +15,7 @@ public class GoalSystem : CGimmick
         if (ManagerAccessor.Instance.dataManager.GetSetIsOwnerClear &&
            ManagerAccessor.Instance.dataManager.GetSetIsClientClear)
         {
-            Result.SetActive(true);
+            ManagerAccessor.Instance.dataManager.isClear = true;
         }
 
     }

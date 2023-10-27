@@ -5,7 +5,8 @@ using Photon.Pun;
 
 public class ResultSystem : MonoBehaviourPunCallbacks
 {
-    [SerializeField, Header("定期的に出すオブジェクト")] private GameObject[] objs;
+    [SerializeField, Header("クリア時に出すオブジェクト")] private GameObject[] clearObjs;
+    [SerializeField, Header("死亡時に出すオブジェクト")] private GameObject[] dethObjs;
 
     [SerializeField, Header("出す間隔")] private int intervalFrame;
 
@@ -14,14 +15,32 @@ public class ResultSystem : MonoBehaviourPunCallbacks
     private int count = 0;      //フレームを数える
     private int objCount = 0;   //オブジェクトを数える
 
-    private bool isRetry = false;
-    private bool isStageSelect = false;
+    private bool isRetry = false;       //リトライ選択したとき
+    private bool isStageSelect = false; //ステージセレクト選択したとき
+    private GameObject[] objs;          //それぞれのオブジェクト格納用
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        count++;
+        if(ManagerAccessor.Instance.dataManager.isClear)
+        {
+            gameObject.transform.GetChild(0).gameObject.SetActive(true);
+            objs = clearObjs;
 
+            //フレームカウント
+            count++;
+        }
+
+        if (ManagerAccessor.Instance.dataManager.isDeth)
+        {
+            gameObject.transform.GetChild(0).gameObject.SetActive(true);
+            objs = dethObjs;
+
+            //フレームカウント
+            count++;
+        }
+
+        //一定間隔で画像を出す
         if (count == intervalFrame && objCount < objs.Length) 
         {
             objs[objCount].SetActive(true);
@@ -30,11 +49,12 @@ public class ResultSystem : MonoBehaviourPunCallbacks
             count = 0;
         }
 
-        if(isRetry)
+        //リトライ選択したとき
+        if (isRetry)
         {
             ManagerAccessor.Instance.sceneMoveManager.SceneMoveRetry();
         }
-
+        //ステージセレクト選択したとき
         if (isStageSelect)
         {
             ManagerAccessor.Instance.sceneMoveManager.SceneMoveName("StageSelect");
