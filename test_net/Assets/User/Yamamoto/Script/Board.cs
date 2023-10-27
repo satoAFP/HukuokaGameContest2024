@@ -109,6 +109,7 @@ public class Board : MonoBehaviourPunCallbacks
 
         }
 
+        //ゲームパッド右ボタンで回収
         if (datamanager.isOwnerInputKey_CB)
         {
             holdtime--;//長押しでアイテム回収
@@ -122,7 +123,11 @@ public class Board : MonoBehaviourPunCallbacks
             holdtime = collecttime;//ボタンを離すと回収カウントリセット
         }
 
-
+        //箱側が箱を閉じる処理を実行したとき、板を回収
+        if(datamanager.isOwnerInputKey_CA)
+        {
+            Destroy(gameObject);
+        }
 
     }
 

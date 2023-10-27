@@ -320,8 +320,6 @@ MonoBehaviour:
   moveSpeed: 5
   jumpSpeed: 6
   boardobj: {fileID: 3959372731708805272, guid: e0d96d23c9a53174496ad92f449d45b4, type: 3}
-  collecttime: 60
-  holdtime: 0
   currentObject: {fileID: 0}
 --- !u!114 &5643572740733532904
 MonoBehaviour:
