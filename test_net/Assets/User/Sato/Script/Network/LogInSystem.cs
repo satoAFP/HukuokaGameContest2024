@@ -94,12 +94,7 @@ public class LogInSystem : MonoBehaviourPunCallbacks
     // ゲームサーバーへの接続が成功した時に呼ばれるコールバック
     public override void OnJoinedRoom()
     {
-        if (roomNumber < 5)
-            logInSuccess = true;
-        else if (roomNumber == 5)
-            ManagerAccessor.Instance.sceneMoveManager.SceneMoveName("Sato");
-        else if (roomNumber == 6)
-            ManagerAccessor.Instance.sceneMoveManager.SceneMoveName("Yamamoto");
+        
 
         //接続成功
         
@@ -110,7 +105,13 @@ public class LogInSystem : MonoBehaviourPunCallbacks
         if (PhotonNetwork.CurrentRoom.PlayerCount == roomMember)
         {
             PhotonNetwork.CurrentRoom.IsOpen = false;
-            ManagerAccessor.Instance.sceneMoveManager.SceneMoveName("StageSelect");
+            
+            if (roomNumber < 5)
+                ManagerAccessor.Instance.sceneMoveManager.SceneMoveName("StageSelect");
+            else if (roomNumber == 5)
+                ManagerAccessor.Instance.sceneMoveManager.SceneMoveName("Sato");
+            else if (roomNumber == 6)
+                ManagerAccessor.Instance.sceneMoveManager.SceneMoveName("Yamamoto");
         }
     }
 }
