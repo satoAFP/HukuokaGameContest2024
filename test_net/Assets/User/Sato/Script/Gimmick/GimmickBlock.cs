@@ -31,7 +31,7 @@ public class GimmickBlock : CGimmick
             else
                 Player = ManagerAccessor.Instance.dataManager.player2;
 
-            Debug.Log(hitOwner + ":" + hitClient + ":" + ManagerAccessor.Instance.dataManager.isOwnerInputKey_CB + ":" + ManagerAccessor.Instance.dataManager.isOwnerInputKey_CB);
+            Debug.Log(hitOwner + ":" + hitClient + ":" + ManagerAccessor.Instance.dataManager.isOwnerInputKey_CB + ":" + ManagerAccessor.Instance.dataManager.isOwnerInputKey_CB + ":" + liftMode);
 
             if (hitOwner)
             {
