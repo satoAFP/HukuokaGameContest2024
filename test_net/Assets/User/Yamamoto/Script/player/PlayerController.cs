@@ -32,7 +32,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
    // public int holdtime;//設定したアイテム回収時間を代入する
 
-    public bool boxopen = false;//箱の開閉フラグ
+    public bool boxopen = false;//箱の開閉時の画像変更フラグ
 
     //入力された方向を入れる変数
     private Vector2 inputDirection;
@@ -205,7 +205,8 @@ public class PlayerController : MonoBehaviourPunCallbacks
             if (datamanager.isOwnerInputKey_CA &&　movelock)
             {
                 //同時に上ボタンを押していないときは画像を元に戻す
-                if (gameObject.name == "Player1")
+                if (gameObject.name == "Player1"&&
+                    ManagerAccessor.Instance.dataManager.player2.GetComponent<PlayerController>().boxopen)
                 {
                     Debug.Log("おぺん22");
                     GetComponent<SpriteRenderer>().sprite = p1Image;
