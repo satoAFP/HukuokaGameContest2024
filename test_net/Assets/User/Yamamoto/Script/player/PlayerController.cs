@@ -131,51 +131,53 @@ public class PlayerController : MonoBehaviourPunCallbacks
                 }
             }
 
-            //コントローラーの下ボタンを押したとき箱処理中断
-            if (datamanager.isOwnerInputKey_CA && movelock)
+            if(PhotonNetwork.LocalPlayer.IsMasterClient)
             {
-                //Debug.Log("箱側の冬");
-                //箱を閉じて移動ロックを解除
-                if (gameObject.name == "Player1")
+                //コントローラーの下ボタンを押したとき箱処理中断
+                if (datamanager.isOwnerInputKey_CA && movelock)
                 {
-                    GetComponent<SpriteRenderer>().sprite = p1Image;
-                    movelock = false;
-                   // Debug.Log("箱側の秋");
-                }
-            }
-            else if (datamanager.isOwnerInputKey_CB && movelock)
-            {
-                if (currentObject == null && holdtime == collecttime)
-                {
-                    //長押しで連続で生成できないようにする
-                    if (holdtime == collecttime)
+                    //Debug.Log("箱側の冬");
+                    //箱を閉じて移動ロックを解除
+                    if (gameObject.name == "Player1")
                     {
-                        currentObject = Instantiate(boardobj, new Vector2(p1pos.x, p1pos.y + 1.0f), Quaternion.identity);
-                        // generate = true;
-                        movelock = true;
-                        Debug.Log("p1側生成");
+                        GetComponent<SpriteRenderer>().sprite = p1Image;
+                        movelock = false;
+                        // Debug.Log("箱側の秋");
+                    }
+                }
+                else if (datamanager.isOwnerInputKey_CB && movelock)
+                {
+                    if (currentObject == null && holdtime == collecttime)
+                    {
+                        //長押しで連続で生成できないようにする
+                        if (holdtime == collecttime)
+                        {
+                            currentObject = Instantiate(boardobj, new Vector2(p1pos.x, p1pos.y + 1.0f), Quaternion.identity);
+                            // generate = true;
+                            movelock = true;
+                            Debug.Log("p1側生成");
+                        }
+
+                    }
+                    else
+                    {
+                        holdtime--;//長押しでアイテム回収
+                        if (holdtime <= 0)//回収カウントが0になると回収
+                        {
+                            Destroy(currentObject);
+                            currentObject = null;
+                            // generate = false;
+
+                        }
                     }
 
                 }
                 else
                 {
-                    holdtime--;//長押しでアイテム回収
-                    if (holdtime <= 0)//回収カウントが0になると回収
-                    {
-                        Destroy(currentObject);
-                        currentObject = null;
-                        // generate = false;
-
-                    }
+                    holdtime = collecttime;//ボタンを離すと回収カウントリセット
                 }
-
             }
-            else
-            {
-                holdtime = collecttime;//ボタンを離すと回収カウントリセット
-            }
-
-
+ 
         }
         else
         {
@@ -216,40 +218,40 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
                 }
             }
-            else if (datamanager.isOwnerInputKey_CB && movelock)
-            {
-                if (gameObject.name == "Player1")
-                {
-                    if (currentObject == null && holdtime == collecttime)
-                    {
-                        //長押しで連続で生成できないようにする
-                        if (holdtime == collecttime)
-                        {
-                            currentObject = Instantiate(boardobj, new Vector2(p1pos.x, p1pos.y + 1.0f), Quaternion.identity);
-                            // generate = true;
-                            movelock = true;
-                            Debug.Log("p2側生成");
-                        }
+            //else if (datamanager.isOwnerInputKey_CB && movelock)
+            //{
+            //    if (gameObject.name == "Player1")
+            //    {
+            //        if (currentObject == null && holdtime == collecttime)
+            //        {
+            //            //長押しで連続で生成できないようにする
+            //            if (holdtime == collecttime)
+            //            {
+            //                currentObject = Instantiate(boardobj, new Vector2(p1pos.x, p1pos.y + 1.0f), Quaternion.identity);
+            //                // generate = true;
+            //                movelock = true;
+            //                Debug.Log("p2側生成");
+            //            }
 
-                    }
-                    else
-                    {
-                        holdtime--;//長押しでアイテム回収
-                        if (holdtime <= 0)//回収カウントが0になると回収
-                        {
-                            Destroy(currentObject);
-                            currentObject = null;
-                            // generate = false;
+            //        }
+            //        else
+            //        {
+            //            holdtime--;//長押しでアイテム回収
+            //            if (holdtime <= 0)//回収カウントが0になると回収
+            //            {
+            //                Destroy(currentObject);
+            //                currentObject = null;
+            //                // generate = false;
 
-                        }
-                    }
+            //            }
+            //        }
 
-                }
-            }
-            else
-            {
-                holdtime = collecttime;//ボタンを離すと回収カウントリセット
-            }
+            //    }
+            //}
+            //else
+            //{
+            //    holdtime = collecttime;//ボタンを離すと回収カウントリセット
+            //}
 
         }
 
