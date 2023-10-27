@@ -205,8 +205,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
             if (datamanager.isOwnerInputKey_CA &&@movelock)
             {
                 //“¯‚Éãƒ{ƒ^ƒ“‚ğ‰Ÿ‚µ‚Ä‚¢‚È‚¢‚Æ‚«‚Í‰æ‘œ‚ğŒ³‚É–ß‚·
-                if (gameObject.name == "Player1"&&
-                    ManagerAccessor.Instance.dataManager.player2.GetComponent<PlayerController>().boxopen)
+                if (gameObject.name == "Player1"&& boxopen)
                 {
                     Debug.Log("‚¨‚Ø‚ñ22");
                     GetComponent<SpriteRenderer>().sprite = p1Image;
