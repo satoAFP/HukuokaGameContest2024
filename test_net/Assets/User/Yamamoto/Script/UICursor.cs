@@ -17,7 +17,9 @@ public class UICursor : MonoBehaviourPunCallbacks
     [SerializeField, Header("コピーキーのアイコン")]
     private GameObject CopyKeyIcon;
 
-    private bool movefinish = false;
+    private int LRmove = 0;//1:右　2:左
+
+    private bool movestart = false;
 
     // Start is called before the first frame update
     void Start()
@@ -30,18 +32,41 @@ public class UICursor : MonoBehaviourPunCallbacks
     {
         DataManager datamanager = ManagerAccessor.Instance.dataManager;
 
-        if(datamanager.isOwnerInputKey_C_D_RIGHT)
+        if(datamanager.isOwnerInputKey_C_D_RIGHT && !movestart)
         {
-            while(transform.position == CopyKeyIcon.transform.position)
-            transform.position = Vector2.MoveTowards(transform.position, CopyKeyIcon.transform.position, moveSpeed * Time.deltaTime);
+            movestart = true;
+            LRmove = 1;
+           // transform.position = Vector2.MoveTowards(transform.position, CopyKeyIcon.transform.position, moveSpeed * Time.deltaTime);
         }
 
-        if (datamanager.isOwnerInputKey_C_D_LEFT)
+        if (datamanager.isOwnerInputKey_C_D_LEFT && !movestart)
         {
-            while(transform.position == BoardIcon.transform.position)
-            transform.position = Vector2.MoveTowards(transform.position, BoardIcon.transform.position, moveSpeed * Time.deltaTime);
+            movestart = true;
+            LRmove = 2;
+           // transform.position = Vector2.MoveTowards(transform.position, BoardIcon.transform.position, moveSpeed * Time.deltaTime);
         }
 
-
+        if(movestart)
+        {
+            if(LRmove==1)
+            {
+                transform.position = Vector2.MoveTowards(transform.position, CopyKeyIcon.transform.position, moveSpeed * Time.deltaTime);
+                if (transform.position == CopyKeyIcon.transform.position)
+                {
+                    movestart = false;
+                    LRmove = 0;
+                }
+            }
+            else if(LRmove==2)
+            {
+                transform.position = Vector2.MoveTowards(transform.position, BoardIcon.transform.position, moveSpeed * Time.deltaTime);
+                if (transform.position == BoardIcon.transform.position)
+                {
+                    movestart = false;
+                    LRmove = 0;
+                }
+            }
+            
+        }
     }
 }
