@@ -17,6 +17,7 @@ public class UICursor : MonoBehaviourPunCallbacks
     [SerializeField, Header("コピーキーのアイコン")]
     private GameObject CopyKeyIcon;
 
+    private bool movefinish = false;
 
     // Start is called before the first frame update
     void Start()
@@ -31,11 +32,13 @@ public class UICursor : MonoBehaviourPunCallbacks
 
         if(datamanager.isOwnerInputKey_C_D_RIGHT)
         {
+            while(transform.position == CopyKeyIcon.transform.position)
             transform.position = Vector2.MoveTowards(transform.position, CopyKeyIcon.transform.position, moveSpeed * Time.deltaTime);
         }
 
         if (datamanager.isOwnerInputKey_C_D_LEFT)
         {
+            while(transform.position == BoardIcon.transform.position)
             transform.position = Vector2.MoveTowards(transform.position, BoardIcon.transform.position, moveSpeed * Time.deltaTime);
         }
 
