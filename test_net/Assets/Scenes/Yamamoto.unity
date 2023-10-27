@@ -1033,7 +1033,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f486713b3b96594cbd677c4e4a6e67d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 10
+  moveSpeed: 500
   BoardIcon: {fileID: 2099607914}
   CopyKeyIcon: {fileID: 132894935}
 --- !u!50 &930889694
