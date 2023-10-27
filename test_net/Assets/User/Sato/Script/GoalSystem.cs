@@ -7,16 +7,18 @@ using UnityEngine.UI;
 
 public class GoalSystem : CGimmick
 {
-    [SerializeField] private GameObject text;
+    [SerializeField,Header("リザルト")] private GameObject Result;
+
 
 
     // Update is called once per frame
     void Update()
     {
+        //クリアするとリザルト画面表示
         if (ManagerAccessor.Instance.dataManager.GetSetIsOwnerClear &&
            ManagerAccessor.Instance.dataManager.GetSetIsClientClear)
         {
-            text.SetActive(true);
+            Result.SetActive(true);
         }
 
     }
