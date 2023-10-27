@@ -27,6 +27,12 @@ public class Board : MonoBehaviourPunCallbacks
     //ボタンの複数回入力を防ぐ
     private bool pushbutton = false;
 
+    [SerializeField, Header("アイテム回収時間（大体60で１秒）")]
+    private int collecttime;
+
+    [SerializeField]
+    private int holdtime;//設定したアイテム回収時間を代入する
+
     private void OnDestroy()
     {
         _moveAction.action.Dispose();
@@ -55,17 +61,19 @@ public class Board : MonoBehaviourPunCallbacks
 
         collider.isTrigger = true;//コライダーのトリガー化
 
+        holdtime = collecttime;//設定したアイテム回収時間を代入する
+
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
+        //データマネージャー取得
+        DataManager datamanager = ManagerAccessor.Instance.dataManager;
         //プレイヤー1側（箱）でしか操作できない
         if (PhotonNetwork.LocalPlayer.IsMasterClient)
         {
-            //データマネージャー取得
-            DataManager datamanager = ManagerAccessor.Instance.dataManager;
-
+ 
             // 2軸入力読み込み
             var inputValue = _moveAction.action.ReadValue<Vector2>();
 
@@ -93,9 +101,27 @@ public class Board : MonoBehaviourPunCallbacks
 
             if (a == 2)
             {
+                Debug.Log("Set");
                 photonView.RPC(nameof(Rpc_SetBoard), RpcTarget.All);
             }
+
+
         }
+
+        if (datamanager.isOwnerInputKey_CB)
+        {
+            holdtime--;//長押しでアイテム回収
+            if (holdtime <= 0)//回収カウントが0になると回収
+            {
+                Destroy(gameObject);
+            }
+        }
+        else
+        {
+            holdtime = collecttime;//ボタンを離すと回収カウントリセット
+        }
+
+
 
     }
 
@@ -107,5 +133,6 @@ public class Board : MonoBehaviourPunCallbacks
         movelock = true;
         collider.isTrigger = false;//トリガー化解除
         rigid.constraints = RigidbodyConstraints2D.FreezeAll;
+        a = 0;
     }
 }

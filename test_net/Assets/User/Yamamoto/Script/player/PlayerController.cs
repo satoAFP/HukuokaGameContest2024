@@ -34,7 +34,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
     private bool movelock = false;//移動処理を停止させる
 
-    private bool generate = false;//オブジェクト生成フラグ
+    private bool instantiatefirst = true;//連続でアイテムを生成させない
 
     //入力された方向を入れる変数
     private Vector2 inputDirection;
@@ -147,35 +147,22 @@ public class PlayerController : MonoBehaviourPunCallbacks
                 }
                 else if (datamanager.isOwnerInputKey_CB && movelock)
                 {
-                    if (currentObject == null && holdtime == collecttime)
+                    if(instantiatefirst)
                     {
-                        //長押しで連続で生成できないようにする
-                        if (holdtime == collecttime)
+                        if (currentObject == null)
                         {
-                            //currentObject = Instantiate(boardobj, new Vector2(p1pos.x, p1pos.y + 1.0f), Quaternion.identity);
-                             currentObject = PhotonNetwork.Instantiate("Board", new Vector2(p1pos.x, p1pos.y + 1.0f), Quaternion.identity);
-                            // generate = true;
+
+                            currentObject = PhotonNetwork.Instantiate("Board", new Vector2(p1pos.x, p1pos.y + 1.0f), Quaternion.identity);
                             movelock = true;
                             Debug.Log("p1側生成");
                         }
-
-                    }
-                    else
-                    {
-                        holdtime--;//長押しでアイテム回収
-                        if (holdtime <= 0)//回収カウントが0になると回収
-                        {
-                            Destroy(currentObject);
-                            currentObject = null;
-                            // generate = false;
-
-                        }
+                        instantiatefirst = false;
                     }
 
                 }
                 else
                 {
-                    holdtime = collecttime;//ボタンを離すと回収カウントリセット
+                    instantiatefirst = true;
                 }
             }
  
