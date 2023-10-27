@@ -30,9 +30,6 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
     private bool instantiatefirst = true;//連続でアイテムを生成させない
 
-    [SerializeField, Header("アイテム回収時間（大体60で１秒）")]
-    private int collecttime;
-
     public int holdtime;//設定したアイテム回収時間を代入する
 
     //入力された方向を入れる変数
@@ -79,7 +76,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
         test_net = new Test_net();//スクリプトを変数に格納
 
-        holdtime = collecttime;
+      
     }
     void FixedUpdate()
     {
@@ -136,7 +133,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
                     //コントローラーの下ボタンを押したとき箱処理中断
                     if (datamanager.isOwnerInputKey_CA)
                     {
-                        holdtime--;//長押しカウントダウン
+                       // holdtime--;//長押しカウントダウン
                         //箱を閉じて移動ロックを解除
                         if (gameObject.name == "Player1" && holdtime <= 0)
                         {
@@ -144,10 +141,10 @@ public class PlayerController : MonoBehaviourPunCallbacks
                             movelock = false;
                         }
                     }
-                    else
-                    {
-                        holdtime = collecttime;//長押しカウントリセット
-                    }
+                    //else
+                    //{
+                    //    holdtime = collecttime;//長押しカウントリセット
+                    //}
 
                     //ゲームパッド右ボタンでアイテム生成
                     if (datamanager.isOwnerInputKey_CB)
