@@ -31,8 +31,8 @@ public class GimmickBlock : CGimmick
                 Player = ManagerAccessor.Instance.dataManager.player2;
 
             //1P、2Pが触れているかつ、アクションしているとき持ち上がる
-            if (hitOwner && (ManagerAccessor.Instance.dataManager.isOwnerInputKey_LM || ManagerAccessor.Instance.dataManager.isOwnerInputKey_CB) &&
-                hitClient && (ManagerAccessor.Instance.dataManager.isClientInputKey_LM || ManagerAccessor.Instance.dataManager.isClientInputKey_CB))
+            if (hitOwner &&  ManagerAccessor.Instance.dataManager.isOwnerInputKey_CB &&
+                hitClient && ManagerAccessor.Instance.dataManager.isClientInputKey_CB)
             {
                 if (first)
                 {
