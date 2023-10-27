@@ -37,7 +37,6 @@ public class SceneMoveManager : MonoBehaviour
     public void SceneMoveRetry()
     {
         PhotonNetwork.IsMessageQueueRunning = false;
-
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }

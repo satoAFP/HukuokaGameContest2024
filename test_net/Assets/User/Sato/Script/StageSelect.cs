@@ -8,13 +8,15 @@ public class StageSelect : MonoBehaviourPunCallbacks
 {
     [SerializeField, Header("移動するシーン名")] private string sceneName;
 
-    private bool isPlayerEnter = false;
+
+    private bool isPlayerEnter = false; //キャラが入った時
     private bool first = true;
 
 
     // Update is called once per frame
     void Update()
     {
+        //ステージに入る
         if (isPlayerEnter)
         {
             if (first)

@@ -30,6 +30,12 @@ public class DataManager : MonoBehaviourPunCallbacks
     //アンロックボタン操作中かどうか
     [System.NonSerialized] public bool isUnlockButtonStart = false;
 
+    //クリアフラグ
+    [System.NonSerialized] public bool isClear = false;
+
+    //死亡フラグ
+    [System.NonSerialized] public bool isDeth = false;
+
 
     //キー入力情報(マスター)
     //キーボード入力
@@ -92,23 +98,9 @@ public class DataManager : MonoBehaviourPunCallbacks
     [System.NonSerialized] public bool isClientInputKey_C_L2 = false;
 
 
-
     //それぞれのボタン入力状況
     [System.NonSerialized] public string ownerName = "";
     [System.NonSerialized] public string clientName = "";
-
-    //public bool GetSetIsOwnerButton
-    //{
-    //    get { return isOwnerButton; }
-    //    set { isOwnerButton = value; }
-    //}
-
-    //public bool GetSetIsClientButton
-    //{
-    //    get { return isClientButton; }
-    //    set { isClientButton = value; }
-    //}
-
 
 
     public Text text;
