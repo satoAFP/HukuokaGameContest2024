@@ -124,11 +124,13 @@ public class Board : MonoBehaviourPunCallbacks
             //ゲームパッド下ボタン長押しで回収
             if (holdtime <= 0)//回収カウントが0になると回収
             {
+                ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().boxopen = true;//箱を開ける
                 Destroy(gameObject);
             }
         }
         else
         {
+            ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().boxopen = false;
             holdtime = collecttime;//長押しカウントリセット
         }
     }
