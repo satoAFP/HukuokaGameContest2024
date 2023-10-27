@@ -296,8 +296,7 @@ MonoBehaviour:
         m_Flags: 8
       m_Flags: 0
     m_Reference: {fileID: 0}
-  a: 0
-  collecttime: 60
+  pushnum: 0
   holdtime: 0
 --- !u!114 &307475504307988300
 MonoBehaviour:
