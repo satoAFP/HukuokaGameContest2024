@@ -30,6 +30,11 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
     private bool instantiatefirst = true;//連続でアイテムを生成させない
 
+    [SerializeField, Header("アイテム回収時間（大体60で１秒）")]
+    private int collecttime;
+
+    public int holdtime;//設定したアイテム回収時間を代入する
+
     //入力された方向を入れる変数
     private Vector2 inputDirection;
 
@@ -60,8 +65,6 @@ public class PlayerController : MonoBehaviourPunCallbacks
         //名前とIDを設定
         gameObject.name = "Player" + photonView.OwnerActorNr;
 
-       
-
         //プレイヤーによってイラストを変える＆データマネージャー設定
         if (gameObject.name == "Player1")
         {
@@ -75,6 +78,8 @@ public class PlayerController : MonoBehaviourPunCallbacks
         }
 
         test_net = new Test_net();//スクリプトを変数に格納
+
+        holdtime = collecttime;
     }
     void FixedUpdate()
     {
@@ -125,35 +130,47 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
             if(PhotonNetwork.LocalPlayer.IsMasterClient)
             {
-                //コントローラーの下ボタンを押したとき箱処理中断
-                if (datamanager.isOwnerInputKey_CA && movelock)
+                //プレイヤー1（箱）の移動が制限されているとき（箱が空いている時）
+                if(movelock)
                 {
-                    //箱を閉じて移動ロックを解除
-                    if (gameObject.name == "Player1")
+                    //コントローラーの下ボタンを押したとき箱処理中断
+                    if (datamanager.isOwnerInputKey_CA)
                     {
-                        GetComponent<SpriteRenderer>().sprite = p1Image;
-                        movelock = false;
-                    }
-                }
-                else if (datamanager.isOwnerInputKey_CB && movelock)
-                {
-                    if(instantiatefirst)
-                    {
-                        if (currentObject == null)
+                        holdtime--;//長押しカウントダウン
+                        //箱を閉じて移動ロックを解除
+                        if (gameObject.name == "Player1" && holdtime <= 0)
                         {
-
-                            currentObject = PhotonNetwork.Instantiate("Board", new Vector2(p1pos.x, p1pos.y + 1.0f), Quaternion.identity);
-                            movelock = true;
-                            Debug.Log("p1側生成");
+                            GetComponent<SpriteRenderer>().sprite = p1Image;
+                            movelock = false;
                         }
-                        instantiatefirst = false;
+                    }
+                    else
+                    {
+                        holdtime = collecttime;//長押しカウントリセット
                     }
 
+                    //ゲームパッド右ボタンでアイテム生成
+                    if (datamanager.isOwnerInputKey_CB)
+                    {
+                        if (instantiatefirst)
+                        {
+                            if (currentObject == null)
+                            {
+
+                                currentObject = PhotonNetwork.Instantiate("Board", new Vector2(p1pos.x, p1pos.y + 1.0f), Quaternion.identity);
+                                movelock = true;
+                                Debug.Log("p1側生成");
+                            }
+                            instantiatefirst = false;
+                        }
+
+                    }
+                    else
+                    {
+                        instantiatefirst = true;
+                    }
                 }
-                else
-                {
-                    instantiatefirst = true;
-                }
+               
             }
  
         }

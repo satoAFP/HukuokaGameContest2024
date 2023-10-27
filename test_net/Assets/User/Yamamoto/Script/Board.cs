@@ -27,9 +27,6 @@ public class Board : MonoBehaviourPunCallbacks
     //ボタンの複数回入力を防ぐ
     private bool pushbutton = false;
 
-    [SerializeField, Header("アイテム回収時間（大体60で１秒）")]
-    private int collecttime;
-
     [SerializeField]
     private int holdtime;//設定したアイテム回収時間を代入する
 
@@ -61,8 +58,6 @@ public class Board : MonoBehaviourPunCallbacks
 
         collider.isTrigger = true;//コライダーのトリガー化
 
-        holdtime = collecttime;//設定したアイテム回収時間を代入する
-
     }
 
     // Update is called once per frame
@@ -70,6 +65,8 @@ public class Board : MonoBehaviourPunCallbacks
     {
         //データマネージャー取得
         DataManager datamanager = ManagerAccessor.Instance.dataManager;
+        //プレイヤー側の長押しカウントを持ってくる
+        holdtime = ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().holdtime;
         //プレイヤー1側（箱）でしか操作できない
         if (PhotonNetwork.LocalPlayer.IsMasterClient)
         {
@@ -109,25 +106,26 @@ public class Board : MonoBehaviourPunCallbacks
 
         }
 
-        //ゲームパッド右ボタンで回収
-        if (datamanager.isOwnerInputKey_CB)
+
+        //ゲームパッド下ボタンで置きなおし
+        if (datamanager.isOwnerInputKey_CA)
         {
-            holdtime--;//長押しでアイテム回収
+            pushnum++;
+            movelock = true;
+
+            //ゲームパッド下ボタン長押しで回収
             if (holdtime <= 0)//回収カウントが0になると回収
             {
                 Destroy(gameObject);
             }
         }
-        else
-        {
-            holdtime = collecttime;//ボタンを離すと回収カウントリセット
-        }
+       
 
-        //箱側が箱を閉じる処理を実行したとき、板を回収
-        if(datamanager.isOwnerInputKey_CA)
-        {
-            Destroy(gameObject);
-        }
+        ////ゲームパッド下ボタンで置きなおし
+        //if(datamanager.isOwnerInputKey_CA)
+        //{
+          
+        //}
 
     }
 
@@ -139,6 +137,6 @@ public class Board : MonoBehaviourPunCallbacks
         movelock = true;
         collider.isTrigger = false;//トリガー化解除
         rigid.constraints = RigidbodyConstraints2D.FreezeAll;
-        pushnum = 0;
+        pushnum = 1;
     }
 }
