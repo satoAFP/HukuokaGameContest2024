@@ -137,6 +137,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
                         //箱を閉じて移動ロックを解除
                         if (gameObject.name == "Player1" && holdtime <= 0)
                         {
+                            Debug.Log("おぺん");
                             GetComponent<SpriteRenderer>().sprite = p1Image;
                             movelock = false;
                         }
@@ -156,7 +157,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
                                 currentObject = PhotonNetwork.Instantiate("Board", new Vector2(p1pos.x, p1pos.y + 1.0f), Quaternion.identity);
                                 movelock = true;
-                                Debug.Log("p1側生成");
+                              //  Debug.Log("p1側生成");
                             }
                             instantiatefirst = false;
                         }
@@ -203,11 +204,11 @@ public class PlayerController : MonoBehaviourPunCallbacks
             if (datamanager.isOwnerInputKey_CA &&　movelock)
             {
                 //同時に上ボタンを押していないときは画像を元に戻す
-                if (gameObject.name == "Player1"&& holdtime <= 0)
+                if (gameObject.name == "Player1")
                 {
+                    Debug.Log("おぺん22");
                     GetComponent<SpriteRenderer>().sprite = p1Image;
                     movelock = false;
-
                 }
             }
          
@@ -266,11 +267,10 @@ public class PlayerController : MonoBehaviourPunCallbacks
         //箱と鍵の二点間距離を取って一定の値なら箱オープン可能
         if (Mathf.Abs(p1pos.x - p2pos.x) < 1.0f)
         {
-            Debug.Log("密着！！隣の晩御飯！！");
             //上ボタンの同時押しで箱オープン
             if (datamanager.isOwnerInputKey_C_D_UP && datamanager.isClientInputKey_C_D_UP)
             {
-                Debug.Log("上キー両押し");
+                //Debug.Log("上キー両押し");
                 //宝箱のプレイヤーの時、空いている箱のイラストに変更
                 if (gameObject.name == "Player1")
                 {
