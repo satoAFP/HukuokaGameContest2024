@@ -95,7 +95,10 @@ public class PlayerController : MonoBehaviourPunCallbacks
                 if (ManagerAccessor.Instance.dataManager.player2 != null)
                     ManagerAccessor.Instance.dataManager.player2.GetComponent<PlayerController>().islift = islift;
 
-
+            //1P‚Ì‰æ–Ê‚Ì2P‚Ìî•ñXV
+            if (!PhotonNetwork.LocalPlayer.IsMasterClient)
+                if (ManagerAccessor.Instance.dataManager.player1 != null)
+                    ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().islift = islift;
 
             //‚¿ã‚°‚Ä‚¢‚È‚¢‚Æ‚«‚Í•’Ê‚ÉˆÚ“®‚³‚¹‚é
             if (!islift)
