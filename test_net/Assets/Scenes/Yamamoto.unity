@@ -1019,8 +1019,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 0
-  BoardIcon: {fileID: 0}
-  CopyKeyIcon: {fileID: 0}
+  BoardIcon: {fileID: 2099607914}
+  CopyKeyIcon: {fileID: 132894935}
 --- !u!114 &930889693
 MonoBehaviour:
   m_ObjectHideFlags: 0
