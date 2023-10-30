@@ -101,8 +101,8 @@ public class GimmickBlock : CGimmick
                 GetComponent<AvatarOnlyTransformView>().isPlayerMove = false;
 
                 liftMode = false;
-                //hitOwner = false;
-                //hitClient = false;
+                hitOwner = false;
+                hitClient = false;
                 Player.GetComponent<PlayerController>().islift = false;
             }
         }
