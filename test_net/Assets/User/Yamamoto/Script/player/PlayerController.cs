@@ -34,6 +34,8 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
     public bool boxopen = false;//箱の開閉時の画像変更フラグ
 
+    public string choicecursor = "None";//UIカーソルが現在選択している生成可能アイテム
+
     //入力された方向を入れる変数
     private Vector2 inputDirection;
 
@@ -144,11 +146,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
                             movelock = false;
                         }
                     }
-                    //else
-                    //{
-                    //    holdtime = collecttime;//長押しカウントリセット
-                    //}
-
+                  
                     //ゲームパッド右ボタンでアイテム生成
                     if (datamanager.isOwnerInputKey_CB)
                     {
