@@ -114,25 +114,26 @@ public class PlayerController : MonoBehaviourPunCallbacks
                 if ((datamanager.isOwnerInputKey_C_L_RIGHT&& datamanager.isClientInputKey_C_L_RIGHT)||
                    (datamanager.isOwnerInputKey_C_L_LEFT && datamanager.isClientInputKey_C_L_LEFT))
                 {
-                    if (PhotonNetwork.LocalPlayer.IsMasterClient)
-                    {
-                        Move();
-                        Debug.Log("aaaa");
-                    }
-                    else
-                    {
-                        //物を持ち上げて移動するとき、最初にプレイヤー同士の差を求める
-                        if (distanceFirst)
-                        {
-                            //1Pと2Pの座標の差を記憶
-                            dis = datamanager.player1.transform.position - datamanager.player2.transform.position;
-                            distanceFirst = false;
-                        }
+                    Move();
+                    //if (PhotonNetwork.LocalPlayer.IsMasterClient)
+                    //{
+                        
+                    //    Debug.Log("aaaa");
+                    //}
+                    //else
+                    //{
+                    //    //物を持ち上げて移動するとき、最初にプレイヤー同士の差を求める
+                    //    if (distanceFirst)
+                    //    {
+                    //        //1Pと2Pの座標の差を記憶
+                    //        dis = datamanager.player1.transform.position - datamanager.player2.transform.position;
+                    //        distanceFirst = false;
+                    //    }
 
-                        //2Pが1Pに追従するようにする
-                        transform.position = datamanager.player1.transform.position - dis;
-                        Debug.Log("bbb");
-                    }
+                    //    //2Pが1Pに追従するようにする
+                    //    transform.position = datamanager.player1.transform.position - dis;
+                    //    Debug.Log("bbb");
+                    //}
                 }
             }
 
@@ -198,6 +199,19 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
                         //2Pが1Pに追従するようにする
                         transform.position = datamanager.player1.transform.position - dis;
+                    }
+                    else
+                    {
+                        //物を持ち上げて移動するとき、最初にプレイヤー同士の差を求める
+                        if (distanceFirst)
+                        {
+                            //1Pと2Pの座標の差を記憶
+                            dis = datamanager.player2.transform.position - datamanager.player1.transform.position;
+                            distanceFirst = false;
+                        }
+
+                        //2Pが1Pに追従するようにする
+                        transform.position = datamanager.player2.transform.position - dis;
                     }
                 }
             }
