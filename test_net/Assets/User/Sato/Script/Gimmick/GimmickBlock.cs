@@ -96,13 +96,15 @@ public class GimmickBlock : CGimmick
                     first = true;
                     hitOwner = false;
                     hitClient = false;
+
+                    Player.GetComponent<PlayerController>().islift = false;
                 }
 
                 //“¯Šú‰ğœ
                 GetComponent<AvatarOnlyTransformView>().isPlayerMove = false;
 
                 liftMode = false;
-                Player.GetComponent<PlayerController>().islift = false;
+                
             }
         }
 
