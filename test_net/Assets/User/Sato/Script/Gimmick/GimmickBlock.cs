@@ -27,19 +27,29 @@ public class GimmickBlock : CGimmick
         if (ManagerAccessor.Instance.dataManager.player1 != null && ManagerAccessor.Instance.dataManager.player2 != null) 
         {
             if (PhotonNetwork.LocalPlayer.IsMasterClient)
+            {
                 Player = ManagerAccessor.Instance.dataManager.player1;
-            else
-                Player = ManagerAccessor.Instance.dataManager.player2;
-
-            Debug.Log(hitOwner + ":" + hitClient + ":" + ManagerAccessor.Instance.dataManager.isOwnerInputKey_CB + ":" + ManagerAccessor.Instance.dataManager.isOwnerInputKey_CB + ":" + liftMode);
-
-            if (hitOwner)
-            {
-                Debug.Log(a+"あたってる");
+                Debug.Log(a + "p1");
             }
-            if (!hitOwner)
+            else
             {
-                Debug.Log(a+"あたってない");
+                Player = ManagerAccessor.Instance.dataManager.player2;
+                Debug.Log(a + "p2");
+            }
+
+            if (!PhotonNetwork.LocalPlayer.IsMasterClient)
+            {
+                ManagerAccessor.Instance.dataManager.chat.text = hitOwner + ":" + hitClient + ":" + ManagerAccessor.Instance.dataManager.isOwnerInputKey_CB + ":" + ManagerAccessor.Instance.dataManager.isOwnerInputKey_CB + ":" + liftMode;
+                Debug.Log(hitOwner + ":" + hitClient + ":" + ManagerAccessor.Instance.dataManager.isOwnerInputKey_CB + ":" + ManagerAccessor.Instance.dataManager.isOwnerInputKey_CB + ":" + liftMode);
+
+                if (hitClient)
+                {
+                    Debug.Log(a + "あたってる");
+                }
+                else
+                { 
+                    Debug.Log(a + "あたってない");
+                }
             }
 
             //1P、2Pが触れているかつ、アクションしているとき持ち上がる
