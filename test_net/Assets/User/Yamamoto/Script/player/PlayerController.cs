@@ -186,19 +186,20 @@ public class PlayerController : MonoBehaviourPunCallbacks
             {
                 if (islift)
                 {
-                    //if (PhotonNetwork.LocalPlayer.IsMasterClient)
-                    //{
-                    //    //物を持ち上げて移動するとき、最初にプレイヤー同士の差を求める
-                    //    if (distanceFirst)
-                    //    {
-                    //        //1Pと2Pの座標の差を記憶
-                    //        dis = datamanager.player1.transform.position - datamanager.player2.transform.position;
-                    //        distanceFirst = false;
-                    //    }
+                    if (PhotonNetwork.LocalPlayer.IsMasterClient)
+                    {
+                        //物を持ち上げて移動するとき、最初にプレイヤー同士の差を求める
+                        if (distanceFirst)
+                        {
+                            //1Pと2Pの座標の差を記憶
+                            dis = datamanager.player1.transform.position - datamanager.player2.transform.position;
+                            distanceFirst = false;
+                        }
 
-                    //    //2Pが1Pに追従するようにする
-                    //    transform.position = datamanager.player1.transform.position - dis;
-                    //}
+                        //2Pが1Pに追従するようにする
+                        transform.position = datamanager.player1.transform.position - dis;
+                    }
+
                 }
             }
             else
