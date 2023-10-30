@@ -19,7 +19,7 @@ public class UICursor : MonoBehaviourPunCallbacks
 
     private int LRmove = 0;//1:右　2:左
 
-    private bool movestart = false;
+    private bool movestart = false;//移動中かを判断する
 
     // Start is called before the first frame update
     void Start()
@@ -32,17 +32,19 @@ public class UICursor : MonoBehaviourPunCallbacks
     {
         DataManager datamanager = ManagerAccessor.Instance.dataManager;
 
+        //押されたボタンの左右でカーソルの移動位置を決める
         if(datamanager.isOwnerInputKey_C_D_RIGHT && !movestart)
         {
+            ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().choicecursor = "None";
             movestart = true;
-            LRmove = 1;
-           // transform.position = Vector2.MoveTowards(transform.position, CopyKeyIcon.transform.position, moveSpeed * Time.deltaTime);
+            LRmove = 1;//右にカーソル移動
         }
 
         if (datamanager.isOwnerInputKey_C_D_LEFT && !movestart)
         {
+            ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().choicecursor = "None";
             movestart = true;
-            LRmove = 2;
+            LRmove = 2;//左にカーソル移動
            // transform.position = Vector2.MoveTowards(transform.position, BoardIcon.transform.position, moveSpeed * Time.deltaTime);
         }
 
@@ -54,7 +56,8 @@ public class UICursor : MonoBehaviourPunCallbacks
                 if (transform.position == CopyKeyIcon.transform.position)
                 {
                     movestart = false;
-                    LRmove = 0;
+                    LRmove = 0;//移動終了
+                    ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().choicecursor = "CopyKey";//現在カーソルが選択しているアイテム名
                 }
             }
             else if(LRmove==2)
@@ -63,7 +66,8 @@ public class UICursor : MonoBehaviourPunCallbacks
                 if (transform.position == BoardIcon.transform.position)
                 {
                     movestart = false;
-                    LRmove = 0;
+                    LRmove = 0;//移動終了
+                    ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().choicecursor = "Board";//現在カーソルが選択しているアイテム名
                 }
             }
             
