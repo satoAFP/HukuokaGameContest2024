@@ -22,34 +22,33 @@ public class GimmickBlock : CGimmick
 
     private void FixedUpdate()
     {
-        if (ManagerAccessor.Instance.dataManager.player1 != null && ManagerAccessor.Instance.dataManager.player2 != null)
+        if (ManagerAccessor.Instance.dataManager.player1 != null && ManagerAccessor.Instance.dataManager.player2 != null) 
         {
-            Player = ManagerAccessor.Instance.dataManager.player1;
-            //if (PhotonNetwork.LocalPlayer.IsMasterClient)
-            //{
-                
-            //}
-            //else
-            //{
-            //    Player = ManagerAccessor.Instance.dataManager.player2;
-            //}
+            if (PhotonNetwork.LocalPlayer.IsMasterClient)
+            {
+                Player = ManagerAccessor.Instance.dataManager.player1;
+            }
+            else
+            {
+                Player = ManagerAccessor.Instance.dataManager.player2;
+            }
 
             if (!PhotonNetwork.LocalPlayer.IsMasterClient)
             {
                 ManagerAccessor.Instance.dataManager.chat.text = hitOwner + ":" + hitClient + ":" + ManagerAccessor.Instance.dataManager.isOwnerInputKey_CB + ":" + ManagerAccessor.Instance.dataManager.isOwnerInputKey_CB + ":" + liftMode;
-                //Debug.Log(hitOwner + ":" + hitClient + ":" + ManagerAccessor.Instance.dataManager.isOwnerInputKey_CB + ":" + ManagerAccessor.Instance.dataManager.isOwnerInputKey_CB + ":" + liftMode);
+                Debug.Log(hitOwner + ":" + hitClient + ":" + ManagerAccessor.Instance.dataManager.isOwnerInputKey_CB + ":" + ManagerAccessor.Instance.dataManager.isOwnerInputKey_CB + ":" + liftMode);
 
                 if (hitClient)
                 {
                     Debug.Log("Ç†ÇΩÇ¡ÇƒÇÈ");
                 }
                 else
-                {
+                { 
                     Debug.Log("Ç†ÇΩÇ¡ÇƒÇ»Ç¢");
                 }
             }
 
-            if (ManagerAccessor.Instance.dataManager.isClientInputKey_C_L_LEFT && ManagerAccessor.Instance.dataManager.isOwnerInputKey_C_L_LEFT)
+            if(ManagerAccessor.Instance.dataManager.isClientInputKey_C_L_LEFT&& ManagerAccessor.Instance.dataManager.isOwnerInputKey_C_L_LEFT)
             {
                 Debug.Log("ç∂");
             }
@@ -80,11 +79,7 @@ public class GimmickBlock : CGimmick
                     GetComponent<AvatarOnlyTransformView>().isPlayerMove = false;
 
                 liftMode = true;
-
-                Debug.Log("lift");
-
-                ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().islift = true;
-                ManagerAccessor.Instance.dataManager.player2.GetComponent<PlayerController>().islift = true;
+                Player.GetComponent<PlayerController>().islift = true;
             }
             else
             {
@@ -101,19 +96,13 @@ public class GimmickBlock : CGimmick
                     first = true;
                     hitOwner = false;
                     hitClient = false;
-
-                    ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().islift = false;
-                    ManagerAccessor.Instance.dataManager.player2.GetComponent<PlayerController>().islift = false;
                 }
 
                 //ìØä˙âèú
                 GetComponent<AvatarOnlyTransformView>().isPlayerMove = false;
 
                 liftMode = false;
-
-                Debug.Log("notlift");
-
-                
+                Player.GetComponent<PlayerController>().islift = false;
             }
         }
 
