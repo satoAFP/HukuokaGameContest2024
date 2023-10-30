@@ -20,8 +20,6 @@ public class GimmickBlock : CGimmick
     //連続で反応しないための処理
     private bool first = true;
 
-    int a = 0;
-
     private void FixedUpdate()
     {
         if (ManagerAccessor.Instance.dataManager.player1 != null && ManagerAccessor.Instance.dataManager.player2 != null) 
@@ -29,12 +27,10 @@ public class GimmickBlock : CGimmick
             if (PhotonNetwork.LocalPlayer.IsMasterClient)
             {
                 Player = ManagerAccessor.Instance.dataManager.player1;
-                Debug.Log(a + "p1");
             }
             else
             {
                 Player = ManagerAccessor.Instance.dataManager.player2;
-                Debug.Log(a + "p2");
             }
 
             if (!PhotonNetwork.LocalPlayer.IsMasterClient)
@@ -44,12 +40,17 @@ public class GimmickBlock : CGimmick
 
                 if (hitClient)
                 {
-                    Debug.Log(a + "あたってる");
+                    Debug.Log("あたってる");
                 }
                 else
                 { 
-                    Debug.Log(a + "あたってない");
+                    Debug.Log("あたってない");
                 }
+            }
+
+            if(ManagerAccessor.Instance.dataManager.isClientInputKey_C_L_LEFT&& ManagerAccessor.Instance.dataManager.isOwnerInputKey_C_L_LEFT)
+            {
+                Debug.Log("左");
             }
 
             //1P、2Pが触れているかつ、アクションしているとき持ち上がる
