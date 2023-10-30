@@ -24,14 +24,15 @@ public class GimmickBlock : CGimmick
     {
         if (ManagerAccessor.Instance.dataManager.player1 != null && ManagerAccessor.Instance.dataManager.player2 != null)
         {
-            if (PhotonNetwork.LocalPlayer.IsMasterClient)
-            {
-                Player = ManagerAccessor.Instance.dataManager.player1;
-            }
-            else
-            {
-                Player = ManagerAccessor.Instance.dataManager.player2;
-            }
+            Player = ManagerAccessor.Instance.dataManager.player1;
+            //if (PhotonNetwork.LocalPlayer.IsMasterClient)
+            //{
+                
+            //}
+            //else
+            //{
+            //    Player = ManagerAccessor.Instance.dataManager.player2;
+            //}
 
             if (!PhotonNetwork.LocalPlayer.IsMasterClient)
             {
