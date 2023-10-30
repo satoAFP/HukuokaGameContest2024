@@ -101,11 +101,12 @@ public class PlayerController : MonoBehaviourPunCallbacks
             if (!islift)
             {
                 Move();//ˆÚ“®ˆ—‚ğON
-
+                Debug.Log("‚¿ã‚ª‚Á‚Ä‚È‚¢");
                 distanceFirst = true;
             }
             else
             {
+                Debug.Log("‚¿ã‚ª‚Á‚Ä‚é");
                 //‚¿ã‚°‚Ä‚¢‚é‚Í2ƒvƒŒƒCƒ„[‚ª“¯‚¶ˆÚ“®•ûŒü‚ğ“ü—ÍˆÚ“®
                 if ((datamanager.isOwnerInputKey_C_L_RIGHT&& datamanager.isClientInputKey_C_L_RIGHT)||
                    (datamanager.isOwnerInputKey_C_L_LEFT && datamanager.isClientInputKey_C_L_LEFT))
