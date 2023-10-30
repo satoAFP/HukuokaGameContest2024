@@ -61,7 +61,7 @@ public class GimmickBlock : CGimmick
                 {
                     //éùÇøè„Ç™Ç¡ÇΩà íuÇ…à⁄ìÆ
                     Vector3 input = gameObject.transform.position;
-                    input.y += 1.0f;
+                    input.y += 2.0f;
                     gameObject.transform.localPosition = input;
 
                     dis = transform.position - Player.transform.position;
@@ -88,7 +88,7 @@ public class GimmickBlock : CGimmick
                     Debug.Log("ccc");
                     //å≥ÇÃçÇÇ≥Ç…ñﬂÇ∑
                     Vector3 input = gameObject.transform.position;
-                    input.y -= 1.0f;
+                    input.y -= 2.0f;
                     gameObject.transform.localPosition = input;
 
                     dis = new Vector3(gameObject.transform.position.x - Player.transform.position.x, gameObject.transform.position.y - Player.transform.position.y, 0);
