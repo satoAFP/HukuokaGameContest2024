@@ -100,6 +100,9 @@ public class GimmickBlock : CGimmick
                     first = true;
                     hitOwner = false;
                     hitClient = false;
+
+                    ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().islift = false;
+                    ManagerAccessor.Instance.dataManager.player2.GetComponent<PlayerController>().islift = false;
                 }
 
                 //“¯Šú‰ğœ
@@ -107,8 +110,9 @@ public class GimmickBlock : CGimmick
 
                 liftMode = false;
 
-                ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().islift = false;
-                ManagerAccessor.Instance.dataManager.player2.GetComponent<PlayerController>().islift = false;
+                Debug.Log("notlift");
+
+                
             }
         }
 
