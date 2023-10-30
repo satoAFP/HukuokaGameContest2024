@@ -6,7 +6,6 @@ using Photon.Pun;
 public class ResultSystem : MonoBehaviourPunCallbacks
 {
     [SerializeField, Header("クリア時に出すオブジェクト")] private GameObject[] clearObjs;
-    [SerializeField, Header("死亡時に出すオブジェクト")] private GameObject[] dethObjs;
 
     [SerializeField, Header("出す間隔")] private int intervalFrame;
 
@@ -17,7 +16,6 @@ public class ResultSystem : MonoBehaviourPunCallbacks
 
     private bool isRetry = false;       //リトライ選択したとき
     private bool isStageSelect = false; //ステージセレクト選択したとき
-    private GameObject[] objs;          //それぞれのオブジェクト格納用
 
     // Update is called once per frame
     void FixedUpdate()
@@ -25,7 +23,6 @@ public class ResultSystem : MonoBehaviourPunCallbacks
         if(ManagerAccessor.Instance.dataManager.isClear)
         {
             gameObject.transform.GetChild(0).gameObject.SetActive(true);
-            objs = clearObjs;
 
             //フレームカウント
             count++;
@@ -33,17 +30,13 @@ public class ResultSystem : MonoBehaviourPunCallbacks
 
         if (ManagerAccessor.Instance.dataManager.isDeth)
         {
-            gameObject.transform.GetChild(0).gameObject.SetActive(true);
-            objs = dethObjs;
-
-            //フレームカウント
-            count++;
+            gameObject.transform.GetChild(1).gameObject.SetActive(true);
         }
 
         //一定間隔で画像を出す
-        if (count == intervalFrame && objCount < objs.Length) 
+        if (count == intervalFrame && objCount < clearObjs.Length) 
         {
-            objs[objCount].SetActive(true);
+            clearObjs[objCount].SetActive(true);
             objCount++;
 
             count = 0;

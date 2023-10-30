@@ -20,19 +20,42 @@ public class GimmickBlock : CGimmick
     //連続で反応しないための処理
     private bool first = true;
 
-
     private void FixedUpdate()
     {
-        if (ManagerAccessor.Instance.dataManager.player1 != null && ManagerAccessor.Instance.dataManager.player2 != null) 
+        if (ManagerAccessor.Instance.dataManager.player1 != null && ManagerAccessor.Instance.dataManager.player2 != null)
         {
             if (PhotonNetwork.LocalPlayer.IsMasterClient)
+            {
                 Player = ManagerAccessor.Instance.dataManager.player1;
+            }
             else
+            {
                 Player = ManagerAccessor.Instance.dataManager.player2;
+            }
+
+            if (!PhotonNetwork.LocalPlayer.IsMasterClient)
+            {
+                ManagerAccessor.Instance.dataManager.chat.text = hitOwner + ":" + hitClient + ":" + ManagerAccessor.Instance.dataManager.isOwnerInputKey_CB + ":" + ManagerAccessor.Instance.dataManager.isOwnerInputKey_CB + ":" + liftMode;
+                //Debug.Log(hitOwner + ":" + hitClient + ":" + ManagerAccessor.Instance.dataManager.isOwnerInputKey_CB + ":" + ManagerAccessor.Instance.dataManager.isOwnerInputKey_CB + ":" + liftMode);
+
+                if (hitClient)
+                {
+                    Debug.Log("あたってる");
+                }
+                else
+                {
+                    Debug.Log("あたってない");
+                }
+            }
+
+            if (ManagerAccessor.Instance.dataManager.isClientInputKey_C_L_LEFT && ManagerAccessor.Instance.dataManager.isOwnerInputKey_C_L_LEFT)
+            {
+                Debug.Log("左");
+            }
 
             //1P、2Pが触れているかつ、アクションしているとき持ち上がる
-            if (hitOwner &&  ManagerAccessor.Instance.dataManager.isOwnerInputKey_CB &&
-                hitClient && ManagerAccessor.Instance.dataManager.isClientInputKey_CB)
+            if (hitOwner && ManagerAccessor.Instance.dataManager.isOwnerInputKey_CB &&
+            hitClient && ManagerAccessor.Instance.dataManager.isClientInputKey_CB)
             {
                 if (first)
                 {
@@ -56,13 +79,17 @@ public class GimmickBlock : CGimmick
                     GetComponent<AvatarOnlyTransformView>().isPlayerMove = false;
 
                 liftMode = true;
-                Player.GetComponent<PlayerController>().islift = true;
+
+                Debug.Log("lift");
+
+                ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().islift = true;
+                ManagerAccessor.Instance.dataManager.player2.GetComponent<PlayerController>().islift = true;
             }
             else
             {
                 if (!first)
                 {
-
+                    Debug.Log("ccc");
                     //元の高さに戻す
                     Vector3 input = gameObject.transform.position;
                     input.y -= 1.0f;
@@ -71,13 +98,21 @@ public class GimmickBlock : CGimmick
                     dis = new Vector3(gameObject.transform.position.x - Player.transform.position.x, gameObject.transform.position.y - Player.transform.position.y, 0);
 
                     first = true;
+                    hitOwner = false;
+                    hitClient = false;
+
+                    ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().islift = false;
+                    ManagerAccessor.Instance.dataManager.player2.GetComponent<PlayerController>().islift = false;
                 }
 
                 //同期解除
                 GetComponent<AvatarOnlyTransformView>().isPlayerMove = false;
 
                 liftMode = false;
-                Player.GetComponent<PlayerController>().islift = false;
+
+                Debug.Log("notlift");
+
+                
             }
         }
 
@@ -92,6 +127,7 @@ public class GimmickBlock : CGimmick
             collision.transform.GetChild(0).gameObject.SetActive(true);
             collision.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = ManagerAccessor.Instance.spriteManager.ArrowRight;
 
+            //photonView.RPC(nameof(RpcShareIsOwner), RpcTarget.All, true);
             hitOwner = true;
         }
 
@@ -101,6 +137,7 @@ public class GimmickBlock : CGimmick
             collision.transform.GetChild(0).gameObject.SetActive(true);
             collision.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = ManagerAccessor.Instance.spriteManager.ArrowRight;
 
+            //photonView.RPC(nameof(RpcShareIsClient), RpcTarget.All, true);
             hitClient = true;
         }
     }
@@ -116,6 +153,7 @@ public class GimmickBlock : CGimmick
                 //押すべきボタンの画像表示
                 collision.transform.GetChild(0).gameObject.SetActive(false);
 
+                //photonView.RPC(nameof(RpcShareIsOwner), RpcTarget.All, false);
                 hitOwner = false;
             }
 
@@ -124,10 +162,22 @@ public class GimmickBlock : CGimmick
                 //押すべきボタンの画像表示
                 collision.transform.GetChild(0).gameObject.SetActive(false);
 
+                //photonView.RPC(nameof(RpcShareIsClient), RpcTarget.All, false);
                 hitClient = false;
             }
         }
     }
 
+    [PunRPC]
+    private void RpcShareIsOwner(bool data)
+    {
+        hitOwner = data;
+    }
+
+    [PunRPC]
+    private void RpcShareIsClient(bool data)
+    {
+        hitClient = data;
+    }
 
 }

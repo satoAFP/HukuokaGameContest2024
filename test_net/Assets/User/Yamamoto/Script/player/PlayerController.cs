@@ -50,7 +50,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
     private Test_net test_net;//inputsystemをスクリプトで呼び出す
 
-    [System.NonSerialized]public bool islift = false;//持ち上げフラグ
+    /*[System.NonSerialized]*/public bool islift = false;//持ち上げフラグ
 
     [System.NonSerialized] public bool isliftfirst = true;//持ち上げフラグの状態を送信するとき一回しか送信しないため
 
@@ -90,21 +90,26 @@ public class PlayerController : MonoBehaviourPunCallbacks
         //操作が競合しないための設定
         if (photonView.IsMine)
         {
-            //1Pの画面の2Pの情報更新
-            if (PhotonNetwork.LocalPlayer.IsMasterClient)
-                if (ManagerAccessor.Instance.dataManager.player2 != null)
-                    ManagerAccessor.Instance.dataManager.player2.GetComponent<PlayerController>().islift = islift;
+            ////1Pの画面の2Pの情報更新
+            //if (PhotonNetwork.LocalPlayer.IsMasterClient)
+            //    if (ManagerAccessor.Instance.dataManager.player2 != null)
+            //        ManagerAccessor.Instance.dataManager.player2.GetComponent<PlayerController>().islift = islift;
 
-           
+            ////1Pの画面の2Pの情報更新
+            //if (!PhotonNetwork.LocalPlayer.IsMasterClient)
+            //    if (ManagerAccessor.Instance.dataManager.player1 != null)
+            //        ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().islift = islift;
+
             //持ち上げていないときは普通に移動させる
             if (!islift)
             {
                 Move();//移動処理をON
-
+                Debug.Log("持ち上がってない");
                 distanceFirst = true;
             }
             else
             {
+                Debug.Log("持ち上がってる");
                 //持ち上げている時は2プレイヤーが同じ移動方向を入力時移動
                 if ((datamanager.isOwnerInputKey_C_L_RIGHT&& datamanager.isClientInputKey_C_L_RIGHT)||
                    (datamanager.isOwnerInputKey_C_L_LEFT && datamanager.isClientInputKey_C_L_LEFT))
@@ -112,6 +117,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
                     if (PhotonNetwork.LocalPlayer.IsMasterClient)
                     {
                         Move();
+                        Debug.Log("aaaa");
                     }
                     else
                     {
@@ -125,6 +131,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
                         //2Pが1Pに追従するようにする
                         transform.position = datamanager.player1.transform.position - dis;
+                        Debug.Log("bbb");
                     }
                 }
             }
