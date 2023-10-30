@@ -79,7 +79,11 @@ public class GimmickBlock : CGimmick
                     GetComponent<AvatarOnlyTransformView>().isPlayerMove = false;
 
                 liftMode = true;
-                Player.GetComponent<PlayerController>().islift = true;
+
+                if (PhotonNetwork.LocalPlayer.IsMasterClient)
+                    ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().islift = true;
+                else
+                    ManagerAccessor.Instance.dataManager.player2.GetComponent<PlayerController>().islift = true;
             }
             else
             {
@@ -102,7 +106,11 @@ public class GimmickBlock : CGimmick
                 GetComponent<AvatarOnlyTransformView>().isPlayerMove = false;
 
                 liftMode = false;
-                Player.GetComponent<PlayerController>().islift = false;
+
+                if (PhotonNetwork.LocalPlayer.IsMasterClient)
+                    ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().islift = false;
+                else
+                    ManagerAccessor.Instance.dataManager.player2.GetComponent<PlayerController>().islift = false;
             }
         }
 
