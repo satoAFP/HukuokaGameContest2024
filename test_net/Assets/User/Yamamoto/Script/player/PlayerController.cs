@@ -122,7 +122,6 @@ public class PlayerController : MonoBehaviourPunCallbacks
                     if (PhotonNetwork.LocalPlayer.IsMasterClient)
                     {
                         Move();
-                        Debug.Log("aaaa");
                     }
                     else
                     {
@@ -136,7 +135,6 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
                         //2PÇ™1PÇ…í«è]Ç∑ÇÈÇÊÇ§Ç…Ç∑ÇÈ
                         transform.position = datamanager.player1.transform.position - dis;
-                        Debug.Log("bbb");
                     }
                 }
             }
