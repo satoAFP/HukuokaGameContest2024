@@ -5,7 +5,7 @@ using UnityEngine;
 public class SaveDataManager : MonoBehaviour
 {
     //クリア情報
-    [System.NonSerialized] public int[] clearData;
+    /*[System.NonSerialized]*/ public int[] clearData;
 
     // Start is called before the first frame update
     void Start()
@@ -15,12 +15,6 @@ public class SaveDataManager : MonoBehaviour
 
         //ステージ数に初期化
         clearData = new int[ManagerAccessor.Instance.dataManager.StageNum];
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     //クリアしたステージを記憶
