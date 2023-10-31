@@ -10,6 +10,10 @@ public class GimmickButtonManagement : CGimmick
     [SerializeField, Header("扉")]
     private GameObject door;
 
+    [SerializeField, Header("どのギミックにするか")]
+    [Header("0:オブジェクト消失 / 1:オブジェクト出現")]
+    private int gimmickNum;
+
 
     // Update is called once per frame
     void Update()
@@ -26,12 +30,14 @@ public class GimmickButtonManagement : CGimmick
             }
         }
 
-        Debug.Log(count);
 
         //同時押しが成功すると、扉が開く
         if (gimmickButton.Count == count) 
         {
-            door.SetActive(false);
+            if (gimmickNum == 0)
+                door.SetActive(false);
+            if (gimmickNum == 1)
+                door.SetActive(true);
         }
 
     }
