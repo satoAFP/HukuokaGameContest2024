@@ -75,7 +75,6 @@ public class GimmickFly : MonoBehaviourPunCallbacks
                     clientTapNum += MoveAngle;
                     clientFirst = false;
                     clientCoolTimeCount = 0;
-                    Debug.Log("bbb");
                 }
             }
             else
@@ -121,7 +120,6 @@ public class GimmickFly : MonoBehaviourPunCallbacks
                 {
                     photonView.RPC(nameof(RpcShareIsClientCoolTime), RpcTarget.All, false);
                     ClientCoolTimeFirst = true;
-                    Debug.Log("ccc");
                 }
             }
 
@@ -138,8 +136,6 @@ public class GimmickFly : MonoBehaviourPunCallbacks
             //角度設定
             float rad = dis * Mathf.Deg2Rad; //角度をラジアン角に変換
 
-            Debug.Log(isOwnerCoolTime+":"+ isClientCoolTime);
-
             //移動方向設定
             Vector2 power = new Vector2(Mathf.Sin(rad) * mag, Mathf.Cos(rad) * mag);
             Vector2 input;
@@ -148,8 +144,7 @@ public class GimmickFly : MonoBehaviourPunCallbacks
 
             if (isOwnerCoolTime && isClientCoolTime)
             {
-                input.y = transform.position.y - 0.005f;
-                Debug.Log("aaa");
+                input.y = transform.position.y - 0.01f;
             }
 
             //移動量、角度の代入
