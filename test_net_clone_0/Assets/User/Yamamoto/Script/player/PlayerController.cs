@@ -61,7 +61,8 @@ public class PlayerController : MonoBehaviourPunCallbacks
     void Start()
     {
 
-        choicecursor = "Board";
+        choicecursor = "Board";//生成可能アイテム初期化
+
         //PlayerのRigidbody2Dコンポーネントを取得する
         rigid = GetComponent<Rigidbody2D>();
 
