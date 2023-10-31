@@ -14,6 +14,13 @@ public class GimmickButtonManagement : CGimmick
     [Header("0:オブジェクト消失 / 1:オブジェクト出現")]
     private int gimmickNum;
 
+    private void Start()
+    {
+        if (gimmickNum == 0)
+            door.SetActive(true);
+        if (gimmickNum == 1)
+            door.SetActive(false);
+    }
 
     // Update is called once per frame
     void Update()
