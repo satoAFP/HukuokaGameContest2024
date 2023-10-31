@@ -22,7 +22,7 @@ public class GimmickBlock : CGimmick
 
     private void FixedUpdate()
     {
-        if (ManagerAccessor.Instance.dataManager.player1 != null && ManagerAccessor.Instance.dataManager.player2 != null)
+        if (ManagerAccessor.Instance.dataManager.player1 != null && ManagerAccessor.Instance.dataManager.player2 != null) 
         {
             if (PhotonNetwork.LocalPlayer.IsMasterClient)
             {
@@ -36,19 +36,19 @@ public class GimmickBlock : CGimmick
             if (!PhotonNetwork.LocalPlayer.IsMasterClient)
             {
                 ManagerAccessor.Instance.dataManager.chat.text = hitOwner + ":" + hitClient + ":" + ManagerAccessor.Instance.dataManager.isOwnerInputKey_CB + ":" + ManagerAccessor.Instance.dataManager.isOwnerInputKey_CB + ":" + liftMode;
-                //Debug.Log(hitOwner + ":" + hitClient + ":" + ManagerAccessor.Instance.dataManager.isOwnerInputKey_CB + ":" + ManagerAccessor.Instance.dataManager.isOwnerInputKey_CB + ":" + liftMode);
+                Debug.Log(hitOwner + ":" + hitClient + ":" + ManagerAccessor.Instance.dataManager.isOwnerInputKey_CB + ":" + ManagerAccessor.Instance.dataManager.isOwnerInputKey_CB + ":" + liftMode);
 
                 if (hitClient)
                 {
                     Debug.Log("Ç†ÇΩÇ¡ÇƒÇÈ");
                 }
                 else
-                {
+                { 
                     Debug.Log("Ç†ÇΩÇ¡ÇƒÇ»Ç¢");
                 }
             }
 
-            if (ManagerAccessor.Instance.dataManager.isClientInputKey_C_L_LEFT && ManagerAccessor.Instance.dataManager.isOwnerInputKey_C_L_LEFT)
+            if(ManagerAccessor.Instance.dataManager.isClientInputKey_C_L_LEFT&& ManagerAccessor.Instance.dataManager.isOwnerInputKey_C_L_LEFT)
             {
                 Debug.Log("ç∂");
             }
@@ -61,7 +61,7 @@ public class GimmickBlock : CGimmick
                 {
                     //éùÇøè„Ç™Ç¡ÇΩà íuÇ…à⁄ìÆ
                     Vector3 input = gameObject.transform.position;
-                    input.y += 1.0f;
+                    input.y += 2.0f;
                     gameObject.transform.localPosition = input;
 
                     dis = transform.position - Player.transform.position;
@@ -79,11 +79,7 @@ public class GimmickBlock : CGimmick
                     GetComponent<AvatarOnlyTransformView>().isPlayerMove = false;
 
                 liftMode = true;
-
-                Debug.Log("lift");
-
-                ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().islift = true;
-                ManagerAccessor.Instance.dataManager.player2.GetComponent<PlayerController>().islift = true;
+                Player.GetComponent<PlayerController>().islift = true;
             }
             else
             {
@@ -92,7 +88,7 @@ public class GimmickBlock : CGimmick
                     Debug.Log("ccc");
                     //å≥ÇÃçÇÇ≥Ç…ñﬂÇ∑
                     Vector3 input = gameObject.transform.position;
-                    input.y -= 1.0f;
+                    input.y -= 2.0f;
                     gameObject.transform.localPosition = input;
 
                     dis = new Vector3(gameObject.transform.position.x - Player.transform.position.x, gameObject.transform.position.y - Player.transform.position.y, 0);
@@ -101,17 +97,13 @@ public class GimmickBlock : CGimmick
                     hitOwner = false;
                     hitClient = false;
 
-                    ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().islift = false;
-                    ManagerAccessor.Instance.dataManager.player2.GetComponent<PlayerController>().islift = false;
+                    Player.GetComponent<PlayerController>().islift = false;
                 }
 
                 //ìØä˙âèú
                 GetComponent<AvatarOnlyTransformView>().isPlayerMove = false;
 
                 liftMode = false;
-
-                Debug.Log("notlift");
-
                 
             }
         }

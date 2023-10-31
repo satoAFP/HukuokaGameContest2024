@@ -199,6 +199,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
                         //2PÇ™1PÇ…í«è]Ç∑ÇÈÇÊÇ§Ç…Ç∑ÇÈ
                         transform.position = datamanager.player1.transform.position - dis;
                     }
+
                 }
             }
             else
