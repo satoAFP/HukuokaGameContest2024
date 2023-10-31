@@ -188,7 +188,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CoolTime: 100000
-  MovePower: 0.001
+  MovePower: 0.002
 --- !u!212 &75330504
 SpriteRenderer:
   m_ObjectHideFlags: 0
