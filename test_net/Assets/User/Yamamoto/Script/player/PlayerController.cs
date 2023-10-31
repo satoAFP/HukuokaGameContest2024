@@ -34,7 +34,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
     public bool boxopen = false;//箱の開閉時の画像変更フラグ
 
-    public string choicecursor = "None";//UIカーソルが現在選択している生成可能アイテム
+    public string choicecursor = "Board";//UIカーソルが現在選択している生成可能アイテム
 
     //入力された方向を入れる変数
     private Vector2 inputDirection;
