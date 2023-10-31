@@ -106,11 +106,11 @@ public class GimmickFly : MonoBehaviourPunCallbacks
             }
         }
 
-        if (isOwnerCoolTime && isClientCoolTime) 
+        if (!isOwnerCoolTime && !isClientCoolTime) 
             mag = 2;
-        else if (isOwnerCoolTime)
+        else if (!isOwnerCoolTime)
             mag = 1;
-        else if (isClientCoolTime)
+        else if (!isClientCoolTime)
             mag = 1;
         else
             mag = 0;
@@ -121,6 +121,8 @@ public class GimmickFly : MonoBehaviourPunCallbacks
         Vector2 input;
         input.x = transform.position.x + power.x * MovePower;
         input.y = transform.position.y + power.y * MovePower;
+
+        Debug.Log(power);
 
         transform.position = input;
         transform.eulerAngles = new Vector3(0, 0, dis);
