@@ -63,8 +63,10 @@ public class CopyKey : MonoBehaviourPunCallbacks
         {
             Debug.Log("コピーキー移動");
             //移動方向の入力情報がInputdirectionの中に入るようになる
-            inputDirection = context.ReadValue<Vector2>();
+          
         }
+
+        inputDirection = context.ReadValue<Vector2>();
     }
 
     //ジャンプ
@@ -76,18 +78,29 @@ public class CopyKey : MonoBehaviourPunCallbacks
             //アンロックボタンが起動中
             if (!ManagerAccessor.Instance.dataManager.isUnlockButtonStart)
             {
+                Debug.Log("コピーキージャンプ");
                 //Input Systemからジャンプの入力があった時に呼ばれる
                 if (!context.performed || bjump)
                 {
                     return;
                 }
 
-                rigid.AddForce(Vector2.up * jumpSpeed, ForceMode2D.Impulse);
-                bjump = true;//一度ジャンプしたら着地するまでジャンプできなくする
+      
             }
         }
 
-         
+        //Input Systemからジャンプの入力があった時に呼ばれる
+        if (!context.performed || bjump)
+        {
+            return;
+        }
+        else
+        {
+            rigid.AddForce(Vector2.up * jumpSpeed, ForceMode2D.Impulse);
+            bjump = true;//一度ジャンプしたら着地するまでジャンプできなくする
+        }
+
+      
     }
 }
 
