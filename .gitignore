@@ -50,3 +50,4 @@ Thumbs.db
 #python bytecode cache, for some plugins.
 *.pyc
 test_net/Temp
+test_net_clone_0
