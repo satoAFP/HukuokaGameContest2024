@@ -17,12 +17,18 @@ public class ResultSystem : MonoBehaviourPunCallbacks
     private bool isRetry = false;       //リトライ選択したとき
     private bool isStageSelect = false; //ステージセレクト選択したとき
 
+    //クリア処理に一回しか入らない処理
+    private bool clearFirst;
+
     // Update is called once per frame
     void FixedUpdate()
     {
         if(ManagerAccessor.Instance.dataManager.isClear)
         {
+            //クリアパネル表示
             gameObject.transform.GetChild(0).gameObject.SetActive(true);
+            //クリア情報セーブ
+            ManagerAccessor.Instance.saveDataManager.ClearDataSave(ManagerAccessor.Instance.sceneMoveManager.GetSceneName());
 
             //フレームカウント
             count++;
