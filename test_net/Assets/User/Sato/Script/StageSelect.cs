@@ -9,7 +9,8 @@ public class StageSelect : MonoBehaviourPunCallbacks
     [SerializeField, Header("移動するシーン名")] private string sceneName;
 
 
-    private bool isPlayerEnter = false; //キャラが入った時
+    private bool isOwnerEnter = false;  //P1が入った時
+    private bool isClientEnter = false; //P2が入った時
     private bool first = true;
 
 
@@ -17,29 +18,78 @@ public class StageSelect : MonoBehaviourPunCallbacks
     void Update()
     {
         //ステージに入る
-        if (isPlayerEnter)
-        {
-            if (first)
-            {
-                ManagerAccessor.Instance.sceneMoveManager.SceneMoveName(sceneName);
-                first = false;
-            }
-        }
+        if (PhotonNetwork.LocalPlayer.IsMasterClient)
+            MoveStage(isOwnerEnter, ManagerAccessor.Instance.dataManager.isOwnerInputKey_C_L_UP);
+        else
+            MoveStage(isClientEnter, ManagerAccessor.Instance.dataManager.isClientInputKey_C_L_UP);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.name == "Player1" || collision.gameObject.name == "Player2") 
+        if (collision.gameObject.name == "Player1") 
         {
-            photonView.RPC(nameof(RpcShareIsPlayerEnter), RpcTarget.All, true);
+            photonView.RPC(nameof(RpcShareIsOwnerEnter), RpcTarget.All, true);
+        }
+
+        if (collision.gameObject.name == "Player2")
+        {
+            photonView.RPC(nameof(RpcShareIsClientEnter), RpcTarget.All, true);
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject.name == "Player1")
+        {
+            photonView.RPC(nameof(RpcShareIsOwnerEnter), RpcTarget.All, false);
+        }
+
+        if (collision.gameObject.name == "Player2")
+        {
+            photonView.RPC(nameof(RpcShareIsClientEnter), RpcTarget.All, false);
         }
     }
 
     //シーン切り替え情報共有
     [PunRPC]
-    private void RpcShareIsPlayerEnter(bool data)
+    private void RpcShareIsOwnerEnter(bool data)
     {
-        isPlayerEnter = data;
+        isOwnerEnter = data;
     }
 
+    //シーン切り替え情報共有
+    [PunRPC]
+    private void RpcShareIsClientEnter(bool data)
+    {
+        isClientEnter = data;
+    }
+
+    //シーン切り替え情報共有
+    [PunRPC]
+    private void RpcShareStart()
+    {
+        ManagerAccessor.Instance.sceneMoveManager.SceneMoveName(sceneName);
+    }
+
+    /// <summary>
+    /// ステージに移動
+    /// </summary>
+    /// <param name="player">ownerかclientか</param>
+    private void MoveStage(bool player,bool input)
+    {
+        //ownerかclientか
+        if (player)
+        {
+            //それぞれ入力しているか
+            if (input)
+            {
+                //一回しか入らない
+                if (first)
+                {
+                    photonView.RPC(nameof(RpcShareStart), RpcTarget.All);
+                    first = false;
+                }
+            }
+        }
+    }
 }
