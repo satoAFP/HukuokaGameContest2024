@@ -187,8 +187,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7903f4d7bfbb4f44b354ae1d85fe593, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CoolTime: 100000
+  CoolTime: 20
   MovePower: 0.002
+  MoveAngle: 3
 --- !u!212 &75330504
 SpriteRenderer:
   m_ObjectHideFlags: 0
