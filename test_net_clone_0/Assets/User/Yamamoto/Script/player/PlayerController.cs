@@ -30,9 +30,11 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
     private bool instantiatefirst = true;//連続でアイテムを生成させない
 
-   // public int holdtime;//設定したアイテム回収時間を代入する
+    // public int holdtime;//設定したアイテム回収時間を代入する
 
-    public bool boxopen = false;//箱の開閉時の画像変更フラグ
+    [System.NonSerialized] public bool boxopen = false;//箱の開閉時の画像変更フラグ
+
+    [System.NonSerialized] public bool cursorlock = true;//UIカーソルの移動を制限する
 
     public string choicecursor;//UIカーソルが現在選択している生成可能アイテム
 
@@ -144,15 +146,15 @@ public class PlayerController : MonoBehaviourPunCallbacks
                 //プレイヤー1（箱）の移動が制限されているとき（箱が空いている時）
                 if(movelock)
                 {
-                    //コントローラーの下ボタンを押したとき箱処理中断
+                    //コントローラーの下ボタンを押したとき箱を閉じる
                     if (datamanager.isOwnerInputKey_CA)
                     {
-                       // holdtime--;//長押しカウントダウン
                         //箱を閉じて移動ロックを解除
                         if (gameObject.name == "Player1" && boxopen)
                         {
                             Debug.Log("おぺん");
                             GetComponent<SpriteRenderer>().sprite = p1Image;
+                            cursorlock = true;//カーソル移動を止める
                             movelock = false;
                         }
                     }
@@ -247,6 +249,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
                 {
                     GetComponent<SpriteRenderer>().sprite = p1OpenImage;
                     movelock = true;//箱の移動を制限
+                    cursorlock = false;//UIカーソル移動を許可
                 }
 
             }
