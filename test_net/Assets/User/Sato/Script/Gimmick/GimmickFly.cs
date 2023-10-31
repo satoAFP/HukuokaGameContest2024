@@ -125,7 +125,7 @@ public class GimmickFly : MonoBehaviourPunCallbacks
         Debug.Log(power);
 
         transform.position = input;
-        transform.eulerAngles = new Vector3(0, 0, dis);
+        transform.eulerAngles = new Vector3(0, 0, -dis);
     }
 
 
