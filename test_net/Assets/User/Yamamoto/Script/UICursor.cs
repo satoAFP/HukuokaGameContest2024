@@ -33,7 +33,7 @@ public class UICursor : MonoBehaviourPunCallbacks
         DataManager datamanager = ManagerAccessor.Instance.dataManager;
 
         //箱を開けている時カーソル移動をする
-        if(ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().boxopen)
+        if(!ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().cursorlock)
         {
             //押されたボタンの左右でカーソルの移動位置を決める
             if (datamanager.isOwnerInputKey_C_D_RIGHT && !movestart)
