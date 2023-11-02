@@ -22,6 +22,8 @@ public class GimmickFly : MonoBehaviourPunCallbacks
 
     private DataManager dataManager;        //データマネージャー
 
+    private GameObject player;              //プレイヤーオブジェクト取得用
+
     private bool isStart = false;           //ロケット開始
 
     private int ownerTapNum = 0;            //それぞれのタップ回数
@@ -41,8 +43,7 @@ public class GimmickFly : MonoBehaviourPunCallbacks
     private bool isClientStart = false;
 
     //連続で反応しない
-    private bool ownerStartFirst = true;
-    private bool clientStartFirst = true;
+    private bool startFirst = true;
     private bool ownerFirst = true;
     private bool clientFirst = true;
     private bool OwnerCoolTimeFirst = true;
@@ -57,6 +58,8 @@ public class GimmickFly : MonoBehaviourPunCallbacks
     // Update is called once per frame
     void FixedUpdate()
     {
+        transform.GetChild(2).gameObject.transform.eulerAngles = Vector3.zero;
+
         //データマネージャー取得
         dataManager = ManagerAccessor.Instance.dataManager;
 
@@ -67,17 +70,34 @@ public class GimmickFly : MonoBehaviourPunCallbacks
             {
                 if (isHit)
                 {
-                    photonView.RPC(nameof(RpcShareIsOwnerStart), RpcTarget.All, true);
+                    if (startFirst)
+                    {
+                        photonView.RPC(nameof(RpcShareIsOwnerStart), RpcTarget.All, true);
+                        player.SetActive(false);
+                        transform.GetChild(2).gameObject.SetActive(true);
+
+                        startFirst = false;
+                    }
                 }
             }
             else
             {
                 if (isHit)
                 {
-                    photonView.RPC(nameof(RpcShareIsClientStart), RpcTarget.All, true);
+                    if (startFirst)
+                    {
+                        photonView.RPC(nameof(RpcShareIsClientStart), RpcTarget.All, true);
+                        player.SetActive(false);
+                        transform.GetChild(2).gameObject.SetActive(true);
+
+                        startFirst = false;
+                    }
                 }
             }
         }
+        else
+            startFirst = true;
+
 
         //二人とも発射状態になるとロケットスタート
         if (isOwnerStart && isClientStart) 
@@ -93,17 +113,33 @@ public class GimmickFly : MonoBehaviourPunCallbacks
                 {
                     if (isHit)
                     {
-                        photonView.RPC(nameof(RpcShareIsOwnerStart), RpcTarget.All, false);
+                        if (startFirst)
+                        {
+                            photonView.RPC(nameof(RpcShareIsOwnerStart), RpcTarget.All, false);
+                            player.SetActive(true);
+                            transform.GetChild(2).gameObject.SetActive(false);
+
+                            startFirst = false;
+                        }
                     }
                 }
                 else
                 {
                     if (isHit)
                     {
-                        photonView.RPC(nameof(RpcShareIsClientStart), RpcTarget.All, false);
+                        if (startFirst)
+                        {
+                            photonView.RPC(nameof(RpcShareIsClientStart), RpcTarget.All, false);
+                            player.SetActive(true);
+                            transform.GetChild(2).gameObject.SetActive(false);
+
+                            startFirst = false;
+                        }
                     }
                 }
             }
+            else
+                startFirst = true;
         }
 
         //乗っているときの画像の表示
@@ -243,6 +279,9 @@ public class GimmickFly : MonoBehaviourPunCallbacks
                 collision.transform.GetChild(0).gameObject.SetActive(true);
                 collision.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = ManagerAccessor.Instance.spriteManager.ArrowRight;
 
+                //プレイヤー取得
+                player = collision.gameObject;
+
                 isHit = true;
             }
         }
@@ -253,6 +292,9 @@ public class GimmickFly : MonoBehaviourPunCallbacks
                 //押すべきボタンの画像表示
                 collision.transform.GetChild(0).gameObject.SetActive(true);
                 collision.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = ManagerAccessor.Instance.spriteManager.ArrowRight;
+
+                //プレイヤー取得
+                player = collision.gameObject;
 
                 isHit = true;
             }
@@ -268,7 +310,8 @@ public class GimmickFly : MonoBehaviourPunCallbacks
                 //押すべきボタンの画像表示
                 collision.transform.GetChild(0).gameObject.SetActive(false);
 
-                isHit = false;
+                if (!isOwnerStart)
+                    isHit = false;
             }
         }
         else
@@ -278,7 +321,8 @@ public class GimmickFly : MonoBehaviourPunCallbacks
                 //押すべきボタンの画像表示
                 collision.transform.GetChild(0).gameObject.SetActive(false);
 
-                isHit = false;
+                if (!isClientStart)
+                    isHit = false;
             }
         }
     }
