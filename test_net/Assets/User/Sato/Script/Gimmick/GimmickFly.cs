@@ -5,14 +5,20 @@ using Photon.Pun;
 
 public class GimmickFly : MonoBehaviourPunCallbacks
 {
-    [SerializeField, Header("落下までのクールタイム")]
-    private int CoolTime;
-
     [SerializeField, Header("移動量")]
     private float MovePower;
 
     [SerializeField, Header("回転量")]
     private int MoveAngle;
+
+    [SerializeField, Header("落下までのクールタイム")]
+    private int CoolTime;
+
+    [SerializeField, Header("重力加速度")]
+    private float Gravity;
+
+    [SerializeField, Header("重力加速度最大値")]
+    private float GravityMax;
 
     private DataManager dataManager;        //データマネージャー
 
@@ -27,7 +33,16 @@ public class GimmickFly : MonoBehaviourPunCallbacks
     private bool isOwnerCoolTime = false;   //それぞれクールタイム中か
     private bool isClientCoolTime = false;
 
+    private float gravity = 0;              //重力
+
+    private bool isHit = false;             //そぞれぞのプレイヤーがロケットに触れているかどうか
+
+    private bool isOwnerStart = false;      //そぞれぞのプレイヤーがロケット操作開始中かどうか
+    private bool isClientStart = false;
+
     //連続で反応しない
+    private bool ownerStartFirst = true;
+    private bool clientStartFirst = true;
     private bool ownerFirst = true;
     private bool clientFirst = true;
     private bool OwnerCoolTimeFirst = true;
@@ -45,10 +60,63 @@ public class GimmickFly : MonoBehaviourPunCallbacks
         //データマネージャー取得
         dataManager = ManagerAccessor.Instance.dataManager;
 
+        //ロケットに触れている状態でB入力で発射待機状態
         if (dataManager.isOwnerInputKey_CB)
+        {
+            if (PhotonNetwork.LocalPlayer.IsMasterClient)
+            {
+                if (isHit)
+                {
+                    photonView.RPC(nameof(RpcShareIsOwnerStart), RpcTarget.All, true);
+                }
+            }
+            else
+            {
+                if (isHit)
+                {
+                    photonView.RPC(nameof(RpcShareIsClientStart), RpcTarget.All, true);
+                }
+            }
+        }
+
+        //二人とも発射状態になるとロケットスタート
+        if (isOwnerStart && isClientStart) 
         {
             isStart = true;
         }
+        else
+        {
+            //片方だけ発射状態の時は降りることも出来る
+            if (dataManager.isOwnerInputKey_CA)
+            {
+                if (PhotonNetwork.LocalPlayer.IsMasterClient)
+                {
+                    if (isHit)
+                    {
+                        photonView.RPC(nameof(RpcShareIsOwnerStart), RpcTarget.All, false);
+                    }
+                }
+                else
+                {
+                    if (isHit)
+                    {
+                        photonView.RPC(nameof(RpcShareIsClientStart), RpcTarget.All, false);
+                    }
+                }
+            }
+        }
+
+        //乗っているときの画像の表示
+        if (isOwnerStart)
+            transform.GetChild(0).gameObject.SetActive(true);
+        else
+            transform.GetChild(0).gameObject.SetActive(false);
+
+        if (isClientStart)
+            transform.GetChild(1).gameObject.SetActive(true);
+        else
+            transform.GetChild(1).gameObject.SetActive(false);
+
 
         if (isStart)
         {
@@ -75,7 +143,6 @@ public class GimmickFly : MonoBehaviourPunCallbacks
                     clientTapNum += MoveAngle;
                     clientFirst = false;
                     clientCoolTimeCount = 0;
-                    Debug.Log("bbb");
                 }
             }
             else
@@ -121,16 +188,13 @@ public class GimmickFly : MonoBehaviourPunCallbacks
                 {
                     photonView.RPC(nameof(RpcShareIsClientCoolTime), RpcTarget.All, false);
                     ClientCoolTimeFirst = true;
-                    Debug.Log("ccc");
                 }
             }
 
             //倍率設定
             if (!isOwnerCoolTime && !isClientCoolTime)
                 mag = 2;
-            else if (!isOwnerCoolTime)
-                mag = 1;
-            else if (!isClientCoolTime)
+            else if (!isOwnerCoolTime || !isClientCoolTime) 
                 mag = 1;
             else
                 mag = 0;
@@ -138,25 +202,87 @@ public class GimmickFly : MonoBehaviourPunCallbacks
             //角度設定
             float rad = dis * Mathf.Deg2Rad; //角度をラジアン角に変換
 
-            Debug.Log(isOwnerCoolTime+":"+ isClientCoolTime);
-
             //移動方向設定
             Vector2 power = new Vector2(Mathf.Sin(rad) * mag, Mathf.Cos(rad) * mag);
             Vector2 input;
             input.x = transform.position.x + power.x * MovePower;
             input.y = transform.position.y + power.y * MovePower;
 
+            //お互い入力が無いとき落下する
             if (isOwnerCoolTime && isClientCoolTime)
             {
-                input.y = transform.position.y - 0.005f;
-                Debug.Log("aaa");
+                //重力加速の最大値設定
+                if (gravity < GravityMax)
+                    gravity += Gravity;
+
+                //重力加算
+                input.y = transform.position.y - gravity;
+            }
+            else
+            {
+                gravity = 0;
             }
 
-            //移動量、角度の代入
-            transform.position = input;
-            transform.eulerAngles = new Vector3(0, 0, -dis);
+            if (PhotonNetwork.LocalPlayer.IsMasterClient)
+            {
+                //移動量、角度の代入
+                transform.position = input;
+                transform.eulerAngles = new Vector3(0, 0, -dis);
+            }
         }
     }
+
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (PhotonNetwork.LocalPlayer.IsMasterClient)
+        {
+            if (collision.gameObject.name == "Player1")
+            {
+                //押すべきボタンの画像表示
+                collision.transform.GetChild(0).gameObject.SetActive(true);
+                collision.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = ManagerAccessor.Instance.spriteManager.ArrowRight;
+
+                isHit = true;
+            }
+        }
+        else
+        {
+            if (collision.gameObject.name == "Player2")
+            {
+                //押すべきボタンの画像表示
+                collision.transform.GetChild(0).gameObject.SetActive(true);
+                collision.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = ManagerAccessor.Instance.spriteManager.ArrowRight;
+
+                isHit = true;
+            }
+        }
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (PhotonNetwork.LocalPlayer.IsMasterClient)
+        {
+            if (collision.gameObject.name == "Player1")
+            {
+                //押すべきボタンの画像表示
+                collision.transform.GetChild(0).gameObject.SetActive(false);
+
+                isHit = false;
+            }
+        }
+        else
+        {
+            if (collision.gameObject.name == "Player2")
+            {
+                //押すべきボタンの画像表示
+                collision.transform.GetChild(0).gameObject.SetActive(false);
+
+                isHit = false;
+            }
+        }
+    }
+
 
 
     [PunRPC]
@@ -171,4 +297,15 @@ public class GimmickFly : MonoBehaviourPunCallbacks
         isClientCoolTime = data;
     }
 
+    [PunRPC]
+    private void RpcShareIsOwnerStart(bool data)
+    {
+        isOwnerStart = data;
+    }
+
+    [PunRPC]
+    private void RpcShareIsClientStart(bool data)
+    {
+        isClientStart = data;
+    }
 }
