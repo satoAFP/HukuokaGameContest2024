@@ -320,7 +320,9 @@ MonoBehaviour:
   moveSpeed: 5
   jumpSpeed: 6
   boardobj: {fileID: 3959372731708805272, guid: e0d96d23c9a53174496ad92f449d45b4, type: 3}
-  currentObject: {fileID: 0}
+  copykeyobj: {fileID: 3734986411308915629, guid: 5cdc0e7ef43ad0f4089747d0a16345ae, type: 3}
+  currentBoardObject: {fileID: 0}
+  currentCopyKeyObject: {fileID: 0}
   choicecursor: None
   islift: 0
 --- !u!114 &5643572740733532904
