@@ -58,4 +58,9 @@ public class SceneMoveManager : MonoBehaviour
         PhotonNetwork.IsMessageQueueRunning = false;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
+
+    public string GetSceneName()
+    {
+        return SceneManager.GetActiveScene().name;
+    }
 }

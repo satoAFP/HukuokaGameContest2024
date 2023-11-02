@@ -33,25 +33,6 @@ public class GimmickBlock : CGimmick
                 Player = ManagerAccessor.Instance.dataManager.player2;
             }
 
-            if (!PhotonNetwork.LocalPlayer.IsMasterClient)
-            {
-                ManagerAccessor.Instance.dataManager.chat.text = hitOwner + ":" + hitClient + ":" + ManagerAccessor.Instance.dataManager.isOwnerInputKey_CB + ":" + ManagerAccessor.Instance.dataManager.isOwnerInputKey_CB + ":" + liftMode;
-                Debug.Log(hitOwner + ":" + hitClient + ":" + ManagerAccessor.Instance.dataManager.isOwnerInputKey_CB + ":" + ManagerAccessor.Instance.dataManager.isOwnerInputKey_CB + ":" + liftMode);
-
-                if (hitClient)
-                {
-                    Debug.Log("あたってる");
-                }
-                else
-                { 
-                    Debug.Log("あたってない");
-                }
-            }
-
-            if(ManagerAccessor.Instance.dataManager.isClientInputKey_C_L_LEFT&& ManagerAccessor.Instance.dataManager.isOwnerInputKey_C_L_LEFT)
-            {
-                Debug.Log("左");
-            }
 
             //1P、2Pが触れているかつ、アクションしているとき持ち上がる
             if (hitOwner && ManagerAccessor.Instance.dataManager.isOwnerInputKey_CB &&
@@ -85,7 +66,6 @@ public class GimmickBlock : CGimmick
             {
                 if (!first)
                 {
-                    Debug.Log("ccc");
                     //元の高さに戻す
                     Vector3 input = gameObject.transform.position;
                     input.y -= 1.2f;

@@ -30,11 +30,13 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
     private bool instantiatefirst = true;//連続でアイテムを生成させない
 
-   // public int holdtime;//設定したアイテム回収時間を代入する
+    // public int holdtime;//設定したアイテム回収時間を代入する
 
-    public bool boxopen = false;//箱の開閉時の画像変更フラグ
+    [System.NonSerialized] public bool boxopen = false;//箱の開閉時の画像変更フラグ
 
-    public string choicecursor = "None";//UIカーソルが現在選択している生成可能アイテム
+    [System.NonSerialized] public bool cursorlock = true;//UIカーソルの移動を制限する
+
+    public string choicecursor;//UIカーソルが現在選択している生成可能アイテム
 
     //入力された方向を入れる変数
     private Vector2 inputDirection;
@@ -60,6 +62,9 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
     void Start()
     {
+
+        choicecursor = "Board";//生成可能アイテム初期化
+
         //PlayerのRigidbody2Dコンポーネントを取得する
         rigid = GetComponent<Rigidbody2D>();
 
@@ -117,7 +122,6 @@ public class PlayerController : MonoBehaviourPunCallbacks
                     if (PhotonNetwork.LocalPlayer.IsMasterClient)
                     {
                         Move();
-                        Debug.Log("aaaa");
                     }
                     else
                     {
@@ -131,7 +135,6 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
                         //2Pが1Pに追従するようにする
                         transform.position = datamanager.player1.transform.position - dis;
-                        Debug.Log("bbb");
                     }
                 }
             }
@@ -141,21 +144,22 @@ public class PlayerController : MonoBehaviourPunCallbacks
                 //プレイヤー1（箱）の移動が制限されているとき（箱が空いている時）
                 if(movelock)
                 {
-                    //コントローラーの下ボタンを押したとき箱処理中断
+                    //コントローラーの下ボタンを押したとき箱を閉じる
                     if (datamanager.isOwnerInputKey_CA)
                     {
-                       // holdtime--;//長押しカウントダウン
                         //箱を閉じて移動ロックを解除
                         if (gameObject.name == "Player1" && boxopen)
                         {
                             Debug.Log("おぺん");
                             GetComponent<SpriteRenderer>().sprite = p1Image;
+                            cursorlock = true;//カーソル移動を止める
                             movelock = false;
                         }
                     }
                   
                     //ゲームパッド右ボタンでアイテム生成
-                    if (datamanager.isOwnerInputKey_CB)
+                    if (datamanager.isOwnerInputKey_CB &&
+                        choicecursor== "Board")
                     {
                         if (instantiatefirst)
                         {
@@ -230,46 +234,6 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
         // Debug.Log(Mathf.Abs(p1pos.x - p2pos.x));
 
-        //テスト用
-
-        //if (datamanager.isOwnerInputKey_CB)
-        //{
-        //    Debug.Log("長押し");
-
-        //    if (gameObject.name == "Player1")
-        //    {
-                
-        //        if(currentObject == null && holdtime==collecttime)
-        //        {
-        //            //長押しで連続で生成できないようにする
-        //            if (holdtime == collecttime)
-        //            {
-        //                currentObject = Instantiate(boardobj, new Vector2(p1pos.x, p1pos.y + 1.0f), Quaternion.identity);
-        //                // generate = true;
-        //                movelock = true;
-        //                Debug.Log("ばか");
-        //            }
-                 
-        //        }
-        //        else
-        //        {
-        //            holdtime--;//長押しでアイテム回収
-        //            if (holdtime <= 0)//回収カウントが0になると回収
-        //            {
-        //                Destroy(currentObject);
-        //                currentObject = null;
-        //               // generate = false;
-                        
-        //            }
-        //        }
-            
-        //    }
-
-        //}
-        //else
-        //{
-        //    holdtime = collecttime;//ボタンを離すと回収カウントリセット
-        //}
 
         //箱と鍵の二点間距離を取って一定の値なら箱オープン可能
         if (Mathf.Abs(p1pos.x - p2pos.x) < 1.0f)
@@ -283,6 +247,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
                 {
                     GetComponent<SpriteRenderer>().sprite = p1OpenImage;
                     movelock = true;//箱の移動を制限
+                    cursorlock = false;//UIカーソル移動を許可
                 }
 
             }

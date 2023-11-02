@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class DataManager : MonoBehaviourPunCallbacks
 {
+    [Header("ステージ数")] public int StageNum;
+
     //それぞれのクリア状況
     [System.NonSerialized] public bool isOwnerClear = false;
     [System.NonSerialized] public bool isClientClear = false;
