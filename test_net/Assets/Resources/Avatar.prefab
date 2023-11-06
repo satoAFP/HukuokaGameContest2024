@@ -324,7 +324,6 @@ MonoBehaviour:
   currentBoardObject: {fileID: 0}
   currentCopyKeyObject: {fileID: 0}
   choicecursor: None
-  islift: 0
 --- !u!114 &5643572740733532904
 MonoBehaviour:
   m_ObjectHideFlags: 0
