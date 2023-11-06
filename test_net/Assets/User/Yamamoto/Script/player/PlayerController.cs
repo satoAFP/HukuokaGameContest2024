@@ -60,9 +60,11 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
     private Test_net test_net;//inputsystemをスクリプトで呼び出す
 
-    /*[System.NonSerialized]*/public bool islift = false;//持ち上げフラグ
+    [System.NonSerialized] public bool islift = false;//持ち上げフラグ
 
     [System.NonSerialized] public bool isliftfirst = true;//持ち上げフラグの状態を送信するとき一回しか送信しないため
+
+    [System.NonSerialized] public bool isFly = false;//ロケット乗り込みフラグフラグ
 
     //物を持ち上げて移動するとき、最初にプレイヤー同士の差を求める
     private bool distanceFirst = true;
@@ -116,13 +118,15 @@ public class PlayerController : MonoBehaviourPunCallbacks
             //持ち上げていないときは普通に移動させる
             if (!islift)
             {
-                Move();//移動処理をON
-                Debug.Log("持ち上がってない");
+                //飛ぶ状態に入っていない時
+                if (!isFly)
+                {
+                    Move();//移動処理をON
+                }
                 distanceFirst = true;
             }
             else
             {
-                Debug.Log("持ち上がってる");
                 //持ち上げている時は2プレイヤーが同じ移動方向を入力時移動
                 if ((datamanager.isOwnerInputKey_C_L_RIGHT&& datamanager.isClientInputKey_C_L_RIGHT)||
                    (datamanager.isOwnerInputKey_C_L_LEFT && datamanager.isClientInputKey_C_L_LEFT))
@@ -332,8 +336,8 @@ public class PlayerController : MonoBehaviourPunCallbacks
     //ジャンプ
     public void Onjump(InputAction.CallbackContext context)
     {
-        //アンロックボタンが起動中
-        if (!ManagerAccessor.Instance.dataManager.isUnlockButtonStart && !movelock)
+        //アンロックボタン、ロケットが起動中でない時
+        if (!ManagerAccessor.Instance.dataManager.isUnlockButtonStart && !movelock && !isFly) 
         {
             //Input Systemからジャンプの入力があった時に呼ばれる
             if (!context.performed || bjump)
