@@ -23,12 +23,20 @@ public class PlayerController : MonoBehaviourPunCallbacks
     [SerializeField, Header("板オブジェクト")]
     private GameObject boardobj;
 
+    [SerializeField, Header("鍵オブジェクト")]
+    private GameObject copykeyobj;
+
     [SerializeField]
-    private GameObject currentObject;// 現在の生成されたオブジェクト
+    private GameObject currentBoardObject;// 現在の生成された板オブジェクト
+
+    [SerializeField]
+    private GameObject currentCopyKeyObject;// 現在の生成された鍵オブジェクト
 
     private bool movelock = false;//移動処理を停止させる
 
-    private bool instantiatefirst = true;//連続でアイテムを生成させない
+    private bool B_instantiatefirst = true;//連続でアイテムを生成させない(板）
+
+    private bool CK_instantiatefirst = true;//連続でアイテムを生成させない(鍵）
 
     // public int holdtime;//設定したアイテム回収時間を代入する
 
@@ -158,24 +166,44 @@ public class PlayerController : MonoBehaviourPunCallbacks
                     }
                   
                     //ゲームパッド右ボタンでアイテム生成
+                    //板
                     if (datamanager.isOwnerInputKey_CB &&
                         choicecursor== "Board")
                     {
-                        if (instantiatefirst)
+                        if (B_instantiatefirst)
                         {
-                            if (currentObject == null)
+                            if (currentBoardObject == null)
                             {
-                                currentObject = PhotonNetwork.Instantiate("Board", new Vector2(p1pos.x, p1pos.y + 1.0f), Quaternion.identity);
+                                currentBoardObject = PhotonNetwork.Instantiate("Board", new Vector2(p1pos.x, p1pos.y + 1.0f), Quaternion.identity);
                                 movelock = true;
                               //  Debug.Log("p1側生成");
                             }
-                            instantiatefirst = false;
+                            B_instantiatefirst = false;
                         }
 
                     }
                     else
                     {
-                        instantiatefirst = true;
+                        B_instantiatefirst = true;
+                    }
+                    //鍵
+                    if (datamanager.isOwnerInputKey_CB &&
+                       choicecursor == "CopyKey")
+                    {
+                        if (CK_instantiatefirst)
+                        {
+                            if (currentCopyKeyObject == null)
+                            {
+                                currentCopyKeyObject = PhotonNetwork.Instantiate("CopyKey", new Vector2(p1pos.x, p1pos.y + 1.0f), Quaternion.identity);
+                                movelock = true;
+                            }
+                            CK_instantiatefirst = false;
+                        }
+
+                    }
+                    else
+                    {
+                        CK_instantiatefirst = true;
                     }
                 }
                
