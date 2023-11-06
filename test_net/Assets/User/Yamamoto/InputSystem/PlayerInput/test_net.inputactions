@@ -15,6 +15,15 @@
                     "initialStateCheck": true
                 },
                 {
+                    "name": "RightStick",
+                    "type": "Value",
+                    "id": "c61a7bb8-c30c-4326-9351-9c666c3f6d97",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
                     "name": "Jump",
                     "type": "Button",
                     "id": "b350f6fb-e6a5-4a9b-b978-df2bbbe25939",
@@ -544,6 +553,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Down_D_PadRelease",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3210e447-14fc-4225-a609-8187a2996f32",
+                    "path": "<Gamepad>/rightStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RightStick",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

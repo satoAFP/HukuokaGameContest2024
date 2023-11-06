@@ -8,7 +8,8 @@ using UnityEngine.InputSystem;
 public class PlayerGimmickActionManagement : CGimmick
 {
     //インプットアクションのmove取得用
-    private InputAction actionMove;
+    private InputAction actionLeftStick;
+    private InputAction actionRightStick;
 
 
     //ボタンが連続で反応しないよう
@@ -16,13 +17,15 @@ public class PlayerGimmickActionManagement : CGimmick
     private bool firstLM = true;
     private bool firstC_A = true, firstC_B = true, firstC_X = true, firstC_Y = true;
     private bool firstC_L_Right = true, firstC_L_Left = true, firstC_L_Up = true, firstC_L_Down = true;
+    private bool firstC_R_Right = true, firstC_R_Left = true, firstC_R_Up = true, firstC_R_Down = true;
     private bool firstC_D_Right = true, firstC_D_Left = true, firstC_D_Up = true, firstC_D_Down = true;
     private bool firstC_R1 = true, firstC_R2 = true, firstC_L1 = true, firstC_L2 = true;
 
     private void Start()
     {
         //コントローラーのMove取得
-        actionMove = GetComponent<PlayerInput>().actions.FindActionMap("Player").FindAction("Move");
+        actionLeftStick = GetComponent<PlayerInput>().actions.FindActionMap("Player").FindAction("Move");
+        actionRightStick = GetComponent<PlayerInput>().actions.FindActionMap("Player").FindAction("RightStick");
     }
 
     private void Update()
@@ -31,7 +34,8 @@ public class PlayerGimmickActionManagement : CGimmick
         if (photonView.IsMine)
         {
             //移動量取得
-            Vector2 stickValue = actionMove.ReadValue<Vector2>();
+            Vector2 leftStickValue = actionLeftStick.ReadValue<Vector2>();
+            Vector2 rightStickValue = actionRightStick.ReadValue<Vector2>();
 
             //共有したいキーの数だけ増やす
             ShareKey(Input.GetKey(KeyCode.A), (int)KEY_NUMBER.A, ref firstA);
@@ -41,29 +45,46 @@ public class PlayerGimmickActionManagement : CGimmick
             ShareKey(Input.GetKey(KeyCode.B), (int)KEY_NUMBER.B, ref firstB);
             ShareKey(Input.GetMouseButton(0), (int)KEY_NUMBER.LM, ref firstLM);
 
-            Debug.Log("A:Owner/" + ManagerAccessor.Instance.dataManager.isOwnerInputKey_C_D_DOWN + ":Client/" + ManagerAccessor.Instance.dataManager.isClientInputKey_C_R1);
+            Debug.Log("A:Owner/" + ManagerAccessor.Instance.dataManager.isOwnerInputKey_C_R_DOWN + ":Client/" + ManagerAccessor.Instance.dataManager.isClientInputKey_C_R_DOWN);
             //Debug.Log("D:Owner/" + ManagerAccessor.Instance.dataManager.isOwnerInputKey_C_R2 + ":Client/" + ManagerAccessor.Instance.dataManager.isClientInputKey_C_R2);
             //Debug.Log("W:Owner/" + ManagerAccessor.Instance.dataManager.isOwnerInputKey_C_L1 + ":Client/" + ManagerAccessor.Instance.dataManager.isClientInputKey_C_L1);
             //Debug.Log("S:Owner/" + ManagerAccessor.Instance.dataManager.isOwnerInputKey_C_L2 + ":Client/" + ManagerAccessor.Instance.dataManager.isClientInputKey_C_L2);
 
 
-            //コントローラー共有設定
-            if (stickValue.x > 0.1f)
+            //コントローラースティック共有設定
+            if (leftStickValue.x > 0.1f)
                 ShareKey(true, (int)KEY_NUMBER.C_L_RIGHT, ref firstC_L_Right);
             else
                 ShareKey(false, (int)KEY_NUMBER.C_L_RIGHT, ref firstC_L_Right);
-            if (stickValue.x < -0.1f)
+            if (leftStickValue.x < -0.1f)
                 ShareKey(true, (int)KEY_NUMBER.C_L_LEFT, ref firstC_L_Left);
             else
                 ShareKey(false, (int)KEY_NUMBER.C_L_LEFT, ref firstC_L_Left);
-            if (stickValue.y > 0.1f)
+            if (leftStickValue.y > 0.1f)
                 ShareKey(true, (int)KEY_NUMBER.C_L_UP, ref firstC_L_Up);
             else
                 ShareKey(false, (int)KEY_NUMBER.C_L_UP, ref firstC_L_Up);
-            if (stickValue.y < -0.1f)
+            if (leftStickValue.y < -0.1f)
                 ShareKey(true, (int)KEY_NUMBER.C_L_DOWN, ref firstC_L_Down);
             else
                 ShareKey(false, (int)KEY_NUMBER.C_L_DOWN, ref firstC_L_Down);
+
+            if (rightStickValue.x > 0.1f)
+                ShareKey(true, (int)KEY_NUMBER.C_R_RIGHT, ref firstC_R_Right);
+            else
+                ShareKey(false, (int)KEY_NUMBER.C_R_RIGHT, ref firstC_R_Right);
+            if (rightStickValue.x < -0.1f)
+                ShareKey(true, (int)KEY_NUMBER.C_R_LEFT, ref firstC_R_Left);
+            else
+                ShareKey(false, (int)KEY_NUMBER.C_R_LEFT, ref firstC_R_Left);
+            if (rightStickValue.y > 0.1f)
+                ShareKey(true, (int)KEY_NUMBER.C_R_UP, ref firstC_R_Up);
+            else
+                ShareKey(false, (int)KEY_NUMBER.C_R_UP, ref firstC_R_Up);
+            if (rightStickValue.y < -0.1f)
+                ShareKey(true, (int)KEY_NUMBER.C_R_DOWN, ref firstC_R_Down);
+            else
+                ShareKey(false, (int)KEY_NUMBER.C_R_DOWN, ref firstC_R_Down);
         }
     }
 
@@ -102,6 +123,14 @@ public class PlayerGimmickActionManagement : CGimmick
                 ManagerAccessor.Instance.dataManager.isOwnerInputKey_C_L_UP = onkey;
             if (key == (int)KEY_NUMBER.C_L_DOWN)
                 ManagerAccessor.Instance.dataManager.isOwnerInputKey_C_L_DOWN = onkey;
+            if (key == (int)KEY_NUMBER.C_R_RIGHT)
+                ManagerAccessor.Instance.dataManager.isOwnerInputKey_C_R_RIGHT = onkey;
+            if (key == (int)KEY_NUMBER.C_R_LEFT)
+                ManagerAccessor.Instance.dataManager.isOwnerInputKey_C_R_LEFT = onkey;
+            if (key == (int)KEY_NUMBER.C_R_UP)
+                ManagerAccessor.Instance.dataManager.isOwnerInputKey_C_R_UP = onkey;
+            if (key == (int)KEY_NUMBER.C_R_DOWN)
+                ManagerAccessor.Instance.dataManager.isOwnerInputKey_C_R_DOWN = onkey;
             if (key == (int)KEY_NUMBER.C_D_RIGHT)
                 ManagerAccessor.Instance.dataManager.isOwnerInputKey_C_D_RIGHT = onkey;
             if (key == (int)KEY_NUMBER.C_D_LEFT)
@@ -150,6 +179,14 @@ public class PlayerGimmickActionManagement : CGimmick
                 ManagerAccessor.Instance.dataManager.isClientInputKey_C_L_UP = onkey;
             if (key == (int)KEY_NUMBER.C_L_DOWN)
                 ManagerAccessor.Instance.dataManager.isClientInputKey_C_L_DOWN = onkey;
+            if (key == (int)KEY_NUMBER.C_R_RIGHT)
+                ManagerAccessor.Instance.dataManager.isClientInputKey_C_R_RIGHT = onkey;
+            if (key == (int)KEY_NUMBER.C_R_LEFT)
+                ManagerAccessor.Instance.dataManager.isClientInputKey_C_R_LEFT = onkey;
+            if (key == (int)KEY_NUMBER.C_R_UP)
+                ManagerAccessor.Instance.dataManager.isClientInputKey_C_R_UP = onkey;
+            if (key == (int)KEY_NUMBER.C_R_DOWN)
+                ManagerAccessor.Instance.dataManager.isClientInputKey_C_R_DOWN = onkey;
             if (key == (int)KEY_NUMBER.C_D_RIGHT)
                 ManagerAccessor.Instance.dataManager.isClientInputKey_C_D_RIGHT = onkey;
             if (key == (int)KEY_NUMBER.C_D_LEFT)
