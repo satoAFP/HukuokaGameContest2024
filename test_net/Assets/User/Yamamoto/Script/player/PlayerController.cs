@@ -38,13 +38,13 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
     private bool CK_instantiatefirst = true;//連続でアイテムを生成させない(鍵）
 
-    // public int holdtime;//設定したアイテム回収時間を代入する
-
     [System.NonSerialized] public bool boxopen = false;//箱の開閉時の画像変更フラグ
 
     [System.NonSerialized] public bool cursorlock = true;//UIカーソルの移動を制限する
 
     public string choicecursor;//UIカーソルが現在選択している生成可能アイテム
+
+    public int operation_order;//生成したオブジェクト順
 
     //入力された方向を入れる変数
     private Vector2 inputDirection;
@@ -180,6 +180,11 @@ public class PlayerController : MonoBehaviourPunCallbacks
                             {
                                 currentBoardObject = PhotonNetwork.Instantiate("Board", new Vector2(p1pos.x, p1pos.y + 1.0f), Quaternion.identity);
                                 movelock = true;
+
+                                if(currentCopyKeyObject!=null)
+                                {
+                                    operation_order++; ;//先に鍵を生成してた場合、板にオブジェクト移動の主導権を渡す
+                                }
                               //  Debug.Log("p1側生成");
                             }
                             B_instantiatefirst = false;
@@ -200,6 +205,12 @@ public class PlayerController : MonoBehaviourPunCallbacks
                             {
                                 currentCopyKeyObject = PhotonNetwork.Instantiate("CopyKey", new Vector2(p1pos.x, p1pos.y + 1.0f), Quaternion.identity);
                                 movelock = true;
+
+                                if (currentBoardObject != null)
+                                {
+                                    operation_order++;//先に板を生成してた場合、鍵にオブジェクト移動の主導権を渡す
+                                }
+
                             }
                             CK_instantiatefirst = false;
                         }
