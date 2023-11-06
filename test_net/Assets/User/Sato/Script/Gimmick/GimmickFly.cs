@@ -22,7 +22,8 @@ public class GimmickFly : MonoBehaviourPunCallbacks
 
     private DataManager dataManager;        //データマネージャー
 
-    private GameObject player;              //プレイヤーオブジェクト取得用
+    private GameObject player1;              //プレイヤーオブジェクト取得用
+    private GameObject player2;
 
     private bool isStart = false;           //ロケット開始
 
@@ -73,8 +74,9 @@ public class GimmickFly : MonoBehaviourPunCallbacks
                     if (startFirst)
                     {
                         photonView.RPC(nameof(RpcShareIsOwnerStart), RpcTarget.All, true);
-                        player.SetActive(false);
                         transform.GetChild(2).gameObject.SetActive(true);
+
+                        player.SetActive(false);
 
                         startFirst = false;
                     }
@@ -99,8 +101,23 @@ public class GimmickFly : MonoBehaviourPunCallbacks
             startFirst = true;
 
 
+        if (PhotonNetwork.LocalPlayer.IsMasterClient)
+        {
+            if(isClientStart)
+            {
+
+            }
+        }
+        else
+        {
+            if (isOwnerStart)
+            {
+
+            }
+        }
+
         //二人とも発射状態になるとロケットスタート
-        if (isOwnerStart && isClientStart) 
+        if (isOwnerStart && isClientStart)
         {
             isStart = true;
         }
@@ -279,9 +296,6 @@ public class GimmickFly : MonoBehaviourPunCallbacks
                 collision.transform.GetChild(0).gameObject.SetActive(true);
                 collision.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = ManagerAccessor.Instance.spriteManager.ArrowRight;
 
-                //プレイヤー取得
-                player = collision.gameObject;
-
                 isHit = true;
             }
         }
@@ -292,9 +306,6 @@ public class GimmickFly : MonoBehaviourPunCallbacks
                 //押すべきボタンの画像表示
                 collision.transform.GetChild(0).gameObject.SetActive(true);
                 collision.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = ManagerAccessor.Instance.spriteManager.ArrowRight;
-
-                //プレイヤー取得
-                player = collision.gameObject;
 
                 isHit = true;
             }
