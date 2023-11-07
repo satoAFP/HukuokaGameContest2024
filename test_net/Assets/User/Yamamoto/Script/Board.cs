@@ -63,6 +63,8 @@ public class Board : MonoBehaviourPunCallbacks
 
         holdtime = collecttime;//長押しカウント時間を初期化
 
+        ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().cursorlock = true;//カーソル移動ロック
+
     }
 
     // Update is called once per frame
@@ -120,12 +122,14 @@ public class Board : MonoBehaviourPunCallbacks
                 movelock = false;
                 collider.isTrigger = true;//トリガー化
                 ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().generatestop = true;//鍵の生成を止める
+                ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().cursorlock = true;//カーソル移動を止める
 
                 //ゲームパッド下ボタン長押しで回収
                 if (holdtime <= 0)//回収カウントが0になると回収
                 {
                     ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().boxopen = true;//箱を開ける
                     ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().generatestop = false;//鍵生成許可
+                    ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().cursorlock = false;//カーソル移動許可
                     Destroy(gameObject);
                 }
             }
@@ -147,6 +151,7 @@ public class Board : MonoBehaviourPunCallbacks
         collider.isTrigger = false;//トリガー化解除
         rigid.constraints = RigidbodyConstraints2D.FreezeAll;
         ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().generatestop = false;//鍵生成許可
+        ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().cursorlock = false;//カーソル移動許可
         pushnum = 1;
     }
 }
