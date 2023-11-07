@@ -17,8 +17,6 @@ public class UICursor : MonoBehaviourPunCallbacks
     [SerializeField, Header("コピーキーのアイコン")]
     private GameObject CopyKeyIcon;
 
-
-
     private int LRmove = 0;//1:右　2:左
 
     private bool movestart = false;//移動中かを判断する
