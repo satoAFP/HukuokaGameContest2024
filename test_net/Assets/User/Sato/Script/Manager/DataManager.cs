@@ -58,6 +58,11 @@ public class DataManager : MonoBehaviourPunCallbacks
     [System.NonSerialized] public bool isOwnerInputKey_C_L_LEFT  = false;
     [System.NonSerialized] public bool isOwnerInputKey_C_L_UP    = false;
     [System.NonSerialized] public bool isOwnerInputKey_C_L_DOWN  = false;
+    //コントローラー右スティック
+    [System.NonSerialized] public bool isOwnerInputKey_C_R_RIGHT = false;
+    [System.NonSerialized] public bool isOwnerInputKey_C_R_LEFT = false;
+    [System.NonSerialized] public bool isOwnerInputKey_C_R_UP = false;
+    [System.NonSerialized] public bool isOwnerInputKey_C_R_DOWN = false;
     //コントローラー十字キー
     [System.NonSerialized] public bool isOwnerInputKey_C_D_RIGHT = false;
     [System.NonSerialized] public bool isOwnerInputKey_C_D_LEFT  = false;
@@ -88,6 +93,11 @@ public class DataManager : MonoBehaviourPunCallbacks
     [System.NonSerialized] public bool isClientInputKey_C_L_LEFT  = false;
     [System.NonSerialized] public bool isClientInputKey_C_L_UP    = false;
     [System.NonSerialized] public bool isClientInputKey_C_L_DOWN  = false;
+    //コントローラー右スティック
+    [System.NonSerialized] public bool isClientInputKey_C_R_RIGHT = false;
+    [System.NonSerialized] public bool isClientInputKey_C_R_LEFT = false;
+    [System.NonSerialized] public bool isClientInputKey_C_R_UP = false;
+    [System.NonSerialized] public bool isClientInputKey_C_R_DOWN = false;
     //コントローラー十字キー
     [System.NonSerialized] public bool isClientInputKey_C_D_RIGHT = false;//パッドの十字キー
     [System.NonSerialized] public bool isClientInputKey_C_D_LEFT  = false;

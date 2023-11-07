@@ -61,9 +61,6 @@ public class GimmickFly : MonoBehaviourPunCallbacks
     // Update is called once per frame
     void FixedUpdate()
     {
-        //カメラは回転させない
-        transform.GetChild(2).gameObject.transform.eulerAngles = Vector3.zero;
-
         //データマネージャー取得
         dataManager = ManagerAccessor.Instance.dataManager;
 
