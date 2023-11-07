@@ -745,9 +745,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1763f03f35272f14da870fed2e26abd0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rightJudge: {fileID: 0}
-  leftJudge: {fileID: 0}
-  downJudge: {fileID: 0}
+  rightJudge: {fileID: 3863330720724348097}
+  leftJudge: {fileID: 5604193683810450344}
+  downJudge: {fileID: 1673342276205180201}
 --- !u!114 &7248784080295700648
 MonoBehaviour:
   m_ObjectHideFlags: 0
