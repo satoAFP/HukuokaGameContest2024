@@ -65,20 +65,22 @@ public class CopyKey : MonoBehaviourPunCallbacks
     public void OnMove(InputAction.CallbackContext context)
     {
         //1P（箱側）での操作しか受け付けない
-        if (PhotonNetwork.LocalPlayer.IsMasterClient)
+        if (PhotonNetwork.LocalPlayer.IsMasterClient
+            && ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().choicecursor == "CopyKey")
         {
             Debug.Log("コピーキー移動");
-            //移動方向の入力情報がInputdirectionの中に入るようになる
+           
           
         }
-
+        //移動方向の入力情報がInputdirectionの中に入るようになる
         inputDirection = context.ReadValue<Vector2>();
     }
 
     //ジャンプ
     public void Onjump(InputAction.CallbackContext context)
     {
-        if (!ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().keymovelock)
+        if (!ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().keymovelock
+            && ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().choicecursor == "CopyKey")
         {
             //1P（箱側）での操作しか受け付けない
             if (PhotonNetwork.LocalPlayer.IsMasterClient)

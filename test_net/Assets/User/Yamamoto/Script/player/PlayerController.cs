@@ -48,8 +48,6 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
     public bool keymovelock = false;//生成した鍵の移動を制御
 
-    public List<string> operation_order;//生成したオブジェクト順
-
     //入力された方向を入れる変数
     private Vector2 inputDirection;
 
@@ -84,8 +82,6 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
         //名前とIDを設定
         gameObject.name = "Player" + photonView.OwnerActorNr;
-
-        operation_order = new List<string>();//listの初期化
 
         //プレイヤーによってイラストを変える＆データマネージャー設定
         if (gameObject.name == "Player1")
