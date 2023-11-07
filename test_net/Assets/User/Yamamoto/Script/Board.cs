@@ -77,7 +77,6 @@ public class Board : MonoBehaviourPunCallbacks
             //プレイヤー1側（箱）でしか操作できない
             if (PhotonNetwork.LocalPlayer.IsMasterClient)
             {
-
                 // 2軸入力読み込み
                 var inputValue = _moveAction.action.ReadValue<Vector2>();
 
@@ -120,11 +119,13 @@ public class Board : MonoBehaviourPunCallbacks
                 holdtime--;//長押しカウントダウン
                 movelock = false;
                 collider.isTrigger = true;//トリガー化
+                ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().generatestop = true;//鍵の生成を止める
 
                 //ゲームパッド下ボタン長押しで回収
                 if (holdtime <= 0)//回収カウントが0になると回収
                 {
                     ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().boxopen = true;//箱を開ける
+                    ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().generatestop = false;//鍵生成許可
                     Destroy(gameObject);
                 }
             }
@@ -145,6 +146,7 @@ public class Board : MonoBehaviourPunCallbacks
         movelock = true;
         collider.isTrigger = false;//トリガー化解除
         rigid.constraints = RigidbodyConstraints2D.FreezeAll;
+        ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().generatestop = false;//鍵生成許可
         pushnum = 1;
     }
 }

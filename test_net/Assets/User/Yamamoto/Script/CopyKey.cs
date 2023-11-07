@@ -35,8 +35,14 @@ public class CopyKey : MonoBehaviourPunCallbacks
     void FixedUpdate()
     {
         DataManager datamanager = ManagerAccessor.Instance.dataManager;
+        
+        
+        if (!ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().keymovelock)
+        {
+            Move();//移動処理をON
+        }
 
-        Move();//移動処理をON
+      
     }
 
     private void Move()//移動処理（計算部分）
@@ -72,35 +78,37 @@ public class CopyKey : MonoBehaviourPunCallbacks
     //ジャンプ
     public void Onjump(InputAction.CallbackContext context)
     {
-        //1P（箱側）での操作しか受け付けない
-        if (PhotonNetwork.LocalPlayer.IsMasterClient)
+        if (!ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().keymovelock)
         {
-            //アンロックボタンが起動中
-            if (!ManagerAccessor.Instance.dataManager.isUnlockButtonStart)
+            //1P（箱側）での操作しか受け付けない
+            if (PhotonNetwork.LocalPlayer.IsMasterClient)
             {
-                Debug.Log("コピーキージャンプ");
-                //Input Systemからジャンプの入力があった時に呼ばれる
-                if (!context.performed || bjump)
+                //アンロックボタンが起動中
+                if (!ManagerAccessor.Instance.dataManager.isUnlockButtonStart)
                 {
-                    return;
+                    Debug.Log("コピーキージャンプ");
+                    //Input Systemからジャンプの入力があった時に呼ばれる
+                    if (!context.performed || bjump)
+                    {
+                        return;
+                    }
+
+
                 }
-
-      
             }
-        }
 
-        //Input Systemからジャンプの入力があった時に呼ばれる
-        if (!context.performed || bjump)
-        {
-            return;
-        }
-        else
-        {
-            rigid.AddForce(Vector2.up * jumpSpeed, ForceMode2D.Impulse);
-            bjump = true;//一度ジャンプしたら着地するまでジャンプできなくする
-        }
+            //Input Systemからジャンプの入力があった時に呼ばれる
+            if (!context.performed || bjump)
+            {
+                return;
+            }
+            else
+            {
+                rigid.AddForce(Vector2.up * jumpSpeed, ForceMode2D.Impulse);
+                bjump = true;//一度ジャンプしたら着地するまでジャンプできなくする
+            }
 
-      
+        }
     }
 }
 

@@ -44,7 +44,11 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
     public string choicecursor;//UIカーソルが現在選択している生成可能アイテム
 
-    public int operation_order;//生成したオブジェクト順
+    public bool generatestop = false;//生成を制御する
+
+    public bool keymovelock = false;//生成した鍵の移動を制御
+
+    public List<string> operation_order;//生成したオブジェクト順
 
     //入力された方向を入れる変数
     private Vector2 inputDirection;
@@ -80,6 +84,8 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
         //名前とIDを設定
         gameObject.name = "Player" + photonView.OwnerActorNr;
+
+        operation_order = new List<string>();//listの初期化
 
         //プレイヤーによってイラストを変える＆データマネージャー設定
         if (gameObject.name == "Player1")
@@ -181,10 +187,16 @@ public class PlayerController : MonoBehaviourPunCallbacks
                                 currentBoardObject = PhotonNetwork.Instantiate("Board", new Vector2(p1pos.x, p1pos.y + 1.0f), Quaternion.identity);
                                 movelock = true;
 
+                                //先に鍵が生成されていた場合
                                 if(currentCopyKeyObject!=null)
                                 {
-                                    operation_order++; ;//先に鍵を生成してた場合、板にオブジェクト移動の主導権を渡す
+                                    keymovelock = true;//板にオブジェクト移動の主導権を渡す
                                 }
+                                else
+                                {
+                                    generatestop = true;//板が先の場合、板の移動が終わるまで鍵生成をさせない
+                                }
+                              
                               //  Debug.Log("p1側生成");
                             }
                             B_instantiatefirst = false;
@@ -199,17 +211,12 @@ public class PlayerController : MonoBehaviourPunCallbacks
                     if (datamanager.isOwnerInputKey_CB &&
                        choicecursor == "CopyKey")
                     {
-                        if (CK_instantiatefirst)
+                        if (CK_instantiatefirst && !generatestop)
                         {
                             if (currentCopyKeyObject == null)
                             {
                                 currentCopyKeyObject = PhotonNetwork.Instantiate("CopyKey", new Vector2(p1pos.x, p1pos.y + 1.0f), Quaternion.identity);
                                 movelock = true;
-
-                                if (currentBoardObject != null)
-                                {
-                                    operation_order++;//先に板を生成してた場合、鍵にオブジェクト移動の主導権を渡す
-                                }
 
                             }
                             CK_instantiatefirst = false;
