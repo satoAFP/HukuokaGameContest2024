@@ -42,7 +42,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
     [System.NonSerialized] public bool cursorlock = true;//UIカーソルの移動を制限する
 
-    public string choicecursor;//UIカーソルが現在選択している生成可能アイテム
+    [System.NonSerialized] public string choicecursor;//UIカーソルが現在選択している生成可能アイテム
 
     public bool generatestop = false;//生成を制御する
 
