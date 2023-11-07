@@ -17,10 +17,10 @@ public class PlayerGetHitObjTagManagement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        for (int i = 0; i < rightJudge.HitTags.Count; i++) 
-        {
+        //for (int i = 0; i < rightJudge.HitTags.Count; i++) 
+        //{
 
-        }
+        //}
 
 
     }

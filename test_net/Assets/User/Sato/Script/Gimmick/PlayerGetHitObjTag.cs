@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class PlayerGetHitObjTag : MonoBehaviourPunCallbacks
 {
-    [System.NonSerialized] public List<string> HitTags;
+    [System.NonSerialized] public List<string> HitTags = new List<string>();
 
     [SerializeField, Header("ÉçÅ[ÉJÉãç¿ïW")] private Vector3 localPos;
 
