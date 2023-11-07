@@ -186,6 +186,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: Goal
       objectReference: {fileID: 0}
+    - target: {fileID: 1469050261785031268, guid: 93a1c9e44b029b04da9cd2890ccef298, type: 3}
+      propertyPath: m_Size.x
+      value: 2.56
+      objectReference: {fileID: 0}
+    - target: {fileID: 1469050261785031268, guid: 93a1c9e44b029b04da9cd2890ccef298, type: 3}
+      propertyPath: m_Size.y
+      value: 2.56
+      objectReference: {fileID: 0}
+    - target: {fileID: 1469050261785031268, guid: 93a1c9e44b029b04da9cd2890ccef298, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: a8d4eee44e4ee4447be59f199f77be13, type: 3}
+    - target: {fileID: 1469050261785031268, guid: 93a1c9e44b029b04da9cd2890ccef298, type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1469050261785031270, guid: 93a1c9e44b029b04da9cd2890ccef298, type: 3}
       propertyPath: text
       value: 

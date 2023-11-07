@@ -146,7 +146,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81fafd5534fcf574a8d7401b98880c90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HitTags: []
   localPos: {x: 0.55, y: 0, z: 0}
 --- !u!1 &2861243448929933069
 GameObject:
@@ -294,7 +293,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81fafd5534fcf574a8d7401b98880c90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HitTags: []
   localPos: {x: 0, y: -0.55, z: 0}
 --- !u!1 &2890449110688681239
 GameObject:
@@ -526,7 +524,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81fafd5534fcf574a8d7401b98880c90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HitTags: []
   localPos: {x: -0.55, y: 0, z: 0}
 --- !u!1 &4645120399147915654
 GameObject:
@@ -748,6 +745,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1763f03f35272f14da870fed2e26abd0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rightJudge: {fileID: 0}
+  leftJudge: {fileID: 0}
+  downJudge: {fileID: 0}
 --- !u!114 &7248784080295700648
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -769,7 +769,9 @@ MonoBehaviour:
   copykeyobj: {fileID: 3734986411308915629, guid: 5cdc0e7ef43ad0f4089747d0a16345ae, type: 3}
   currentBoardObject: {fileID: 0}
   currentCopyKeyObject: {fileID: 0}
-  choicecursor: None
+  generatestop: 0
+  keymovelock: 0
+  operation_order: []
 --- !u!114 &5643572740733532904
 MonoBehaviour:
   m_ObjectHideFlags: 0
