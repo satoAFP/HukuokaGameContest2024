@@ -45,10 +45,12 @@ public class GimmickFly : MonoBehaviourPunCallbacks
 
     //連続で反応しない
     private bool startFirst = true;
+    private bool startOtherFirst = true;
     private bool ownerFirst = true;
     private bool clientFirst = true;
     private bool OwnerCoolTimeFirst = true;
     private bool ClientCoolTimeFirst = true;
+
 
     // Start is called before the first frame update
     void Start()
@@ -59,8 +61,6 @@ public class GimmickFly : MonoBehaviourPunCallbacks
     // Update is called once per frame
     void FixedUpdate()
     {
-        transform.GetChild(2).gameObject.transform.eulerAngles = Vector3.zero;
-
         //データマネージャー取得
         dataManager = ManagerAccessor.Instance.dataManager;
 
@@ -76,7 +76,13 @@ public class GimmickFly : MonoBehaviourPunCallbacks
                         photonView.RPC(nameof(RpcShareIsOwnerStart), RpcTarget.All, true);
                         transform.GetChild(2).gameObject.SetActive(true);
 
-                        player.SetActive(false);
+                        //プレイヤーのパラメータ変更
+                        ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().isFly = true;
+                        ManagerAccessor.Instance.dataManager.player1.GetComponent<BoxCollider2D>().enabled = false;
+                        ManagerAccessor.Instance.dataManager.player1.GetComponent<SpriteRenderer>().enabled = false;
+                        ManagerAccessor.Instance.dataManager.player1.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
+                        ManagerAccessor.Instance.dataManager.player1.transform.GetChild(1).gameObject.SetActive(false);
+
 
                         startFirst = false;
                     }
@@ -89,8 +95,14 @@ public class GimmickFly : MonoBehaviourPunCallbacks
                     if (startFirst)
                     {
                         photonView.RPC(nameof(RpcShareIsClientStart), RpcTarget.All, true);
-                        player.SetActive(false);
                         transform.GetChild(2).gameObject.SetActive(true);
+
+                        //プレイヤーのパラメータ変更
+                        ManagerAccessor.Instance.dataManager.player2.GetComponent<PlayerController>().isFly = true;
+                        ManagerAccessor.Instance.dataManager.player2.GetComponent<BoxCollider2D>().enabled = false;
+                        ManagerAccessor.Instance.dataManager.player2.GetComponent<SpriteRenderer>().enabled = false;
+                        ManagerAccessor.Instance.dataManager.player2.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
+                        ManagerAccessor.Instance.dataManager.player2.transform.GetChild(1).gameObject.SetActive(false);
 
                         startFirst = false;
                     }
@@ -100,19 +112,63 @@ public class GimmickFly : MonoBehaviourPunCallbacks
         else
             startFirst = true;
 
-
+        //それぞれロケット発射状態の時、別の画面の自身のオブジェクトも非表示にする
         if (PhotonNetwork.LocalPlayer.IsMasterClient)
         {
             if(isClientStart)
             {
+                if (startOtherFirst)
+                {
+                    //プレイヤーのパラメータ変更
+                    ManagerAccessor.Instance.dataManager.player2.GetComponent<PlayerController>().isFly = true;
+                    ManagerAccessor.Instance.dataManager.player2.GetComponent<BoxCollider2D>().enabled = false;
+                    ManagerAccessor.Instance.dataManager.player2.GetComponent<SpriteRenderer>().enabled = false;
+                    ManagerAccessor.Instance.dataManager.player2.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
 
+                    startOtherFirst = false;
+                }
+            }
+            else
+            {
+                if (!startOtherFirst)
+                {
+                    //プレイヤーのパラメータ変更
+                    ManagerAccessor.Instance.dataManager.player2.GetComponent<PlayerController>().isFly = false;
+                    ManagerAccessor.Instance.dataManager.player2.GetComponent<BoxCollider2D>().enabled = true;
+                    ManagerAccessor.Instance.dataManager.player2.GetComponent<SpriteRenderer>().enabled = true;
+                    ManagerAccessor.Instance.dataManager.player2.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeRotation;
+
+                    startOtherFirst = true;
+                }
             }
         }
         else
         {
             if (isOwnerStart)
             {
+                if (startOtherFirst)
+                {
+                    //プレイヤーのパラメータ変更
+                    ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().isFly = true;
+                    ManagerAccessor.Instance.dataManager.player1.GetComponent<BoxCollider2D>().enabled = false;
+                    ManagerAccessor.Instance.dataManager.player1.GetComponent<SpriteRenderer>().enabled = false;
+                    ManagerAccessor.Instance.dataManager.player1.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
 
+                    startOtherFirst = false;
+                }
+            }
+            else
+            {
+                if (!startOtherFirst)
+                {
+                    //プレイヤーのパラメータ変更
+                    ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().isFly = false;
+                    ManagerAccessor.Instance.dataManager.player1.GetComponent<BoxCollider2D>().enabled = true;
+                    ManagerAccessor.Instance.dataManager.player1.GetComponent<SpriteRenderer>().enabled = true;
+                    ManagerAccessor.Instance.dataManager.player1.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeRotation;
+
+                    startOtherFirst = true;
+                }
             }
         }
 
@@ -133,8 +189,14 @@ public class GimmickFly : MonoBehaviourPunCallbacks
                         if (startFirst)
                         {
                             photonView.RPC(nameof(RpcShareIsOwnerStart), RpcTarget.All, false);
-                            player.SetActive(true);
                             transform.GetChild(2).gameObject.SetActive(false);
+
+                            //プレイヤーのパラメータ変更
+                            ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().isFly = false;
+                            ManagerAccessor.Instance.dataManager.player1.GetComponent<BoxCollider2D>().enabled = true;
+                            ManagerAccessor.Instance.dataManager.player1.GetComponent<SpriteRenderer>().enabled = true;
+                            ManagerAccessor.Instance.dataManager.player1.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeRotation;
+                            ManagerAccessor.Instance.dataManager.player1.transform.GetChild(1).gameObject.SetActive(true);
 
                             startFirst = false;
                         }
@@ -147,8 +209,14 @@ public class GimmickFly : MonoBehaviourPunCallbacks
                         if (startFirst)
                         {
                             photonView.RPC(nameof(RpcShareIsClientStart), RpcTarget.All, false);
-                            player.SetActive(true);
                             transform.GetChild(2).gameObject.SetActive(false);
+
+                            //プレイヤーのパラメータ変更
+                            ManagerAccessor.Instance.dataManager.player2.GetComponent<PlayerController>().isFly = false;
+                            ManagerAccessor.Instance.dataManager.player2.GetComponent<BoxCollider2D>().enabled = true;
+                            ManagerAccessor.Instance.dataManager.player2.GetComponent<SpriteRenderer>().enabled = true;
+                            ManagerAccessor.Instance.dataManager.player2.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeRotation;
+                            ManagerAccessor.Instance.dataManager.player2.transform.GetChild(1).gameObject.SetActive(true);
 
                             startFirst = false;
                         }
