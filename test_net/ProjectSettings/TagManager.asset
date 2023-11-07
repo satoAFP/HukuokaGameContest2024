@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Button
   - Floor
+  - Gimmick
   layers:
   - Default
   - TransparentFX

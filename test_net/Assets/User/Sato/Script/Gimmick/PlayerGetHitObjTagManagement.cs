@@ -17,11 +17,40 @@ public class PlayerGetHitObjTagManagement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //for (int i = 0; i < rightJudge.HitTags.Count; i++) 
-        //{
+        //‰E‚É“–‚½‚Á‚Ä‚¢‚é”»’è
+        for (int i = 0; i < rightJudge.HitTags.Count; i++)
+        {
+            if (rightJudge.HitTags.Count != 0 && rightJudge.HitTags[i] == "Gimmick") 
+            {
+                ManagerAccessor.Instance.dataManager.isHitRight = true;
+            }
+        }
 
-        //}
+        //¶‚É“–‚½‚Á‚Ä‚¢‚é”»’è
+        for (int i = 0; i < leftJudge.HitTags.Count; i++)
+        {
+            if (leftJudge.HitTags.Count != 0 && leftJudge.HitTags[i] == "Gimmick")
+            {
+                ManagerAccessor.Instance.dataManager.isHitLeft = true;
+            }
+        }
 
+        //‰º‚É“–‚½‚Á‚Ä‚¢‚é”»’è
+        for (int i = 0; i < downJudge.HitTags.Count; i++)
+        {
+            if (downJudge.HitTags.Count != 0 && downJudge.HitTags[i] == "Gimmick"|| downJudge.HitTags[i] == "Floor")
+            {
+                ManagerAccessor.Instance.dataManager.isHitDown = true;
+            }
+        }
+
+        //‚ ‚½‚Á‚Ä‚¢‚È‚¢‚Æ‚«
+        if (rightJudge.HitTags.Count == 0)
+            ManagerAccessor.Instance.dataManager.isHitRight = false;
+        if (leftJudge.HitTags.Count == 0)
+            ManagerAccessor.Instance.dataManager.isHitLeft = false;
+        if (downJudge.HitTags.Count == 0)
+            ManagerAccessor.Instance.dataManager.isHitDown = false;
 
     }
 }
