@@ -123,6 +123,7 @@ public class Board : MonoBehaviourPunCallbacks
                 collider.isTrigger = true;//トリガー化
                 ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().generatestop = true;//鍵の生成を止める
                 ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().cursorlock = true;//カーソル移動を止める
+                ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().keymovelock = true;//鍵の移動させない
 
                 //ゲームパッド下ボタン長押しで回収
                 if (holdtime <= 0)//回収カウントが0になると回収
@@ -130,6 +131,7 @@ public class Board : MonoBehaviourPunCallbacks
                     ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().boxopen = true;//箱を開ける
                     ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().generatestop = false;//鍵生成許可
                     ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().cursorlock = false;//カーソル移動許可
+                    ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().keymovelock = false;//鍵の移動可能
                     Destroy(gameObject);
                 }
             }
@@ -152,6 +154,7 @@ public class Board : MonoBehaviourPunCallbacks
         rigid.constraints = RigidbodyConstraints2D.FreezeAll;
         ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().generatestop = false;//鍵生成許可
         ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().cursorlock = false;//カーソル移動許可
+        ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().keymovelock = false;//鍵の移動可能
         pushnum = 1;
     }
 }
