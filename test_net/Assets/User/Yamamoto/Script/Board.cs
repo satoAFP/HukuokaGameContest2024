@@ -128,11 +128,7 @@ public class Board : MonoBehaviourPunCallbacks
                 //ゲームパッド下ボタン長押しで回収
                 if (holdtime <= 0)//回収カウントが0になると回収
                 {
-                    ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().boxopen = true;//箱を開ける
-                    ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().generatestop = false;//鍵生成許可
-                    ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().cursorlock = false;//カーソル移動許可
-                    ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().keymovelock = false;//鍵の移動可能
-                    Destroy(gameObject);
+                    DeleteBoard();
                 }
             }
             else
@@ -156,5 +152,15 @@ public class Board : MonoBehaviourPunCallbacks
         ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().cursorlock = false;//カーソル移動許可
         ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().keymovelock = false;//鍵の移動可能
         pushnum = 1;
+    }
+
+    //板を削除
+    private void DeleteBoard()
+    {
+        ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().boxopen = true;//箱を開ける
+        ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().generatestop = false;//鍵生成許可
+        ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().cursorlock = false;//カーソル移動許可
+        ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().keymovelock = false;//鍵の移動可能
+        Destroy(gameObject);
     }
 }
