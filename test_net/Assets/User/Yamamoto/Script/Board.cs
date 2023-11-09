@@ -157,7 +157,7 @@ public class Board : MonoBehaviourPunCallbacks
     //板を削除
     private void DeleteBoard()
     {
-        ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().boxopen = true;//箱を開ける
+      //  ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().boxopen = true;//箱を開ける
         ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().generatestop = false;//鍵生成許可
         ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().cursorlock = false;//カーソル移動許可
         ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().keymovelock = false;//鍵の移動可能
