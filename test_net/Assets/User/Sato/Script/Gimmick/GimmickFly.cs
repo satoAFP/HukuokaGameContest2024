@@ -5,11 +5,6 @@ using Photon.Pun;
 
 public class GimmickFly : MonoBehaviourPunCallbacks
 {
-    [SerializeField, Header("プレイヤー1の画像")]
-    private Sprite p1Img;
-
-    [SerializeField, Header("プレイヤー2の画像")]
-    private Sprite p2Img;
 
     [SerializeField, Header("移動量")]
     private float MovePower;
@@ -49,9 +44,6 @@ public class GimmickFly : MonoBehaviourPunCallbacks
     private bool isOwnerStart = false;      //そぞれぞのプレイヤーがロケット操作開始中かどうか
     private bool isClientStart = false;
 
-    private bool isRight = false;           //ロケットの左右に乗り込んでいるか
-    private bool isLeft = false;
-
     //連続で反応しない
     private bool startFirst = true;
     private bool startOtherFirst = true;
@@ -60,12 +52,6 @@ public class GimmickFly : MonoBehaviourPunCallbacks
     private bool OwnerCoolTimeFirst = true;
     private bool ClientCoolTimeFirst = true;
 
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
     // Update is called once per frame
     void FixedUpdate()
@@ -236,108 +222,19 @@ public class GimmickFly : MonoBehaviourPunCallbacks
                 startFirst = true;
         }
 
+
         //乗っているときの画像の表示
         if (isOwnerStart)
-        {
-            if (!isRight)
-            {
-                if (ManagerAccessor.Instance.dataManager.isHitRight)
-                {
-                    transform.GetChild(1).gameObject.GetComponent<SpriteRenderer>().sprite = p1Img;
-                    transform.GetChild(1).gameObject.SetActive(true);
-
-                    photonView.RPC(nameof(RpcShareIsRight), RpcTarget.All, true);
-                }
-            }
-            else
-            {
-                transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = p1Img;
-                transform.GetChild(0).gameObject.SetActive(true);
-            }
-
-            if (!isLeft)
-            {
-                if (ManagerAccessor.Instance.dataManager.isHitLeft)
-                {
-                    transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = p1Img;
-                    transform.GetChild(0).gameObject.SetActive(true);
-
-                    photonView.RPC(nameof(RpcShareIsLeft), RpcTarget.All, false);
-                }
-            }
-            else
-            {
-                transform.GetChild(1).gameObject.GetComponent<SpriteRenderer>().sprite = p1Img;
-                transform.GetChild(1).gameObject.SetActive(true);
-            }
-
-        }
+            transform.GetChild(0).gameObject.SetActive(true);
         else
-        {
-            if (isRight)
-            {
-                transform.GetChild(1).gameObject.SetActive(false);
-                photonView.RPC(nameof(RpcShareIsRight), RpcTarget.All, false);
-            }
-
-            if (isLeft)
-            {
-                transform.GetChild(0).gameObject.SetActive(false);
-                photonView.RPC(nameof(RpcShareIsLeft), RpcTarget.All, false);
-            }
-        }
-
-
-        if (isOwnerStart)
-        {
-            if (!isRight)
-            {
-                if (ManagerAccessor.Instance.dataManager.isHitRight)
-                {
-                    transform.GetChild(1).gameObject.GetComponent<SpriteRenderer>().sprite = p2Img;
-                    transform.GetChild(1).gameObject.SetActive(true);
-
-                    photonView.RPC(nameof(RpcShareIsRight), RpcTarget.All, true);
-                }
-            }
-            else
-            {
-                transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = p2Img;
-                transform.GetChild(0).gameObject.SetActive(true);
-            }
-
-            if (!isLeft)
-            {
-                if (ManagerAccessor.Instance.dataManager.isHitLeft)
-                {
-                    transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = p2Img;
-                    transform.GetChild(0).gameObject.SetActive(true);
-
-                    photonView.RPC(nameof(RpcShareIsLeft), RpcTarget.All, false);
-                }
-            }
-            else
-            {
-                transform.GetChild(1).gameObject.GetComponent<SpriteRenderer>().sprite = p2Img;
-                transform.GetChild(1).gameObject.SetActive(true);
-            }
-
-        }
+            transform.GetChild(0).gameObject.SetActive(false);
+        if (isClientStart)
+            transform.GetChild(1).gameObject.SetActive(true);
         else
-        {
-            if (isRight)
-            {
-                transform.GetChild(1).gameObject.SetActive(false);
-                photonView.RPC(nameof(RpcShareIsRight), RpcTarget.All, false);
-            }
+            transform.GetChild(1).gameObject.SetActive(false);
 
-            if (isLeft)
-            {
-                transform.GetChild(0).gameObject.SetActive(false);
-                photonView.RPC(nameof(RpcShareIsLeft), RpcTarget.All, false);
-            }
-        }
 
+        
 
         if (isStart)
         {
@@ -454,7 +351,7 @@ public class GimmickFly : MonoBehaviourPunCallbacks
     }
 
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
         if (PhotonNetwork.LocalPlayer.IsMasterClient)
         {
@@ -480,7 +377,7 @@ public class GimmickFly : MonoBehaviourPunCallbacks
         }
     }
 
-    private void OnCollisionExit2D(Collision2D collision)
+    private void OnTriggerExit2D(Collider2D collision)
     {
         if (PhotonNetwork.LocalPlayer.IsMasterClient)
         {
@@ -532,21 +429,4 @@ public class GimmickFly : MonoBehaviourPunCallbacks
         isClientStart = data;
     }
 
-    [PunRPC]
-    private void RpcShareIsRight(bool data)
-    {
-        isRight = data;
-    }
-
-    [PunRPC]
-    private void RpcShareIsLeft(bool data)
-    {
-        isLeft = data;
-    }
-
-    //[PunRPC]
-    //private void RpcSetP1Img(int objNum)
-    //{
-    //    isLeft = data;
-    //}
 }

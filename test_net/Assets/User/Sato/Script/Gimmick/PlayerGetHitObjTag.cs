@@ -32,23 +32,17 @@ public class PlayerGetHitObjTag : MonoBehaviourPunCallbacks
     private void OnTriggerEnter2D(Collider2D collision)
     {
         //触れたオブジェクトのタグ記憶
-        if (photonView.IsMine)
-        {
-            HitTags.Add(collision.tag);
-        }
+        HitTags.Add(collision.tag);
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
         //出たオブジェクトのタグを消去
-        if (photonView.IsMine)
+        for (int i = 0; i < HitTags.Count; i++)
         {
-            for (int i = 0; i < HitTags.Count; i++)
+            if (HitTags[i] == collision.tag)
             {
-                if (HitTags[i] == collision.tag)
-                {
-                    HitTags.RemoveAt(i);
-                }
+                HitTags.RemoveAt(i);
             }
         }
     }
