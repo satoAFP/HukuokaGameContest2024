@@ -20,6 +20,12 @@ public class CopyKey : MonoBehaviourPunCallbacks
 
     private bool bjump;//連続でジャンプさせないフラグ
 
+    [SerializeField, Header("鍵回収時間（大体60で１秒）")]
+    private int collecttime;
+
+    [SerializeField]
+    private int holdtime;//設定したアイテム回収時間を代入する
+
     private Test_net test_net;//inputsystemをスクリプトで呼び出す
 
     // Start is called before the first frame update
@@ -29,6 +35,8 @@ public class CopyKey : MonoBehaviourPunCallbacks
         rigid = GetComponent<Rigidbody2D>();
 
         test_net = new Test_net();//スクリプトを変数に格納
+
+        holdtime = collecttime;//長押しカウント時間を初期化
     }
 
     // Update is called once per frame
@@ -37,9 +45,26 @@ public class CopyKey : MonoBehaviourPunCallbacks
         DataManager datamanager = ManagerAccessor.Instance.dataManager;
         
         
-        if (!ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().keymovelock)
+        if (!ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().keymovelock
+            && ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().choicecursor == "CopyKey")
         {
             Move();//移動処理をON
+
+            //ゲームパッド下ボタンで置きなおし
+            if (datamanager.isOwnerInputKey_CA)
+            {
+                holdtime--;//長押しカウントダウン
+               
+                //ゲームパッド下ボタン長押しで回収
+                if (holdtime <= 0)//回収カウントが0になると回収
+                {
+                    Destroy(gameObject);
+                }
+            }
+            else
+            {
+                holdtime = collecttime;//長押しカウントリセット
+            }
         }
 
       
@@ -65,13 +90,12 @@ public class CopyKey : MonoBehaviourPunCallbacks
     public void OnMove(InputAction.CallbackContext context)
     {
         //1P（箱側）での操作しか受け付けない
-        if (PhotonNetwork.LocalPlayer.IsMasterClient
-            && ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().choicecursor == "CopyKey")
-        {
-            Debug.Log("コピーキー移動");
-           
-          
-        }
+        //if (PhotonNetwork.LocalPlayer.IsMasterClient)
+        //{
+        //    Debug.Log("コピーキー移動");
+        //}
+
+
         //移動方向の入力情報がInputdirectionの中に入るようになる
         inputDirection = context.ReadValue<Vector2>();
     }
@@ -80,7 +104,7 @@ public class CopyKey : MonoBehaviourPunCallbacks
     public void Onjump(InputAction.CallbackContext context)
     {
         if (!ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().keymovelock
-            && ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().choicecursor == "CopyKey")
+            && ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().choicecursor == "CopyKey")//カーソルが鍵を選択している時
         {
             //1P（箱側）での操作しか受け付けない
             if (PhotonNetwork.LocalPlayer.IsMasterClient)
