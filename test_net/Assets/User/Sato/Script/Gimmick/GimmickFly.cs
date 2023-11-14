@@ -81,7 +81,7 @@ public class GimmickFly : MonoBehaviourPunCallbacks
                         ManagerAccessor.Instance.dataManager.player1.GetComponent<BoxCollider2D>().enabled = false;
                         ManagerAccessor.Instance.dataManager.player1.GetComponent<SpriteRenderer>().enabled = false;
                         ManagerAccessor.Instance.dataManager.player1.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
-                        ManagerAccessor.Instance.dataManager.player1.transform.GetChild(1).gameObject.SetActive(false);
+                        ManagerAccessor.Instance.dataManager.player1.transform.Find("Main Camera").gameObject.SetActive(false);
 
 
                         startFirst = false;
@@ -102,7 +102,7 @@ public class GimmickFly : MonoBehaviourPunCallbacks
                         ManagerAccessor.Instance.dataManager.player2.GetComponent<BoxCollider2D>().enabled = false;
                         ManagerAccessor.Instance.dataManager.player2.GetComponent<SpriteRenderer>().enabled = false;
                         ManagerAccessor.Instance.dataManager.player2.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
-                        ManagerAccessor.Instance.dataManager.player2.transform.GetChild(1).gameObject.SetActive(false);
+                        ManagerAccessor.Instance.dataManager.player2.transform.Find("Main Camera").gameObject.SetActive(false);
 
                         startFirst = false;
                     }
@@ -196,7 +196,7 @@ public class GimmickFly : MonoBehaviourPunCallbacks
                             ManagerAccessor.Instance.dataManager.player1.GetComponent<BoxCollider2D>().enabled = true;
                             ManagerAccessor.Instance.dataManager.player1.GetComponent<SpriteRenderer>().enabled = true;
                             ManagerAccessor.Instance.dataManager.player1.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeRotation;
-                            ManagerAccessor.Instance.dataManager.player1.transform.GetChild(1).gameObject.SetActive(true);
+                            ManagerAccessor.Instance.dataManager.player1.transform.Find("Main Camera").gameObject.SetActive(true);
 
                             startFirst = false;
                         }
@@ -216,7 +216,7 @@ public class GimmickFly : MonoBehaviourPunCallbacks
                             ManagerAccessor.Instance.dataManager.player2.GetComponent<BoxCollider2D>().enabled = true;
                             ManagerAccessor.Instance.dataManager.player2.GetComponent<SpriteRenderer>().enabled = true;
                             ManagerAccessor.Instance.dataManager.player2.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeRotation;
-                            ManagerAccessor.Instance.dataManager.player2.transform.GetChild(1).gameObject.SetActive(true);
+                            ManagerAccessor.Instance.dataManager.player2.transform.Find("Main Camera").gameObject.SetActive(true);
 
                             startFirst = false;
                         }

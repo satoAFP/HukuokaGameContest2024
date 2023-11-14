@@ -38,6 +38,11 @@ public class DataManager : MonoBehaviourPunCallbacks
     //死亡フラグ
     [System.NonSerialized] public bool isDeth = false;
 
+    //左右下判定
+    [System.NonSerialized] public bool isHitRight = false;
+    [System.NonSerialized] public bool isHitLeft = false;
+    [System.NonSerialized] public bool isHitDown = false;
+
 
     //キー入力情報(マスター)
     //キーボード入力
