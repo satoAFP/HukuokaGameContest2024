@@ -40,6 +40,8 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
     private bool CK_instantiatefirst = true;//連続でアイテムを生成させない(鍵）
 
+    private bool firstboxopen = true;//箱の閉じるフラグ共有を一度だけする
+
     [System.NonSerialized] public bool boxopen = false;//箱の開閉を許可するフラグ
 
     [System.NonSerialized] public bool cursorlock = true;//UIカーソルの移動を制限する
@@ -166,11 +168,21 @@ public class PlayerController : MonoBehaviourPunCallbacks
                     if (currentBoardObject == null &&
                          currentCopyKeyObject == null)
                     {
-                        boxopen = true;
+                        if(firstboxopen)
+                        {
+                            photonView.RPC(nameof(RpcShareBoxOpen), RpcTarget.All,true);
+                            firstboxopen = false;
+                        }
+                       
                     }
                     else
                     {
-                        boxopen = false;
+                        if (!firstboxopen)
+                        {
+                            photonView.RPC(nameof(RpcShareBoxOpen), RpcTarget.All, false);
+                            firstboxopen = true;
+                        }
+                           
                     }
 
                     //コントローラーの下ボタンを押したとき箱を閉じる
@@ -291,17 +303,6 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
             if (movelock)
             {
-                //生成アイテムがマップ上にないときのみ箱を閉じる（移動制限解除）
-                if (currentBoardObject == null &&
-                     currentCopyKeyObject == null)
-                {
-                    boxopen = true;
-                }
-                else
-                {
-                    boxopen = false;
-                }
-
                 //コントローラーの下ボタンを押したとき箱処理中断（相手側）
                 if (datamanager.isOwnerInputKey_CA)
                 {
@@ -453,5 +454,11 @@ public class PlayerController : MonoBehaviourPunCallbacks
                 bjump = true;//一度ジャンプしたら着地するまでジャンプできなくする
             }
         }
+    }
+
+    [PunRPC]
+    private void RpcShareBoxOpen(bool data)
+    {
+        boxopen = data;
     }
 }
