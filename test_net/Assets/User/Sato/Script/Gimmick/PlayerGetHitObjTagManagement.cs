@@ -13,8 +13,6 @@ public class PlayerGetHitObjTagManagement : MonoBehaviourPunCallbacks
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(ManagerAccessor.Instance.dataManager.isOwnerHitRight + ":" + ManagerAccessor.Instance.dataManager.isClientHitRight);
-        
         //‰E‚É“–‚½‚Á‚Ä‚¢‚é”»’è
         for (int i = 0; i < rightJudge.HitTags.Count; i++)
         {
