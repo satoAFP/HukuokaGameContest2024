@@ -355,7 +355,7 @@ public class GimmickFly : MonoBehaviourPunCallbacks
     {
         if (PhotonNetwork.LocalPlayer.IsMasterClient)
         {
-            if (collision.gameObject.name == "Player1")
+            if (collision.gameObject.name == "Player1" || collision.gameObject.name == "CopyKey")
             {
                 //押すべきボタンの画像表示
                 collision.transform.GetChild(0).gameObject.SetActive(true);
@@ -381,7 +381,7 @@ public class GimmickFly : MonoBehaviourPunCallbacks
     {
         if (PhotonNetwork.LocalPlayer.IsMasterClient)
         {
-            if (collision.gameObject.name == "Player1")
+            if (collision.gameObject.name == "Player1" || collision.gameObject.name == "CopyKey")
             {
                 //押すべきボタンの画像表示
                 collision.transform.GetChild(0).gameObject.SetActive(false);

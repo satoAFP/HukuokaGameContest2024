@@ -96,7 +96,7 @@ public class GimmickUnlockButton : CGimmick
         //クリアすると動かさない
         if (!transform.parent.GetComponent<GimmickUnlockButtonManagement>().isAllClear)
         {
-            if (collision.gameObject.name == "Player1")
+            if (collision.gameObject.name == "Player1" || collision.gameObject.name == "CopyKey")
             {
                 //プレイヤー2が触れていないとき
                 if (!isHitPlayer2)
@@ -139,7 +139,7 @@ public class GimmickUnlockButton : CGimmick
 
     private void OnCollisionExit2D(Collision2D collision)
     {
-        if (collision.gameObject.name == "Player1")
+        if (collision.gameObject.name == "Player1" || collision.gameObject.name == "CopyKey")
         {
             //タイムリミットと回答データ描画終了
             transform.parent.GetComponent<GimmickUnlockButtonManagement>().answerArea.SetActive(false);

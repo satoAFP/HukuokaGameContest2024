@@ -16,6 +16,9 @@ public class GimmickRotateBomb : MonoBehaviourPunCallbacks
 
     [SerializeField, Header("一つの入力にいれるのフレーム")] private int rotateSpeed;
 
+    //コピーキーのみ取得用
+    private GameObject copyKeyObj = null;
+    private string hitObjName = null;
 
     //1P、2Pがそれぞれ当たっている判定
     private bool hitOwner = false;
@@ -173,7 +176,10 @@ public class GimmickRotateBomb : MonoBehaviourPunCallbacks
                 if (displayTimeCount == DisplayTime)
                 {
                     isMoveStart = false;
-                    ManagerAccessor.Instance.dataManager.player1.transform.GetChild(1).gameObject.SetActive(false);
+                    if (hitObjName == "Player1")
+                        ManagerAccessor.Instance.dataManager.player1.transform.GetChild(1).gameObject.SetActive(false);
+                    if (hitObjName == "CopyKey")
+                        copyKeyObj.transform.GetChild(1).gameObject.SetActive(false);
                 }
             }
         }
@@ -197,7 +203,7 @@ public class GimmickRotateBomb : MonoBehaviourPunCallbacks
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.name == "Player1")
+        if (collision.gameObject.name == "Player1" || collision.gameObject.name == "CopyKey")
         {
             //押すべきボタンの画像表示
             if (PhotonNetwork.LocalPlayer.IsMasterClient)
@@ -206,12 +212,14 @@ public class GimmickRotateBomb : MonoBehaviourPunCallbacks
 
                 if (dataManager.isOwnerHitRight)
                 {
+                    Debug.Log("bbb");
                     collision.transform.GetChild(1).gameObject.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = ManagerAccessor.Instance.spriteManager.LStickRight;
                     collision.transform.GetChild(1).gameObject.transform.GetChild(1).gameObject.GetComponent<Animator>().runtimeAnimatorController = ManagerAccessor.Instance.spriteManager.RStickRotateR;
                 }
 
                 if (dataManager.isOwnerHitLeft)
                 {
+                    Debug.Log("aaa");
                     collision.transform.GetChild(1).gameObject.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = ManagerAccessor.Instance.spriteManager.LStickLeft;
                     collision.transform.GetChild(1).gameObject.transform.GetChild(1).gameObject.GetComponent<Animator>().runtimeAnimatorController = ManagerAccessor.Instance.spriteManager.RStickRotateL;
                 }
@@ -250,9 +258,15 @@ public class GimmickRotateBomb : MonoBehaviourPunCallbacks
 
     private void OnCollisionExit2D(Collision2D collision)
     {
-        if (collision.gameObject.name == "Player1")
+        if (collision.gameObject.name == "Player1" || collision.gameObject.name == "CopyKey")
         {
             hitOwner = false;
+            hitObjName = collision.gameObject.name;
+        }
+
+        if (collision.gameObject.name == "CopyKey") 
+        {
+            copyKeyObj = collision.gameObject;
         }
 
         if (collision.gameObject.name == "Player2")

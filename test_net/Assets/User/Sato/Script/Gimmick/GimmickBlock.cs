@@ -93,7 +93,7 @@ public class GimmickBlock : CGimmick
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.name == "Player1")
+        if (collision.gameObject.name == "Player1" || collision.gameObject.name == "CopyKey")
         {
             //押すべきボタンの画像表示
             collision.transform.GetChild(0).gameObject.SetActive(true);
@@ -120,7 +120,7 @@ public class GimmickBlock : CGimmick
         //持ち上げていないとき
         if (!liftMode)
         {
-            if (collision.gameObject.name == "Player1")
+            if (collision.gameObject.name == "Player1" || collision.gameObject.name == "CopyKey")
             {
                 //押すべきボタンの画像表示
                 collision.transform.GetChild(0).gameObject.SetActive(false);
