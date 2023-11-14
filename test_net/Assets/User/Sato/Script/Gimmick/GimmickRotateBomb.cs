@@ -1,11 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
+using Photon.Pun;
 using UnityEngine;
 
-public class GimmickRotateBomb : MonoBehaviour
+public class GimmickRotateBomb : MonoBehaviourPunCallbacks
 {
     //データマネージャー取得用
     DataManager dataManager = null;
+
+    [SerializeField, Header("移動量")] private float MovePower;
+
+    [SerializeField, Header("座標更新タイミング")] private int PosUpData;
+
 
     //1P、2Pがそれぞれ当たっている判定
     private bool hitOwner = false;
@@ -23,11 +29,19 @@ public class GimmickRotateBomb : MonoBehaviour
     //順番に入力されるとカウントされる
     private int count = 0;
 
+    //移動方向
+    private Vector3 movePower = Vector3.zero;
+
+    //移動開始
+    private bool isMoveStart = false;
+
+    //frameカウント
+    private int frameCount = 0;
+
 
     //連続で入らないため
     private bool first = true;
 
-    
 
     // Update is called once per frame
     void Update()
@@ -35,13 +49,13 @@ public class GimmickRotateBomb : MonoBehaviour
         //データマネージャー取得
         dataManager = ManagerAccessor.Instance.dataManager;
 
-        Debug.Log(count);
 
         //入力されていない時全てを初期化する
         if (!dataManager.isOwnerInputKey_C_R_RIGHT && !dataManager.isOwnerInputKey_C_R_LEFT &&
             !dataManager.isOwnerInputKey_C_R_UP && !dataManager.isOwnerInputKey_C_R_DOWN)
         {
             count = 0;
+            isMoveStart = false;
             isStop = true;
             first = true;
 
@@ -102,21 +116,44 @@ public class GimmickRotateBomb : MonoBehaviour
         if (hitOwner && hitClient && dataManager.isOwnerHitRight && dataManager.isClientHitRight)
         {
             RightRotate();
+            movePower.x = MovePower;
         }
         else if (hitOwner && hitClient && dataManager.isOwnerHitLeft && dataManager.isClientHitLeft)
         {
             LeftRotate();
+            movePower.x = -MovePower;
         }
 
         //想定の反対方向に回転した時リセット用
         if (count - memCount == 2)
+        {
+            isMoveStart = false;
             count = 0;
+        }
+
 
         //正しく回転した時
         if (count >= 4)
         {
-            transform.position += new Vector3(-0.1f, 0, 0);
+            isMoveStart = true;
             count = 0;
+        }
+
+        //移動開始
+        if (isMoveStart)
+        {
+            transform.position += movePower;
+            frameCount++;
+        }
+
+        //座標同期
+        if (PhotonNetwork.LocalPlayer.IsMasterClient)
+        {
+            if (frameCount == PosUpData)
+            {
+                photonView.RPC(nameof(RpcSharePos), RpcTarget.Others, transform.position.x, transform.position.y);
+                frameCount = 0;
+            }
         }
 
     }
@@ -126,8 +163,23 @@ public class GimmickRotateBomb : MonoBehaviour
         if (collision.gameObject.name == "Player1")
         {
             //押すべきボタンの画像表示
-            collision.transform.GetChild(0).gameObject.SetActive(true);
-            collision.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = ManagerAccessor.Instance.spriteManager.ArrowRight;
+            if (PhotonNetwork.LocalPlayer.IsMasterClient)
+            {
+                collision.transform.GetChild(1).gameObject.SetActive(true);
+
+                if (dataManager.isOwnerHitRight)
+                {
+                    collision.transform.GetChild(1).gameObject.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = ManagerAccessor.Instance.spriteManager.RStickRight;
+                    collision.transform.GetChild(1).gameObject.transform.GetChild(1).gameObject.GetComponent<Animator>().runtimeAnimatorController = ManagerAccessor.Instance.spriteManager.RStickRotateR;
+                }
+
+                if (dataManager.isOwnerHitLeft)
+                {
+                    collision.transform.GetChild(1).gameObject.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = ManagerAccessor.Instance.spriteManager.RStickLeft;
+                    collision.transform.GetChild(1).gameObject.transform.GetChild(1).gameObject.GetComponent<Animator>().runtimeAnimatorController = ManagerAccessor.Instance.spriteManager.RStickRotateL;
+                }
+
+            }
 
             hitOwner = true;
         }
@@ -136,7 +188,18 @@ public class GimmickRotateBomb : MonoBehaviour
         {
             //押すべきボタンの画像表示
             collision.transform.GetChild(0).gameObject.SetActive(true);
-            collision.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = ManagerAccessor.Instance.spriteManager.ArrowRight;
+
+            if (dataManager.isOwnerHitRight)
+            {
+                collision.transform.GetChild(1).gameObject.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = ManagerAccessor.Instance.spriteManager.RStickRight;
+                collision.transform.GetChild(1).gameObject.transform.GetChild(1).gameObject.GetComponent<Animator>().runtimeAnimatorController = ManagerAccessor.Instance.spriteManager.RStickRotateR;
+            }
+
+            if (dataManager.isOwnerHitLeft)
+            {
+                collision.transform.GetChild(1).gameObject.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = ManagerAccessor.Instance.spriteManager.RStickLeft;
+                collision.transform.GetChild(1).gameObject.transform.GetChild(1).gameObject.GetComponent<Animator>().runtimeAnimatorController = ManagerAccessor.Instance.spriteManager.RStickRotateL;
+            }
 
             hitClient = true;
         }
@@ -241,10 +304,11 @@ public class GimmickRotateBomb : MonoBehaviour
             isDown = false;
             isRight = true;
         }
-
-        
-        
     }
 
-
+    [PunRPC]
+    private void RpcSharePos(float x, float y)
+    {
+        transform.position = new Vector3(x, y, 0);
+    }
 }

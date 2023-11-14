@@ -56,4 +56,15 @@ MonoBehaviour:
   R2: {fileID: 21300000, guid: 9c84c8dacb97bc746bd4d04bebc98eac, type: 3}
   L1: {fileID: 21300000, guid: b19c098d66a9b0a418e7ff4769dd8db7, type: 3}
   L2: {fileID: 21300000, guid: 027d82e63fe6edd4a8384e5b7dfb9a17, type: 3}
-  StickR: {fileID: 21300000, guid: 9d64989d685b5c84ab79c510416b3d8e, type: 3}
+  RStick: {fileID: 21300000, guid: 9d64989d685b5c84ab79c510416b3d8e, type: 3}
+  RStickRight: {fileID: 21300000, guid: c1b1186b632d44641bfbe457eec64202, type: 3}
+  RStickLeft: {fileID: 21300000, guid: b66f23a6b813d5d488ed36c2472007f7, type: 3}
+  RStickUp: {fileID: 21300000, guid: 7383ddc8a57fbd844b9537a5b2b7c8ae, type: 3}
+  RStickDown: {fileID: 21300000, guid: e9584e7fd5ddfd24b9626b32907b72dd, type: 3}
+  LStick: {fileID: 21300000, guid: 04ee52f7457ced346a46c32fda05d2c4, type: 3}
+  LStickRight: {fileID: 21300000, guid: e81b9631d3029204db22bece2c93f264, type: 3}
+  LStickLeft: {fileID: 21300000, guid: 0496a9f313cf0954e90b03e39fb3dbff, type: 3}
+  LStickUp: {fileID: 21300000, guid: 1391bfd0a9d27aa44b4a3ff7c1821855, type: 3}
+  LStickDown: {fileID: 21300000, guid: b4c2d39e586cb4b458a2b375169c556e, type: 3}
+  RStickRotateR: {fileID: 9100000, guid: 247ac7ba935bd2942be02d25643f8407, type: 2}
+  RStickRotateL: {fileID: 9100000, guid: 7a6bd240395947b428aca40d03292339, type: 2}
