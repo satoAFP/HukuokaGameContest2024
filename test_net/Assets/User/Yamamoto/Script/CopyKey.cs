@@ -103,6 +103,7 @@ public class CopyKey : MonoBehaviourPunCallbacks
     //ジャンプ
     public void Onjump(InputAction.CallbackContext context)
     {
+
         if (!ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().keymovelock
             && ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().choicecursor == "CopyKey")//カーソルが鍵を選択している時
         {
@@ -118,21 +119,26 @@ public class CopyKey : MonoBehaviourPunCallbacks
                     {
                         return;
                     }
+                    else
+                    {
+                        rigid.AddForce(Vector2.up * jumpSpeed, ForceMode2D.Impulse);
+                        bjump = true;//一度ジャンプしたら着地するまでジャンプできなくする
+                    }
 
 
                 }
             }
 
-            //Input Systemからジャンプの入力があった時に呼ばれる
-            if (!context.performed || bjump)
-            {
-                return;
-            }
-            else
-            {
-                rigid.AddForce(Vector2.up * jumpSpeed, ForceMode2D.Impulse);
-                bjump = true;//一度ジャンプしたら着地するまでジャンプできなくする
-            }
+            ////Input Systemからジャンプの入力があった時に呼ばれる
+            //if (!context.performed || bjump)
+            //{
+            //    return;
+            //}
+            //else
+            //{
+            //    rigid.AddForce(Vector2.up * jumpSpeed, ForceMode2D.Impulse);
+            //    bjump = true;//一度ジャンプしたら着地するまでジャンプできなくする
+            //}
 
         }
     }
