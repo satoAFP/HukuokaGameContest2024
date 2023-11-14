@@ -38,15 +38,15 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
     private bool CK_instantiatefirst = true;//連続でアイテムを生成させない(鍵）
 
-    [System.NonSerialized] public bool boxopen = false;//箱の開閉時の画像変更フラグ
+    [System.NonSerialized] public bool boxopen = false;//箱の開閉を許可するフラグ
 
     [System.NonSerialized] public bool cursorlock = true;//UIカーソルの移動を制限する
 
     [System.NonSerialized] public string choicecursor;//UIカーソルが現在選択している生成可能アイテム
 
-    public bool generatestop = false;//生成を制御する
+    [System.NonSerialized] public bool generatestop = false;//生成を制御する
 
-    public bool keymovelock = false;//生成した鍵の移動を制御
+    [System.NonSerialized] public bool keymovelock = false;//生成した鍵の移動を制御
 
     //入力された方向を入れる変数
     private Vector2 inputDirection;
@@ -158,8 +158,19 @@ public class PlayerController : MonoBehaviourPunCallbacks
                 //プレイヤー1（箱）の移動が制限されているとき（箱が空いている時）
                 if(movelock)
                 {
-                    //コントローラーの下ボタンを押したとき箱を閉じる
-                    if (datamanager.isOwnerInputKey_CA)
+                    //生成アイテムがマップ上にないときのみ箱を閉じる（移動制限解除）
+                    if (currentBoardObject == null &&
+                         currentCopyKeyObject == null)
+                    {
+                        boxopen = true;
+                    }
+                    else
+                    {
+                        boxopen = false;
+                    }
+
+                        //コントローラーの下ボタンを押したとき箱を閉じる
+                        if (datamanager.isOwnerInputKey_CA)
                     {
                         //箱を閉じて移動ロックを解除
                         if (gameObject.name == "Player1" && boxopen)
@@ -263,7 +274,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
                 //同時に上ボタンを押していないときは画像を元に戻す
                 if (gameObject.name == "Player1"&& boxopen)
                 {
-                    Debug.Log("おぺん22");
+                   // Debug.Log("おぺん22");
                     GetComponent<SpriteRenderer>().sprite = p1Image;
                     boxopen = false;
                 }
@@ -367,21 +378,4 @@ public class PlayerController : MonoBehaviourPunCallbacks
             }
         }
     }
-
-    //箱の蓋を閉める
-    public void OnBoxClose(InputAction.CallbackContext context)
-    {
-      
-    }
-
-    //箱オープン
-    public void OnOpenAction(InputAction.CallbackContext context)
-    {
-        //操作が競合しないための設定
-        if (photonView.IsMine)
-        {
-            Debug.Log("箱開ける");
-        }
-    }
-
 }
