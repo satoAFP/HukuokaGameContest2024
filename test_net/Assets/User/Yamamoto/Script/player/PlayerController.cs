@@ -123,6 +123,18 @@ public class PlayerController : MonoBehaviourPunCallbacks
             //    if (ManagerAccessor.Instance.dataManager.player1 != null)
             //        ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().islift = islift;
 
+            //プレイヤーの左右の向きを変える
+            if(left)
+            {
+                Debug.Log("左いいいい");
+                transform.localScale = new Vector3(-1.0f, 1.0f, 1.0f);
+            }
+            else
+            {
+                Debug.Log("右いいいい");
+                transform.localScale = new Vector3( 1.0f, 1.0f, 1.0f);
+            }
+
             //持ち上げていないときは普通に移動させる
             if (!islift)
             {
@@ -175,8 +187,8 @@ public class PlayerController : MonoBehaviourPunCallbacks
                         boxopen = false;
                     }
 
-                        //コントローラーの下ボタンを押したとき箱を閉じる
-                        if (datamanager.isOwnerInputKey_CA)
+                    //コントローラーの下ボタンを押したとき箱を閉じる
+                    if (datamanager.isOwnerInputKey_CA)
                     {
                         //箱を閉じて移動ロックを解除
                         if (gameObject.name == "Player1" && boxopen)
@@ -247,6 +259,19 @@ public class PlayerController : MonoBehaviourPunCallbacks
         }
         else
         {
+
+            //プレイヤーの左右の向きを変える
+            if (left)
+            {
+                Debug.Log("player2の左");
+                transform.localScale = new Vector3(-1.0f, 1.0f, 1.0f);
+            }
+            else
+            {
+                Debug.Log("player2の右");
+                transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+            }
+
             //持ち上げている時は2プレイヤーが同じ移動方向を入力時移動
             if ((datamanager.isOwnerInputKey_C_L_RIGHT && datamanager.isClientInputKey_C_L_RIGHT) ||
                (datamanager.isOwnerInputKey_C_L_LEFT && datamanager.isClientInputKey_C_L_LEFT))
@@ -290,14 +315,10 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
         //各プレイヤーの現在座標を取得
         p1pos = ManagerAccessor.Instance.dataManager.player1.transform.position;
-        //Debug.Log("p1現在地=" + p1pos);
+
         if (ManagerAccessor.Instance.dataManager.player2 != null)
             p2pos = ManagerAccessor.Instance.dataManager.player2.transform.position;
-        //Debug.Log("p2現在地=" + p2pos);
-
-        // Debug.Log(Mathf.Abs(p1pos.x - p2pos.x));
-
-
+      
         //箱と鍵の二点間距離を取って一定の値なら箱オープン可能
         if (Mathf.Abs(p1pos.x - p2pos.x) < 1.0f)
         {
@@ -326,17 +347,33 @@ public class PlayerController : MonoBehaviourPunCallbacks
         //プレイヤーが入力した方向に横方向限定で移動速度分の力を加える
         rigid.velocity = new Vector2(inputDirection.x * moveSpeed, rigid.velocity.y);
         //Debug.Log(inputDirection.x);
+
         //移動方向によって画像の向きを変える
-        if(inputDirection.x < 0)
+
+        if (PhotonNetwork.LocalPlayer.IsMasterClient)
         {
-           // left = true;
-            transform.localScale = new Vector3(-1.0f, 1.0f, 1.0f);
+            if (inputDirection.x < 0)
+            {
+                left = true;
+            }
+            else
+            {
+                left = false;
+            }
         }
         else
         {
-            //left = false;
-            transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+            if (inputDirection.x < 0)
+            {
+                left = true;
+            }
+            else
+            {
+                left = false;
+            }
         }
+            
+
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
