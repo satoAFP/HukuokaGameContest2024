@@ -387,6 +387,10 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 6515d2cb-1d55-41bf-b0e1-15a38ce9f394
     m_ActionName: UI/TrackedDeviceOrientation
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: c61a7bb8-c30c-4326-9351-9c666c3f6d97
+    m_ActionName: Player/RightStick
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -406,3 +410,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 5
   jumpSpeed: 6
+  collecttime: 60
+  holdtime: 0
