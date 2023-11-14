@@ -5,6 +5,7 @@ using Photon.Pun;
 
 public class GimmickFly : MonoBehaviourPunCallbacks
 {
+
     [SerializeField, Header("à⁄ìÆó ")]
     private float MovePower;
 
@@ -51,12 +52,6 @@ public class GimmickFly : MonoBehaviourPunCallbacks
     private bool OwnerCoolTimeFirst = true;
     private bool ClientCoolTimeFirst = true;
 
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
     // Update is called once per frame
     void FixedUpdate()
@@ -227,17 +222,19 @@ public class GimmickFly : MonoBehaviourPunCallbacks
                 startFirst = true;
         }
 
+
         //èÊÇ¡ÇƒÇ¢ÇÈÇ∆Ç´ÇÃâÊëúÇÃï\é¶
         if (isOwnerStart)
             transform.GetChild(0).gameObject.SetActive(true);
         else
             transform.GetChild(0).gameObject.SetActive(false);
-
         if (isClientStart)
             transform.GetChild(1).gameObject.SetActive(true);
         else
             transform.GetChild(1).gameObject.SetActive(false);
 
+
+        
 
         if (isStart)
         {
@@ -354,7 +351,7 @@ public class GimmickFly : MonoBehaviourPunCallbacks
     }
 
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
         if (PhotonNetwork.LocalPlayer.IsMasterClient)
         {
@@ -380,7 +377,7 @@ public class GimmickFly : MonoBehaviourPunCallbacks
         }
     }
 
-    private void OnCollisionExit2D(Collision2D collision)
+    private void OnTriggerExit2D(Collider2D collision)
     {
         if (PhotonNetwork.LocalPlayer.IsMasterClient)
         {
@@ -431,4 +428,5 @@ public class GimmickFly : MonoBehaviourPunCallbacks
     {
         isClientStart = data;
     }
+
 }

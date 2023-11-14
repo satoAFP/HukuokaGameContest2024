@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 2864375563346277397}
   m_Layer: 0
   m_Name: UnlockButton1
-  m_TagString: Untagged
+  m_TagString: Gimmick
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -273,7 +273,7 @@ GameObject:
   - component: {fileID: 2864375564980447827}
   m_Layer: 0
   m_Name: UnlockButton
-  m_TagString: Untagged
+  m_TagString: Gimmick
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -480,13 +480,10 @@ MonoBehaviour:
   - {fileID: 2864375563346277401}
   door: {fileID: 2864375564935759737}
   answerArea: {fileID: 0}
+  timeLimitSlider: {fileID: 0}
   initAnswer: {fileID: 5860324809959214315, guid: 9b3d740786234914186ce479d06c9b74, type: 3}
   inputKey: 5
   timetext: {fileID: 0}
   timeLimit: 200
   isHideAnswer: 0
   isWhareHideAnswer: 
-  isStartCount: 0
-  isOwnerClear: 0
-  isClientClear: 0
-  isAllClear: 0

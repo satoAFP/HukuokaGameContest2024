@@ -39,9 +39,12 @@ public class DataManager : MonoBehaviourPunCallbacks
     [System.NonSerialized] public bool isDeth = false;
 
     //左右下判定
-    [System.NonSerialized] public bool isHitRight = false;
-    [System.NonSerialized] public bool isHitLeft = false;
-    [System.NonSerialized] public bool isHitDown = false;
+    [System.NonSerialized] public bool isOwnerHitRight = false;
+    [System.NonSerialized] public bool isClientHitRight = false;
+    [System.NonSerialized] public bool isOwnerHitLeft = false;
+    [System.NonSerialized] public bool isClientHitLeft = false;
+    [System.NonSerialized] public bool isOwnerHitDown = false;
+    [System.NonSerialized] public bool isClientHitDown = false;
 
 
     //キー入力情報(マスター)
