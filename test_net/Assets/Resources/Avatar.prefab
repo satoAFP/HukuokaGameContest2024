@@ -975,9 +975,6 @@ MonoBehaviour:
   copykeyobj: {fileID: 3734986411308915629, guid: 5cdc0e7ef43ad0f4089747d0a16345ae, type: 3}
   currentBoardObject: {fileID: 0}
   currentCopyKeyObject: {fileID: 0}
-  generatestop: 0
-  keymovelock: 0
-  operation_order: []
 --- !u!114 &5643572740733532904
 MonoBehaviour:
   m_ObjectHideFlags: 0

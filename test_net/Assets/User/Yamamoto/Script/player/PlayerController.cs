@@ -369,16 +369,17 @@ public class PlayerController : MonoBehaviourPunCallbacks
         if (!ManagerAccessor.Instance.dataManager.isUnlockButtonStart && !movelock && !isFly) 
         {
             //Input Systemからジャンプの入力があった時に呼ばれる
+            //連続でジャンプできないようにする
             if(PhotonNetwork.LocalPlayer.IsMasterClient)
             {
-                if (!context.performed || ManagerAccessor.Instance.dataManager.isOwnerHitDown)
+                if (!context.performed || !ManagerAccessor.Instance.dataManager.isOwnerHitDown)
                 {
                     return;
                 }
             }
             else
             {
-                if (!context.performed || ManagerAccessor.Instance.dataManager.isClientHitDown)
+                if (!context.performed || !ManagerAccessor.Instance.dataManager.isClientHitDown)
                 {
                     return;
                 }
