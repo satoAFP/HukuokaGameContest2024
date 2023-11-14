@@ -34,6 +34,8 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
     private bool movelock = false;//移動処理を停止させる
 
+    private bool left = false;//左向きに移動したときのフラグ
+
     private bool B_instantiatefirst = true;//連続でアイテムを生成させない(板）
 
     private bool CK_instantiatefirst = true;//連続でアイテムを生成させない(鍵）
@@ -104,8 +106,8 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
         DataManager datamanager = ManagerAccessor.Instance.dataManager;
 
-        Debug.Log("isOwnerHitDown=" + ManagerAccessor.Instance.dataManager.isOwnerHitDown);
-        Debug.Log("isClientHitDown=" + ManagerAccessor.Instance.dataManager.isClientHitDown);
+        //Debug.Log("isOwnerHitDown=" + ManagerAccessor.Instance.dataManager.isOwnerHitDown);
+        //Debug.Log("isClientHitDown=" + ManagerAccessor.Instance.dataManager.isClientHitDown);
 
 
         //操作が競合しないための設定
@@ -323,6 +325,18 @@ public class PlayerController : MonoBehaviourPunCallbacks
     {
         //プレイヤーが入力した方向に横方向限定で移動速度分の力を加える
         rigid.velocity = new Vector2(inputDirection.x * moveSpeed, rigid.velocity.y);
+        //Debug.Log(inputDirection.x);
+        //移動方向によって画像の向きを変える
+        if(inputDirection.x < 0)
+        {
+           // left = true;
+            transform.localScale = new Vector3(-1.0f, 1.0f, 1.0f);
+        }
+        else
+        {
+            //left = false;
+            transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -353,6 +367,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
                 Debug.Log("スティック動かして移動している");
                 //移動方向の入力情報がInputdirectionの中に入るようになる
                 inputDirection = context.ReadValue<Vector2>();
+
             }
 
         }
