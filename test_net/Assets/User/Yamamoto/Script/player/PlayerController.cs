@@ -170,6 +170,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
                     {
                         if(firstboxopen)
                         {
+                            //boxopen関数を共有する
                             photonView.RPC(nameof(RpcShareBoxOpen), RpcTarget.All,true);
                             firstboxopen = false;
                         }
@@ -179,6 +180,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
                     {
                         if (!firstboxopen)
                         {
+                            //boxopen関数を共有する
                             photonView.RPC(nameof(RpcShareBoxOpen), RpcTarget.All, false);
                             firstboxopen = true;
                         }
@@ -188,11 +190,10 @@ public class PlayerController : MonoBehaviourPunCallbacks
                     //コントローラーの下ボタンを押したとき箱を閉じる
                     if (datamanager.isOwnerInputKey_CA)
                     {
-                        Debug.Log("boxopen" + boxopen);
                         //箱を閉じて移動ロックを解除
                         if (gameObject.name == "Player1" && boxopen)
                         {
-                            Debug.Log("おぺん");
+                            //Debug.Log("おぺん");
                             GetComponent<SpriteRenderer>().sprite = p1Image;
                             cursorlock = true;//カーソル移動を止める
                             movelock = false;
@@ -306,11 +307,11 @@ public class PlayerController : MonoBehaviourPunCallbacks
                 //コントローラーの下ボタンを押したとき箱処理中断（相手側）
                 if (datamanager.isOwnerInputKey_CA)
                 {
-                    Debug.Log("boxopen" + boxopen);
+
                     //同時に上ボタンを押していないときは画像を元に戻す
                     if (gameObject.name == "Player1" && boxopen)
                     {
-                        Debug.Log("おぺん22");
+                       // Debug.Log("おぺん22");
                         GetComponent<SpriteRenderer>().sprite = p1Image;
                         boxopen = false;
                     }
@@ -457,6 +458,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
     }
 
     [PunRPC]
+    //boxopen変数を共有する
     private void RpcShareBoxOpen(bool data)
     {
         boxopen = data;
