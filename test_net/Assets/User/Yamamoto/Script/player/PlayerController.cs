@@ -292,7 +292,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
                 //“¯‚Éãƒ{ƒ^ƒ“‚ğ‰Ÿ‚µ‚Ä‚¢‚È‚¢‚Æ‚«‚Í‰æ‘œ‚ğŒ³‚É–ß‚·
                 if (gameObject.name == "Player1"&& boxopen)
                 {
-                   // Debug.Log("‚¨‚Ø‚ñ22");
+                    Debug.Log("‚¨‚Ø‚ñ22");
                     GetComponent<SpriteRenderer>().sprite = p1Image;
                     boxopen = false;
                 }
