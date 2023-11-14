@@ -106,23 +106,9 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
         DataManager datamanager = ManagerAccessor.Instance.dataManager;
 
-        //Debug.Log("isOwnerHitDown=" + ManagerAccessor.Instance.dataManager.isOwnerHitDown);
-        //Debug.Log("isClientHitDown=" + ManagerAccessor.Instance.dataManager.isClientHitDown);
-
-
         //操作が競合しないための設定
         if (photonView.IsMine)
         {
-            ////1Pの画面の2Pの情報更新
-            //if (PhotonNetwork.LocalPlayer.IsMasterClient)
-            //    if (ManagerAccessor.Instance.dataManager.player2 != null)
-            //        ManagerAccessor.Instance.dataManager.player2.GetComponent<PlayerController>().islift = islift;
-
-            ////1Pの画面の2Pの情報更新
-            //if (!PhotonNetwork.LocalPlayer.IsMasterClient)
-            //    if (ManagerAccessor.Instance.dataManager.player1 != null)
-            //        ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().islift = islift;
-
             //プレイヤーの左右の向きを変える
             if(left)
             {
@@ -197,6 +183,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
                             GetComponent<SpriteRenderer>().sprite = p1Image;
                             cursorlock = true;//カーソル移動を止める
                             movelock = false;
+                            GetComponent<PlayerGetHitObjTagManagement>().isMotion = true;//箱の周りの判定をとるのを再開
                         }
                     }
                   
@@ -332,6 +319,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
                     GetComponent<SpriteRenderer>().sprite = p1OpenImage;
                     movelock = true;//箱の移動を制限
                     cursorlock = false;//UIカーソル移動を許可
+                    GetComponent<PlayerGetHitObjTagManagement>().isMotion = false;//箱の周りの判定をとるのをやめる
                 }
 
             }
