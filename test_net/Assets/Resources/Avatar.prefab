@@ -323,8 +323,6 @@ MonoBehaviour:
   copykeyobj: {fileID: 3734986411308915629, guid: 5cdc0e7ef43ad0f4089747d0a16345ae, type: 3}
   currentBoardObject: {fileID: 0}
   currentCopyKeyObject: {fileID: 0}
-  generatestop: 0
-  keymovelock: 0
 --- !u!114 &5643572740733532904
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -834,6 +832,10 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 670ad395-e74f-4430-b526-ee0858dbfe8b
     m_ActionName: Player/Down_D_PadRelease[/DualShock4GamepadHID/dpad/down]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: c61a7bb8-c30c-4326-9351-9c666c3f6d97
+    m_ActionName: Player/RightStick[/DualShock4GamepadHID/rightStick]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Gamepad
   m_DefaultActionMap: Player

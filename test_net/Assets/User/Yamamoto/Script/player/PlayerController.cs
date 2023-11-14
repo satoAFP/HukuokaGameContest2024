@@ -104,6 +104,10 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
         DataManager datamanager = ManagerAccessor.Instance.dataManager;
 
+        Debug.Log("isOwnerHitDown=" + ManagerAccessor.Instance.dataManager.isOwnerHitDown);
+        Debug.Log("isClientHitDown=" + ManagerAccessor.Instance.dataManager.isClientHitDown);
+
+
         //‘€ì‚ª‹£‡‚µ‚È‚¢‚½‚ß‚Ìİ’è
         if (photonView.IsMine)
         {
@@ -365,10 +369,21 @@ public class PlayerController : MonoBehaviourPunCallbacks
         if (!ManagerAccessor.Instance.dataManager.isUnlockButtonStart && !movelock && !isFly) 
         {
             //Input System‚©‚çƒWƒƒƒ“ƒv‚Ì“ü—Í‚ª‚ ‚Á‚½‚ÉŒÄ‚Î‚ê‚é
-            if (!context.performed || bjump)
+            if(PhotonNetwork.LocalPlayer.IsMasterClient)
             {
-                return;
+                if (!context.performed || ManagerAccessor.Instance.dataManager.isOwnerHitDown)
+                {
+                    return;
+                }
             }
+            else
+            {
+                if (!context.performed || ManagerAccessor.Instance.dataManager.isClientHitDown)
+                {
+                    return;
+                }
+            }
+           
 
             //‘€ì‚ª‹£‡‚µ‚È‚¢‚½‚ß‚Ìİ’è
             if (photonView.IsMine)
