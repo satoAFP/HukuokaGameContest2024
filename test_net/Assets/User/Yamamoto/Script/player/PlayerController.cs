@@ -289,29 +289,33 @@ public class PlayerController : MonoBehaviourPunCallbacks
                 distanceFirst = true;
             }
 
-            //生成アイテムがマップ上にないときのみ箱を閉じる（移動制限解除）
-            if (currentBoardObject == null &&
-                 currentCopyKeyObject == null)
+            if (movelock)
             {
-                boxopen = true;
-            }
-            else
-            {
-                boxopen = false;
-            }
-
-            //コントローラーの下ボタンを押したとき箱処理中断（相手側）
-            if (datamanager.isOwnerInputKey_CA &&　movelock)
-            {
-                Debug.Log("boxopen" + boxopen);
-                //同時に上ボタンを押していないときは画像を元に戻す
-                if (gameObject.name == "Player1"&& boxopen)
+                //生成アイテムがマップ上にないときのみ箱を閉じる（移動制限解除）
+                if (currentBoardObject == null &&
+                     currentCopyKeyObject == null)
                 {
-                    Debug.Log("おぺん22");
-                    GetComponent<SpriteRenderer>().sprite = p1Image;
+                    boxopen = true;
+                }
+                else
+                {
                     boxopen = false;
                 }
+
+                //コントローラーの下ボタンを押したとき箱処理中断（相手側）
+                if (datamanager.isOwnerInputKey_CA)
+                {
+                    Debug.Log("boxopen" + boxopen);
+                    //同時に上ボタンを押していないときは画像を元に戻す
+                    if (gameObject.name == "Player1" && boxopen)
+                    {
+                        Debug.Log("おぺん22");
+                        GetComponent<SpriteRenderer>().sprite = p1Image;
+                        boxopen = false;
+                    }
+                }
             }
+            
          
         }
 
