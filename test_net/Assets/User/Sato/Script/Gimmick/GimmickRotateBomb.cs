@@ -12,6 +12,10 @@ public class GimmickRotateBomb : MonoBehaviourPunCallbacks
 
     [SerializeField, Header("座標更新タイミング")] private int PosUpData;
 
+    [SerializeField, Header("ボタン表示終了までのフレーム")] private int DisplayTime;
+
+    [SerializeField, Header("一つの入力にいれるのフレーム")] private int rotateSpeed;
+
 
     //1P、2Pがそれぞれ当たっている判定
     private bool hitOwner = false;
@@ -38,6 +42,11 @@ public class GimmickRotateBomb : MonoBehaviourPunCallbacks
     //frameカウント
     private int frameCount = 0;
 
+    //点滅しないためのボタン表示が消えるまでのラグカウント
+    private int displayTimeCount = 0;
+
+    //回転速度を図るためのカウント
+    private int rotateSpeedCount = 0;
 
     //連続で入らないため
     private bool first = true;
@@ -55,6 +64,7 @@ public class GimmickRotateBomb : MonoBehaviourPunCallbacks
             !dataManager.isOwnerInputKey_C_R_UP && !dataManager.isOwnerInputKey_C_R_DOWN)
         {
             count = 0;
+            rotateSpeedCount = 0;
             isMoveStart = false;
             isStop = true;
             first = true;
@@ -146,15 +156,42 @@ public class GimmickRotateBomb : MonoBehaviourPunCallbacks
             frameCount++;
         }
 
-        //座標同期
+        
         if (PhotonNetwork.LocalPlayer.IsMasterClient)
         {
+            //座標同期
             if (frameCount == PosUpData)
             {
                 photonView.RPC(nameof(RpcSharePos), RpcTarget.Others, transform.position.x, transform.position.y);
                 frameCount = 0;
             }
+
+            //画像の非表示のラグを発生させる
+            if(!hitOwner)
+            {
+                displayTimeCount++;
+                if (displayTimeCount == DisplayTime)
+                {
+                    isMoveStart = false;
+                    ManagerAccessor.Instance.dataManager.player1.transform.GetChild(1).gameObject.SetActive(false);
+                }
+            }
         }
+        else
+        {
+            //画像の非表示のラグを発生させる
+            if (!hitClient)
+            {
+                displayTimeCount++;
+                if (displayTimeCount == DisplayTime)
+                {
+                    isMoveStart = false;
+                    ManagerAccessor.Instance.dataManager.player2.transform.GetChild(1).gameObject.SetActive(false);
+                }
+            }
+        }
+
+        
 
     }
 
@@ -169,39 +206,44 @@ public class GimmickRotateBomb : MonoBehaviourPunCallbacks
 
                 if (dataManager.isOwnerHitRight)
                 {
-                    collision.transform.GetChild(1).gameObject.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = ManagerAccessor.Instance.spriteManager.RStickRight;
+                    collision.transform.GetChild(1).gameObject.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = ManagerAccessor.Instance.spriteManager.LStickRight;
                     collision.transform.GetChild(1).gameObject.transform.GetChild(1).gameObject.GetComponent<Animator>().runtimeAnimatorController = ManagerAccessor.Instance.spriteManager.RStickRotateR;
                 }
 
                 if (dataManager.isOwnerHitLeft)
                 {
-                    collision.transform.GetChild(1).gameObject.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = ManagerAccessor.Instance.spriteManager.RStickLeft;
+                    collision.transform.GetChild(1).gameObject.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = ManagerAccessor.Instance.spriteManager.LStickLeft;
                     collision.transform.GetChild(1).gameObject.transform.GetChild(1).gameObject.GetComponent<Animator>().runtimeAnimatorController = ManagerAccessor.Instance.spriteManager.RStickRotateL;
                 }
 
             }
 
             hitOwner = true;
+            displayTimeCount = 0;
         }
 
         if (collision.gameObject.name == "Player2")
         {
             //押すべきボタンの画像表示
-            collision.transform.GetChild(0).gameObject.SetActive(true);
-
-            if (dataManager.isOwnerHitRight)
+            if (!PhotonNetwork.LocalPlayer.IsMasterClient)
             {
-                collision.transform.GetChild(1).gameObject.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = ManagerAccessor.Instance.spriteManager.RStickRight;
-                collision.transform.GetChild(1).gameObject.transform.GetChild(1).gameObject.GetComponent<Animator>().runtimeAnimatorController = ManagerAccessor.Instance.spriteManager.RStickRotateR;
-            }
+                collision.transform.GetChild(1).gameObject.SetActive(true);
 
-            if (dataManager.isOwnerHitLeft)
-            {
-                collision.transform.GetChild(1).gameObject.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = ManagerAccessor.Instance.spriteManager.RStickLeft;
-                collision.transform.GetChild(1).gameObject.transform.GetChild(1).gameObject.GetComponent<Animator>().runtimeAnimatorController = ManagerAccessor.Instance.spriteManager.RStickRotateL;
+                if (dataManager.isClientHitRight)
+                {
+                    collision.transform.GetChild(1).gameObject.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = ManagerAccessor.Instance.spriteManager.LStickRight;
+                    collision.transform.GetChild(1).gameObject.transform.GetChild(1).gameObject.GetComponent<Animator>().runtimeAnimatorController = ManagerAccessor.Instance.spriteManager.RStickRotateR;
+                }
+
+                if (dataManager.isClientHitLeft)
+                {
+                    collision.transform.GetChild(1).gameObject.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = ManagerAccessor.Instance.spriteManager.LStickLeft;
+                    collision.transform.GetChild(1).gameObject.transform.GetChild(1).gameObject.GetComponent<Animator>().runtimeAnimatorController = ManagerAccessor.Instance.spriteManager.RStickRotateL;
+                }
             }
 
             hitClient = true;
+            displayTimeCount = 0;
         }
     }
 
@@ -210,17 +252,11 @@ public class GimmickRotateBomb : MonoBehaviourPunCallbacks
     {
         if (collision.gameObject.name == "Player1")
         {
-            //押すべきボタンの画像表示
-            collision.transform.GetChild(0).gameObject.SetActive(false);
-
             hitOwner = false;
         }
 
         if (collision.gameObject.name == "Player2")
         {
-            //押すべきボタンの画像表示
-            collision.transform.GetChild(0).gameObject.SetActive(false);
-
             hitClient = false;
         }
     }
@@ -228,81 +264,161 @@ public class GimmickRotateBomb : MonoBehaviourPunCallbacks
     //右回転処理
     private void RightRotate()
     {
-        if (dataManager.isOwnerInputKey_C_R_RIGHT && isRight)
+        if (dataManager.isOwnerInputKey_C_R_RIGHT)
         {
             if (isRight)
+            {
                 count++;
+                rotateSpeedCount = 0;
 
-            isRight = false;
-            isDown = true;
+                isRight = false;
+                isDown = true;
+            }
+
+            //一定時間動かさないと回転していないとみなされる
+            rotateSpeedCount++;
+            if (rotateSpeedCount == rotateSpeed)
+            {
+                count = 0;
+            }
         }
 
-        if (dataManager.isOwnerInputKey_C_R_DOWN && isDown)
+        if (dataManager.isOwnerInputKey_C_R_DOWN)
         {
             if (isDown)
+            {
                 count++;
+                rotateSpeedCount = 0;
 
-            isDown = false;
-            isLeft = true;
+                isDown = false;
+                isLeft = true;
+            }
+
+            //一定時間動かさないと回転していないとみなされる
+            rotateSpeedCount++;
+            if (rotateSpeedCount == rotateSpeed)
+            {
+                count = 0;
+            }
         }
 
-        if (dataManager.isOwnerInputKey_C_R_LEFT && isLeft)
+        if (dataManager.isOwnerInputKey_C_R_LEFT)
         {
             if (isLeft)
+            {
                 count++;
+                rotateSpeedCount = 0;
 
-            isLeft = false;
-            isUp = true;
+                isLeft = false;
+                isUp = true;
+            }
+
+            //一定時間動かさないと回転していないとみなされる
+            rotateSpeedCount++;
+            if (rotateSpeedCount == rotateSpeed)
+            {
+                count = 0;
+            }
         }
 
-        if (dataManager.isOwnerInputKey_C_R_UP && isUp)
+        if (dataManager.isOwnerInputKey_C_R_UP)
         {
             if (isUp)
+            {
                 count++;
+                rotateSpeedCount = 0;
 
-            isUp = false;
-            isRight = true;
+                isUp = false;
+                isRight = true;
+            }
+
+            //一定時間動かさないと回転していないとみなされる
+            rotateSpeedCount++;
+            if (rotateSpeedCount == rotateSpeed)
+            {
+                count = 0;
+            }
         }
     }
 
     //左回転処理
     private void LeftRotate()
     {
-        if (dataManager.isOwnerInputKey_C_R_RIGHT && isRight)
+        if (dataManager.isOwnerInputKey_C_R_RIGHT)
         {
             if (isRight)
+            {
                 count++;
+                rotateSpeedCount = 0;
 
-            isRight = false;
-            isUp = true;
+                isRight = false;
+                isUp = true;
+            }
+
+            //一定時間動かさないと回転していないとみなされる
+            rotateSpeedCount++;
+            if (rotateSpeedCount == rotateSpeed)
+            {
+                count = 0;
+            }
         }
 
-        if (dataManager.isOwnerInputKey_C_R_UP && isUp)
+        if (dataManager.isOwnerInputKey_C_R_UP)
         {
             if (isUp)
+            {
                 count++;
+                rotateSpeedCount = 0;
 
-            isUp = false;
-            isLeft = true;
+                isUp = false;
+                isLeft = true;
+            }
+
+            //一定時間動かさないと回転していないとみなされる
+            rotateSpeedCount++;
+            if (rotateSpeedCount == rotateSpeed)
+            {
+                count = 0;
+            }
         }
 
-        if (dataManager.isOwnerInputKey_C_R_LEFT && isLeft)
+        if (dataManager.isOwnerInputKey_C_R_LEFT)
         {
             if (isLeft)
+            {
                 count++;
+                rotateSpeedCount = 0;
 
-            isLeft = false;
-            isDown = true;
+                isLeft = false;
+                isDown = true;
+            }
+
+            //一定時間動かさないと回転していないとみなされる
+            rotateSpeedCount++;
+            if (rotateSpeedCount == rotateSpeed)
+            {
+                count = 0;
+            }
         }
 
 
-        if (dataManager.isOwnerInputKey_C_R_DOWN && isDown)
+        if (dataManager.isOwnerInputKey_C_R_DOWN)
         {
             if (isDown)
+            {
                 count++;
+                rotateSpeedCount = 0;
 
-            isDown = false;
-            isRight = true;
+                isDown = false;
+                isRight = true;
+            }
+
+            //一定時間動かさないと回転していないとみなされる
+            rotateSpeedCount++;
+            if (rotateSpeedCount == rotateSpeed)
+            {
+                count = 0;
+            }
         }
     }
 
