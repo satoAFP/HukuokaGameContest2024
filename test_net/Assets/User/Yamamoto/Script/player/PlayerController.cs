@@ -176,6 +176,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
                     //コントローラーの下ボタンを押したとき箱を閉じる
                     if (datamanager.isOwnerInputKey_CA)
                     {
+                        Debug.Log("boxopen" + boxopen);
                         //箱を閉じて移動ロックを解除
                         if (gameObject.name == "Player1" && boxopen)
                         {
@@ -198,9 +199,10 @@ public class PlayerController : MonoBehaviourPunCallbacks
                             {
                                 currentBoardObject = PhotonNetwork.Instantiate("Board", new Vector2(p1pos.x, p1pos.y + 1.0f), Quaternion.identity);
                                 movelock = true;
+                                //Debug.Log("板だす");
 
                                 //先に鍵が生成されていた場合
-                                if(currentCopyKeyObject!=null)
+                                if (currentCopyKeyObject!=null)
                                 {
                                     keymovelock = true;//板にオブジェクト移動の主導権を渡す
                                 }
@@ -229,6 +231,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
                             {
                                 currentCopyKeyObject = PhotonNetwork.Instantiate("CopyKey", new Vector2(p1pos.x, p1pos.y + 1.0f), Quaternion.identity);
                                 movelock = true;
+                               // Debug.Log("鍵だす");
 
                             }
                             CK_instantiatefirst = false;
@@ -286,9 +289,21 @@ public class PlayerController : MonoBehaviourPunCallbacks
                 distanceFirst = true;
             }
 
+            //生成アイテムがマップ上にないときのみ箱を閉じる（移動制限解除）
+            if (currentBoardObject == null &&
+                 currentCopyKeyObject == null)
+            {
+                boxopen = true;
+            }
+            else
+            {
+                boxopen = false;
+            }
+
             //コントローラーの下ボタンを押したとき箱処理中断（相手側）
             if (datamanager.isOwnerInputKey_CA &&　movelock)
             {
+                Debug.Log("boxopen" + boxopen);
                 //同時に上ボタンを押していないときは画像を元に戻す
                 if (gameObject.name == "Player1"&& boxopen)
                 {
@@ -318,6 +333,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
                 {
                     GetComponent<SpriteRenderer>().sprite = p1OpenImage;
                     movelock = true;//箱の移動を制限
+                   // Debug.Log("請けいー");
                     cursorlock = false;//UIカーソル移動を許可
                     GetComponent<PlayerGetHitObjTagManagement>().isMotion = false;//箱の周りの判定をとるのをやめる
                 }
