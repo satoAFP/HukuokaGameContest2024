@@ -56,7 +56,7 @@ public class GimmickRotateBomb : MonoBehaviourPunCallbacks
 
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         //データマネージャー取得
         dataManager = ManagerAccessor.Instance.dataManager;
@@ -125,16 +125,20 @@ public class GimmickRotateBomb : MonoBehaviourPunCallbacks
         //前フレームのcount記憶用
         int memCount = count;
 
+        Debug.Log(hitOwner+":"+ hitClient + ":" + dataManager.isOwnerHitRight + ":" + dataManager.isClientHitRight);
+
         //回転入力情報取得処理
         if (hitOwner && hitClient && dataManager.isOwnerHitRight && dataManager.isClientHitRight)
         {
             RightRotate();
             movePower.x = MovePower;
+            Debug.Log("右");
         }
         else if (hitOwner && hitClient && dataManager.isOwnerHitLeft && dataManager.isClientHitLeft)
         {
             LeftRotate();
             movePower.x = -MovePower;
+            Debug.Log("左");
         }
 
         //想定の反対方向に回転した時リセット用
@@ -208,11 +212,10 @@ public class GimmickRotateBomb : MonoBehaviourPunCallbacks
             //押すべきボタンの画像表示
             if (PhotonNetwork.LocalPlayer.IsMasterClient)
             {
-                collision.transform.GetChild(1).gameObject.SetActive(true);
-
                 if (dataManager.isOwnerHitRight)
                 {
                     Debug.Log("bbb");
+                    collision.transform.GetChild(1).gameObject.SetActive(true);
                     collision.transform.GetChild(1).gameObject.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = ManagerAccessor.Instance.spriteManager.LStickRight;
                     collision.transform.GetChild(1).gameObject.transform.GetChild(1).gameObject.GetComponent<Animator>().runtimeAnimatorController = ManagerAccessor.Instance.spriteManager.RStickRotateR;
                 }
@@ -220,6 +223,7 @@ public class GimmickRotateBomb : MonoBehaviourPunCallbacks
                 if (dataManager.isOwnerHitLeft)
                 {
                     Debug.Log("aaa");
+                    collision.transform.GetChild(1).gameObject.SetActive(true);
                     collision.transform.GetChild(1).gameObject.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = ManagerAccessor.Instance.spriteManager.LStickLeft;
                     collision.transform.GetChild(1).gameObject.transform.GetChild(1).gameObject.GetComponent<Animator>().runtimeAnimatorController = ManagerAccessor.Instance.spriteManager.RStickRotateL;
                 }
@@ -235,16 +239,17 @@ public class GimmickRotateBomb : MonoBehaviourPunCallbacks
             //押すべきボタンの画像表示
             if (!PhotonNetwork.LocalPlayer.IsMasterClient)
             {
-                collision.transform.GetChild(1).gameObject.SetActive(true);
 
                 if (dataManager.isClientHitRight)
                 {
+                    collision.transform.GetChild(1).gameObject.SetActive(true);
                     collision.transform.GetChild(1).gameObject.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = ManagerAccessor.Instance.spriteManager.LStickRight;
                     collision.transform.GetChild(1).gameObject.transform.GetChild(1).gameObject.GetComponent<Animator>().runtimeAnimatorController = ManagerAccessor.Instance.spriteManager.RStickRotateR;
                 }
 
                 if (dataManager.isClientHitLeft)
                 {
+                    collision.transform.GetChild(1).gameObject.SetActive(true);
                     collision.transform.GetChild(1).gameObject.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = ManagerAccessor.Instance.spriteManager.LStickLeft;
                     collision.transform.GetChild(1).gameObject.transform.GetChild(1).gameObject.GetComponent<Animator>().runtimeAnimatorController = ManagerAccessor.Instance.spriteManager.RStickRotateL;
                 }

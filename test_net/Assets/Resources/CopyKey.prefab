@@ -705,6 +705,7 @@ GameObject:
   - component: {fileID: 3958697720554243974}
   - component: {fileID: 2235805740294086331}
   - component: {fileID: 3734986410615093120}
+  - component: {fileID: 7337972729792979311}
   m_Layer: 6
   m_Name: CopyKey
   m_TagString: Player
@@ -1120,6 +1121,18 @@ MonoBehaviour:
   jumpSpeed: 6
   collecttime: 60
   holdtime: 0
+--- !u!114 &7337972729792979311
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3734986411308915629}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8fd21a2ba76f1c4ca823772b89227bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5610849157528156116
 GameObject:
   m_ObjectHideFlags: 0

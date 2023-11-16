@@ -15,6 +15,12 @@ public class PlayerGetHitObjTagManagement : MonoBehaviourPunCallbacks
     // Update is called once per frame
     void Update()
     {
+        if(gameObject.name=="Player1")
+        {
+            Debug.Log("isMotion:" + isMotion);
+        }
+
+
         if (isMotion)
         {
             //‰E‚É“–‚½‚Á‚Ä‚¢‚é”»’è
