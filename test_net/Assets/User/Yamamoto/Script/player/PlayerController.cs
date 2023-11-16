@@ -6,13 +6,19 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviourPunCallbacks
 {
+    //プレイヤー画像
+    //プレイヤー1
     [SerializeField, Header("宝箱")]
     private Sprite p1Image;
     [SerializeField, Header("空いた宝箱")]
     private Sprite p1OpenImage;
-   
+    [SerializeField, Header("持ち上げモーション中の宝箱")]
+    private Sprite p1LiftImage;
+    //プレイヤー2
     [SerializeField, Header("鍵")]
     private Sprite p2Image;
+    [SerializeField, Header("持ち上げモーション中の鍵")]
+    private Sprite p2LiftImage;
 
     [SerializeField, Header("移動速度")]
     private float moveSpeed;
@@ -131,6 +137,19 @@ public class PlayerController : MonoBehaviourPunCallbacks
                 {
                     Move();//移動処理をON
                 }
+
+                //プレイヤーを元のイラストに変更
+                if (gameObject.name == "Player1")
+                {
+                    Debug.Log("IsMineP1基画像");
+                    GetComponent<SpriteRenderer>().sprite = p1Image;
+                }
+                else if (gameObject.name == "Player2")
+                {
+                    Debug.Log("IsMineP2基画像");
+                    GetComponent<SpriteRenderer>().sprite = p2Image;
+                }
+
                 distanceFirst = true;
             }
             else
@@ -141,6 +160,18 @@ public class PlayerController : MonoBehaviourPunCallbacks
                 {
                     if (PhotonNetwork.LocalPlayer.IsMasterClient)
                     {
+                        //プレイヤーを持ち上げ時のイラストに変更
+                        if (gameObject.name == "Player1")
+                        {
+                            Debug.Log("IsMineP1持ち上げ画像");
+                            GetComponent<SpriteRenderer>().sprite = p1LiftImage;
+                        }
+                        else if(gameObject.name == "Player2")
+                        {
+                            Debug.Log("IsMineP2持ち上げ画像");
+                            GetComponent<SpriteRenderer>().sprite = p2LiftImage;
+                        }
+
                         Move();
                     }
                     else
@@ -170,6 +201,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
                     {
                         if(firstboxopen)
                         {
+                            //boxopen関数を共有する
                             photonView.RPC(nameof(RpcShareBoxOpen), RpcTarget.All,true);
                             firstboxopen = false;
                         }
@@ -179,6 +211,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
                     {
                         if (!firstboxopen)
                         {
+                            //boxopen関数を共有する
                             photonView.RPC(nameof(RpcShareBoxOpen), RpcTarget.All, false);
                             firstboxopen = true;
                         }
@@ -188,11 +221,10 @@ public class PlayerController : MonoBehaviourPunCallbacks
                     //コントローラーの下ボタンを押したとき箱を閉じる
                     if (datamanager.isOwnerInputKey_CA)
                     {
-                        Debug.Log("boxopen" + boxopen);
                         //箱を閉じて移動ロックを解除
                         if (gameObject.name == "Player1" && boxopen)
                         {
-                            Debug.Log("おぺん");
+                            //Debug.Log("おぺん");
                             GetComponent<SpriteRenderer>().sprite = p1Image;
                             cursorlock = true;//カーソル移動を止める
                             movelock = false;
@@ -288,6 +320,18 @@ public class PlayerController : MonoBehaviourPunCallbacks
                             //1Pと2Pの座標の差を記憶
                             dis = datamanager.player1.transform.position - datamanager.player2.transform.position;
                             distanceFirst = false;
+
+                            //プレイヤーを持ち上げ時のイラストに変更
+                            if (gameObject.name == "Player1")
+                            {
+                                Debug.Log("P1持ち上げ画像");
+                                GetComponent<SpriteRenderer>().sprite = p1LiftImage;
+                            }
+                            else if (gameObject.name == "Player2")
+                            {
+                                Debug.Log("P2持ち上げ画像");
+                                GetComponent<SpriteRenderer>().sprite = p2LiftImage;
+                            }
                         }
 
                         //2Pが1Pに追従するようにする
@@ -299,6 +343,18 @@ public class PlayerController : MonoBehaviourPunCallbacks
             else
             {
                 distanceFirst = true;
+
+                //プレイヤーを元のイラストに変更
+                if (gameObject.name == "Player1")
+                {
+                    Debug.Log("P1元画像");
+                    GetComponent<SpriteRenderer>().sprite = p1Image;
+                }
+                else if (gameObject.name == "Player2")
+                {
+                    Debug.Log("P2元画像");
+                    GetComponent<SpriteRenderer>().sprite = p2Image;
+                }
             }
 
             if (movelock)
@@ -306,11 +362,11 @@ public class PlayerController : MonoBehaviourPunCallbacks
                 //コントローラーの下ボタンを押したとき箱処理中断（相手側）
                 if (datamanager.isOwnerInputKey_CA)
                 {
-                    Debug.Log("boxopen" + boxopen);
+
                     //同時に上ボタンを押していないときは画像を元に戻す
                     if (gameObject.name == "Player1" && boxopen)
                     {
-                        Debug.Log("おぺん22");
+                       // Debug.Log("おぺん22");
                         GetComponent<SpriteRenderer>().sprite = p1Image;
                         boxopen = false;
                     }
@@ -398,10 +454,10 @@ public class PlayerController : MonoBehaviourPunCallbacks
     //移動処理
     public void OnMove(InputAction.CallbackContext context)
     {
-        if (gameObject.name == "Player2")
-        {
-            Debug.Log("プレイヤー2認識");
-        }
+        //if (gameObject.name == "Player2")
+        //{
+        //    Debug.Log("プレイヤー2認識");
+        //}
 
 
         //操作が競合しないための設定
@@ -410,7 +466,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
             //移動ロックがかかっていなければ移動
             if(!movelock)
             {
-                Debug.Log("スティック動かして移動している");
+               // Debug.Log("スティック動かして移動している");
                 //移動方向の入力情報がInputdirectionの中に入るようになる
                 inputDirection = context.ReadValue<Vector2>();
 
@@ -457,6 +513,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
     }
 
     [PunRPC]
+    //boxopen変数を共有する
     private void RpcShareBoxOpen(bool data)
     {
         boxopen = data;
