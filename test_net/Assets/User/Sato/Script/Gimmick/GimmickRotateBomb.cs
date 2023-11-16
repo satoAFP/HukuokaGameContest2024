@@ -40,7 +40,8 @@ public class GimmickRotateBomb : MonoBehaviourPunCallbacks
     private Vector3 movePower = Vector3.zero;
 
     //移動開始
-    private bool isMoveStart = false;
+    private bool isOwnerMoveStart = false;
+    private bool isClientMoveStart = false;
 
     //frameカウント
     private int frameCount = 0;
@@ -53,6 +54,7 @@ public class GimmickRotateBomb : MonoBehaviourPunCallbacks
 
     //連続で入らないため
     private bool first = true;
+    private bool first1 = true;
 
 
     // Update is called once per frame
@@ -66,9 +68,17 @@ public class GimmickRotateBomb : MonoBehaviourPunCallbacks
         if (!dataManager.isOwnerInputKey_C_R_RIGHT && !dataManager.isOwnerInputKey_C_R_LEFT &&
             !dataManager.isOwnerInputKey_C_R_UP && !dataManager.isOwnerInputKey_C_R_DOWN)
         {
+            if (first1)
+            {
+                if (PhotonNetwork.IsMasterClient)
+                    photonView.RPC(nameof(RpcShareIsMoveStart), RpcTarget.All, true, false);
+                else
+                    photonView.RPC(nameof(RpcShareIsMoveStart), RpcTarget.All, false, false);
+                first1 = false;
+            }
+
             count = 0;
             rotateSpeedCount = 0;
-            isMoveStart = false;
             isStop = true;
             first = true;
 
@@ -76,6 +86,10 @@ public class GimmickRotateBomb : MonoBehaviourPunCallbacks
             isLeft = false;
             isUp = false;
             isDown = false;
+        }
+        else
+        {
+            first1 = true;
         }
 
         //入力されていないとき、最初に入力された方向から回転が始まる
@@ -140,7 +154,11 @@ public class GimmickRotateBomb : MonoBehaviourPunCallbacks
         //想定の反対方向に回転した時リセット用
         if (count - memCount == 2)
         {
-            isMoveStart = false;
+            if (PhotonNetwork.IsMasterClient)
+                photonView.RPC(nameof(RpcShareIsMoveStart), RpcTarget.All, true, false);
+            else
+                photonView.RPC(nameof(RpcShareIsMoveStart), RpcTarget.All, false, false);
+
             count = 0;
         }
 
@@ -148,12 +166,16 @@ public class GimmickRotateBomb : MonoBehaviourPunCallbacks
         //正しく回転した時
         if (count >= 4)
         {
-            isMoveStart = true;
+            if (PhotonNetwork.IsMasterClient)
+                photonView.RPC(nameof(RpcShareIsMoveStart), RpcTarget.All, true, true);
+            else
+                photonView.RPC(nameof(RpcShareIsMoveStart), RpcTarget.All, false, true);
+
             count = 0;
         }
 
         //移動開始
-        if (isMoveStart)
+        if (isOwnerMoveStart && isClientMoveStart) 
         {
             transform.position += movePower;
             frameCount++;
@@ -175,7 +197,11 @@ public class GimmickRotateBomb : MonoBehaviourPunCallbacks
                 displayTimeCount++;
                 if (displayTimeCount == DisplayTime)
                 {
-                    isMoveStart = false;
+                    if (PhotonNetwork.IsMasterClient)
+                        photonView.RPC(nameof(RpcShareIsMoveStart), RpcTarget.All, true, false);
+                    else
+                        photonView.RPC(nameof(RpcShareIsMoveStart), RpcTarget.All, false, false);
+
                     if (hitObjName == "Player1")
                         ManagerAccessor.Instance.dataManager.player1.transform.GetChild(1).gameObject.SetActive(false);
                     if (hitObjName == "CopyKey")
@@ -191,7 +217,11 @@ public class GimmickRotateBomb : MonoBehaviourPunCallbacks
                 displayTimeCount++;
                 if (displayTimeCount == DisplayTime)
                 {
-                    isMoveStart = false;
+                    if (PhotonNetwork.IsMasterClient)
+                        photonView.RPC(nameof(RpcShareIsMoveStart), RpcTarget.All, true, false);
+                    else
+                        photonView.RPC(nameof(RpcShareIsMoveStart), RpcTarget.All, false, false);
+
                     ManagerAccessor.Instance.dataManager.player2.transform.GetChild(1).gameObject.SetActive(false);
                 }
             }
@@ -439,5 +469,14 @@ public class GimmickRotateBomb : MonoBehaviourPunCallbacks
     private void RpcSharePos(float x, float y)
     {
         transform.position = new Vector3(x, y, 0);
+    }
+
+    [PunRPC]
+    private void RpcShareIsMoveStart(bool isManage, bool data)
+    {
+        if (isManage)
+            isOwnerMoveStart = data;
+        else
+            isClientMoveStart = data;
     }
 }
