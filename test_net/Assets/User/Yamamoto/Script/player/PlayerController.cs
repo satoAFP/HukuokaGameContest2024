@@ -6,13 +6,19 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviourPunCallbacks
 {
+    //プレイヤー画像
+    //プレイヤー1
     [SerializeField, Header("宝箱")]
     private Sprite p1Image;
     [SerializeField, Header("空いた宝箱")]
     private Sprite p1OpenImage;
-   
+    [SerializeField, Header("持ち上げモーション中の宝箱")]
+    private Sprite p1LiftImage;
+    //プレイヤー2
     [SerializeField, Header("鍵")]
     private Sprite p2Image;
+    [SerializeField, Header("持ち上げモーション中の鍵")]
+    private Sprite p2LiftImage;
 
     [SerializeField, Header("移動速度")]
     private float moveSpeed;
@@ -34,19 +40,23 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
     private bool movelock = false;//移動処理を停止させる
 
+    private bool left = false;//左向きに移動したときのフラグ
+
     private bool B_instantiatefirst = true;//連続でアイテムを生成させない(板）
 
     private bool CK_instantiatefirst = true;//連続でアイテムを生成させない(鍵）
 
-    [System.NonSerialized] public bool boxopen = false;//箱の開閉時の画像変更フラグ
+    private bool firstboxopen = true;//箱の閉じるフラグ共有を一度だけする
+
+    [System.NonSerialized] public bool boxopen = false;//箱の開閉を許可するフラグ
 
     [System.NonSerialized] public bool cursorlock = true;//UIカーソルの移動を制限する
 
     [System.NonSerialized] public string choicecursor;//UIカーソルが現在選択している生成可能アイテム
 
-    public bool generatestop = false;//生成を制御する
+    [System.NonSerialized] public bool generatestop = false;//生成を制御する
 
-    public bool keymovelock = false;//生成した鍵の移動を制御
+    [System.NonSerialized] public bool keymovelock = false;//生成した鍵の移動を制御
 
     //入力された方向を入れる変数
     private Vector2 inputDirection;
@@ -107,15 +117,17 @@ public class PlayerController : MonoBehaviourPunCallbacks
         //操作が競合しないための設定
         if (photonView.IsMine)
         {
-            ////1Pの画面の2Pの情報更新
-            //if (PhotonNetwork.LocalPlayer.IsMasterClient)
-            //    if (ManagerAccessor.Instance.dataManager.player2 != null)
-            //        ManagerAccessor.Instance.dataManager.player2.GetComponent<PlayerController>().islift = islift;
-
-            ////1Pの画面の2Pの情報更新
-            //if (!PhotonNetwork.LocalPlayer.IsMasterClient)
-            //    if (ManagerAccessor.Instance.dataManager.player1 != null)
-            //        ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().islift = islift;
+            //プレイヤーの左右の向きを変える
+            if(left)
+            {
+                Debug.Log("左いいいい");
+                transform.localScale = new Vector3(-1.0f, 1.0f, 1.0f);
+            }
+            else
+            {
+                Debug.Log("右いいいい");
+                transform.localScale = new Vector3( 1.0f, 1.0f, 1.0f);
+            }
 
             //持ち上げていないときは普通に移動させる
             if (!islift)
@@ -125,6 +137,19 @@ public class PlayerController : MonoBehaviourPunCallbacks
                 {
                     Move();//移動処理をON
                 }
+
+                //プレイヤーを元のイラストに変更
+                if (gameObject.name == "Player1")
+                {
+                    Debug.Log("IsMineP1基画像");
+                    GetComponent<SpriteRenderer>().sprite = p1Image;
+                }
+                else if (gameObject.name == "Player2")
+                {
+                    Debug.Log("IsMineP2基画像");
+                    GetComponent<SpriteRenderer>().sprite = p2Image;
+                }
+
                 distanceFirst = true;
             }
             else
@@ -135,6 +160,18 @@ public class PlayerController : MonoBehaviourPunCallbacks
                 {
                     if (PhotonNetwork.LocalPlayer.IsMasterClient)
                     {
+                        //プレイヤーを持ち上げ時のイラストに変更
+                        if (gameObject.name == "Player1")
+                        {
+                            Debug.Log("IsMineP1持ち上げ画像");
+                            GetComponent<SpriteRenderer>().sprite = p1LiftImage;
+                        }
+                        else if(gameObject.name == "Player2")
+                        {
+                            Debug.Log("IsMineP2持ち上げ画像");
+                            GetComponent<SpriteRenderer>().sprite = p2LiftImage;
+                        }
+
                         Move();
                     }
                     else
@@ -158,16 +195,40 @@ public class PlayerController : MonoBehaviourPunCallbacks
                 //プレイヤー1（箱）の移動が制限されているとき（箱が空いている時）
                 if(movelock)
                 {
+                    //生成アイテムがマップ上にないときのみ箱を閉じる（移動制限解除）
+                    if (currentBoardObject == null &&
+                         currentCopyKeyObject == null)
+                    {
+                        if(firstboxopen)
+                        {
+                            //boxopen関数を共有する
+                            photonView.RPC(nameof(RpcShareBoxOpen), RpcTarget.All,true);
+                            firstboxopen = false;
+                        }
+                       
+                    }
+                    else
+                    {
+                        if (!firstboxopen)
+                        {
+                            //boxopen関数を共有する
+                            photonView.RPC(nameof(RpcShareBoxOpen), RpcTarget.All, false);
+                            firstboxopen = true;
+                        }
+                           
+                    }
+
                     //コントローラーの下ボタンを押したとき箱を閉じる
                     if (datamanager.isOwnerInputKey_CA)
                     {
                         //箱を閉じて移動ロックを解除
                         if (gameObject.name == "Player1" && boxopen)
                         {
-                            Debug.Log("おぺん");
+                            //Debug.Log("おぺん");
                             GetComponent<SpriteRenderer>().sprite = p1Image;
                             cursorlock = true;//カーソル移動を止める
                             movelock = false;
+                            GetComponent<PlayerGetHitObjTagManagement>().isMotion = true;//箱の周りの判定をとるのを再開
                         }
                     }
                   
@@ -182,9 +243,10 @@ public class PlayerController : MonoBehaviourPunCallbacks
                             {
                                 currentBoardObject = PhotonNetwork.Instantiate("Board", new Vector2(p1pos.x, p1pos.y + 1.0f), Quaternion.identity);
                                 movelock = true;
+                                //Debug.Log("板だす");
 
                                 //先に鍵が生成されていた場合
-                                if(currentCopyKeyObject!=null)
+                                if (currentCopyKeyObject!=null)
                                 {
                                     keymovelock = true;//板にオブジェクト移動の主導権を渡す
                                 }
@@ -213,6 +275,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
                             {
                                 currentCopyKeyObject = PhotonNetwork.Instantiate("CopyKey", new Vector2(p1pos.x, p1pos.y + 1.0f), Quaternion.identity);
                                 movelock = true;
+                               // Debug.Log("鍵だす");
 
                             }
                             CK_instantiatefirst = false;
@@ -230,6 +293,19 @@ public class PlayerController : MonoBehaviourPunCallbacks
         }
         else
         {
+
+            //プレイヤーの左右の向きを変える
+            if (left)
+            {
+                Debug.Log("player2の左");
+                transform.localScale = new Vector3(-1.0f, 1.0f, 1.0f);
+            }
+            else
+            {
+                Debug.Log("player2の右");
+                transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+            }
+
             //持ち上げている時は2プレイヤーが同じ移動方向を入力時移動
             if ((datamanager.isOwnerInputKey_C_L_RIGHT && datamanager.isClientInputKey_C_L_RIGHT) ||
                (datamanager.isOwnerInputKey_C_L_LEFT && datamanager.isClientInputKey_C_L_LEFT))
@@ -244,6 +320,18 @@ public class PlayerController : MonoBehaviourPunCallbacks
                             //1Pと2Pの座標の差を記憶
                             dis = datamanager.player1.transform.position - datamanager.player2.transform.position;
                             distanceFirst = false;
+
+                            //プレイヤーを持ち上げ時のイラストに変更
+                            if (gameObject.name == "Player1")
+                            {
+                                Debug.Log("P1持ち上げ画像");
+                                GetComponent<SpriteRenderer>().sprite = p1LiftImage;
+                            }
+                            else if (gameObject.name == "Player2")
+                            {
+                                Debug.Log("P2持ち上げ画像");
+                                GetComponent<SpriteRenderer>().sprite = p2LiftImage;
+                            }
                         }
 
                         //2Pが1Pに追従するようにする
@@ -255,32 +343,45 @@ public class PlayerController : MonoBehaviourPunCallbacks
             else
             {
                 distanceFirst = true;
-            }
 
-            //コントローラーの下ボタンを押したとき箱処理中断（相手側）
-            if (datamanager.isOwnerInputKey_CA &&　movelock)
-            {
-                //同時に上ボタンを押していないときは画像を元に戻す
-                if (gameObject.name == "Player1"&& boxopen)
+                //プレイヤーを元のイラストに変更
+                if (gameObject.name == "Player1")
                 {
-                    Debug.Log("おぺん22");
+                    Debug.Log("P1元画像");
                     GetComponent<SpriteRenderer>().sprite = p1Image;
-                    boxopen = false;
+                }
+                else if (gameObject.name == "Player2")
+                {
+                    Debug.Log("P2元画像");
+                    GetComponent<SpriteRenderer>().sprite = p2Image;
                 }
             }
+
+            if (movelock)
+            {
+                //コントローラーの下ボタンを押したとき箱処理中断（相手側）
+                if (datamanager.isOwnerInputKey_CA)
+                {
+
+                    //同時に上ボタンを押していないときは画像を元に戻す
+                    if (gameObject.name == "Player1" && boxopen)
+                    {
+                       // Debug.Log("おぺん22");
+                        GetComponent<SpriteRenderer>().sprite = p1Image;
+                        boxopen = false;
+                    }
+                }
+            }
+            
          
         }
 
         //各プレイヤーの現在座標を取得
         p1pos = ManagerAccessor.Instance.dataManager.player1.transform.position;
-        //Debug.Log("p1現在地=" + p1pos);
+
         if (ManagerAccessor.Instance.dataManager.player2 != null)
             p2pos = ManagerAccessor.Instance.dataManager.player2.transform.position;
-        //Debug.Log("p2現在地=" + p2pos);
-
-        // Debug.Log(Mathf.Abs(p1pos.x - p2pos.x));
-
-
+      
         //箱と鍵の二点間距離を取って一定の値なら箱オープン可能
         if (Mathf.Abs(p1pos.x - p2pos.x) < 1.0f)
         {
@@ -293,7 +394,9 @@ public class PlayerController : MonoBehaviourPunCallbacks
                 {
                     GetComponent<SpriteRenderer>().sprite = p1OpenImage;
                     movelock = true;//箱の移動を制限
+                   // Debug.Log("請けいー");
                     cursorlock = false;//UIカーソル移動を許可
+                    GetComponent<PlayerGetHitObjTagManagement>().isMotion = false;//箱の周りの判定をとるのをやめる
                 }
 
             }
@@ -308,6 +411,34 @@ public class PlayerController : MonoBehaviourPunCallbacks
     {
         //プレイヤーが入力した方向に横方向限定で移動速度分の力を加える
         rigid.velocity = new Vector2(inputDirection.x * moveSpeed, rigid.velocity.y);
+        //Debug.Log(inputDirection.x);
+
+        //移動方向によって画像の向きを変える
+
+        if (PhotonNetwork.LocalPlayer.IsMasterClient)
+        {
+            if (inputDirection.x < 0)
+            {
+                left = true;
+            }
+            else
+            {
+                left = false;
+            }
+        }
+        else
+        {
+            if (inputDirection.x < 0)
+            {
+                left = true;
+            }
+            else
+            {
+                left = false;
+            }
+        }
+            
+
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -323,10 +454,10 @@ public class PlayerController : MonoBehaviourPunCallbacks
     //移動処理
     public void OnMove(InputAction.CallbackContext context)
     {
-        if (gameObject.name == "Player2")
-        {
-            Debug.Log("プレイヤー2認識");
-        }
+        //if (gameObject.name == "Player2")
+        //{
+        //    Debug.Log("プレイヤー2認識");
+        //}
 
 
         //操作が競合しないための設定
@@ -335,9 +466,10 @@ public class PlayerController : MonoBehaviourPunCallbacks
             //移動ロックがかかっていなければ移動
             if(!movelock)
             {
-                Debug.Log("スティック動かして移動している");
+               // Debug.Log("スティック動かして移動している");
                 //移動方向の入力情報がInputdirectionの中に入るようになる
                 inputDirection = context.ReadValue<Vector2>();
+
             }
 
         }
@@ -354,10 +486,22 @@ public class PlayerController : MonoBehaviourPunCallbacks
         if (!ManagerAccessor.Instance.dataManager.isUnlockButtonStart && !movelock && !isFly) 
         {
             //Input Systemからジャンプの入力があった時に呼ばれる
-            if (!context.performed || bjump)
+            //連続でジャンプできないようにする
+            if(PhotonNetwork.LocalPlayer.IsMasterClient)
             {
-                return;
+                if (!context.performed || !ManagerAccessor.Instance.dataManager.isOwnerHitDown)
+                {
+                    return;
+                }
             }
+            else
+            {
+                if (!context.performed || !ManagerAccessor.Instance.dataManager.isClientHitDown)
+                {
+                    return;
+                }
+            }
+           
 
             //操作が競合しないための設定
             if (photonView.IsMine)
@@ -368,20 +512,10 @@ public class PlayerController : MonoBehaviourPunCallbacks
         }
     }
 
-    //箱の蓋を閉める
-    public void OnBoxClose(InputAction.CallbackContext context)
+    [PunRPC]
+    //boxopen変数を共有する
+    private void RpcShareBoxOpen(bool data)
     {
-      
+        boxopen = data;
     }
-
-    //箱オープン
-    public void OnOpenAction(InputAction.CallbackContext context)
-    {
-        //操作が競合しないための設定
-        if (photonView.IsMine)
-        {
-            Debug.Log("箱開ける");
-        }
-    }
-
 }

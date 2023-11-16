@@ -7,6 +7,9 @@ using UnityEngine.InputSystem;
 
 public class PlayerGimmickActionManagement : CGimmick
 {
+    //動かすかどうか
+    [System.NonSerialized] public bool isMotion = true;
+
     //インプットアクションのmove取得用
     private InputAction actionLeftStick;
     private InputAction actionRightStick;
@@ -45,7 +48,7 @@ public class PlayerGimmickActionManagement : CGimmick
             ShareKey(Input.GetKey(KeyCode.B), (int)KEY_NUMBER.B, ref firstB);
             ShareKey(Input.GetMouseButton(0), (int)KEY_NUMBER.LM, ref firstLM);
 
-            Debug.Log("A:Owner/" + ManagerAccessor.Instance.dataManager.isOwnerInputKey_C_R_DOWN + ":Client/" + ManagerAccessor.Instance.dataManager.isClientInputKey_C_R_DOWN);
+            //Debug.Log("A:Owner/" + ManagerAccessor.Instance.dataManager.isOwnerInputKey_C_R_DOWN + ":Client/" + ManagerAccessor.Instance.dataManager.isClientInputKey_C_R_DOWN);
             //Debug.Log("D:Owner/" + ManagerAccessor.Instance.dataManager.isOwnerInputKey_C_R2 + ":Client/" + ManagerAccessor.Instance.dataManager.isClientInputKey_C_R2);
             //Debug.Log("W:Owner/" + ManagerAccessor.Instance.dataManager.isOwnerInputKey_C_L1 + ":Client/" + ManagerAccessor.Instance.dataManager.isClientInputKey_C_L1);
             //Debug.Log("S:Owner/" + ManagerAccessor.Instance.dataManager.isOwnerInputKey_C_L2 + ":Client/" + ManagerAccessor.Instance.dataManager.isClientInputKey_C_L2);
@@ -93,7 +96,7 @@ public class PlayerGimmickActionManagement : CGimmick
     [PunRPC]
     private void RpcShareKey(string name, int key, bool onkey)
     {
-        if (name == "Player1")
+        if (name == "Player1"|| name == "CopyKey")
         {
             if (key == (int)KEY_NUMBER.A)
                 ManagerAccessor.Instance.dataManager.isOwnerInputKey_A = onkey;
@@ -216,23 +219,27 @@ public class PlayerGimmickActionManagement : CGimmick
     /// <param name="first">長押しが反応しないため</param>
     private void ShareKey(bool inputKey,int Key,ref bool first)
     {
-        //入力されたとき
-        if (inputKey)
+        //プレイヤー1が止まっているときは共有しない
+        if (isMotion)
         {
-            if (first)
+            //入力されたとき
+            if (inputKey)
             {
-                //押された情報を送る
-                photonView.RPC(nameof(RpcShareKey), RpcTarget.All, gameObject.name, Key, true);
-                first = false;
+                if (first)
+                {
+                    //押された情報を送る
+                    photonView.RPC(nameof(RpcShareKey), RpcTarget.All, gameObject.name, Key, true);
+                    first = false;
+                }
             }
-        }
-        else
-        {
-            if (!first)
+            else
             {
-                //離した情報を送る
-                photonView.RPC(nameof(RpcShareKey), RpcTarget.All, gameObject.name, Key, false);
-                first = true;
+                if (!first)
+                {
+                    //離した情報を送る
+                    photonView.RPC(nameof(RpcShareKey), RpcTarget.All, gameObject.name, Key, false);
+                    first = true;
+                }
             }
         }
     }

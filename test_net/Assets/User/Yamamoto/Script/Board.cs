@@ -133,7 +133,7 @@ public class Board : MonoBehaviourPunCallbacks
             }
             else
             {
-                ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().boxopen = false;
+                //ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().boxopen = false;
                 holdtime = collecttime;//長押しカウントリセット
             }
         }

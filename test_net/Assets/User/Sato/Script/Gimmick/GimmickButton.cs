@@ -27,12 +27,14 @@ public class GimmickButton : MonoBehaviourPunCallbacks
 
     private void OnCollisionStay2D(Collision2D collision)
     {
-        if (collision.gameObject.name == "Player1")
+        if (collision.gameObject.name == "Player1" || collision.gameObject.name == "CopyKey")
         {
             //押すべきボタンの画像表示
-            collision.transform.GetChild(0).gameObject.SetActive(true);
-            collision.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = ManagerAccessor.Instance.spriteManager.ArrowRight;
-
+            if (PhotonNetwork.IsMasterClient)
+            {
+                collision.transform.GetChild(0).gameObject.SetActive(true);
+                collision.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = ManagerAccessor.Instance.spriteManager.ArrowRight;
+            }
 
             //自身のオブジェクトが当たっている時しか反応させない
             if (ManagerAccessor.Instance.dataManager.isOwnerInputKey_CB)
@@ -58,9 +60,11 @@ public class GimmickButton : MonoBehaviourPunCallbacks
         if (collision.gameObject.name == "Player2")
         {
             //押すべきボタンの画像表示
-            collision.transform.GetChild(0).gameObject.SetActive(true);
-            collision.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = ManagerAccessor.Instance.spriteManager.ArrowRight;
-
+            if (!PhotonNetwork.IsMasterClient)
+            {
+                collision.transform.GetChild(0).gameObject.SetActive(true);
+                collision.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = ManagerAccessor.Instance.spriteManager.ArrowRight;
+            }
 
             //自身のオブジェクトが当たっている時しか反応させない
             if (ManagerAccessor.Instance.dataManager.isClientInputKey_CB)
@@ -87,7 +91,7 @@ public class GimmickButton : MonoBehaviourPunCallbacks
 
     private void OnCollisionExit2D(Collision2D collision)
     {
-        if (collision.gameObject.name == "Player1")
+        if (collision.gameObject.name == "Player1" || collision.gameObject.name == "CopyKey")
         {
             //押すべきボタンの画像表示
             collision.transform.GetChild(0).gameObject.SetActive(false);

@@ -93,23 +93,27 @@ public class GimmickBlock : CGimmick
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.name == "Player1")
+        if (collision.gameObject.name == "Player1" || collision.gameObject.name == "CopyKey")
         {
             //押すべきボタンの画像表示
-            collision.transform.GetChild(0).gameObject.SetActive(true);
-            collision.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = ManagerAccessor.Instance.spriteManager.ArrowRight;
+            if (PhotonNetwork.IsMasterClient)
+            {
+                collision.transform.GetChild(0).gameObject.SetActive(true);
+                collision.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = ManagerAccessor.Instance.spriteManager.ArrowRight;
+            }
 
-            //photonView.RPC(nameof(RpcShareIsOwner), RpcTarget.All, true);
             hitOwner = true;
         }
 
         if (collision.gameObject.name == "Player2")
         {
             //押すべきボタンの画像表示
-            collision.transform.GetChild(0).gameObject.SetActive(true);
-            collision.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = ManagerAccessor.Instance.spriteManager.ArrowRight;
+            if (!PhotonNetwork.IsMasterClient)
+            {
+                collision.transform.GetChild(0).gameObject.SetActive(true);
+                collision.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = ManagerAccessor.Instance.spriteManager.ArrowRight;
+            }
 
-            //photonView.RPC(nameof(RpcShareIsClient), RpcTarget.All, true);
             hitClient = true;
         }
     }
@@ -120,12 +124,11 @@ public class GimmickBlock : CGimmick
         //持ち上げていないとき
         if (!liftMode)
         {
-            if (collision.gameObject.name == "Player1")
+            if (collision.gameObject.name == "Player1" || collision.gameObject.name == "CopyKey")
             {
                 //押すべきボタンの画像表示
                 collision.transform.GetChild(0).gameObject.SetActive(false);
 
-                //photonView.RPC(nameof(RpcShareIsOwner), RpcTarget.All, false);
                 hitOwner = false;
             }
 
@@ -134,7 +137,6 @@ public class GimmickBlock : CGimmick
                 //押すべきボタンの画像表示
                 collision.transform.GetChild(0).gameObject.SetActive(false);
 
-                //photonView.RPC(nameof(RpcShareIsClient), RpcTarget.All, false);
                 hitClient = false;
             }
         }
