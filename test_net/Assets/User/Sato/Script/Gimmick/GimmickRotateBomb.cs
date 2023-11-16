@@ -125,20 +125,16 @@ public class GimmickRotateBomb : MonoBehaviourPunCallbacks
         //前フレームのcount記憶用
         int memCount = count;
 
-        Debug.Log(hitOwner+":"+ hitClient + ":" + dataManager.isOwnerHitRight + ":" + dataManager.isClientHitRight);
-
         //回転入力情報取得処理
-        if (hitOwner && hitClient && dataManager.isOwnerHitRight && dataManager.isClientHitRight)
+        if (hitOwner && hitClient && dataManager.isOwnerHitRight && dataManager.isClientHitRight && dataManager.isOwnerInputKey_C_L_RIGHT && dataManager.isClientInputKey_C_L_RIGHT)
         {
             RightRotate();
             movePower.x = MovePower;
-            Debug.Log("右");
         }
-        else if (hitOwner && hitClient && dataManager.isOwnerHitLeft && dataManager.isClientHitLeft)
+        else if (hitOwner && hitClient && dataManager.isOwnerHitLeft && dataManager.isClientHitLeft && dataManager.isOwnerInputKey_C_L_LEFT && dataManager.isClientInputKey_C_L_LEFT)
         {
             LeftRotate();
             movePower.x = -MovePower;
-            Debug.Log("左");
         }
 
         //想定の反対方向に回転した時リセット用
@@ -214,7 +210,6 @@ public class GimmickRotateBomb : MonoBehaviourPunCallbacks
             {
                 if (dataManager.isOwnerHitRight)
                 {
-                    Debug.Log("bbb");
                     collision.transform.GetChild(1).gameObject.SetActive(true);
                     collision.transform.GetChild(1).gameObject.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = ManagerAccessor.Instance.spriteManager.LStickRight;
                     collision.transform.GetChild(1).gameObject.transform.GetChild(1).gameObject.GetComponent<Animator>().runtimeAnimatorController = ManagerAccessor.Instance.spriteManager.RStickRotateR;
@@ -222,7 +217,6 @@ public class GimmickRotateBomb : MonoBehaviourPunCallbacks
 
                 if (dataManager.isOwnerHitLeft)
                 {
-                    Debug.Log("aaa");
                     collision.transform.GetChild(1).gameObject.SetActive(true);
                     collision.transform.GetChild(1).gameObject.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = ManagerAccessor.Instance.spriteManager.LStickLeft;
                     collision.transform.GetChild(1).gameObject.transform.GetChild(1).gameObject.GetComponent<Animator>().runtimeAnimatorController = ManagerAccessor.Instance.spriteManager.RStickRotateL;

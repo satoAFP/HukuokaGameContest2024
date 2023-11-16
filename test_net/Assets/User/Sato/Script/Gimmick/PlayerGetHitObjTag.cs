@@ -14,19 +14,10 @@ public class PlayerGetHitObjTag : MonoBehaviourPunCallbacks
         //データマネージャー取得
         DataManager dataManager = ManagerAccessor.Instance.dataManager;
 
-        //プレイヤーが生成されているとき
-        if (dataManager.player1 != null && dataManager.player2 != null)
-        {
-            //それぞれの座標に移動させる
-            if (PhotonNetwork.LocalPlayer.IsMasterClient)
-            {
-                transform.position = dataManager.player1.transform.position + localPos;
-            }
-            else
-            {
-                transform.position = dataManager.player2.transform.position + localPos;
-            }
-        }
+        //座標を親オブジェクトに合わせる
+        transform.position = transform.parent.transform.position + localPos;
+
+
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
