@@ -48,6 +48,8 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
     private bool firstboxopen = true;//箱の閉じるフラグ共有を一度だけする
 
+    private bool firstunload = true;//ブロックを降ろすとき一度だけ処理を行う
+
     [System.NonSerialized] public bool boxopen = false;//箱の開閉を許可するフラグ
 
     [System.NonSerialized] public bool cursorlock = true;//UIカーソルの移動を制限する
@@ -142,6 +144,12 @@ public class PlayerController : MonoBehaviourPunCallbacks
                 {
                     Move();//移動処理をON
                 }
+
+                if (!movelock)
+                {
+                    photonView.RPC(nameof(RpcChangeUnloadImage), RpcTarget.All);
+                }
+
                 distanceFirst = true;
             }
             else
@@ -150,20 +158,9 @@ public class PlayerController : MonoBehaviourPunCallbacks
                 if ((datamanager.isOwnerInputKey_C_L_RIGHT&& datamanager.isClientInputKey_C_L_RIGHT)||
                    (datamanager.isOwnerInputKey_C_L_LEFT && datamanager.isClientInputKey_C_L_LEFT))
                 {
-                    //プレイヤーを持ち上げ時のイラストに変更
-                    if (gameObject.name == "Player1")
-                    {
-                        Debug.Log("P1持ち上げ画像");
-                        GetComponent<SpriteRenderer>().sprite = p1LiftImage;
-                    }
-                    else if (gameObject.name == "Player2")
-                    {
-                        Debug.Log("P2持ち上げ画像");
-                        GetComponent<SpriteRenderer>().sprite = p2LiftImage;
-                    }
-
                     if (PhotonNetwork.LocalPlayer.IsMasterClient)
                     {
+                        photonView.RPC(nameof(RpcChangeLiftImage), RpcTarget.All);
                         Move();
                     }
                     else
@@ -358,21 +355,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
             }
         }
 
-        //if (!PhotonNetwork.LocalPlayer.IsMasterClient && islift)
-        //{
-        //    Debug.Log("elselift");
-        //    //プレイヤーを持ち上げ時のイラストに変更
-        //    if (gameObject.name == "Player1")
-        //    {
-        //        Debug.Log("QQQP1持ち上げ画像");
-        //        GetComponent<SpriteRenderer>().sprite = p1LiftImage;
-        //    }
-        //    else if (gameObject.name == "Player2")
-        //    {
-        //        Debug.Log("QQQP2持ち上げ画像");
-        //        GetComponent<SpriteRenderer>().sprite = p2LiftImage;
-        //    }
-        //}
+       
 
         //各プレイヤーの現在座標を取得
         p1pos = ManagerAccessor.Instance.dataManager.player1.transform.position;
@@ -530,6 +513,22 @@ public class PlayerController : MonoBehaviourPunCallbacks
         {
             Debug.Log("QQQP2持ち上げ画像");
             GetComponent<SpriteRenderer>().sprite = p2LiftImage;
+        }
+    }
+
+    [PunRPC]
+    private void RpcChangeUnloadImage()
+    {
+        //プレイヤーがブロックを降ろしたときイラスト変更
+        if (gameObject.name == "Player1")
+        {
+            Debug.Log("P1降ろす画像");
+            GetComponent<SpriteRenderer>().sprite = p1Image;
+        }
+        else if (gameObject.name == "Player2")
+        {
+            Debug.Log("P2降ろす画像");
+            GetComponent<SpriteRenderer>().sprite = p2Image;
         }
     }
 }
