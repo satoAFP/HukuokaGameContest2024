@@ -65,9 +65,9 @@ public class AvatarTransformView : MonoBehaviourPunCallbacks, IPunObservable
                     {
                         //1Pと2Pの座標の差を記憶
                         if (!ManagerAccessor.Instance.dataManager.isAppearCopyKey)
-                            dis = dataManager.player1.transform.position - gameObject.transform.position;
+                            dis = dataManager.player1.transform.position - dataManager.player2.transform.position;
                         else
-                            dis = dataManager.copyKey.transform.position - gameObject.transform.position;
+                            dis = dataManager.copyKey.transform.position - dataManager.player2.transform.position;
                         distanceFirst = false;
                     }
 
@@ -84,9 +84,9 @@ public class AvatarTransformView : MonoBehaviourPunCallbacks, IPunObservable
                     {
                         //1Pと2Pの座標の差を記憶
                         if (!ManagerAccessor.Instance.dataManager.isAppearCopyKey)
-                            dis = dataManager.player1.transform.position - gameObject.transform.position;
+                            dis = dataManager.player1.transform.position - dataManager.player2.transform.position;
                         else
-                            dis = dataManager.copyKey.transform.position - gameObject.transform.position;
+                            dis = dataManager.copyKey.transform.position - dataManager.player2.transform.position;
                         distanceFirst = false;
                     }
 
@@ -126,9 +126,9 @@ public class AvatarTransformView : MonoBehaviourPunCallbacks, IPunObservable
                 {
                     //1Pと2Pの座標の差を記憶
                     if (!ManagerAccessor.Instance.dataManager.isAppearCopyKey)
-                        dis = dataManager.player1.transform.position - gameObject.transform.position;
+                        dis = dataManager.player1.transform.position - dataManager.player2.transform.position;
                     else
-                        dis = dataManager.copyKey.transform.position - gameObject.transform.position;
+                        dis = dataManager.copyKey.transform.position - dataManager.player2.transform.position;
                     distanceFirst = false;
                 }
 
