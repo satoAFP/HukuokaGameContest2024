@@ -262,6 +262,9 @@ public class PlayerController : MonoBehaviourPunCallbacks
                             {
                                 currentCopyKeyObject = PhotonNetwork.Instantiate("CopyKey", new Vector2(p1pos.x, p1pos.y + 1.0f), Quaternion.identity);
                                 movelock = true;
+
+                                //コピー鍵出現中フラグ
+                                ManagerAccessor.Instance.dataManager.isAppearCopyKey = true;
                                // Debug.Log("鍵だす");
 
                             }

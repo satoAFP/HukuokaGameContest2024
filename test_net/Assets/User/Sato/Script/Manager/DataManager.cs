@@ -32,6 +32,9 @@ public class DataManager : MonoBehaviourPunCallbacks
     //アンロックボタン操作中かどうか
     [System.NonSerialized] public bool isUnlockButtonStart = false;
 
+    //コピー鍵出現中かどうか
+    [System.NonSerialized] public bool isAppearCopyKey = false;
+
     //クリアフラグ
     [System.NonSerialized] public bool isClear = false;
 
