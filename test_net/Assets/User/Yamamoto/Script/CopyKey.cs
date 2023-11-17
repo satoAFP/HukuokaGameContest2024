@@ -47,7 +47,7 @@ public class CopyKey : MonoBehaviourPunCallbacks
         //PlayerのRigidbody2Dコンポーネントを取得する
         rigid = GetComponent<Rigidbody2D>();
 
-        
+        ManagerAccessor.Instance.dataManager.isAppearCopyKey = true;
 
         test_net = new Test_net();//スクリプトを変数に格納
 
