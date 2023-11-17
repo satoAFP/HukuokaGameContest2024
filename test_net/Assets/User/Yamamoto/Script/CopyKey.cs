@@ -38,11 +38,16 @@ public class CopyKey : MonoBehaviourPunCallbacks
     // Start is called before the first frame update
     void Start()
     {
+        //名前を設定
+        gameObject.name = "CopyKey";
+
+        //全体からコピー鍵取得
+        ManagerAccessor.Instance.dataManager.copyKey = gameObject;
+
         //PlayerのRigidbody2Dコンポーネントを取得する
         rigid = GetComponent<Rigidbody2D>();
 
-        //名前を設定
-        gameObject.name = "CopyKey";
+        
 
         test_net = new Test_net();//スクリプトを変数に格納
 

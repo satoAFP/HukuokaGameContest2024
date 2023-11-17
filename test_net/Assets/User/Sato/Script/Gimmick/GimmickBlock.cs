@@ -27,15 +27,22 @@ public class GimmickBlock : CGimmick
             if (PhotonNetwork.LocalPlayer.IsMasterClient)
             {
                 if (!ManagerAccessor.Instance.dataManager.isAppearCopyKey)
+                {
                     Player = ManagerAccessor.Instance.dataManager.player1;
+                    Debug.Log("aaa");
+                }
                 else
+                {
                     Player = ManagerAccessor.Instance.dataManager.copyKey;
+                    Debug.Log("bbb");
+                }
             }
             else
             {
                 Player = ManagerAccessor.Instance.dataManager.player2;
             }
 
+            Debug.Log(Player.name);
 
             //1P、2Pが触れているかつ、アクションしているとき持ち上がる
             if (hitOwner && ManagerAccessor.Instance.dataManager.isOwnerInputKey_CB &&

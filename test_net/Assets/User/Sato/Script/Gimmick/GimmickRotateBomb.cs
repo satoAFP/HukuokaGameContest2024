@@ -162,6 +162,7 @@ public class GimmickRotateBomb : MonoBehaviourPunCallbacks
             count = 0;
         }
 
+        Debug.Log("isOwnerMoveStart" + isOwnerMoveStart + "isClientMoveStart" + isClientMoveStart);
 
         //³‚µ‚­‰ñ“]‚µ‚½Žž
         if (count >= 4)
