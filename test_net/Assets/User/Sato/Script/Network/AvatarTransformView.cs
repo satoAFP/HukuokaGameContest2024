@@ -14,7 +14,9 @@ public class AvatarTransformView : MonoBehaviourPunCallbacks, IPunObservable
 
     private bool onKey = false; //移動しているかどうか
     private bool first = true;  //連続で処理が通らないため
+    private bool first1 = true;
 
+    private Vector3 memPos = Vector3.zero;
 
     private Rigidbody2D rb;     //リジットボディ
 
@@ -30,6 +32,44 @@ public class AvatarTransformView : MonoBehaviourPunCallbacks, IPunObservable
 
     private void Update()
     {
+        DataManager dataManager = ManagerAccessor.Instance.dataManager;
+
+        if (GetComponent<PlayerController>().islift)
+        {
+            if(first1)
+            {
+                memPos = transform.position;
+                first1 = false;
+            }
+
+            if (PhotonNetwork.IsMasterClient)
+            {
+                if (dataManager.isOwnerInputKey_C_L_RIGHT || dataManager.isOwnerInputKey_C_L_LEFT)
+                {
+                    memPos = transform.position;
+                }
+                else
+                {
+                    transform.position = memPos;
+                }
+            }
+            else
+            {
+                if (dataManager.isClientInputKey_C_L_RIGHT || dataManager.isClientInputKey_C_L_LEFT)
+                {
+                    memPos = transform.position;
+                }
+                else
+                {
+                    transform.position = memPos;
+                }
+            }
+        }
+        else
+        {
+            first1 = true;
+        }
+
         //データ送信サイド
         if(photonView.IsMine)
         {
