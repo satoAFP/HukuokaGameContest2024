@@ -45,7 +45,7 @@ public class GimmickBlock : CGimmick
                 Player = dataManager.player2;
             }
 
-
+            //koko
             //1P、2Pが触れているかつ、アクションしているとき持ち上がる
             if ((hitOwner && dataManager.isOwnerInputKey_CB &&
             hitClient && dataManager.isClientInputKey_CB &&
