@@ -14,9 +14,15 @@ public class AvatarTransformView : MonoBehaviourPunCallbacks, IPunObservable
 
     private bool onKey = false; //移動しているかどうか
     private bool first = true;  //連続で処理が通らないため
+    private bool first1 = true;
 
+    private Vector3 memPos = Vector3.zero;
 
     private Rigidbody2D rb;     //リジットボディ
+
+    //物を持ち上げて移動するとき、最初にプレイヤー同士の差を求める
+    private bool distanceFirst = true;
+    private Vector3 dis = Vector3.zero;
 
     private void Start()
     {
@@ -30,6 +36,80 @@ public class AvatarTransformView : MonoBehaviourPunCallbacks, IPunObservable
 
     private void Update()
     {
+        DataManager dataManager = ManagerAccessor.Instance.dataManager;
+
+        if (gameObject.name != "CopyKey")
+        {
+            if (GetComponent<PlayerController>().islift)
+            {
+                if (first1)
+                {
+                    memPos = transform.position;
+                    first1 = false;
+                }
+
+                if (PhotonNetwork.IsMasterClient)
+                {
+                    if (dataManager.isOwnerInputKey_C_L_RIGHT || dataManager.isOwnerInputKey_C_L_LEFT)
+                    {
+                        memPos = transform.position;
+                    }
+                    else
+                    {
+                        transform.position = memPos;
+                        Debug.Log("aaa");
+                    }
+                }
+                else
+                {
+                    //物を持ち上げて移動するとき、最初にプレイヤー同士の差を求める
+                    if (distanceFirst)
+                    {
+                        //1Pと2Pの座標の差を記憶
+                        if (!ManagerAccessor.Instance.dataManager.isAppearCopyKey)
+                            dis = dataManager.player1.transform.position - gameObject.transform.position;
+                        else
+                            dis = dataManager.copyKey.transform.position - gameObject.transform.position;
+                        distanceFirst = false;
+                    }
+
+                    //2Pが1Pに追従するようにする
+                    if (!ManagerAccessor.Instance.dataManager.isAppearCopyKey)
+                        transform.position = dataManager.player1.transform.position - dis;
+                    else
+                        transform.position = dataManager.copyKey.transform.position - dis;
+                }
+            }
+            else
+            {
+                first1 = true;
+            }
+        }
+        else
+        {
+            if (GetComponent<CopyKey>().islift)
+            {
+                if (first1)
+                {
+                    memPos = transform.position;
+                    first1 = false;
+                }
+
+                if (dataManager.isOwnerInputKey_C_L_RIGHT || dataManager.isOwnerInputKey_C_L_LEFT)
+                {
+                    memPos = transform.position;
+                }
+                else
+                {
+                    transform.position = memPos;
+                }
+            }
+            else
+            {
+                first1 = true;
+            }
+        }
+
         //データ送信サイド
         if(photonView.IsMine)
         {

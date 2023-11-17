@@ -79,7 +79,6 @@ public class GimmickBlock : CGimmick
                 else
                 {
                     ManagerAccessor.Instance.dataManager.player2.GetComponent<PlayerController>().islift = true;
-                    Debug.Log("bbb");
                 }
             }
             else
