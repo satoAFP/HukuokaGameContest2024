@@ -50,6 +50,7 @@ public class AvatarTransformView : MonoBehaviourPunCallbacks, IPunObservable
 
                 if (PhotonNetwork.IsMasterClient)
                 {
+                    //座標ずれ修正
                     if (dataManager.isOwnerInputKey_C_L_RIGHT || dataManager.isOwnerInputKey_C_L_LEFT)
                     {
                         memPos = transform.position;
@@ -57,8 +58,24 @@ public class AvatarTransformView : MonoBehaviourPunCallbacks, IPunObservable
                     else
                     {
                         transform.position = memPos;
-                        Debug.Log("aaa");
                     }
+
+                    //物を持ち上げて移動するとき、最初にプレイヤー同士の差を求める
+                    if (distanceFirst)
+                    {
+                        //1Pと2Pの座標の差を記憶
+                        if (!ManagerAccessor.Instance.dataManager.isAppearCopyKey)
+                            dis = dataManager.player1.transform.position - gameObject.transform.position;
+                        else
+                            dis = dataManager.copyKey.transform.position - gameObject.transform.position;
+                        distanceFirst = false;
+                    }
+
+                    //2Pが1Pに追従するようにする
+                    if (!ManagerAccessor.Instance.dataManager.isAppearCopyKey)
+                        ManagerAccessor.Instance.dataManager.GetPlyerObj("Player2").transform.position = dataManager.player1.transform.position - dis;
+                    else
+                        ManagerAccessor.Instance.dataManager.GetPlyerObj("Player2").transform.position = dataManager.copyKey.transform.position - dis;
                 }
                 else
                 {
@@ -75,9 +92,9 @@ public class AvatarTransformView : MonoBehaviourPunCallbacks, IPunObservable
 
                     //2Pが1Pに追従するようにする
                     if (!ManagerAccessor.Instance.dataManager.isAppearCopyKey)
-                        transform.position = dataManager.player1.transform.position - dis;
+                        ManagerAccessor.Instance.dataManager.GetPlyerObj("Player2").transform.position = dataManager.player1.transform.position - dis;
                     else
-                        transform.position = dataManager.copyKey.transform.position - dis;
+                        ManagerAccessor.Instance.dataManager.GetPlyerObj("Player2").transform.position = dataManager.copyKey.transform.position - dis;
                 }
             }
             else
@@ -103,6 +120,23 @@ public class AvatarTransformView : MonoBehaviourPunCallbacks, IPunObservable
                 {
                     transform.position = memPos;
                 }
+
+                //物を持ち上げて移動するとき、最初にプレイヤー同士の差を求める
+                if (distanceFirst)
+                {
+                    //1Pと2Pの座標の差を記憶
+                    if (!ManagerAccessor.Instance.dataManager.isAppearCopyKey)
+                        dis = dataManager.player1.transform.position - gameObject.transform.position;
+                    else
+                        dis = dataManager.copyKey.transform.position - gameObject.transform.position;
+                    distanceFirst = false;
+                }
+
+                //2Pが1Pに追従するようにする
+                if (!ManagerAccessor.Instance.dataManager.isAppearCopyKey)
+                    ManagerAccessor.Instance.dataManager.GetPlyerObj("Player2").transform.position = dataManager.player1.transform.position - dis;
+                else
+                    ManagerAccessor.Instance.dataManager.GetPlyerObj("Player2").transform.position = dataManager.copyKey.transform.position - dis;
             }
             else
             {
@@ -146,16 +180,21 @@ public class AvatarTransformView : MonoBehaviourPunCallbacks, IPunObservable
             //時間加算
             elapsedTime += Time.deltaTime;
 
-            // 他プレイヤーのネットワークオブジェクトは、補間処理を行う
-            if (onKey)
+            //運んでいるときの座標ずれをなくすために、1P画面の時の2Pは運んでいるとき通信しないようにする
+            if ((!ManagerAccessor.Instance.dataManager.GetPlyerObj("Player1").GetComponent<PlayerController>().islift && PhotonNetwork.IsMasterClient) ||
+                !PhotonNetwork.IsMasterClient) 
             {
-                //移動時は補間処理
-                transform.position = Vector3.LerpUnclamped(p1, p2, elapsedTime / InterpolationPeriod);
-            }
-            else
-            {
-                //停止時は受信した座標を代入
-                transform.position = p2;
+                // 他プレイヤーのネットワークオブジェクトは、補間処理を行う
+                if (onKey)
+                {
+                    //移動時は補間処理
+                    transform.position = Vector3.LerpUnclamped(p1, p2, elapsedTime / InterpolationPeriod);
+                }
+                else
+                {
+                    //停止時は受信した座標を代入
+                    transform.position = p2;
+                }
             }
         }
     }
