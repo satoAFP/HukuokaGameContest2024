@@ -68,10 +68,19 @@ public class GimmickBlock : CGimmick
                     GetComponent<AvatarOnlyTransformView>().isPlayerMove = false;
 
                 liftMode = true;
-                if (!ManagerAccessor.Instance.dataManager.isAppearCopyKey)
-                    Player.GetComponent<PlayerController>().islift = true;
+
+                if(PhotonNetwork.IsMasterClient)
+                {
+                    if (!ManagerAccessor.Instance.dataManager.isAppearCopyKey)
+                        ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().islift = true;
+                    else
+                        ManagerAccessor.Instance.dataManager.copyKey.GetComponent<CopyKey>().islift = true;
+                }
                 else
-                    Player.GetComponent<CopyKey>().islift = true;
+                {
+                    ManagerAccessor.Instance.dataManager.player2.GetComponent<PlayerController>().islift = true;
+                    Debug.Log("bbb");
+                }
             }
             else
             {
@@ -88,10 +97,17 @@ public class GimmickBlock : CGimmick
                     hitOwner = false;
                     hitClient = false;
 
-                    if (!ManagerAccessor.Instance.dataManager.isAppearCopyKey)
-                        Player.GetComponent<PlayerController>().islift = false;
+                    if (PhotonNetwork.IsMasterClient)
+                    {
+                        if (!ManagerAccessor.Instance.dataManager.isAppearCopyKey)
+                            ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().islift = false;
+                        else
+                            ManagerAccessor.Instance.dataManager.copyKey.GetComponent<CopyKey>().islift = false;
+                    }
                     else
-                        Player.GetComponent<CopyKey>().islift = false;
+                    {
+                        ManagerAccessor.Instance.dataManager.player2.GetComponent<PlayerController>().islift = false;
+                    }
                 }
 
                 //ìØä˙âèú
