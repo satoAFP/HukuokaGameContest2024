@@ -160,7 +160,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
                         if (distanceFirst)
                         {
                             //1Pと2Pの座標の差を記憶
-                            dis = datamanager.player1.transform.position - datamanager.player2.transform.position;
+                            dis = datamanager.player1.transform.position - gameObject.transform.position;
                             distanceFirst = false;
 
                             //プレイヤーを持ち上げ時のイラストに変更
