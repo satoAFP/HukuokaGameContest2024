@@ -177,6 +177,9 @@ public class PlayerController : MonoBehaviourPunCallbacks
                                 dis = datamanager.player1.transform.position - gameObject.transform.position;
                             else
                                 dis = datamanager.copyKey.transform.position - gameObject.transform.position;
+
+                            photonView.RPC(nameof(RpcChangeLiftImage), RpcTarget.All);
+
                             distanceFirst = false;  
                         }
 
@@ -312,17 +315,6 @@ public class PlayerController : MonoBehaviourPunCallbacks
             if ((datamanager.isOwnerInputKey_C_L_RIGHT && datamanager.isClientInputKey_C_L_RIGHT) ||
                (datamanager.isOwnerInputKey_C_L_LEFT && datamanager.isClientInputKey_C_L_LEFT))
             {
-                if (gameObject.name == "Player1")
-                {
-                    Debug.Log("QQQP1持ち上げ画像");
-                    GetComponent<SpriteRenderer>().sprite = p1LiftImage;
-                }
-                else if (gameObject.name == "Player2")
-                {
-                    Debug.Log("QQQP2持ち上げ画像");
-                    GetComponent<SpriteRenderer>().sprite = p2LiftImage;
-                }
-
 
                 if (islift)
                 {
@@ -342,7 +334,6 @@ public class PlayerController : MonoBehaviourPunCallbacks
                         //2Pが1Pに追従するようにする
                         transform.position = datamanager.player1.transform.position - dis;
                     }
-
                 }
             }
             else
@@ -367,7 +358,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
             }
         }
 
-        //if (islift)
+        //if (!PhotonNetwork.LocalPlayer.IsMasterClient && islift)
         //{
         //    Debug.Log("elselift");
         //    //プレイヤーを持ち上げ時のイラストに変更
@@ -524,5 +515,21 @@ public class PlayerController : MonoBehaviourPunCallbacks
     private void RpcShareBoxOpen(bool data)
     {
         boxopen = data;
+    }
+
+    [PunRPC]
+    private void RpcChangeLiftImage()
+    {
+        //プレイヤーを持ち上げ時のイラストに変更
+        if (gameObject.name == "Player1")
+        {
+            Debug.Log("QQQP1持ち上げ画像");
+            GetComponent<SpriteRenderer>().sprite = p1LiftImage;
+        }
+        else if (gameObject.name == "Player2")
+        {
+            Debug.Log("QQQP2持ち上げ画像");
+            GetComponent<SpriteRenderer>().sprite = p2LiftImage;
+        }
     }
 }
