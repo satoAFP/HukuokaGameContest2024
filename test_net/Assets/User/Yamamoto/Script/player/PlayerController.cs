@@ -150,12 +150,25 @@ public class PlayerController : MonoBehaviourPunCallbacks
                 if ((datamanager.isOwnerInputKey_C_L_RIGHT&& datamanager.isClientInputKey_C_L_RIGHT)||
                    (datamanager.isOwnerInputKey_C_L_LEFT && datamanager.isClientInputKey_C_L_LEFT))
                 {
+                    //プレイヤーを持ち上げ時のイラストに変更
+                    if (gameObject.name == "Player1")
+                    {
+                        Debug.Log("P1持ち上げ画像");
+                        GetComponent<SpriteRenderer>().sprite = p1LiftImage;
+                    }
+                    else if (gameObject.name == "Player2")
+                    {
+                        Debug.Log("P2持ち上げ画像");
+                        GetComponent<SpriteRenderer>().sprite = p2LiftImage;
+                    }
+
                     if (PhotonNetwork.LocalPlayer.IsMasterClient)
                     {
                         Move();
                     }
                     else
                     {
+
                         //物を持ち上げて移動するとき、最初にプレイヤー同士の差を求める
                         if (distanceFirst)
                         {
@@ -164,19 +177,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
                                 dis = datamanager.player1.transform.position - gameObject.transform.position;
                             else
                                 dis = datamanager.copyKey.transform.position - gameObject.transform.position;
-                            distanceFirst = false;
-
-                            //プレイヤーを持ち上げ時のイラストに変更
-                            if (gameObject.name == "Player1")
-                            {
-                                Debug.Log("P1持ち上げ画像");
-                                GetComponent<SpriteRenderer>().sprite = p1LiftImage;
-                            }
-                            else if (gameObject.name == "Player2")
-                            {
-                                Debug.Log("P2持ち上げ画像");
-                                GetComponent<SpriteRenderer>().sprite = p2LiftImage;
-                            }
+                            distanceFirst = false;  
                         }
 
                         //2Pが1Pに追従するようにする
@@ -311,28 +312,31 @@ public class PlayerController : MonoBehaviourPunCallbacks
             if ((datamanager.isOwnerInputKey_C_L_RIGHT && datamanager.isClientInputKey_C_L_RIGHT) ||
                (datamanager.isOwnerInputKey_C_L_LEFT && datamanager.isClientInputKey_C_L_LEFT))
             {
+                if (gameObject.name == "Player1")
+                {
+                    Debug.Log("QQQP1持ち上げ画像");
+                    GetComponent<SpriteRenderer>().sprite = p1LiftImage;
+                }
+                else if (gameObject.name == "Player2")
+                {
+                    Debug.Log("QQQP2持ち上げ画像");
+                    GetComponent<SpriteRenderer>().sprite = p2LiftImage;
+                }
+
+
                 if (islift)
                 {
                     if (PhotonNetwork.LocalPlayer.IsMasterClient)
                     {
+                        //プレイヤーを持ち上げ時のイラストに変更
+                        Debug.Log("QQQelselift");
+
                         //物を持ち上げて移動するとき、最初にプレイヤー同士の差を求める
                         if (distanceFirst)
                         {
                             //1Pと2Pの座標の差を記憶
                             dis = datamanager.player1.transform.position - datamanager.player2.transform.position;
                             distanceFirst = false;
-
-                            //プレイヤーを持ち上げ時のイラストに変更
-                            //if (gameObject.name == "Player1")
-                            //{
-                            //    Debug.Log("P1持ち上げ画像");
-                            //    GetComponent<SpriteRenderer>().sprite = p1LiftImage;
-                            //}
-                            //else if (gameObject.name == "Player2")
-                            //{
-                            //    Debug.Log("P2持ち上げ画像");
-                            //    GetComponent<SpriteRenderer>().sprite = p2LiftImage;
-                            //}
                         }
 
                         //2Pが1Pに追従するようにする
@@ -361,28 +365,11 @@ public class PlayerController : MonoBehaviourPunCallbacks
                     }
                 }
             }
-
-            if (islift)
-            {
-                Debug.Log("elselift");
-                //プレイヤーを持ち上げ時のイラストに変更
-                if (gameObject.name == "Player1")
-                {
-                    Debug.Log("QQQP1持ち上げ画像");
-                    GetComponent<SpriteRenderer>().sprite = p1LiftImage;
-                }
-                else if (gameObject.name == "Player2")
-                {
-                    Debug.Log("QQQP2持ち上げ画像");
-                    GetComponent<SpriteRenderer>().sprite = p2LiftImage;
-                }
-            }
-
-
         }
 
-        //if(islift)
+        //if (islift)
         //{
+        //    Debug.Log("elselift");
         //    //プレイヤーを持ち上げ時のイラストに変更
         //    if (gameObject.name == "Player1")
         //    {
