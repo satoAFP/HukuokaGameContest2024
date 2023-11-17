@@ -153,18 +153,6 @@ public class PlayerController : MonoBehaviourPunCallbacks
                     if (PhotonNetwork.LocalPlayer.IsMasterClient)
                     {
                         Move();
-
-                        //プレイヤーを持ち上げ時のイラストに変更
-                        if (gameObject.name == "Player1")
-                        {
-                            Debug.Log("P1持ち上げ画像");
-                            GetComponent<SpriteRenderer>().sprite = p1LiftImage;
-                        }
-                        else if (gameObject.name == "Player2")
-                        {
-                            Debug.Log("P2持ち上げ画像");
-                            GetComponent<SpriteRenderer>().sprite = p2LiftImage;
-                        }
                     }
                     else
                     {
@@ -174,6 +162,18 @@ public class PlayerController : MonoBehaviourPunCallbacks
                             //1Pと2Pの座標の差を記憶
                             dis = datamanager.player1.transform.position - datamanager.player2.transform.position;
                             distanceFirst = false;
+
+                            //プレイヤーを持ち上げ時のイラストに変更
+                            if (gameObject.name == "Player1")
+                            {
+                                Debug.Log("P1持ち上げ画像");
+                                GetComponent<SpriteRenderer>().sprite = p1LiftImage;
+                            }
+                            else if (gameObject.name == "Player2")
+                            {
+                                Debug.Log("P2持ち上げ画像");
+                                GetComponent<SpriteRenderer>().sprite = p2LiftImage;
+                            }
                         }
 
                         //2Pが1Pに追従するようにする
@@ -309,24 +309,24 @@ public class PlayerController : MonoBehaviourPunCallbacks
                 {
                     if (PhotonNetwork.LocalPlayer.IsMasterClient)
                     {
-                        //プレイヤーを持ち上げ時のイラストに変更
-                        if (gameObject.name == "Player1")
-                        {
-                            Debug.Log("P1持ち上げ画像");
-                            GetComponent<SpriteRenderer>().sprite = p1LiftImage;
-                        }
-                        else if (gameObject.name == "Player2")
-                        {
-                            Debug.Log("P2持ち上げ画像");
-                            GetComponent<SpriteRenderer>().sprite = p2LiftImage;
-                        }
-
                         //物を持ち上げて移動するとき、最初にプレイヤー同士の差を求める
                         if (distanceFirst)
                         {
                             //1Pと2Pの座標の差を記憶
                             dis = datamanager.player1.transform.position - datamanager.player2.transform.position;
                             distanceFirst = false;
+
+                            //プレイヤーを持ち上げ時のイラストに変更
+                            //if (gameObject.name == "Player1")
+                            //{
+                            //    Debug.Log("P1持ち上げ画像");
+                            //    GetComponent<SpriteRenderer>().sprite = p1LiftImage;
+                            //}
+                            //else if (gameObject.name == "Player2")
+                            //{
+                            //    Debug.Log("P2持ち上げ画像");
+                            //    GetComponent<SpriteRenderer>().sprite = p2LiftImage;
+                            //}
                         }
 
                         //2Pが1Pに追従するようにする
@@ -355,9 +355,40 @@ public class PlayerController : MonoBehaviourPunCallbacks
                     }
                 }
             }
-            
-         
+
+            if (islift)
+            {
+                Debug.Log("elselift");
+                //プレイヤーを持ち上げ時のイラストに変更
+                if (gameObject.name == "Player1")
+                {
+                    Debug.Log("QQQP1持ち上げ画像");
+                    GetComponent<SpriteRenderer>().sprite = p1LiftImage;
+                }
+                else if (gameObject.name == "Player2")
+                {
+                    Debug.Log("QQQP2持ち上げ画像");
+                    GetComponent<SpriteRenderer>().sprite = p2LiftImage;
+                }
+            }
+
+
         }
+
+        //if(islift)
+        //{
+        //    //プレイヤーを持ち上げ時のイラストに変更
+        //    if (gameObject.name == "Player1")
+        //    {
+        //        Debug.Log("QQQP1持ち上げ画像");
+        //        GetComponent<SpriteRenderer>().sprite = p1LiftImage;
+        //    }
+        //    else if (gameObject.name == "Player2")
+        //    {
+        //        Debug.Log("QQQP2持ち上げ画像");
+        //        GetComponent<SpriteRenderer>().sprite = p2LiftImage;
+        //    }
+        //}
 
         //各プレイヤーの現在座標を取得
         p1pos = ManagerAccessor.Instance.dataManager.player1.transform.position;
