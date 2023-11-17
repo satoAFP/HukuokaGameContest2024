@@ -168,10 +168,15 @@ public class GimmickRotateBomb : MonoBehaviourPunCallbacks
         if (count >= 4)
         {
             if (PhotonNetwork.IsMasterClient)
+            {
                 photonView.RPC(nameof(RpcShareIsMoveStart), RpcTarget.All, true, true);
+                Debug.Log("ccc");
+            }
             else
+            {
                 photonView.RPC(nameof(RpcShareIsMoveStart), RpcTarget.All, false, true);
-
+                Debug.Log("ddd");
+            }
             count = 0;
         }
 
@@ -308,7 +313,25 @@ public class GimmickRotateBomb : MonoBehaviourPunCallbacks
     //‰E‰ñ“]ˆ—
     private void RightRotate()
     {
-        if (dataManager.isOwnerInputKey_C_R_RIGHT)
+        //‚»‚ê‚¼‚ê‚Ì“ü—Íî•ñæ“¾
+        bool right, left, up, down;
+
+        if(PhotonNetwork.IsMasterClient)
+        {
+            right = dataManager.isOwnerInputKey_C_R_RIGHT;
+            left = dataManager.isOwnerInputKey_C_R_LEFT;
+            up = dataManager.isOwnerInputKey_C_R_UP;
+            down = dataManager.isOwnerInputKey_C_R_DOWN;
+        }
+        else
+        {
+            right = dataManager.isClientInputKey_C_R_RIGHT;
+            left = dataManager.isClientInputKey_C_R_LEFT;
+            up = dataManager.isClientInputKey_C_R_UP;
+            down = dataManager.isClientInputKey_C_R_DOWN;
+        }
+
+        if (right)
         {
             if (isRight)
             {
@@ -327,7 +350,7 @@ public class GimmickRotateBomb : MonoBehaviourPunCallbacks
             }
         }
 
-        if (dataManager.isOwnerInputKey_C_R_DOWN)
+        if (down)
         {
             if (isDown)
             {
@@ -346,7 +369,7 @@ public class GimmickRotateBomb : MonoBehaviourPunCallbacks
             }
         }
 
-        if (dataManager.isOwnerInputKey_C_R_LEFT)
+        if (left)
         {
             if (isLeft)
             {
@@ -365,7 +388,7 @@ public class GimmickRotateBomb : MonoBehaviourPunCallbacks
             }
         }
 
-        if (dataManager.isOwnerInputKey_C_R_UP)
+        if (up)
         {
             if (isUp)
             {
@@ -388,7 +411,25 @@ public class GimmickRotateBomb : MonoBehaviourPunCallbacks
     //¶‰ñ“]ˆ—
     private void LeftRotate()
     {
-        if (dataManager.isOwnerInputKey_C_R_RIGHT)
+        //‚»‚ê‚¼‚ê‚Ì“ü—Íî•ñæ“¾
+        bool right, left, up, down;
+
+        if (PhotonNetwork.IsMasterClient)
+        {
+            right = dataManager.isOwnerInputKey_C_R_RIGHT;
+            left = dataManager.isOwnerInputKey_C_R_LEFT;
+            up = dataManager.isOwnerInputKey_C_R_UP;
+            down = dataManager.isOwnerInputKey_C_R_DOWN;
+        }
+        else
+        {
+            right = dataManager.isClientInputKey_C_R_RIGHT;
+            left = dataManager.isClientInputKey_C_R_LEFT;
+            up = dataManager.isClientInputKey_C_R_UP;
+            down = dataManager.isClientInputKey_C_R_DOWN;
+        }
+
+        if (right)
         {
             if (isRight)
             {
@@ -407,7 +448,7 @@ public class GimmickRotateBomb : MonoBehaviourPunCallbacks
             }
         }
 
-        if (dataManager.isOwnerInputKey_C_R_UP)
+        if (up)
         {
             if (isUp)
             {
@@ -426,7 +467,7 @@ public class GimmickRotateBomb : MonoBehaviourPunCallbacks
             }
         }
 
-        if (dataManager.isOwnerInputKey_C_R_LEFT)
+        if (left)
         {
             if (isLeft)
             {
@@ -446,7 +487,7 @@ public class GimmickRotateBomb : MonoBehaviourPunCallbacks
         }
 
 
-        if (dataManager.isOwnerInputKey_C_R_DOWN)
+        if (down)
         {
             if (isDown)
             {
