@@ -8,6 +8,9 @@ public class GimmickBlock : CGimmick
     //オブジェクトが持ち上がっているとき
     [System.NonSerialized] public bool liftMode = false;
 
+    //データマネージャー取得
+    DataManager dataManager = null;
+
     private GameObject Player = null;
 
     //1P、2Pがそれぞれ当たっている判定
@@ -22,29 +25,34 @@ public class GimmickBlock : CGimmick
 
     private void FixedUpdate()
     {
-        if (ManagerAccessor.Instance.dataManager.player1 != null && ManagerAccessor.Instance.dataManager.player2 != null) 
+        dataManager = ManagerAccessor.Instance.dataManager;
+
+        if (dataManager.player1 != null && dataManager.player2 != null) 
         {
             if (PhotonNetwork.LocalPlayer.IsMasterClient)
             {
-                if (!ManagerAccessor.Instance.dataManager.isAppearCopyKey)
+                if (!dataManager.isAppearCopyKey)
                 {
-                    Player = ManagerAccessor.Instance.dataManager.player1;
+                    Player = dataManager.player1;
                 }
                 else
                 {
-                    Player = ManagerAccessor.Instance.dataManager.copyKey;
+                    Player = dataManager.copyKey;
                 }
             }
             else
             {
-                Player = ManagerAccessor.Instance.dataManager.player2;
+                Player = dataManager.player2;
             }
 
-            Debug.Log(Player.name);
 
             //1P、2Pが触れているかつ、アクションしているとき持ち上がる
-            if (hitOwner && ManagerAccessor.Instance.dataManager.isOwnerInputKey_CB &&
-            hitClient && ManagerAccessor.Instance.dataManager.isClientInputKey_CB)
+            if ((hitOwner && dataManager.isOwnerInputKey_CB &&
+            hitClient && dataManager.isClientInputKey_CB &&
+            dataManager.isOwnerHitRight && dataManager.isClientHitLeft) ||
+            (hitOwner && dataManager.isOwnerInputKey_CB &&
+            hitClient && dataManager.isClientInputKey_CB &&
+            dataManager.isOwnerHitLeft && dataManager.isClientHitRight)) 
             {
                 if (first)
                 {
@@ -71,7 +79,7 @@ public class GimmickBlock : CGimmick
 
                 if(PhotonNetwork.IsMasterClient)
                 {
-                    if (!ManagerAccessor.Instance.dataManager.isAppearCopyKey)
+                    if (!dataManager.isAppearCopyKey)
                         ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().islift = true;
                     else
                         ManagerAccessor.Instance.dataManager.copyKey.GetComponent<CopyKey>().islift = true;
@@ -98,7 +106,7 @@ public class GimmickBlock : CGimmick
 
                     if (PhotonNetwork.IsMasterClient)
                     {
-                        if (!ManagerAccessor.Instance.dataManager.isAppearCopyKey)
+                        if (!dataManager.isAppearCopyKey)
                             ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().islift = false;
                         else
                             ManagerAccessor.Instance.dataManager.copyKey.GetComponent<CopyKey>().islift = false;
@@ -125,7 +133,7 @@ public class GimmickBlock : CGimmick
         if (collision.gameObject.name == "Player1" || collision.gameObject.name == "CopyKey")
         {
             //押すべきボタンの画像表示
-            if (PhotonNetwork.IsMasterClient)
+            if (PhotonNetwork.IsMasterClient && (dataManager.isOwnerHitRight || dataManager.isOwnerHitLeft)) 
             {
                 collision.transform.GetChild(0).gameObject.SetActive(true);
                 collision.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = ManagerAccessor.Instance.spriteManager.ArrowRight;
@@ -137,7 +145,7 @@ public class GimmickBlock : CGimmick
         if (collision.gameObject.name == "Player2")
         {
             //押すべきボタンの画像表示
-            if (!PhotonNetwork.IsMasterClient)
+            if (!PhotonNetwork.IsMasterClient && (dataManager.isClientHitRight || dataManager.isClientHitLeft))
             {
                 collision.transform.GetChild(0).gameObject.SetActive(true);
                 collision.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = ManagerAccessor.Instance.spriteManager.ArrowRight;
@@ -169,18 +177,6 @@ public class GimmickBlock : CGimmick
                 hitClient = false;
             }
         }
-    }
-
-    [PunRPC]
-    private void RpcShareIsOwner(bool data)
-    {
-        hitOwner = data;
-    }
-
-    [PunRPC]
-    private void RpcShareIsClient(bool data)
-    {
-        hitClient = data;
     }
 
 }
