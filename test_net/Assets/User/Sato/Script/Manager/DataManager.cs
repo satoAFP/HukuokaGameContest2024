@@ -28,9 +28,13 @@ public class DataManager : MonoBehaviourPunCallbacks
     //プレイヤーオブジェクト取得
     [System.NonSerialized] public GameObject player1 = null;
     [System.NonSerialized] public GameObject player2 = null;
+    [System.NonSerialized] public GameObject copyKey = null;
 
     //アンロックボタン操作中かどうか
     [System.NonSerialized] public bool isUnlockButtonStart = false;
+
+    //コピー鍵出現中かどうか
+    [System.NonSerialized] public bool isAppearCopyKey = false;
 
     //クリアフラグ
     [System.NonSerialized] public bool isClear = false;

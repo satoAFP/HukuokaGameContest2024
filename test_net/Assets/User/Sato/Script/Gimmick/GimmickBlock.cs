@@ -26,7 +26,10 @@ public class GimmickBlock : CGimmick
         {
             if (PhotonNetwork.LocalPlayer.IsMasterClient)
             {
-                Player = ManagerAccessor.Instance.dataManager.player1;
+                if (!ManagerAccessor.Instance.dataManager.isAppearCopyKey)
+                    Player = ManagerAccessor.Instance.dataManager.player1;
+                else
+                    Player = ManagerAccessor.Instance.dataManager.copyKey;
             }
             else
             {

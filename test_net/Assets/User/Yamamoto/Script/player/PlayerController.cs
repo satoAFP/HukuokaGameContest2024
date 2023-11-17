@@ -97,12 +97,17 @@ public class PlayerController : MonoBehaviourPunCallbacks
         if (gameObject.name == "Player1")
         {
             GetComponent<SpriteRenderer>().sprite = p1Image;
-            ManagerAccessor.Instance.dataManager.player1 = ManagerAccessor.Instance.dataManager.GetPlyerObj("Player1");
+            ManagerAccessor.Instance.dataManager.player1 = gameObject;
         }
         if (gameObject.name == "Player2")
         {
             GetComponent<SpriteRenderer>().sprite = p2Image;
-            ManagerAccessor.Instance.dataManager.player2 = ManagerAccessor.Instance.dataManager.GetPlyerObj("Player2");
+            ManagerAccessor.Instance.dataManager.player2 = gameObject;
+        }
+        if (gameObject.name == "CopyKey")
+        {
+            GetComponent<SpriteRenderer>().sprite = p2Image;
+            ManagerAccessor.Instance.dataManager.copyKey = gameObject;
         }
 
         test_net = new Test_net();//スクリプトを変数に格納
@@ -137,19 +142,6 @@ public class PlayerController : MonoBehaviourPunCallbacks
                 {
                     Move();//移動処理をON
                 }
-
-                //プレイヤーを元のイラストに変更
-                if (gameObject.name == "Player1")
-                {
-                    Debug.Log("IsMineP1基画像");
-                    GetComponent<SpriteRenderer>().sprite = p1Image;
-                }
-                else if (gameObject.name == "Player2")
-                {
-                    Debug.Log("IsMineP2基画像");
-                    GetComponent<SpriteRenderer>().sprite = p2Image;
-                }
-
                 distanceFirst = true;
             }
             else
@@ -160,19 +152,19 @@ public class PlayerController : MonoBehaviourPunCallbacks
                 {
                     if (PhotonNetwork.LocalPlayer.IsMasterClient)
                     {
+                        Move();
+
                         //プレイヤーを持ち上げ時のイラストに変更
                         if (gameObject.name == "Player1")
                         {
-                            Debug.Log("IsMineP1持ち上げ画像");
+                            Debug.Log("P1持ち上げ画像");
                             GetComponent<SpriteRenderer>().sprite = p1LiftImage;
                         }
-                        else if(gameObject.name == "Player2")
+                        else if (gameObject.name == "Player2")
                         {
-                            Debug.Log("IsMineP2持ち上げ画像");
+                            Debug.Log("P2持ち上げ画像");
                             GetComponent<SpriteRenderer>().sprite = p2LiftImage;
                         }
-
-                        Move();
                     }
                     else
                     {
@@ -275,6 +267,9 @@ public class PlayerController : MonoBehaviourPunCallbacks
                             {
                                 currentCopyKeyObject = PhotonNetwork.Instantiate("CopyKey", new Vector2(p1pos.x, p1pos.y + 1.0f), Quaternion.identity);
                                 movelock = true;
+
+                                //コピー鍵出現中フラグ
+                                ManagerAccessor.Instance.dataManager.isAppearCopyKey = true;
                                // Debug.Log("鍵だす");
 
                             }
@@ -314,24 +309,24 @@ public class PlayerController : MonoBehaviourPunCallbacks
                 {
                     if (PhotonNetwork.LocalPlayer.IsMasterClient)
                     {
+                        //プレイヤーを持ち上げ時のイラストに変更
+                        if (gameObject.name == "Player1")
+                        {
+                            Debug.Log("P1持ち上げ画像");
+                            GetComponent<SpriteRenderer>().sprite = p1LiftImage;
+                        }
+                        else if (gameObject.name == "Player2")
+                        {
+                            Debug.Log("P2持ち上げ画像");
+                            GetComponent<SpriteRenderer>().sprite = p2LiftImage;
+                        }
+
                         //物を持ち上げて移動するとき、最初にプレイヤー同士の差を求める
                         if (distanceFirst)
                         {
                             //1Pと2Pの座標の差を記憶
                             dis = datamanager.player1.transform.position - datamanager.player2.transform.position;
                             distanceFirst = false;
-
-                            //プレイヤーを持ち上げ時のイラストに変更
-                            if (gameObject.name == "Player1")
-                            {
-                                Debug.Log("P1持ち上げ画像");
-                                GetComponent<SpriteRenderer>().sprite = p1LiftImage;
-                            }
-                            else if (gameObject.name == "Player2")
-                            {
-                                Debug.Log("P2持ち上げ画像");
-                                GetComponent<SpriteRenderer>().sprite = p2LiftImage;
-                            }
                         }
 
                         //2Pが1Pに追従するようにする
@@ -343,18 +338,6 @@ public class PlayerController : MonoBehaviourPunCallbacks
             else
             {
                 distanceFirst = true;
-
-                //プレイヤーを元のイラストに変更
-                if (gameObject.name == "Player1")
-                {
-                    Debug.Log("P1元画像");
-                    GetComponent<SpriteRenderer>().sprite = p1Image;
-                }
-                else if (gameObject.name == "Player2")
-                {
-                    Debug.Log("P2元画像");
-                    GetComponent<SpriteRenderer>().sprite = p2Image;
-                }
             }
 
             if (movelock)
@@ -454,10 +437,10 @@ public class PlayerController : MonoBehaviourPunCallbacks
     //移動処理
     public void OnMove(InputAction.CallbackContext context)
     {
-        //if (gameObject.name == "Player2")
-        //{
-        //    Debug.Log("プレイヤー2認識");
-        //}
+        if (gameObject.name == "Player2")
+        {
+            Debug.Log("プレイヤー2認識");
+        }
 
 
         //操作が競合しないための設定
@@ -466,7 +449,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
             //移動ロックがかかっていなければ移動
             if(!movelock)
             {
-               // Debug.Log("スティック動かして移動している");
+                Debug.Log("スティック動かして移動している");
                 //移動方向の入力情報がInputdirectionの中に入るようになる
                 inputDirection = context.ReadValue<Vector2>();
 

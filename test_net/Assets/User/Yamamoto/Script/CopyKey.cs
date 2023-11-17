@@ -99,6 +99,10 @@ public class CopyKey : MonoBehaviourPunCallbacks
                 if (holdtime <= 0)//回収カウントが0になると回収
                 {
                     Destroy(gameObject);
+
+                    //コピー鍵出現中フラグ
+                    ManagerAccessor.Instance.dataManager.isAppearCopyKey = false;
+                    ManagerAccessor.Instance.dataManager.copyKey = null;
                 }
             }
             else
