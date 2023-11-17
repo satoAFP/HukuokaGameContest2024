@@ -29,12 +29,10 @@ public class GimmickBlock : CGimmick
                 if (!ManagerAccessor.Instance.dataManager.isAppearCopyKey)
                 {
                     Player = ManagerAccessor.Instance.dataManager.player1;
-                    Debug.Log("aaa");
                 }
                 else
                 {
                     Player = ManagerAccessor.Instance.dataManager.copyKey;
-                    Debug.Log("bbb");
                 }
             }
             else
@@ -70,7 +68,10 @@ public class GimmickBlock : CGimmick
                     GetComponent<AvatarOnlyTransformView>().isPlayerMove = false;
 
                 liftMode = true;
-                Player.GetComponent<PlayerController>().islift = true;
+                if (!ManagerAccessor.Instance.dataManager.isAppearCopyKey)
+                    Player.GetComponent<PlayerController>().islift = true;
+                else
+                    Player.GetComponent<CopyKey>().islift = true;
             }
             else
             {
@@ -87,7 +88,10 @@ public class GimmickBlock : CGimmick
                     hitOwner = false;
                     hitClient = false;
 
-                    Player.GetComponent<PlayerController>().islift = false;
+                    if (!ManagerAccessor.Instance.dataManager.isAppearCopyKey)
+                        Player.GetComponent<PlayerController>().islift = false;
+                    else
+                        Player.GetComponent<CopyKey>().islift = false;
                 }
 
                 //ìØä˙âèú
