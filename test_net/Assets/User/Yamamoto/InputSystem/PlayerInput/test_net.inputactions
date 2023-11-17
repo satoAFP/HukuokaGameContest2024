@@ -33,15 +33,6 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Action",
-                    "type": "Button",
-                    "id": "c76de7bd-b413-4b85-8b7a-55ef518f3810",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "ActionPressA",
                     "type": "Button",
                     "id": "3484cd2b-bc1f-4ed9-b26a-093a4fac76a5",
@@ -278,17 +269,6 @@
                     "processors": "",
                     "groups": "",
                     "action": "Move",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "ee6ee49d-67e9-418e-a5e8-776eac711fa8",
-                    "path": "<Gamepad>/buttonEast",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Gamepad",
-                    "action": "Action",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

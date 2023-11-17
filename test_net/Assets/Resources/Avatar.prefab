@@ -1075,22 +1075,6 @@ MonoBehaviour:
     m_ActionName: UI/TrackedDeviceOrientation
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7248784080295700648}
-        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
-        m_MethodName: OnAction
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: c76de7bd-b413-4b85-8b7a-55ef518f3810
-    m_ActionName: Player/Action[/XInputControllerWindows/buttonEast]
-  - m_PersistentCalls:
-      m_Calls:
       - m_Target: {fileID: 8605329434926695506}
         m_TargetAssemblyTypeName: PlayerGimmickActionManagement, Assembly-CSharp
         m_MethodName: OnActionPressB
@@ -1489,6 +1473,38 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: c61a7bb8-c30c-4326-9351-9c666c3f6d97
     m_ActionName: Player/RightStick[/XInputControllerWindows/rightStick]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7248784080295700648}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: LeftStickLeft
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 83326a9b-1916-4fc9-bacd-e8156abe9081
+    m_ActionName: Player/LeftStickLeft[/SwitchProControllerHID/leftStick/left]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7248784080295700648}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: LeftStickRight
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 33a34c55-1228-48e6-b994-bce8ca69e203
+    m_ActionName: Player/LeftStickRight[/SwitchProControllerHID/leftStick/right]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Gamepad
   m_DefaultActionMap: Player
