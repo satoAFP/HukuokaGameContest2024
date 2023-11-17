@@ -102,6 +102,7 @@ public class CopyKey : MonoBehaviourPunCallbacks
 
                     //コピー鍵出現中フラグ
                     ManagerAccessor.Instance.dataManager.isAppearCopyKey = false;
+                    ManagerAccessor.Instance.dataManager.copyKey = null;
                 }
             }
             else

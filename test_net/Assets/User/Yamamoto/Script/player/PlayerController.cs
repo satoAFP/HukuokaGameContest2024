@@ -97,12 +97,17 @@ public class PlayerController : MonoBehaviourPunCallbacks
         if (gameObject.name == "Player1")
         {
             GetComponent<SpriteRenderer>().sprite = p1Image;
-            ManagerAccessor.Instance.dataManager.player1 = ManagerAccessor.Instance.dataManager.GetPlyerObj("Player1");
+            ManagerAccessor.Instance.dataManager.player1 = gameObject;
         }
         if (gameObject.name == "Player2")
         {
             GetComponent<SpriteRenderer>().sprite = p2Image;
-            ManagerAccessor.Instance.dataManager.player2 = ManagerAccessor.Instance.dataManager.GetPlyerObj("Player2");
+            ManagerAccessor.Instance.dataManager.player2 = gameObject;
+        }
+        if (gameObject.name == "CopyKey")
+        {
+            GetComponent<SpriteRenderer>().sprite = p2Image;
+            ManagerAccessor.Instance.dataManager.copyKey = gameObject;
         }
 
         test_net = new Test_net();//スクリプトを変数に格納
