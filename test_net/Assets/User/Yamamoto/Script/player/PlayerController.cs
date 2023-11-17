@@ -160,7 +160,10 @@ public class PlayerController : MonoBehaviourPunCallbacks
                         if (distanceFirst)
                         {
                             //1Pと2Pの座標の差を記憶
-                            dis = datamanager.player1.transform.position - gameObject.transform.position;
+                            if (!ManagerAccessor.Instance.dataManager.isAppearCopyKey)
+                                dis = datamanager.player1.transform.position - gameObject.transform.position;
+                            else
+                                dis = datamanager.copyKey.transform.position - gameObject.transform.position;
                             distanceFirst = false;
 
                             //プレイヤーを持ち上げ時のイラストに変更
@@ -177,7 +180,10 @@ public class PlayerController : MonoBehaviourPunCallbacks
                         }
 
                         //2Pが1Pに追従するようにする
-                        transform.position = datamanager.player1.transform.position - dis;
+                        if (!ManagerAccessor.Instance.dataManager.isAppearCopyKey)
+                            transform.position = datamanager.player1.transform.position - dis;
+                        else
+                            transform.position = datamanager.copyKey.transform.position - dis;
                     }
                 }
             }
