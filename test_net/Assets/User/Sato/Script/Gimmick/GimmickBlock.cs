@@ -29,7 +29,7 @@ public class GimmickBlock : CGimmick
     private void FixedUpdate()
     {
         dataManager = ManagerAccessor.Instance.dataManager;
-
+        
         if (dataManager.player1 != null && dataManager.player2 != null) 
         {
             if (PhotonNetwork.LocalPlayer.IsMasterClient)
@@ -47,8 +47,8 @@ public class GimmickBlock : CGimmick
             {
                 Player = dataManager.player2;
             }
-
-            //koko
+            Debug.Log(Player.name);
+            
             //1P、2Pが触れているかつ、アクションしているとき持ち上がる
             if (dataManager.isOwnerInputKey_CB && dataManager.isClientInputKey_CB) 
             {
@@ -74,7 +74,8 @@ public class GimmickBlock : CGimmick
                         first = false;
                     }
 
-                    
+                    //プレイヤーに追従させる
+                    gameObject.transform.position = dis + Player.transform.position;
 
                     //プレイヤーが動いているとき、ブロックサイドも同期させる
                     if (Player.GetComponent<AvatarTransformView>().isPlayerMove)
@@ -89,24 +90,15 @@ public class GimmickBlock : CGimmick
                         if (!dataManager.isAppearCopyKey)
                         {
                             ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().islift = true;
-
-                            //プレイヤーに追従させる
-                            gameObject.transform.position = dis + Player.transform.position;
                         }
                         else
                         {
                             ManagerAccessor.Instance.dataManager.copyKey.GetComponent<CopyKey>().islift = true;
-
-                            //プレイヤーに追従させる
-                            gameObject.transform.position = dis + Player.transform.position;
                         }
                     }
                     else
                     {
                         ManagerAccessor.Instance.dataManager.player2.GetComponent<PlayerController>().islift = true;
-
-                        //プレイヤーに追従させる
-                        gameObject.transform.position = dis + ManagerAccessor.Instance.dataManager.copyKey.transform.position;
                     }
                 }
             }
