@@ -59,38 +59,48 @@ public class CopyKey : MonoBehaviourPunCallbacks
     {
         DataManager datamanager = ManagerAccessor.Instance.dataManager;
 
-        //カーソルが鍵を選んでいるとき操作可能
-        if (!ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().keymovelock
-            && ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().choicecursor == "CopyKey")
+        //操作が競合しないための設定
+        if (photonView.IsMine)
         {
-            //持ち上げていないときは普通に移動させる
-            if (!islift)
+            //カーソルが鍵を選んでいるとき操作可能
+            if (!ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().keymovelock
+            && ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().choicecursor == "CopyKey")
             {
-                Move();//移動処理をON
-                distanceFirst = true;
-            }
-            else
-            {
-                //持ち上げている時は2プレイヤーが同じ移動方向を入力時移動
-                if ((datamanager.isOwnerInputKey_C_L_RIGHT && datamanager.isClientInputKey_C_L_RIGHT) ||
-                   (datamanager.isOwnerInputKey_C_L_LEFT && datamanager.isClientInputKey_C_L_LEFT))
+                //持ち上げていないときは普通に移動させる
+                if (!islift)
                 {
-                    if (PhotonNetwork.LocalPlayer.IsMasterClient)
+                    Move();//移動処理をON
+                    distanceFirst = true;
+                }
+                else
+                {
+                    //持ち上げている時は2プレイヤーが同じ移動方向を入力時移動
+                    if ((datamanager.isOwnerInputKey_C_L_RIGHT && datamanager.isClientInputKey_C_L_RIGHT) ||
+                       (datamanager.isOwnerInputKey_C_L_LEFT && datamanager.isClientInputKey_C_L_LEFT))
                     {
-                        Move();
-                    }
-                    else
-                    {
-                        //物を持ち上げて移動するとき、最初にプレイヤー同士の差を求める
-                        if (distanceFirst)
+                        if (PhotonNetwork.LocalPlayer.IsMasterClient)
                         {
-                            //1Pと2Pの座標の差を記憶
-                            dis = datamanager.player1.transform.position - datamanager.player2.transform.position;
-                            distanceFirst = false;
+                            Move();
                         }
+                        else
+                        {
+                            //物を持ち上げて移動するとき、最初にプレイヤー同士の差を求める
+                            if (distanceFirst)
+                            {
+                                //1Pと2Pの座標の差を記憶
+                                if (!ManagerAccessor.Instance.dataManager.isAppearCopyKey)
+                                    dis = datamanager.player1.transform.position - gameObject.transform.position;
+                                else
+                                    dis = datamanager.copyKey.transform.position - gameObject.transform.position;
+                                distanceFirst = false;
+                            }
 
-                        //2Pが1Pに追従するようにする
-                        transform.position = datamanager.player1.transform.position - dis;
+                            //2Pが1Pに追従するようにする
+                            if (!ManagerAccessor.Instance.dataManager.isAppearCopyKey)
+                                transform.position = datamanager.player1.transform.position - dis;
+                            else
+                                transform.position = datamanager.copyKey.transform.position - dis;
+                        }
                     }
                 }
             }

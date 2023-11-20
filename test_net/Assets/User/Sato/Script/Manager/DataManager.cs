@@ -148,12 +148,13 @@ public class DataManager : MonoBehaviourPunCallbacks
         GameObject[] p = GameObject.FindGameObjectsWithTag("Player");
 
         //‚»‚ê‚¼‚ê–¼‘O‚ªˆê’v‚µ‚½‚ç•Ô‚·
-        if (p[0].name == name)
-            return p[0];
-        else if (p[1].name == name)
-            return p[1];
-        else
-            return null;
+        for (int i = 0; i < p.Length; i++) 
+        {
+            if (p[i].name == name)
+                return p[i];
+        }
+
+        return null;
     }
 
 
