@@ -6,6 +6,9 @@ public class AvatarTransformView : MonoBehaviourPunCallbacks, IPunObservable
     //プレイヤーが動いているか情報
     [System.NonSerialized] public bool isPlayerMove = false;
 
+    //データマネージャー取得
+    DataManager dataManager = null;
+
     private const float InterpolationPeriod = 0.1f; // 補間にかける時間
 
     private Vector3 p1;         //自身の座標記憶用
@@ -36,66 +39,13 @@ public class AvatarTransformView : MonoBehaviourPunCallbacks, IPunObservable
 
     private void Update()
     {
-        DataManager dataManager = ManagerAccessor.Instance.dataManager;
+        dataManager = ManagerAccessor.Instance.dataManager;
 
         if (gameObject.name != "CopyKey")
         {
             if (GetComponent<PlayerController>().islift)
             {
-                if (first1)
-                {
-                    memPos = transform.position;
-                    first1 = false;
-                }
-
-                if (PhotonNetwork.IsMasterClient)
-                {
-                    //座標ずれ修正
-                    if (dataManager.isOwnerInputKey_C_L_RIGHT || dataManager.isOwnerInputKey_C_L_LEFT)
-                    {
-                        memPos = transform.position;
-                    }
-                    else
-                    {
-                        transform.position = memPos;
-                    }
-
-                    //物を持ち上げて移動するとき、最初にプレイヤー同士の差を求める
-                    if (distanceFirst)
-                    {
-                        //1Pと2Pの座標の差を記憶
-                        if (!ManagerAccessor.Instance.dataManager.isAppearCopyKey)
-                            dis = dataManager.player1.transform.position - dataManager.player2.transform.position;
-                        else
-                            dis = dataManager.copyKey.transform.position - dataManager.player2.transform.position;
-                        distanceFirst = false;
-                    }
-
-                    //2Pが1Pに追従するようにする
-                    if (!ManagerAccessor.Instance.dataManager.isAppearCopyKey)
-                        ManagerAccessor.Instance.dataManager.GetPlyerObj("Player2").transform.position = dataManager.player1.transform.position - dis;
-                    else
-                        ManagerAccessor.Instance.dataManager.GetPlyerObj("Player2").transform.position = dataManager.copyKey.transform.position - dis;
-                }
-                else
-                {
-                    //物を持ち上げて移動するとき、最初にプレイヤー同士の差を求める
-                    if (distanceFirst)
-                    {
-                        //1Pと2Pの座標の差を記憶
-                        if (!ManagerAccessor.Instance.dataManager.isAppearCopyKey)
-                            dis = dataManager.player1.transform.position - dataManager.player2.transform.position;
-                        else
-                            dis = dataManager.copyKey.transform.position - dataManager.player2.transform.position;
-                        distanceFirst = false;
-                    }
-
-                    //2Pが1Pに追従するようにする
-                    if (!ManagerAccessor.Instance.dataManager.isAppearCopyKey)
-                        ManagerAccessor.Instance.dataManager.GetPlyerObj("Player2").transform.position = dataManager.player1.transform.position - dis;
-                    else
-                        ManagerAccessor.Instance.dataManager.GetPlyerObj("Player2").transform.position = dataManager.copyKey.transform.position - dis;
-                }
+                LiftBlockPosShare();
             }
             else
             {
@@ -106,37 +56,7 @@ public class AvatarTransformView : MonoBehaviourPunCallbacks, IPunObservable
         {
             if (GetComponent<CopyKey>().islift)
             {
-                if (first1)
-                {
-                    memPos = transform.position;
-                    first1 = false;
-                }
-
-                if (dataManager.isOwnerInputKey_C_L_RIGHT || dataManager.isOwnerInputKey_C_L_LEFT)
-                {
-                    memPos = transform.position;
-                }
-                else
-                {
-                    transform.position = memPos;
-                }
-
-                //物を持ち上げて移動するとき、最初にプレイヤー同士の差を求める
-                if (distanceFirst)
-                {
-                    //1Pと2Pの座標の差を記憶
-                    if (!ManagerAccessor.Instance.dataManager.isAppearCopyKey)
-                        dis = dataManager.player1.transform.position - dataManager.player2.transform.position;
-                    else
-                        dis = dataManager.copyKey.transform.position - dataManager.player2.transform.position;
-                    distanceFirst = false;
-                }
-
-                //2Pが1Pに追従するようにする
-                if (!ManagerAccessor.Instance.dataManager.isAppearCopyKey)
-                    ManagerAccessor.Instance.dataManager.GetPlyerObj("Player2").transform.position = dataManager.player1.transform.position - dis;
-                else
-                    ManagerAccessor.Instance.dataManager.GetPlyerObj("Player2").transform.position = dataManager.copyKey.transform.position - dis;
+                LiftBlockPosShare();
             }
             else
             {
@@ -222,6 +142,66 @@ public class AvatarTransformView : MonoBehaviourPunCallbacks, IPunObservable
                 ManagerAccessor.Instance.dataManager.chat.text = "受信中";
         }
     }
+
+
+    private void LiftBlockPosShare()
+    {
+        if (first1)
+        {
+            memPos = transform.position;
+            first1 = false;
+        }
+
+        if (PhotonNetwork.IsMasterClient)
+        {
+            //座標ずれ修正
+            if (dataManager.isOwnerInputKey_C_L_RIGHT || dataManager.isOwnerInputKey_C_L_LEFT)
+            {
+                memPos = transform.position;
+            }
+            else
+            {
+                transform.position = memPos;
+            }
+
+            //物を持ち上げて移動するとき、最初にプレイヤー同士の差を求める
+            if (distanceFirst)
+            {
+                //1Pと2Pの座標の差を記憶
+                if (!ManagerAccessor.Instance.dataManager.isAppearCopyKey)
+                    dis = dataManager.player1.transform.position - dataManager.player2.transform.position;
+                else
+                    dis = dataManager.copyKey.transform.position - dataManager.player2.transform.position;
+                distanceFirst = false;
+            }
+
+            //2Pが1Pに追従するようにする
+            if (!ManagerAccessor.Instance.dataManager.isAppearCopyKey)
+                ManagerAccessor.Instance.dataManager.GetPlyerObj("Player2").transform.position = dataManager.player1.transform.position - dis;
+            else
+                ManagerAccessor.Instance.dataManager.GetPlyerObj("Player2").transform.position = dataManager.copyKey.transform.position - dis;
+        }
+        else
+        {
+            //物を持ち上げて移動するとき、最初にプレイヤー同士の差を求める
+            if (distanceFirst)
+            {
+                //1Pと2Pの座標の差を記憶
+                if (!ManagerAccessor.Instance.dataManager.isAppearCopyKey)
+                    dis = dataManager.player1.transform.position - dataManager.player2.transform.position;
+                else
+                    dis = dataManager.copyKey.transform.position - dataManager.player2.transform.position;
+                distanceFirst = false;
+            }
+
+            //2Pが1Pに追従するようにする
+            if (!ManagerAccessor.Instance.dataManager.isAppearCopyKey)
+                ManagerAccessor.Instance.dataManager.GetPlyerObj("Player2").transform.position = dataManager.player1.transform.position - dis;
+            else
+                ManagerAccessor.Instance.dataManager.GetPlyerObj("Player2").transform.position = dataManager.copyKey.transform.position - dis;
+        }
+    }
+
 
     //移動しているかどうかの情報送信
     [PunRPC]
