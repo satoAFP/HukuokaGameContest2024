@@ -47,46 +47,45 @@ public class GimmickBlock : CGimmick
 
             //koko
             //1P、2Pが触れているかつ、アクションしているとき持ち上がる
-            if ((hitOwner && dataManager.isOwnerInputKey_CB &&
-            hitClient && dataManager.isClientInputKey_CB &&
-            dataManager.isOwnerHitRight && dataManager.isClientHitLeft) ||
-            (hitOwner && dataManager.isOwnerInputKey_CB &&
-            hitClient && dataManager.isClientInputKey_CB &&
-            dataManager.isOwnerHitLeft && dataManager.isClientHitRight)) 
+            if (dataManager.isOwnerInputKey_CB && dataManager.isClientInputKey_CB) 
             {
-                if (first)
+                if ((hitOwner && hitClient && dataManager.isOwnerHitRight && dataManager.isClientHitLeft) ||
+                    (hitOwner && hitClient && dataManager.isOwnerHitLeft && dataManager.isClientHitRight))
                 {
-                    //持ち上がった位置に移動
-                    Vector3 input = gameObject.transform.position;
-                    input.y += 1.2f;
-                    gameObject.transform.localPosition = input;
+                    if (first)
+                    {
+                        //持ち上がった位置に移動
+                        Vector3 input = gameObject.transform.position;
+                        input.y += 1.2f;
+                        gameObject.transform.localPosition = input;
 
-                    dis = transform.position - Player.transform.position;
+                        dis = transform.position - Player.transform.position;
 
-                    first = false;
-                }
+                        first = false;
+                    }
 
-                //プレイヤーに追従させる
-                gameObject.transform.position = dis + Player.transform.position;
+                    //プレイヤーに追従させる
+                    gameObject.transform.position = dis + Player.transform.position;
 
-                //プレイヤーが動いているとき、ブロックサイドも同期させる
-                if (Player.GetComponent<AvatarTransformView>().isPlayerMove)
-                    GetComponent<AvatarOnlyTransformView>().isPlayerMove = true;
-                else
-                    GetComponent<AvatarOnlyTransformView>().isPlayerMove = false;
-
-                liftMode = true;
-
-                if(PhotonNetwork.IsMasterClient)
-                {
-                    if (!dataManager.isAppearCopyKey)
-                        ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().islift = true;
+                    //プレイヤーが動いているとき、ブロックサイドも同期させる
+                    if (Player.GetComponent<AvatarTransformView>().isPlayerMove)
+                        GetComponent<AvatarOnlyTransformView>().isPlayerMove = true;
                     else
-                        ManagerAccessor.Instance.dataManager.copyKey.GetComponent<CopyKey>().islift = true;
-                }
-                else
-                {
-                    ManagerAccessor.Instance.dataManager.player2.GetComponent<PlayerController>().islift = true;
+                        GetComponent<AvatarOnlyTransformView>().isPlayerMove = false;
+
+                    liftMode = true;
+
+                    if (PhotonNetwork.IsMasterClient)
+                    {
+                        if (!dataManager.isAppearCopyKey)
+                            ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().islift = true;
+                        else
+                            ManagerAccessor.Instance.dataManager.copyKey.GetComponent<CopyKey>().islift = true;
+                    }
+                    else
+                    {
+                        ManagerAccessor.Instance.dataManager.player2.GetComponent<PlayerController>().islift = true;
+                    }
                 }
             }
             else
