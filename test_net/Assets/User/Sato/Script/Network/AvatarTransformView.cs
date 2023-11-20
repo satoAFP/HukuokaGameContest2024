@@ -110,6 +110,7 @@ public class AvatarTransformView : MonoBehaviourPunCallbacks, IPunObservable
             else
             {
                 first1 = true;
+                distanceFirst = true;
             }
         }
         else
@@ -150,7 +151,8 @@ public class AvatarTransformView : MonoBehaviourPunCallbacks, IPunObservable
             }
             else
             {
-                first1 = true;
+                first1 = true; 
+                distanceFirst = true;
             }
         }
 

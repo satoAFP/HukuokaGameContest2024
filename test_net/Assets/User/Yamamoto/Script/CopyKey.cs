@@ -59,12 +59,13 @@ public class CopyKey : MonoBehaviourPunCallbacks
     {
         DataManager datamanager = ManagerAccessor.Instance.dataManager;
 
-        //操作が競合しないための設定
-        if (photonView.IsMine)
+
+        //カーソルが鍵を選んでいるとき操作可能
+        if (!ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().keymovelock
+        && ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().choicecursor == "CopyKey")
         {
-            //カーソルが鍵を選んでいるとき操作可能
-            if (!ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().keymovelock
-            && ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().choicecursor == "CopyKey")
+            //操作が競合しないための設定
+            if (photonView.IsMine)
             {
                 //持ち上げていないときは普通に移動させる
                 if (!islift)
@@ -104,7 +105,6 @@ public class CopyKey : MonoBehaviourPunCallbacks
                     }
                 }
             }
-
             //ゲームパッド下ボタンで置きなおし
             if (datamanager.isOwnerInputKey_CA)
             {
@@ -126,6 +126,7 @@ public class CopyKey : MonoBehaviourPunCallbacks
             }
         }
     }
+
 
     private void Move()//移動処理（計算部分）
     {
