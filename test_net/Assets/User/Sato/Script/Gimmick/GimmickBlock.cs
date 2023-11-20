@@ -74,8 +74,7 @@ public class GimmickBlock : CGimmick
                         first = false;
                     }
 
-                    //プレイヤーに追従させる
-                    gameObject.transform.position = dis + Player.transform.position;
+                    
 
                     //プレイヤーが動いているとき、ブロックサイドも同期させる
                     if (Player.GetComponent<AvatarTransformView>().isPlayerMove)
@@ -88,13 +87,26 @@ public class GimmickBlock : CGimmick
                     if (PhotonNetwork.IsMasterClient)
                     {
                         if (!dataManager.isAppearCopyKey)
+                        {
                             ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().islift = true;
+
+                            //プレイヤーに追従させる
+                            gameObject.transform.position = dis + Player.transform.position;
+                        }
                         else
+                        {
                             ManagerAccessor.Instance.dataManager.copyKey.GetComponent<CopyKey>().islift = true;
+
+                            //プレイヤーに追従させる
+                            gameObject.transform.position = dis + Player.transform.position;
+                        }
                     }
                     else
                     {
                         ManagerAccessor.Instance.dataManager.player2.GetComponent<PlayerController>().islift = true;
+
+                        //プレイヤーに追従させる
+                        gameObject.transform.position = dis + ManagerAccessor.Instance.dataManager.copyKey.transform.position;
                     }
                 }
             }
