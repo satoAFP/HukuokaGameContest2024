@@ -121,25 +121,28 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
         DataManager datamanager = ManagerAccessor.Instance.dataManager;
 
-        //操作が競合しないための設定
-        if (photonView.IsMine)
+        if (firstLR)
         {
             //プレイヤーの左右の向きを変える
             if (datamanager.isOwnerInputKey_C_L_LEFT || datamanager.isClientInputKey_C_L_LEFT)
             {
-                Debug.Log("左いいいい");
+                //Debug.Log("左いいいい");
                 left = true;
                 firstLR = false;
-                //transform.localScale = new Vector3(-1.0f, 1.0f, 1.0f);
+                photonView.RPC(nameof(RpcMoveLeftandRight), RpcTarget.All);
             }
-            else if(datamanager.isOwnerInputKey_C_L_RIGHT || datamanager.isClientInputKey_C_L_RIGHT)
+            else if (datamanager.isOwnerInputKey_C_L_RIGHT || datamanager.isClientInputKey_C_L_RIGHT)
             {
-                Debug.Log("右いいいい");
+               // Debug.Log("右いいいい");
                 left = false;
                 firstLR = false;
-                //transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+                photonView.RPC(nameof(RpcMoveLeftandRight), RpcTarget.All);
             }
+        }
 
+        //操作が競合しないための設定
+        if (photonView.IsMine)
+        {
             //持ち上げていないときは普通に移動させる
             if (!islift)
             {
@@ -383,32 +386,6 @@ public class PlayerController : MonoBehaviourPunCallbacks
         //プレイヤーが入力した方向に横方向限定で移動速度分の力を加える
         rigid.velocity = new Vector2(inputDirection.x * moveSpeed, rigid.velocity.y);
         //Debug.Log(inputDirection.x);
-
-        //移動方向によって画像の向きを変える
-        if (PhotonNetwork.LocalPlayer.IsMasterClient)
-        {
-            if (inputDirection.x < 0)
-            {
-                left = true;
-            }
-            else
-            {
-                left = false;
-            }
-        }
-        else
-        {
-            if (inputDirection.x < 0)
-            {
-                left = true;
-            }
-            else
-            {
-                left = false;
-            }
-        }
-
-
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -525,18 +502,18 @@ public class PlayerController : MonoBehaviourPunCallbacks
     [PunRPC]
     private void RpcMoveLeftandRight()
     {
-        //プレイヤーがブロックを降ろしたときイラスト変更
+        //プレイヤーが左右に移動した時その方向に対応してプレイヤーの向きを変える
         if (gameObject.name == "Player1")
         {
             if (left)
             {
-                Debug.Log("player1の左");
+                //Debug.Log("player1の左");
                 transform.localScale = new Vector3(-1.0f, 1.0f, 1.0f);
                 firstLR = true;
             }
             else
             {
-                Debug.Log("player1の右");
+               // Debug.Log("player1の右");
                 transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
                 firstLR = true;
             }
@@ -545,13 +522,13 @@ public class PlayerController : MonoBehaviourPunCallbacks
         {
             if (left)
             {
-                Debug.Log("player1の左");
+                //Debug.Log("player2の左");
                 transform.localScale = new Vector3(-1.0f, 1.0f, 1.0f);
                 firstLR = true;
             }
             else
             {
-                Debug.Log("player1の右");
+                //Debug.Log("player2の右");
                 transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
                 firstLR = true;
             }
