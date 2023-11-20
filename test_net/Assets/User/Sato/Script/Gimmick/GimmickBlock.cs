@@ -8,6 +8,9 @@ public class GimmickBlock : CGimmick
     //オブジェクトが持ち上がっているとき
     [System.NonSerialized] public bool liftMode = false;
 
+    //両者の持ち上げ準備完了フラグ
+    private bool isStart = false;
+
     //データマネージャー取得
     DataManager dataManager = null;
 
@@ -49,8 +52,15 @@ public class GimmickBlock : CGimmick
             //1P、2Pが触れているかつ、アクションしているとき持ち上がる
             if (dataManager.isOwnerInputKey_CB && dataManager.isClientInputKey_CB) 
             {
+                //持ち上げ準備完了
                 if ((hitOwner && hitClient && dataManager.isOwnerHitRight && dataManager.isClientHitLeft) ||
                     (hitOwner && hitClient && dataManager.isOwnerHitLeft && dataManager.isClientHitRight))
+                {
+                    isStart = true;
+                }
+
+                //持ち上げ開始
+                if (isStart)
                 {
                     if (first)
                     {
@@ -102,6 +112,7 @@ public class GimmickBlock : CGimmick
                     first = true;
                     hitOwner = false;
                     hitClient = false;
+                    isStart = false;
 
                     if (PhotonNetwork.IsMasterClient)
                     {
