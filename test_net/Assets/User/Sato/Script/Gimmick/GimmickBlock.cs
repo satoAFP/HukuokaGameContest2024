@@ -53,8 +53,8 @@ public class GimmickBlock : CGimmick
             if (dataManager.isOwnerInputKey_CB && dataManager.isClientInputKey_CB) 
             {
                 //‚¿ã‚°€”õŠ®—¹
-                if ((hitOwner && hitClient && dataManager.isOwnerHitRight && dataManager.isClientHitLeft) ||
-                    (hitOwner && hitClient && dataManager.isOwnerHitLeft && dataManager.isClientHitRight))
+                if ((hitOwner && hitClient /*&& dataManager.isOwnerHitRight && dataManager.isClientHitLeft*/) ||
+                    (hitOwner && hitClient /*&& dataManager.isOwnerHitLeft && dataManager.isClientHitRight*/))
                 {
                     isStart = true;
                 }
