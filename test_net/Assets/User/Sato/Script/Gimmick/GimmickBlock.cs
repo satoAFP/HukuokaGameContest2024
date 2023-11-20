@@ -8,6 +8,12 @@ public class GimmickBlock : CGimmick
     //オブジェクトが持ち上がっているとき
     [System.NonSerialized] public bool liftMode = false;
 
+    //両者の持ち上げ準備完了フラグ
+    private bool isStart = false;
+
+    //データマネージャー取得
+    DataManager dataManager = null;
+
     private GameObject Player = null;
 
     //1P、2Pがそれぞれ当たっている判定
@@ -22,55 +28,79 @@ public class GimmickBlock : CGimmick
 
     private void FixedUpdate()
     {
-        if (ManagerAccessor.Instance.dataManager.player1 != null && ManagerAccessor.Instance.dataManager.player2 != null) 
+        dataManager = ManagerAccessor.Instance.dataManager;
+        
+        if (dataManager.player1 != null && dataManager.player2 != null) 
         {
             if (PhotonNetwork.LocalPlayer.IsMasterClient)
             {
-                if (!ManagerAccessor.Instance.dataManager.isAppearCopyKey)
+                if (!dataManager.isAppearCopyKey)
                 {
-                    Player = ManagerAccessor.Instance.dataManager.player1;
-                    Debug.Log("aaa");
+                    Player = dataManager.player1;
                 }
                 else
                 {
-                    Player = ManagerAccessor.Instance.dataManager.copyKey;
-                    Debug.Log("bbb");
+                    Player = dataManager.copyKey;
                 }
             }
             else
             {
-                Player = ManagerAccessor.Instance.dataManager.player2;
+                Player = dataManager.player2;
             }
-
             Debug.Log(Player.name);
-
+            
             //1P、2Pが触れているかつ、アクションしているとき持ち上がる
-            if (hitOwner && ManagerAccessor.Instance.dataManager.isOwnerInputKey_CB &&
-            hitClient && ManagerAccessor.Instance.dataManager.isClientInputKey_CB)
+            if (dataManager.isOwnerInputKey_CB && dataManager.isClientInputKey_CB) 
             {
-                if (first)
+                //持ち上げ準備完了
+                if ((hitOwner && hitClient && dataManager.isOwnerHitRight && dataManager.isClientHitLeft) ||
+                    (hitOwner && hitClient && dataManager.isOwnerHitLeft && dataManager.isClientHitRight))
                 {
-                    //持ち上がった位置に移動
-                    Vector3 input = gameObject.transform.position;
-                    input.y += 1.2f;
-                    gameObject.transform.localPosition = input;
-
-                    dis = transform.position - Player.transform.position;
-
-                    first = false;
+                    isStart = true;
                 }
 
-                //プレイヤーに追従させる
-                gameObject.transform.position = dis + Player.transform.position;
+                //持ち上げ開始
+                if (isStart)
+                {
+                    if (first)
+                    {
+                        //持ち上がった位置に移動
+                        Vector3 input = gameObject.transform.position;
+                        input.y += 1.2f;
+                        gameObject.transform.localPosition = input;
 
-                //プレイヤーが動いているとき、ブロックサイドも同期させる
-                if (Player.GetComponent<AvatarTransformView>().isPlayerMove)
-                    GetComponent<AvatarOnlyTransformView>().isPlayerMove = true;
-                else
-                    GetComponent<AvatarOnlyTransformView>().isPlayerMove = false;
+                        dis = transform.position - Player.transform.position;
 
-                liftMode = true;
-                Player.GetComponent<PlayerController>().islift = true;
+                        first = false;
+                    }
+
+                    //プレイヤーに追従させる
+                    gameObject.transform.position = dis + Player.transform.position;
+
+                    //プレイヤーが動いているとき、ブロックサイドも同期させる
+                    if (Player.GetComponent<AvatarTransformView>().isPlayerMove)
+                        GetComponent<AvatarOnlyTransformView>().isPlayerMove = true;
+                    else
+                        GetComponent<AvatarOnlyTransformView>().isPlayerMove = false;
+
+                    liftMode = true;
+
+                    if (PhotonNetwork.IsMasterClient)
+                    {
+                        if (!dataManager.isAppearCopyKey)
+                        {
+                            ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().islift = true;
+                        }
+                        else
+                        {
+                            ManagerAccessor.Instance.dataManager.copyKey.GetComponent<CopyKey>().islift = true;
+                        }
+                    }
+                    else
+                    {
+                        ManagerAccessor.Instance.dataManager.player2.GetComponent<PlayerController>().islift = true;
+                    }
+                }
             }
             else
             {
@@ -86,8 +116,19 @@ public class GimmickBlock : CGimmick
                     first = true;
                     hitOwner = false;
                     hitClient = false;
+                    isStart = false;
 
-                    Player.GetComponent<PlayerController>().islift = false;
+                    if (PhotonNetwork.IsMasterClient)
+                    {
+                        if (!dataManager.isAppearCopyKey)
+                            ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().islift = false;
+                        else
+                            ManagerAccessor.Instance.dataManager.copyKey.GetComponent<CopyKey>().islift = false;
+                    }
+                    else
+                    {
+                        ManagerAccessor.Instance.dataManager.player2.GetComponent<PlayerController>().islift = false;
+                    }
                 }
 
                 //同期解除
@@ -106,7 +147,7 @@ public class GimmickBlock : CGimmick
         if (collision.gameObject.name == "Player1" || collision.gameObject.name == "CopyKey")
         {
             //押すべきボタンの画像表示
-            if (PhotonNetwork.IsMasterClient)
+            if (PhotonNetwork.IsMasterClient && (dataManager.isOwnerHitRight || dataManager.isOwnerHitLeft)) 
             {
                 collision.transform.GetChild(0).gameObject.SetActive(true);
                 collision.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = ManagerAccessor.Instance.spriteManager.ArrowRight;
@@ -118,7 +159,7 @@ public class GimmickBlock : CGimmick
         if (collision.gameObject.name == "Player2")
         {
             //押すべきボタンの画像表示
-            if (!PhotonNetwork.IsMasterClient)
+            if (!PhotonNetwork.IsMasterClient && (dataManager.isClientHitRight || dataManager.isClientHitLeft))
             {
                 collision.transform.GetChild(0).gameObject.SetActive(true);
                 collision.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = ManagerAccessor.Instance.spriteManager.ArrowRight;
@@ -150,18 +191,6 @@ public class GimmickBlock : CGimmick
                 hitClient = false;
             }
         }
-    }
-
-    [PunRPC]
-    private void RpcShareIsOwner(bool data)
-    {
-        hitOwner = data;
-    }
-
-    [PunRPC]
-    private void RpcShareIsClient(bool data)
-    {
-        hitClient = data;
     }
 
 }
