@@ -65,6 +65,10 @@ public class PlayerController : MonoBehaviourPunCallbacks
     [System.NonSerialized] public bool change_liftimage = false;//プレイヤーの画像をブロックを持ち上げたときの画像に変更
     [System.NonSerialized] public bool change_unloadimage = false;//ブロックをおろした時プレイヤーの画像を元に戻す
 
+    private Animator anim;//アニメーター
+    private bool animplay = false;//アニメーションを再生
+    private bool firstanimplay = true;
+
     //入力された方向を入れる変数
     private Vector2 inputDirection;
 
@@ -119,7 +123,8 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
         test_net = new Test_net();//スクリプトを変数に格納
 
-      
+        anim = GetComponent<Animator>();
+
     }
     void FixedUpdate()
     {
@@ -394,6 +399,12 @@ public class PlayerController : MonoBehaviourPunCallbacks
     {
         //プレイヤーが入力した方向に横方向限定で移動速度分の力を加える
         rigid.velocity = new Vector2(inputDirection.x * moveSpeed, rigid.velocity.y);
+
+        if(firstanimplay)
+        {
+            photonView.RPC(nameof(RpcMoveAnimPlay), RpcTarget.All);
+        }
+      
         //Debug.Log(inputDirection.x);
     }
 
@@ -410,10 +421,10 @@ public class PlayerController : MonoBehaviourPunCallbacks
     //移動処理
     public void OnMove(InputAction.CallbackContext context)
     {
-        if (gameObject.name == "Player2")
-        {
-            Debug.Log("プレイヤー2認識");
-        }
+        //if (gameObject.name == "Player2")
+        //{
+        //    Debug.Log("プレイヤー2認識");
+        //}
 
 
         //操作が競合しないための設定
@@ -425,14 +436,21 @@ public class PlayerController : MonoBehaviourPunCallbacks
                 Debug.Log("スティック動かして移動している");
                 //移動方向の入力情報がInputdirectionの中に入るようになる
                 inputDirection = context.ReadValue<Vector2>();
-
             }
 
         }
-        else
+
+
+        if (!movelock)
         {
-            Debug.Log("識別できてない");
+            Debug.Log("アニメ再生できる");
+            animplay = true;
         }
+
+        //else
+        //{
+        //    Debug.Log("識別できてない");
+        //}
     }
 
     //ジャンプ
@@ -550,6 +568,22 @@ public class PlayerController : MonoBehaviourPunCallbacks
                 transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
                 firstLR = true;
             }
+        }
+    }
+
+    [PunRPC]
+    private void RpcMoveAnimPlay()
+    {
+        Debug.Log("アニメ再生");
+
+        if (animplay)
+        {
+            anim.SetBool("isMove", true);
+            firstanimplay = false;
+        }
+        else
+        {
+            anim.SetBool("isMove", false);
         }
     }
 }
