@@ -11,12 +11,15 @@ public class GimmickUnlockButton : CGimmick
         A, B, X, Y, Right, Left, Up, Down, R1, R2, L1, L2
     }
 
+    [SerializeField, Header("ボタン番号")] private int ObjNum;
+
     //個人で持っている触れている判定
     private bool islocalUnlockButtonStart = false;
 
-    //どちらのプレイヤーが触れているか
-    private bool isHitPlayer1 = false;
-    private bool isHitPlayer2 = false;
+    //入力が失敗した時リセットするよう
+    private bool isAnswerReset = false;
+
+    private List<string> HitTags = new List<string>();
 
     private Rigidbody2D rb2d;
 
@@ -30,6 +33,7 @@ public class GimmickUnlockButton : CGimmick
     //回答状況
     public List<bool> ClearSituation;
 
+    private bool first1 = true;
 
     private void Start()
     {
@@ -81,15 +85,53 @@ public class GimmickUnlockButton : CGimmick
 
                     }
                 }
-
-
-
             }
             //OnCollisionStay2Dを常に動かす処理
             rb2d.WakeUp();
         }
+
+        //入力失敗時、入力情報リセット
+        if(isAnswerReset)
+        {
+            for (int i = 0; i < ClearSituation.Count; i++) 
+            {
+                ClearSituation[i] = false;
+            }
+            isAnswerReset = false;
+        }
+
+
+        //ボタンに誰も触れていないときマネージャーに当たっていない判定を送る
+        if (HitTags.Count == 0) 
+        {
+            if (first1)
+            {
+                if (ObjNum == 0)
+                    transform.parent.gameObject.GetComponent<GimmickUnlockButtonManagement>().CallRpcShareHitUnlockButton(true, false);
+                else if (ObjNum == 1)
+                    transform.parent.gameObject.GetComponent<GimmickUnlockButtonManagement>().CallRpcShareHitUnlockButton(false, false);
+                first1 = false;
+            }
+        }
+        else
+        {
+            first1 = true;
+        }
     }
 
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "Player")
+        {
+            //触れたオブジェクトの名前記憶
+            HitTags.Add(collision.gameObject.name);
+
+            if (ObjNum == 0)
+                transform.parent.gameObject.GetComponent<GimmickUnlockButtonManagement>().CallRpcShareHitUnlockButton(true, true);
+            else if (ObjNum == 1)
+                transform.parent.gameObject.GetComponent<GimmickUnlockButtonManagement>().CallRpcShareHitUnlockButton(false, true);
+        }
+    }
 
     private void OnCollisionStay2D(Collision2D collision)
     {
@@ -99,7 +141,8 @@ public class GimmickUnlockButton : CGimmick
             if (collision.gameObject.name == "Player1" || collision.gameObject.name == "CopyKey")
             {
                 //プレイヤー2が触れていないとき
-                if (!isHitPlayer2)
+                if (transform.parent.gameObject.GetComponent<GimmickUnlockButtonManagement>().isHitUnlockButton1 &&
+                    transform.parent.gameObject.GetComponent<GimmickUnlockButtonManagement>().isHitUnlockButton2) 
                 {
                     if (PhotonNetwork.LocalPlayer.IsMasterClient)
                     {
@@ -110,15 +153,13 @@ public class GimmickUnlockButton : CGimmick
                         ManagerAccessor.Instance.dataManager.isUnlockButtonStart = true;
                         islocalUnlockButtonStart = true;
                     }
-
-
-                    isHitPlayer1 = true;
                 }
             }
             if (collision.gameObject.name == "Player2")
             {
                 //プレイヤー1が触れていないとき
-                if (!isHitPlayer1)
+                if (transform.parent.gameObject.GetComponent<GimmickUnlockButtonManagement>().isHitUnlockButton1 &&
+                    transform.parent.gameObject.GetComponent<GimmickUnlockButtonManagement>().isHitUnlockButton2)
                 {
                     if (!PhotonNetwork.LocalPlayer.IsMasterClient)
                     {
@@ -129,9 +170,6 @@ public class GimmickUnlockButton : CGimmick
                         ManagerAccessor.Instance.dataManager.isUnlockButtonStart = true;
                         islocalUnlockButtonStart = true;
                     }
-
-
-                    isHitPlayer2 = true;
                 }
             }
         }
@@ -147,7 +185,7 @@ public class GimmickUnlockButton : CGimmick
             ManagerAccessor.Instance.dataManager.isUnlockButtonStart = false;
             islocalUnlockButtonStart = false;
 
-            isHitPlayer1 = false;
+            transform.parent.gameObject.GetComponent<GimmickUnlockButtonManagement>().CallRpcShareHitPlayer(true, false);
         }
         if (collision.gameObject.name == "Player2")
         {
@@ -157,10 +195,21 @@ public class GimmickUnlockButton : CGimmick
             ManagerAccessor.Instance.dataManager.isUnlockButtonStart = false;
             islocalUnlockButtonStart = false;
 
-            isHitPlayer2 = false;
+            transform.parent.gameObject.GetComponent<GimmickUnlockButtonManagement>().CallRpcShareHitPlayer(false, false);
         }
 
+
+        //出たオブジェクトのタグを消去
+        for (int i = 0; i < HitTags.Count; i++)
+        {
+            if (HitTags[i] == collision.gameObject.name)
+            {
+                HitTags.RemoveAt(i);
+            }
+        }
     }
+
+
 
     /// <summary>
     /// 回答入力取得用関数
@@ -175,52 +224,40 @@ public class GimmickUnlockButton : CGimmick
             switch (answer[i])
             {
                 case (int)Key.A:
-                    if (ManagerAccessor.Instance.dataManager.isOwnerInputKey_CA)
-                        ClearSituation[i] = true;
+                    CheckInputButton(ManagerAccessor.Instance.dataManager.isOwnerInputKey_CA, i);
                     break;
                 case (int)Key.B:
-                    if (ManagerAccessor.Instance.dataManager.isOwnerInputKey_CB)
-                        ClearSituation[i] = true;
+                    CheckInputButton(ManagerAccessor.Instance.dataManager.isOwnerInputKey_CB, i);
                     break;
                 case (int)Key.X:
-                    if (ManagerAccessor.Instance.dataManager.isOwnerInputKey_CX)
-                        ClearSituation[i] = true;
+                    CheckInputButton(ManagerAccessor.Instance.dataManager.isOwnerInputKey_CX, i);
                     break;
                 case (int)Key.Y:
-                    if (ManagerAccessor.Instance.dataManager.isOwnerInputKey_CY)
-                        ClearSituation[i] = true;
+                    CheckInputButton(ManagerAccessor.Instance.dataManager.isOwnerInputKey_CY, i);
                     break;
                 case (int)Key.Right:
-                    if (ManagerAccessor.Instance.dataManager.isOwnerInputKey_C_D_RIGHT)
-                        ClearSituation[i] = true;
+                    CheckInputButton(ManagerAccessor.Instance.dataManager.isOwnerInputKey_C_D_RIGHT, i);
                     break;
                 case (int)Key.Left:
-                    if (ManagerAccessor.Instance.dataManager.isOwnerInputKey_C_D_LEFT)
-                        ClearSituation[i] = true;
+                    CheckInputButton(ManagerAccessor.Instance.dataManager.isOwnerInputKey_C_D_LEFT, i);
                     break;
                 case (int)Key.Up:
-                    if (ManagerAccessor.Instance.dataManager.isOwnerInputKey_C_D_UP)
-                        ClearSituation[i] = true;
+                    CheckInputButton(ManagerAccessor.Instance.dataManager.isOwnerInputKey_C_D_UP, i);
                     break;
                 case (int)Key.Down:
-                    if (ManagerAccessor.Instance.dataManager.isOwnerInputKey_C_D_DOWN)
-                        ClearSituation[i] = true;
+                    CheckInputButton(ManagerAccessor.Instance.dataManager.isOwnerInputKey_C_D_DOWN, i);
                     break;
                 case (int)Key.R1:
-                    if (ManagerAccessor.Instance.dataManager.isOwnerInputKey_C_R1)
-                        ClearSituation[i] = true;
+                    CheckInputButton(ManagerAccessor.Instance.dataManager.isOwnerInputKey_C_R1, i);
                     break;
                 case (int)Key.R2:
-                    if (ManagerAccessor.Instance.dataManager.isOwnerInputKey_C_R2)
-                        ClearSituation[i] = true;
+                    CheckInputButton(ManagerAccessor.Instance.dataManager.isOwnerInputKey_C_R2, i);
                     break;
                 case (int)Key.L1:
-                    if (ManagerAccessor.Instance.dataManager.isOwnerInputKey_C_L1)
-                        ClearSituation[i] = true;
+                    CheckInputButton(ManagerAccessor.Instance.dataManager.isOwnerInputKey_C_L1, i);
                     break;
                 case (int)Key.L2:
-                    if (ManagerAccessor.Instance.dataManager.isOwnerInputKey_C_L2)
-                        ClearSituation[i] = true;
+                    CheckInputButton(ManagerAccessor.Instance.dataManager.isOwnerInputKey_C_L2, i);
                     break;
             }
         }
@@ -229,55 +266,52 @@ public class GimmickUnlockButton : CGimmick
             switch (answer[i])
             {
                 case (int)Key.A:
-                    if (ManagerAccessor.Instance.dataManager.isClientInputKey_CA)
-                        ClearSituation[i] = true;
+                    CheckInputButton(ManagerAccessor.Instance.dataManager.isClientInputKey_CA, i);
                     break;
                 case (int)Key.B:
-                    if (ManagerAccessor.Instance.dataManager.isClientInputKey_CB)
-                        ClearSituation[i] = true;
+                    CheckInputButton(ManagerAccessor.Instance.dataManager.isClientInputKey_CB, i);
                     break;
                 case (int)Key.X:
-                    if (ManagerAccessor.Instance.dataManager.isClientInputKey_CX)
-                        ClearSituation[i] = true;
+                    CheckInputButton(ManagerAccessor.Instance.dataManager.isClientInputKey_CX, i);
                     break;
                 case (int)Key.Y:
-                    if (ManagerAccessor.Instance.dataManager.isClientInputKey_CY)
-                        ClearSituation[i] = true;
+                    CheckInputButton(ManagerAccessor.Instance.dataManager.isClientInputKey_CY, i);
                     break;
                 case (int)Key.Right:
-                    if (ManagerAccessor.Instance.dataManager.isClientInputKey_C_D_RIGHT)
-                        ClearSituation[i] = true;
+                    CheckInputButton(ManagerAccessor.Instance.dataManager.isClientInputKey_C_D_RIGHT, i);
                     break;
                 case (int)Key.Left:
-                    if (ManagerAccessor.Instance.dataManager.isClientInputKey_C_D_LEFT)
-                        ClearSituation[i] = true;
+                    CheckInputButton(ManagerAccessor.Instance.dataManager.isClientInputKey_C_D_LEFT, i);
                     break;
                 case (int)Key.Up:
-                    if (ManagerAccessor.Instance.dataManager.isClientInputKey_C_D_UP)
-                        ClearSituation[i] = true;
+                    CheckInputButton(ManagerAccessor.Instance.dataManager.isClientInputKey_C_D_UP, i);
                     break;
                 case (int)Key.Down:
-                    if (ManagerAccessor.Instance.dataManager.isClientInputKey_C_D_DOWN)
-                        ClearSituation[i] = true;
+                    CheckInputButton(ManagerAccessor.Instance.dataManager.isClientInputKey_C_D_DOWN, i);
                     break;
                 case (int)Key.R1:
-                    if (ManagerAccessor.Instance.dataManager.isClientInputKey_C_R1)
-                        ClearSituation[i] = true;
+                    CheckInputButton(ManagerAccessor.Instance.dataManager.isClientInputKey_C_R1, i);
                     break;
                 case (int)Key.R2:
-                    if (ManagerAccessor.Instance.dataManager.isClientInputKey_C_R2)
-                        ClearSituation[i] = true;
+                    CheckInputButton(ManagerAccessor.Instance.dataManager.isClientInputKey_C_R2, i);
                     break;
                 case (int)Key.L1:
-                    if (ManagerAccessor.Instance.dataManager.isClientInputKey_C_L1)
-                        ClearSituation[i] = true;
+                    CheckInputButton(ManagerAccessor.Instance.dataManager.isClientInputKey_C_L1, i);
                     break;
                 case (int)Key.L2:
-                    if (ManagerAccessor.Instance.dataManager.isClientInputKey_C_L2)
-                        ClearSituation[i] = true;
+                    CheckInputButton(ManagerAccessor.Instance.dataManager.isClientInputKey_C_L2, i);
                     break;
             }
         }
+    }
+
+    //回答状況更新
+    private void CheckInputButton(bool inputkey,int ansnum)
+    {
+        if (inputkey)
+            ClearSituation[ansnum] = true;
+        else
+            isAnswerReset = true;
     }
 
 }

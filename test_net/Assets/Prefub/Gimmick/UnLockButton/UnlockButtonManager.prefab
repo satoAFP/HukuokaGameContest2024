@@ -99,6 +99,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 625dd7d01c312ad4c8378e5f7847c767, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ObjNum: 1
   ClearSituation: 
 --- !u!50 &2864375563346277396
 Rigidbody2D:
@@ -357,6 +358,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 625dd7d01c312ad4c8378e5f7847c767, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ObjNum: 0
   ClearSituation: 
 --- !u!50 &2864375564980447826
 Rigidbody2D:
@@ -475,6 +477,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8385f0896def7847b691b2f8618b33e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gimmickNum: 1
   gimmickButton:
   - {fileID: 2864375564980447831}
   - {fileID: 2864375563346277401}
