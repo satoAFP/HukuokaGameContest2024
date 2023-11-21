@@ -10,15 +10,15 @@ public class PlayerController : MonoBehaviourPunCallbacks
     //プレイヤー1
     [SerializeField, Header("宝箱")]
     private Sprite p1Image;
-    [SerializeField, Header("空いた宝箱")]
-    private Sprite p1OpenImage;
-    [SerializeField, Header("持ち上げモーション中の宝箱")]
-    private Sprite p1LiftImage;
+    //[SerializeField, Header("空いた宝箱")]
+    //private Sprite p1OpenImage;
+    //[SerializeField, Header("持ち上げモーション中の宝箱")]
+    //private Sprite p1LiftImage;
     //プレイヤー2
     [SerializeField, Header("鍵")]
     private Sprite p2Image;
-    [SerializeField, Header("持ち上げモーション中の鍵")]
-    private Sprite p2LiftImage;
+    //[SerializeField, Header("持ち上げモーション中の鍵")]
+    //private Sprite p2LiftImage;
 
     [SerializeField, Header("移動速度")]
     private float moveSpeed;
@@ -58,7 +58,11 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
     [System.NonSerialized] public bool generatestop = false;//生成を制御する
 
-    [System.NonSerialized] public bool keymovelock = false;//生成した鍵の移動を制御
+    [System.NonSerialized] public bool keymovelock = false;//生成した鍵の移動を制御]
+
+
+    [System.NonSerialized] public bool change_boxopenimage = false;//プレイヤー画像を箱を空ける画像に変更
+    [System.NonSerialized] public bool change_liftimage = false;//プレイヤーの画像をブロックを持ち上げたときの画像に変更
 
     //入力された方向を入れる変数
     private Vector2 inputDirection;
@@ -209,6 +213,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
                         if(firstboxopen)
                         {
                             //boxopen関数を共有する
+                            Debug.Log("firstboxopenが入ってる");
                             photonView.RPC(nameof(RpcShareBoxOpen), RpcTarget.All,true);
                             firstboxopen = false;
                         }
@@ -232,10 +237,12 @@ public class PlayerController : MonoBehaviourPunCallbacks
                         if (gameObject.name == "Player1" && boxopen)
                         {
                             //Debug.Log("おぺん");
-                            GetComponent<SpriteRenderer>().sprite = p1Image;
+                            //GetComponent<SpriteRenderer>().sprite = p1Image;
+                            change_boxopenimage = false;//箱を閉じた画像にする
                             cursorlock = true;//カーソル移動を止める
                             movelock = false;
                             GetComponent<PlayerGetHitObjTagManagement>().isMotion = true;//箱の周りの判定をとるのを再開
+                            firstboxopen = true;//boxopenフラグ共有再会
                         }
                     }
                   
@@ -340,8 +347,9 @@ public class PlayerController : MonoBehaviourPunCallbacks
                     //同時に上ボタンを押していないときは画像を元に戻す
                     if (gameObject.name == "Player1" && boxopen)
                     {
-                       // Debug.Log("おぺん22");
-                        GetComponent<SpriteRenderer>().sprite = p1Image;
+                        //Debug.Log("おぺん22");
+                        //GetComponent<SpriteRenderer>().sprite = p1Image;
+                        change_boxopenimage = false;//箱を閉じた画像にする
                         boxopen = false;
                     }
                 }
@@ -366,9 +374,9 @@ public class PlayerController : MonoBehaviourPunCallbacks
                 //宝箱のプレイヤーの時、空いている箱のイラストに変更
                 if (gameObject.name == "Player1")
                 {
-                    GetComponent<SpriteRenderer>().sprite = p1OpenImage;
+                    //GetComponent<SpriteRenderer>().sprite = p1OpenImage;
+                    change_boxopenimage = true;//箱プレイヤーの画像変更
                     movelock = true;//箱の移動を制限
-                   // Debug.Log("請けいー");
                     cursorlock = false;//UIカーソル移動を許可
                     GetComponent<PlayerGetHitObjTagManagement>().isMotion = false;//箱の周りの判定をとるのをやめる
                 }
@@ -474,12 +482,15 @@ public class PlayerController : MonoBehaviourPunCallbacks
         if (gameObject.name == "Player1")
         {
             Debug.Log("QQQP1持ち上げ画像");
-            GetComponent<SpriteRenderer>().sprite = p1LiftImage;
+            change_liftimage = true;
+            //GetComponent<SpriteRenderer>().sprite = p1LiftImage;
+
         }
         else if (gameObject.name == "Player2")
         {
             Debug.Log("QQQP2持ち上げ画像");
-            GetComponent<SpriteRenderer>().sprite = p2LiftImage;
+            change_liftimage = true;
+            //GetComponent<SpriteRenderer>().sprite = p2LiftImage;
         }
     }
 
