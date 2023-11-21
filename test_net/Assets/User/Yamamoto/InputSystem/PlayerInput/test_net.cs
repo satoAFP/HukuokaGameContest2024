@@ -55,15 +55,6 @@ public partial class @Test_net: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Action"",
-                    ""type"": ""Button"",
-                    ""id"": ""c76de7bd-b413-4b85-8b7a-55ef518f3810"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
                     ""name"": ""ActionPressA"",
                     ""type"": ""Button"",
                     ""id"": ""3484cd2b-bc1f-4ed9-b26a-093a4fac76a5"",
@@ -300,17 +291,6 @@ public partial class @Test_net: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Move"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""ee6ee49d-67e9-418e-a5e8-776eac711fa8"",
-                    ""path"": ""<Gamepad>/buttonEast"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""Action"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -1176,7 +1156,6 @@ public partial class @Test_net: IInputActionCollection2, IDisposable
         m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
         m_Player_RightStick = m_Player.FindAction("RightStick", throwIfNotFound: true);
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
-        m_Player_Action = m_Player.FindAction("Action", throwIfNotFound: true);
         m_Player_ActionPressA = m_Player.FindAction("ActionPressA", throwIfNotFound: true);
         m_Player_ActionPressB = m_Player.FindAction("ActionPressB", throwIfNotFound: true);
         m_Player_ActionPressX = m_Player.FindAction("ActionPressX", throwIfNotFound: true);
@@ -1277,7 +1256,6 @@ public partial class @Test_net: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Move;
     private readonly InputAction m_Player_RightStick;
     private readonly InputAction m_Player_Jump;
-    private readonly InputAction m_Player_Action;
     private readonly InputAction m_Player_ActionPressA;
     private readonly InputAction m_Player_ActionPressB;
     private readonly InputAction m_Player_ActionPressX;
@@ -1309,7 +1287,6 @@ public partial class @Test_net: IInputActionCollection2, IDisposable
         public InputAction @Move => m_Wrapper.m_Player_Move;
         public InputAction @RightStick => m_Wrapper.m_Player_RightStick;
         public InputAction @Jump => m_Wrapper.m_Player_Jump;
-        public InputAction @Action => m_Wrapper.m_Player_Action;
         public InputAction @ActionPressA => m_Wrapper.m_Player_ActionPressA;
         public InputAction @ActionPressB => m_Wrapper.m_Player_ActionPressB;
         public InputAction @ActionPressX => m_Wrapper.m_Player_ActionPressX;
@@ -1352,9 +1329,6 @@ public partial class @Test_net: IInputActionCollection2, IDisposable
             @Jump.started += instance.OnJump;
             @Jump.performed += instance.OnJump;
             @Jump.canceled += instance.OnJump;
-            @Action.started += instance.OnAction;
-            @Action.performed += instance.OnAction;
-            @Action.canceled += instance.OnAction;
             @ActionPressA.started += instance.OnActionPressA;
             @ActionPressA.performed += instance.OnActionPressA;
             @ActionPressA.canceled += instance.OnActionPressA;
@@ -1440,9 +1414,6 @@ public partial class @Test_net: IInputActionCollection2, IDisposable
             @Jump.started -= instance.OnJump;
             @Jump.performed -= instance.OnJump;
             @Jump.canceled -= instance.OnJump;
-            @Action.started -= instance.OnAction;
-            @Action.performed -= instance.OnAction;
-            @Action.canceled -= instance.OnAction;
             @ActionPressA.started -= instance.OnActionPressA;
             @ActionPressA.performed -= instance.OnActionPressA;
             @ActionPressA.canceled -= instance.OnActionPressA;
@@ -1700,7 +1671,6 @@ public partial class @Test_net: IInputActionCollection2, IDisposable
         void OnMove(InputAction.CallbackContext context);
         void OnRightStick(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
-        void OnAction(InputAction.CallbackContext context);
         void OnActionPressA(InputAction.CallbackContext context);
         void OnActionPressB(InputAction.CallbackContext context);
         void OnActionPressX(InputAction.CallbackContext context);
