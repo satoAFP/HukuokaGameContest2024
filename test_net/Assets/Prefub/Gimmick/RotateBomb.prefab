@@ -123,6 +123,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d6da2fed2fe5294b8e17f7ef2bc1319, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  LimitTime: 10
+  ExplosionRange: 6
   MovePower: 0.005
   PosUpData: 60
   DisplayTime: 10

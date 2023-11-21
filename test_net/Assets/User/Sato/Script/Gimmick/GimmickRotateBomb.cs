@@ -8,6 +8,10 @@ public class GimmickRotateBomb : MonoBehaviourPunCallbacks
     //データマネージャー取得用
     DataManager dataManager = null;
 
+    [SerializeField, Header("制限時間")] private int LimitTime;
+
+    [SerializeField, Header("爆発範囲")] private float ExplosionRange;
+
     [SerializeField, Header("移動量")] private float MovePower;
 
     [SerializeField, Header("座標更新タイミング")] private int PosUpData;
@@ -19,6 +23,12 @@ public class GimmickRotateBomb : MonoBehaviourPunCallbacks
     //コピーキーのみ取得用
     private GameObject copyKeyObj = null;
     private string hitObjName = null;
+
+    //制限時間開始
+    private bool isTimeLimitStart = false;
+
+    //爆弾の色変更タイミングフラグ
+    private bool isColorChangeTiming = true;
 
     //1P、2Pがそれぞれ当たっている判定
     private bool hitOwner = false;
@@ -45,6 +55,7 @@ public class GimmickRotateBomb : MonoBehaviourPunCallbacks
 
     //frameカウント
     private int frameCount = 0;
+    private int timeLimitCount = 0;
 
     //点滅しないためのボタン表示が消えるまでのラグカウント
     private int displayTimeCount = 0;
@@ -162,7 +173,6 @@ public class GimmickRotateBomb : MonoBehaviourPunCallbacks
             count = 0;
         }
 
-        Debug.Log("isOwnerMoveStart" + isOwnerMoveStart + "isClientMoveStart" + isClientMoveStart);
 
         //正しく回転した時
         if (count >= 4)
@@ -170,12 +180,10 @@ public class GimmickRotateBomb : MonoBehaviourPunCallbacks
             if (PhotonNetwork.IsMasterClient)
             {
                 photonView.RPC(nameof(RpcShareIsMoveStart), RpcTarget.All, true, true);
-                Debug.Log("ccc");
             }
             else
             {
                 photonView.RPC(nameof(RpcShareIsMoveStart), RpcTarget.All, false, true);
-                Debug.Log("ddd");
             }
             count = 0;
         }
@@ -183,8 +191,77 @@ public class GimmickRotateBomb : MonoBehaviourPunCallbacks
         //移動開始
         if (isOwnerMoveStart && isClientMoveStart) 
         {
+            isTimeLimitStart = true;
             transform.position += movePower;
             frameCount++;
+        }
+
+        //制限時間開始
+        if(isTimeLimitStart)
+        {
+            //フレームカウント
+            timeLimitCount++;
+
+            int changeTiming = 20;
+
+            if (LimitTime * 60 - timeLimitCount < 300)
+                changeTiming = 15;
+            if (LimitTime * 60 - timeLimitCount < 240)
+                changeTiming = 12;
+            if (LimitTime * 60 - timeLimitCount < 180)
+                changeTiming = 10;
+            if (LimitTime * 60 - timeLimitCount < 120)
+                changeTiming = 6;
+
+
+
+            if (isColorChangeTiming)
+            {
+                if (timeLimitCount % changeTiming == 0) 
+                {
+                    isColorChangeTiming = false;
+                    GetComponent<SpriteRenderer>().color = new Color(1, 0, 0, 1);
+                }
+            }
+            else
+            {
+                if (timeLimitCount % changeTiming == 0)
+                {
+                    isColorChangeTiming = true;
+                    GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 1);
+                }
+            }
+
+
+            //爆発開始
+            if (LimitTime * 60 == timeLimitCount)
+            {
+                GameObject[] obstacles = GameObject.FindGameObjectsWithTag("Obstacle");
+
+                for (int i = 0; i < obstacles.Length; i++)
+                {
+                    //自身と破壊できるオブジェクトの二転換距離を取得
+                    Vector2 obsPos = obstacles[i].transform.position;
+                    float dis = Mathf.Sqrt(Mathf.Pow(obsPos.x - transform.position.x, 2) + Mathf.Pow(obsPos.y - transform.position.y, 2));
+
+                    //破壊できるオブジェクトが爆発範囲内にいるとき破壊
+                    if (dis < ExplosionRange)
+                    {
+                        Destroy(obstacles[i]);
+                    }
+                }
+
+                //爆発時入力内容を非表示
+                if (hitObjName == "Player1")
+                    ManagerAccessor.Instance.dataManager.player1.transform.GetChild(1).gameObject.SetActive(false);
+                if (hitObjName == "Player2")
+                    ManagerAccessor.Instance.dataManager.player2.transform.GetChild(1).gameObject.SetActive(false);
+                if (hitObjName == "CopyKey")
+                    copyKeyObj.transform.GetChild(1).gameObject.SetActive(false);
+
+                //すべて破壊し終えると自身も消滅
+                Destroy(gameObject);
+            }
         }
 
         
@@ -307,6 +384,7 @@ public class GimmickRotateBomb : MonoBehaviourPunCallbacks
         if (collision.gameObject.name == "Player2")
         {
             hitClient = false;
+            hitObjName = collision.gameObject.name;
         }
     }
 
