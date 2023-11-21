@@ -79,7 +79,7 @@ public class PlayerImage : MonoBehaviourPunCallbacks
             }
             else
             {
-                GetComponent<SpriteRenderer>().sprite = p2Image;
+               // GetComponent<SpriteRenderer>().sprite = p2Image;
             }
         }
 
