@@ -412,7 +412,7 @@ public class GimmickUnlockButtonManagement : CGimmick
     //プレイヤーが触れている状態かどうか共有
     public void CallRpcShareHitPlayerName(string name,int objNum)
     {
-        photonView.RPC(nameof(RpcShareHitPlayerName), RpcTarget.All, name, objNum);
+        //photonView.RPC(nameof(RpcShareHitPlayerName), RpcTarget.All, name, objNum);
     }
     [PunRPC]
     private void RpcShareHitPlayerName(string name, int objNum)
