@@ -410,14 +410,19 @@ public class GimmickUnlockButtonManagement : CGimmick
     }
 
     //プレイヤーが触れている状態かどうか共有
-    public void CallRpcShareHitPlayerName(string name,int objNum)
+    public void CallRpcShareHitPlayerName(int name,int objNum)
     {
         photonView.RPC(nameof(RpcShareHitPlayerName), RpcTarget.All, name, objNum);
     }
     [PunRPC]
-    private void RpcShareHitPlayerName(string name, int objNum)
+    private void RpcShareHitPlayerName(int name, int objNum)
     {
-        gimmickButton[objNum].GetComponent<GimmickUnlockButton>().managementPlayerName = name;
+        if (name == 0)
+            gimmickButton[objNum].GetComponent<GimmickUnlockButton>().managementPlayerName = "Player1";
+        if (name == 1)
+            gimmickButton[objNum].GetComponent<GimmickUnlockButton>().managementPlayerName = "Player2";
+        if (name == 2)
+            gimmickButton[objNum].GetComponent<GimmickUnlockButton>().managementPlayerName = "CopyKey";
     }
 
 }
