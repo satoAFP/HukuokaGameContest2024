@@ -6,6 +6,10 @@ using Photon.Pun;
 
 public class GimmickUnlockButtonManagement : CGimmick
 {
+    [SerializeField, Header("どのギミックにするか")]
+    [Header("0:オブジェクト消失 / 1:オブジェクト出現")]
+    private int gimmickNum;
+
     [SerializeField, Header("ギミック用ボタン")]
     private List<GameObject> gimmickButton;
 
@@ -35,6 +39,13 @@ public class GimmickUnlockButtonManagement : CGimmick
 
     [SerializeField, Header("隠す場合どこを隠すか(チェック入れるとPlayer1の答えが隠される)")]
     private List<bool> isWhareHideAnswer;
+
+    //どちらのプレイヤーが触れているか
+    [System.NonSerialized] public bool isHitPlayer1 = false;
+    [System.NonSerialized] public bool isHitPlayer2 = false;
+
+    [System.NonSerialized] public bool isHitUnlockButton1 = false;
+    [System.NonSerialized] public bool isHitUnlockButton2 = false;
 
     //入力開始情報
     [System.NonSerialized] public bool isStartCount = false;
@@ -70,6 +81,12 @@ public class GimmickUnlockButtonManagement : CGimmick
     private void Start()
     {
         timeLimitSlider.GetComponent<Slider>().value = 1;
+
+        //Gimmickによって扉の開閉を決める
+        if (gimmickNum == 0)
+            door.SetActive(true);
+        if (gimmickNum == 1)
+            door.SetActive(false);
     }
 
 
@@ -137,7 +154,7 @@ public class GimmickUnlockButtonManagement : CGimmick
             //入力開始時の時間計算
             if (isStartCount)
             {
-                if(isStartCountFisrt)
+                if (isStartCountFisrt)
                 {
                     photonView.RPC(nameof(RpcShareIsStartCount), RpcTarget.Others, isStartCount);
                     isStartCountFisrt = false;
@@ -218,7 +235,7 @@ public class GimmickUnlockButtonManagement : CGimmick
             }
 
             //両方クリアしたらこの処理を抜ける
-            if(isOwnerClear&&isClientClear)
+            if (isOwnerClear && isClientClear)
             {
                 isAllClear = true;
             }
@@ -228,7 +245,11 @@ public class GimmickUnlockButtonManagement : CGimmick
         else
         {
             //解除成功
-            door.SetActive(false);
+            if (gimmickNum == 0)
+                door.SetActive(false);
+            if (gimmickNum == 1)
+                door.SetActive(true);
+
             answerArea.SetActive(false);
             timeLimitSlider.SetActive(false);
         }
@@ -360,6 +381,43 @@ public class GimmickUnlockButtonManagement : CGimmick
         }
     }
 
-    
+    //ボタンにプレイヤーが触れているかどうか
+    public void CallRpcShareHitUnlockButton(bool button1, bool data)
+    {
+        photonView.RPC(nameof(RpcShareHitUnlockButton), RpcTarget.All, button1, data);
+    }
+    [PunRPC]
+    private void RpcShareHitUnlockButton(bool button1, bool data)
+    {
+        if (button1)
+            isHitUnlockButton1 = data;
+        else
+            isHitUnlockButton2 = data;
+    }
+
+    //プレイヤーが触れている状態かどうか共有
+    public void CallRpcShareHitPlayer(bool isowner, bool data)
+    {
+        photonView.RPC(nameof(RpcShareHitPlayer), RpcTarget.All, isowner, data);
+    }
+    [PunRPC]
+    private void RpcShareHitPlayer(bool isowner, bool data)
+    {
+        if (isowner)
+            isHitPlayer1 = data;
+        else
+            isHitPlayer2 = data;
+    }
+
+    //プレイヤーが触れている状態かどうか共有
+    public void CallRpcShareHitPlayerName(string name,int objNum)
+    {
+        photonView.RPC(nameof(RpcShareHitPlayerName), RpcTarget.All, name, objNum);
+    }
+    [PunRPC]
+    private void RpcShareHitPlayerName(string name, int objNum)
+    {
+        gimmickButton[objNum].GetComponent<GimmickUnlockButton>().managementPlayerName = name;
+    }
 
 }

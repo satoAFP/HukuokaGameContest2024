@@ -16,6 +16,7 @@ public class GimmickButtonManagement : CGimmick
 
     private void Start()
     {
+        //Gimmick‚É‚æ‚Á‚Ä”à‚ÌŠJ•Â‚ðŒˆ‚ß‚é
         if (gimmickNum == 0)
             door.SetActive(true);
         if (gimmickNum == 1)

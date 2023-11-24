@@ -202,8 +202,10 @@ public class GimmickRotateBomb : MonoBehaviourPunCallbacks
             //フレームカウント
             timeLimitCount++;
 
+            //何フレーム毎に色が変わるか
             int changeTiming = 20;
 
+            //徐々に色が変わる頻度が上がる
             if (LimitTime * 60 - timeLimitCount < 300)
                 changeTiming = 15;
             if (LimitTime * 60 - timeLimitCount < 240)
@@ -214,7 +216,7 @@ public class GimmickRotateBomb : MonoBehaviourPunCallbacks
                 changeTiming = 6;
 
 
-
+            //色変更処理
             if (isColorChangeTiming)
             {
                 if (timeLimitCount % changeTiming == 0) 
