@@ -91,7 +91,8 @@ public class GimmickUnlockButton : CGimmick
                     //入力開始前に１回アンロックボタンの担当を設定
                     if(!transform.parent.GetComponent<GimmickUnlockButtonManagement>().isStartCount)
                     {
-                        transform.parent.GetComponent<GimmickUnlockButtonManagement>().CallRpcShareHitPlayerName(HitNames[0], ObjNum);
+                        if (HitNames.Count != 0)
+                            transform.parent.GetComponent<GimmickUnlockButtonManagement>().CallRpcShareHitPlayerName(HitNames[0], ObjNum);
                     }
 
                     transform.parent.GetComponent<GimmickUnlockButtonManagement>().isStartCount = true;
@@ -116,13 +117,21 @@ public class GimmickUnlockButton : CGimmick
             if (!transform.parent.GetComponent<GimmickUnlockButtonManagement>().isStartCount)
             {
                 managementPlayerName = "";
+
+                if (!transform.parent.gameObject.GetComponent<GimmickUnlockButtonManagement>().isHitUnlockButton1 ||
+                    !transform.parent.gameObject.GetComponent<GimmickUnlockButtonManagement>().isHitUnlockButton2) 
+                {
+                    //タイムリミットと回答データ描画終了
+                    transform.parent.GetComponent<GimmickUnlockButtonManagement>().answerArea.SetActive(false);
+                    transform.parent.GetComponent<GimmickUnlockButtonManagement>().timeLimitSlider.SetActive(false);
+                    ManagerAccessor.Instance.dataManager.isUnlockButtonStart = false;
+                    islocalUnlockButtonStart = false;
+                }
             }
 
             //OnCollisionStay2Dを常に動かす処理
             rb2d.WakeUp();
         }
-
-        Debug.Log(ClearSituation[0] + ":" + ClearSituation[1] + ":" + ClearSituation[2] + ":" + ClearSituation[3] + ":" + ClearSituation[4]);
 
         //入力失敗時、入力情報リセット
         if(isAnswerReset)
@@ -134,7 +143,6 @@ public class GimmickUnlockButton : CGimmick
             isAnswerReset = false;
         }
 
-        Debug.Log("name" + managementPlayerName);
 
         //ボタンに誰も触れていないときマネージャーに当たっていない判定を送る
         if (HitNames.Count == 0) 
