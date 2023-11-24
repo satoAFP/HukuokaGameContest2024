@@ -396,7 +396,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
         //プレイヤーが入力した方向に横方向限定で移動速度分の力を加える
         rigid.velocity = new Vector2(inputDirection.x * moveSpeed, rigid.velocity.y);
 
-        Debug.Log("移動量"+inputDirection.x);
+       // Debug.Log("移動量"+inputDirection.x);
 
         if(inputDirection.x == 0)
         {
