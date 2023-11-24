@@ -50,6 +50,8 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
     private bool firstLR = true;//左右移動一度だけ処理を行う
 
+    private bool firstchange_boximage = true;//一度だけ箱を開くフラグ共有をさせる
+
     [System.NonSerialized] public bool boxopen = false;//箱の開閉を許可するフラグ
 
     [System.NonSerialized] public bool cursorlock = true;//UIカーソルの移動を制限する
@@ -376,13 +378,21 @@ public class PlayerController : MonoBehaviourPunCallbacks
                 //宝箱のプレイヤーの時、空いている箱のイラストに変更
                 if (gameObject.name == "Player1")
                 {
-                    //GetComponent<SpriteRenderer>().sprite = p1OpenImage;
-                    change_boxopenimage = true;//箱プレイヤーの画像変更
+                    if(firstchange_boximage)
+                    {
+                        photonView.RPC(nameof(RpcChangeBoxOpenImage), RpcTarget.All);//箱を空けるイラスト変更フラグを送信
+                        firstchange_boximage = false;
+                    }
+                   
                     movelock = true;//箱の移動を制限
                     cursorlock = false;//UIカーソル移動を許可
                     GetComponent<PlayerGetHitObjTagManagement>().isMotion = false;//箱の周りの判定をとるのをやめる
                 }
 
+            }
+            else
+            {
+                firstchange_boximage = true;
             }
         }
 
@@ -505,6 +515,13 @@ public class PlayerController : MonoBehaviourPunCallbacks
             //GetComponent<SpriteRenderer>().sprite = p2LiftImage;
         }
     }
+
+    [PunRPC]
+    private void RpcChangeBoxOpenImage()
+    {
+        change_boxopenimage = true;//箱プレイヤーの画像変更
+    }
+
 
     [PunRPC]
     private void RpcChangeUnloadImage()

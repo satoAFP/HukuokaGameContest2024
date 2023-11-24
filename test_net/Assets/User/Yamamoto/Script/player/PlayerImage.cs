@@ -68,7 +68,7 @@ public class PlayerImage : MonoBehaviourPunCallbacks
             else
             {
                // anim.SetBool("isOpen", false);
-                //GetComponent<SpriteRenderer>().sprite = p1Image;
+                GetComponent<SpriteRenderer>().sprite = p1Image;
             }
 
             //ƒuƒƒbƒN‚¿ã‚°‰æ‘œ
