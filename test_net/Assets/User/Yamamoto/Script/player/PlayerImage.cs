@@ -118,7 +118,7 @@ public class PlayerImage : MonoBehaviourPunCallbacks
             if (photonView.IsMine)
             {
                 //アニメーションを再生
-                if (ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().animplay
+                if (ManagerAccessor.Instance.dataManager.player2.GetComponent<PlayerController>().animplay
                 && !ManagerAccessor.Instance.dataManager.player2.GetComponent<PlayerController>().change_liftimage)
                 {
                     anim.SetBool("isMove", true);
