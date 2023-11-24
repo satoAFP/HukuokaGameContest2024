@@ -111,15 +111,18 @@ public class GimmickUnlockButton : CGimmick
             {
                 if (firstSet)
                 {
-                    //入力開始前に１回アンロックボタンの担当を設定
-                    if (HitNames[0] == "Player1")
-                        transform.parent.GetComponent<GimmickUnlockButtonManagement>().CallRpcShareHitPlayerName(0, ObjNum);
-                    if (HitNames[0] == "Player2")
-                        transform.parent.GetComponent<GimmickUnlockButtonManagement>().CallRpcShareHitPlayerName(1, ObjNum);
-                    if (HitNames[0] == "CopyKey")
-                        transform.parent.GetComponent<GimmickUnlockButtonManagement>().CallRpcShareHitPlayerName(2, ObjNum);
+                    if (HitNames.Count != 0)
+                    {
+                        //入力開始前に１回アンロックボタンの担当を設定
+                        if (HitNames[0] == "Player1")
+                            transform.parent.GetComponent<GimmickUnlockButtonManagement>().CallRpcShareHitPlayerName(0, ObjNum);
+                        else if (HitNames[0] == "Player2")
+                            transform.parent.GetComponent<GimmickUnlockButtonManagement>().CallRpcShareHitPlayerName(1, ObjNum);
+                        else if (HitNames[0] == "CopyKey")
+                            transform.parent.GetComponent<GimmickUnlockButtonManagement>().CallRpcShareHitPlayerName(2, ObjNum);
 
-                    firstSet = false;
+                        firstSet = false;
+                    }
                 }
             }
             //入力時間終了時、担当のプレイヤーが外される
