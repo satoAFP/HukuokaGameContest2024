@@ -93,9 +93,9 @@ public class GimmickUnlockButton : CGimmick
                     {
                         if (HitNames[0] == "Player1")
                             transform.parent.GetComponent<GimmickUnlockButtonManagement>().CallRpcShareHitPlayerName(0, ObjNum);
-                        if (HitNames[1] == "Player2")
+                        if (HitNames[0] == "Player2")
                             transform.parent.GetComponent<GimmickUnlockButtonManagement>().CallRpcShareHitPlayerName(1, ObjNum);
-                        if (HitNames[2] == "CopyKey")
+                        if (HitNames[0] == "CopyKey")
                             transform.parent.GetComponent<GimmickUnlockButtonManagement>().CallRpcShareHitPlayerName(2, ObjNum);
                     }
 
