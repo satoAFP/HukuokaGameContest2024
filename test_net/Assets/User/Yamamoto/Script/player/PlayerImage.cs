@@ -20,6 +20,8 @@ public class PlayerImage : MonoBehaviourPunCallbacks
     [SerializeField, Header("持ち上げモーション中の鍵")]
     private Sprite p2LiftImage;
 
+    private Animator anim;//アニメーター
+
     // Start is called before the first frame update
     void Start()
     {
@@ -40,6 +42,8 @@ public class PlayerImage : MonoBehaviourPunCallbacks
         {
             GetComponent<SpriteRenderer>().sprite = p2Image;
         }
+
+        anim = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -47,17 +51,24 @@ public class PlayerImage : MonoBehaviourPunCallbacks
     {
         DataManager datamanager = ManagerAccessor.Instance.dataManager;
 
+        
+
         //箱イラスト
         if (parentObjectName == "Player1")
         {
             //宝箱オープン画像
             if (ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().change_boxopenimage)
             {
+                Debug.Log("空く");
+                //anim.SetBool("isMove", false);
+                // anim.SetBool("isOpen", true);
+               // anim.enabled = false;
                 GetComponent<SpriteRenderer>().sprite = p1OpenImage;
             }
             else
             {
-                GetComponent<SpriteRenderer>().sprite = p1Image;
+               // anim.SetBool("isOpen", false);
+                //GetComponent<SpriteRenderer>().sprite = p1Image;
             }
 
             //ブロック持ち上げ画像
@@ -66,10 +77,22 @@ public class PlayerImage : MonoBehaviourPunCallbacks
                 GetComponent<SpriteRenderer>().sprite = p1LiftImage;
             }
             
-
+            //ブロックを降ろした時（元の画像に戻す）
             if(ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().change_unloadimage)
             {
                GetComponent<SpriteRenderer>().sprite = p1Image;
+            }
+
+            //アニメーションを再生
+            if (ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().animplay
+                && !ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().change_boxopenimage
+                && !ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().change_liftimage)
+            {
+                anim.SetBool("isMove", true);
+            }
+            else
+            {
+                anim.SetBool("isMove", false);
             }
         }
         //鍵イラスト
@@ -81,9 +104,21 @@ public class PlayerImage : MonoBehaviourPunCallbacks
                 GetComponent<SpriteRenderer>().sprite = p2LiftImage;
             }
 
+            //ブロックを降ろした時（元の画像に戻す）
             if (ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().change_unloadimage)
             {
                 GetComponent<SpriteRenderer>().sprite = p2Image;
+            }
+
+            //アニメーションを再生
+            if (ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().animplay
+                && !ManagerAccessor.Instance.dataManager.player2.GetComponent<PlayerController>().change_liftimage)
+            {
+                anim.SetBool("isMove", true);
+            }
+            else
+            {
+                anim.SetBool("isMove", false);
             }
         }
 

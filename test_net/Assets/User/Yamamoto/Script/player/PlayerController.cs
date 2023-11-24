@@ -65,9 +65,8 @@ public class PlayerController : MonoBehaviourPunCallbacks
     [System.NonSerialized] public bool change_liftimage = false;//プレイヤーの画像をブロックを持ち上げたときの画像に変更
     [System.NonSerialized] public bool change_unloadimage = false;//ブロックをおろした時プレイヤーの画像を元に戻す
 
-    private Animator anim;//アニメーター
-    private bool animplay = false;//アニメーションを再生
-    private bool firstanimplay = true;
+    [System.NonSerialized] public bool animplay = false;//アニメーションを再生
+     private bool firstanimplay = true;
 
     //入力された方向を入れる変数
     private Vector2 inputDirection;
@@ -122,9 +121,6 @@ public class PlayerController : MonoBehaviourPunCallbacks
         }
 
         test_net = new Test_net();//スクリプトを変数に格納
-
-        anim = GetComponent<Animator>();
-
     }
     void FixedUpdate()
     {
@@ -400,12 +396,18 @@ public class PlayerController : MonoBehaviourPunCallbacks
         //プレイヤーが入力した方向に横方向限定で移動速度分の力を加える
         rigid.velocity = new Vector2(inputDirection.x * moveSpeed, rigid.velocity.y);
 
-        if(firstanimplay)
+        Debug.Log("移動量"+inputDirection.x);
+
+        if(inputDirection.x == 0)
         {
-            photonView.RPC(nameof(RpcMoveAnimPlay), RpcTarget.All);
+            //現在アニメーションを再生している時
+            if(!firstanimplay)
+            {
+                photonView.RPC(nameof(RpcMoveAnimStop), RpcTarget.All);
+                Debug.Log("steam");
+            }
+           
         }
-      
-        //Debug.Log(inputDirection.x);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -421,36 +423,25 @@ public class PlayerController : MonoBehaviourPunCallbacks
     //移動処理
     public void OnMove(InputAction.CallbackContext context)
     {
-        //if (gameObject.name == "Player2")
-        //{
-        //    Debug.Log("プレイヤー2認識");
-        //}
-
-
         //操作が競合しないための設定
         if (photonView.IsMine)
         {
             //移動ロックがかかっていなければ移動
             if(!movelock)
             {
+                if (firstanimplay)
+                {
+                    Debug.Log("アニメ送信");
+                    photonView.RPC(nameof(RpcMoveAnimPlay), RpcTarget.All);
+                    firstanimplay = false;
+                }
+
                 Debug.Log("スティック動かして移動している");
                 //移動方向の入力情報がInputdirectionの中に入るようになる
                 inputDirection = context.ReadValue<Vector2>();
             }
 
         }
-
-
-        if (!movelock)
-        {
-            Debug.Log("アニメ再生できる");
-            animplay = true;
-        }
-
-        //else
-        //{
-        //    Debug.Log("識別できてない");
-        //}
     }
 
     //ジャンプ
@@ -575,15 +566,14 @@ public class PlayerController : MonoBehaviourPunCallbacks
     private void RpcMoveAnimPlay()
     {
         Debug.Log("アニメ再生");
+        animplay = true;
+    }
 
-        if (animplay)
-        {
-            anim.SetBool("isMove", true);
-            firstanimplay = false;
-        }
-        else
-        {
-            anim.SetBool("isMove", false);
-        }
+    [PunRPC]
+    private void RpcMoveAnimStop()
+    {
+        Debug.Log("アニメstop");
+        animplay = false;
+        firstanimplay = true;
     }
 }
