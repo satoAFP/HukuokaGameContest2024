@@ -8,15 +8,15 @@ public class PlayerController : MonoBehaviourPunCallbacks
 {
     //プレイヤー画像
     //プレイヤー1
-    [SerializeField, Header("宝箱")]
-    private Sprite p1Image;
+    //[SerializeField, Header("宝箱")]
+    //private Sprite p1Image;
     //[SerializeField, Header("空いた宝箱")]
     //private Sprite p1OpenImage;
     //[SerializeField, Header("持ち上げモーション中の宝箱")]
     //private Sprite p1LiftImage;
     //プレイヤー2
-    [SerializeField, Header("鍵")]
-    private Sprite p2Image;
+    //[SerializeField, Header("鍵")]
+    //private Sprite p2Image;
     //[SerializeField, Header("持ち上げモーション中の鍵")]
     //private Sprite p2LiftImage;
 
@@ -63,6 +63,11 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
     [System.NonSerialized] public bool change_boxopenimage = false;//プレイヤー画像を箱を空ける画像に変更
     [System.NonSerialized] public bool change_liftimage = false;//プレイヤーの画像をブロックを持ち上げたときの画像に変更
+    [System.NonSerialized] public bool change_unloadimage = false;//ブロックをおろした時プレイヤーの画像を元に戻す
+
+    private Animator anim;//アニメーター
+    private bool animplay = false;//アニメーションを再生
+    private bool firstanimplay = true;
 
     //入力された方向を入れる変数
     private Vector2 inputDirection;
@@ -102,23 +107,24 @@ public class PlayerController : MonoBehaviourPunCallbacks
         //プレイヤーによってイラストを変える＆データマネージャー設定
         if (gameObject.name == "Player1")
         {
-            GetComponent<SpriteRenderer>().sprite = p1Image;
+           // GetComponent<SpriteRenderer>().sprite = p1Image;
             ManagerAccessor.Instance.dataManager.player1 = gameObject;
         }
         if (gameObject.name == "Player2")
         {
-            GetComponent<SpriteRenderer>().sprite = p2Image;
+            //GetComponent<SpriteRenderer>().sprite = p2Image;
             ManagerAccessor.Instance.dataManager.player2 = gameObject;
         }
         if (gameObject.name == "CopyKey")
         {
-            GetComponent<SpriteRenderer>().sprite = p2Image;
+            //GetComponent<SpriteRenderer>().sprite = p2Image;
             ManagerAccessor.Instance.dataManager.copyKey = gameObject;
         }
 
         test_net = new Test_net();//スクリプトを変数に格納
 
-      
+        anim = GetComponent<Animator>();
+
     }
     void FixedUpdate()
     {
@@ -393,6 +399,12 @@ public class PlayerController : MonoBehaviourPunCallbacks
     {
         //プレイヤーが入力した方向に横方向限定で移動速度分の力を加える
         rigid.velocity = new Vector2(inputDirection.x * moveSpeed, rigid.velocity.y);
+
+        if(firstanimplay)
+        {
+            photonView.RPC(nameof(RpcMoveAnimPlay), RpcTarget.All);
+        }
+      
         //Debug.Log(inputDirection.x);
     }
 
@@ -409,10 +421,10 @@ public class PlayerController : MonoBehaviourPunCallbacks
     //移動処理
     public void OnMove(InputAction.CallbackContext context)
     {
-        if (gameObject.name == "Player2")
-        {
-            Debug.Log("プレイヤー2認識");
-        }
+        //if (gameObject.name == "Player2")
+        //{
+        //    Debug.Log("プレイヤー2認識");
+        //}
 
 
         //操作が競合しないための設定
@@ -424,14 +436,21 @@ public class PlayerController : MonoBehaviourPunCallbacks
                 Debug.Log("スティック動かして移動している");
                 //移動方向の入力情報がInputdirectionの中に入るようになる
                 inputDirection = context.ReadValue<Vector2>();
-
             }
 
         }
-        else
+
+
+        if (!movelock)
         {
-            Debug.Log("識別できてない");
+            Debug.Log("アニメ再生できる");
+            animplay = true;
         }
+
+        //else
+        //{
+        //    Debug.Log("識別できてない");
+        //}
     }
 
     //ジャンプ
@@ -482,6 +501,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
         if (gameObject.name == "Player1")
         {
             Debug.Log("QQQP1持ち上げ画像");
+            change_unloadimage = false;//通常画像から持ち上げ画像に
             change_liftimage = true;
             //GetComponent<SpriteRenderer>().sprite = p1LiftImage;
 
@@ -489,6 +509,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
         else if (gameObject.name == "Player2")
         {
             Debug.Log("QQQP2持ち上げ画像");
+            change_unloadimage = false;//通常画像から持ち上げ画像に
             change_liftimage = true;
             //GetComponent<SpriteRenderer>().sprite = p2LiftImage;
         }
@@ -501,12 +522,16 @@ public class PlayerController : MonoBehaviourPunCallbacks
         if (gameObject.name == "Player1")
         {
             Debug.Log("P1降ろす画像");
-            GetComponent<SpriteRenderer>().sprite = p1Image;
+            change_liftimage = false;//持ち上げ画像から元の画像に戻す
+            change_unloadimage = true;
+          //  GetComponent<SpriteRenderer>().sprite = p1Image;
         }
         else if (gameObject.name == "Player2")
         {
             Debug.Log("P2降ろす画像");
-            GetComponent<SpriteRenderer>().sprite = p2Image;
+            change_liftimage = false;//持ち上げ画像から元の画像に戻す
+            change_unloadimage = true;
+         //   GetComponent<SpriteRenderer>().sprite = p2Image;
         }
     }
 
@@ -543,6 +568,22 @@ public class PlayerController : MonoBehaviourPunCallbacks
                 transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
                 firstLR = true;
             }
+        }
+    }
+
+    [PunRPC]
+    private void RpcMoveAnimPlay()
+    {
+        Debug.Log("アニメ再生");
+
+        if (animplay)
+        {
+            anim.SetBool("isMove", true);
+            firstanimplay = false;
+        }
+        else
+        {
+            anim.SetBool("isMove", false);
         }
     }
 }

@@ -59,14 +59,17 @@ public class PlayerImage : MonoBehaviourPunCallbacks
             {
                 GetComponent<SpriteRenderer>().sprite = p1Image;
             }
+
             //ブロック持ち上げ画像
             if (ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().change_liftimage)
             {
                 GetComponent<SpriteRenderer>().sprite = p1LiftImage;
             }
-            else
+            
+
+            if(ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().change_unloadimage)
             {
-               // GetComponent<SpriteRenderer>().sprite = p1Image;
+               GetComponent<SpriteRenderer>().sprite = p1Image;
             }
         }
         //鍵イラスト
@@ -77,9 +80,10 @@ public class PlayerImage : MonoBehaviourPunCallbacks
             {
                 GetComponent<SpriteRenderer>().sprite = p2LiftImage;
             }
-            else
+
+            if (ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().change_unloadimage)
             {
-               // GetComponent<SpriteRenderer>().sprite = p2Image;
+                GetComponent<SpriteRenderer>().sprite = p2Image;
             }
         }
 

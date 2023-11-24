@@ -72,9 +72,8 @@ MonoBehaviour:
   - RpcShareIsMoveStart
   - RpcChangeLiftImage
   - RpcChangeUnloadImage
-  - RpcShareHitPlayer
-  - RpcShareHitUnlockButton
-  - RpcShareHitPlayerName
+  - RpcMoveLeftandRight
+  - RpcMoveAnimPlay
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

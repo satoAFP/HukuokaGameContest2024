@@ -748,7 +748,6 @@ GameObject:
   - component: {fileID: 5417172716885994885}
   - component: {fileID: 7248784080295700648}
   - component: {fileID: 5643572740733532904}
-  - component: {fileID: 7953775437907633706}
   m_Layer: 6
   m_Name: Avatar
   m_TagString: Player
@@ -967,8 +966,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b3b38699d600e74d84ad4d18841077d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  p1Image: {fileID: 21300000, guid: dbdf3a75f9f895246bc80a53aab379e0, type: 3}
-  p2Image: {fileID: 21300000, guid: bb09d92abcdac794a8965d1fae7d9b3f, type: 3}
   moveSpeed: 5
   jumpSpeed: 6
   boardobj: {fileID: 3959372731708805272, guid: e0d96d23c9a53174496ad92f449d45b4, type: 3}
@@ -1477,26 +1474,6 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
---- !u!95 &7953775437907633706
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4645120399147915654}
-  m_Enabled: 0
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 041e0ae5917e2084398b8172a066837b, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
 --- !u!1 &5788185548477430633
 GameObject:
   m_ObjectHideFlags: 0
@@ -1781,6 +1758,7 @@ GameObject:
   - component: {fileID: 5749187004485216835}
   - component: {fileID: 3413748485601030256}
   - component: {fileID: 1360185501108992791}
+  - component: {fileID: 7678245296942017412}
   m_Layer: 0
   m_Name: PlayerImage
   m_TagString: Untagged
@@ -1796,7 +1774,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8785809983933709047}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.01, y: 0.04, z: 0}
+  m_LocalPosition: {x: -0.01, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1872,3 +1850,23 @@ MonoBehaviour:
   p1LiftImage: {fileID: 21300000, guid: 862ae6b0c814dfb468dc9f422ca4640f, type: 3}
   p2Image: {fileID: 21300000, guid: bb09d92abcdac794a8965d1fae7d9b3f, type: 3}
   p2LiftImage: {fileID: 21300000, guid: 9f178adb3f62e224a86eacf347c79188, type: 3}
+--- !u!95 &7678245296942017412
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8785809983933709047}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 302db78b76a39f14cb54a5ac6b12524b, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
