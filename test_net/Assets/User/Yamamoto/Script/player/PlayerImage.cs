@@ -83,10 +83,7 @@ public class PlayerImage : MonoBehaviourPunCallbacks
                GetComponent<SpriteRenderer>().sprite = p1Image;
             }
 
-            //if (photonView.IsMine)
-            //{
-               
-            //}
+       
             //アニメーションを再生
             if (ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().animplay
             && !ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().change_boxopenimage
@@ -113,11 +110,6 @@ public class PlayerImage : MonoBehaviourPunCallbacks
             if (ManagerAccessor.Instance.dataManager.player2.GetComponent<PlayerController>().change_unloadimage)
             {
                 GetComponent<SpriteRenderer>().sprite = p2Image;
-            }
-
-            if (photonView.IsMine)
-            {
-               
             }
 
             //アニメーションを再生
