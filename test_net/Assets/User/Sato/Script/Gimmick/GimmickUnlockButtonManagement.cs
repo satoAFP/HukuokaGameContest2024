@@ -381,6 +381,7 @@ public class GimmickUnlockButtonManagement : CGimmick
         }
     }
 
+    //ボタンにプレイヤーが触れているかどうか
     public void CallRpcShareHitUnlockButton(bool button1, bool data)
     {
         photonView.RPC(nameof(RpcShareHitUnlockButton), RpcTarget.All, button1, data);
@@ -394,6 +395,7 @@ public class GimmickUnlockButtonManagement : CGimmick
             isHitUnlockButton2 = data;
     }
 
+    //プレイヤーが触れている状態かどうか共有
     public void CallRpcShareHitPlayer(bool isowner, bool data)
     {
         photonView.RPC(nameof(RpcShareHitPlayer), RpcTarget.All, isowner, data);
@@ -405,6 +407,17 @@ public class GimmickUnlockButtonManagement : CGimmick
             isHitPlayer1 = data;
         else
             isHitPlayer2 = data;
+    }
+
+    //プレイヤーが触れている状態かどうか共有
+    public void CallRpcShareHitPlayerName(string name,int objNum)
+    {
+        photonView.RPC(nameof(RpcShareHitPlayerName), RpcTarget.All, name, objNum);
+    }
+    [PunRPC]
+    private void RpcShareHitPlayerName(string name, int objNum)
+    {
+        gimmickButton[objNum].GetComponent<GimmickUnlockButton>().managementPlayerName = name;
     }
 
 }
