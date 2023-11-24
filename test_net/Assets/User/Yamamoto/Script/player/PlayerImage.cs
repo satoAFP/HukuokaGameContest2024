@@ -83,10 +83,14 @@ public class PlayerImage : MonoBehaviourPunCallbacks
                GetComponent<SpriteRenderer>().sprite = p1Image;
             }
 
+            //if (photonView.IsMine)
+            //{
+               
+            //}
             //アニメーションを再生
             if (ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().animplay
-                && !ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().change_boxopenimage
-                && !ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().change_liftimage)
+            && !ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().change_boxopenimage
+            && !ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().change_liftimage)
             {
                 anim.SetBool("isMove", true);
             }
@@ -94,6 +98,7 @@ public class PlayerImage : MonoBehaviourPunCallbacks
             {
                 anim.SetBool("isMove", false);
             }
+
         }
         //鍵イラスト
         else if (parentObjectName == "Player2")
@@ -105,14 +110,19 @@ public class PlayerImage : MonoBehaviourPunCallbacks
             }
 
             //ブロックを降ろした時（元の画像に戻す）
-            if (ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().change_unloadimage)
+            if (ManagerAccessor.Instance.dataManager.player2.GetComponent<PlayerController>().change_unloadimage)
             {
                 GetComponent<SpriteRenderer>().sprite = p2Image;
             }
 
+            if (photonView.IsMine)
+            {
+               
+            }
+
             //アニメーションを再生
-            if (ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().animplay
-                && !ManagerAccessor.Instance.dataManager.player2.GetComponent<PlayerController>().change_liftimage)
+            if (ManagerAccessor.Instance.dataManager.player2.GetComponent<PlayerController>().animplay
+            && !ManagerAccessor.Instance.dataManager.player2.GetComponent<PlayerController>().change_liftimage)
             {
                 anim.SetBool("isMove", true);
             }
@@ -121,7 +131,5 @@ public class PlayerImage : MonoBehaviourPunCallbacks
                 anim.SetBool("isMove", false);
             }
         }
-
-
     }
 }
