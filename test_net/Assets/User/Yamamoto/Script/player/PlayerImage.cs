@@ -83,17 +83,22 @@ public class PlayerImage : MonoBehaviourPunCallbacks
                GetComponent<SpriteRenderer>().sprite = p1Image;
             }
 
-            //アニメーションを再生
-            if (ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().animplay
+            if (photonView.IsMine)
+            {
+                //アニメーションを再生
+                if (ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().animplay
                 && !ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().change_boxopenimage
                 && !ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().change_liftimage)
-            {
-                anim.SetBool("isMove", true);
+                {
+                    anim.SetBool("isMove", true);
+                }
+                else
+                {
+                    anim.SetBool("isMove", false);
+                }
             }
-            else
-            {
-                anim.SetBool("isMove", false);
-            }
+
+               
         }
         //鍵イラスト
         else if (parentObjectName == "Player2")
@@ -110,18 +115,19 @@ public class PlayerImage : MonoBehaviourPunCallbacks
                 GetComponent<SpriteRenderer>().sprite = p2Image;
             }
 
-            //アニメーションを再生
-            if (ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().animplay
+            if (photonView.IsMine)
+            {
+                //アニメーションを再生
+                if (ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().animplay
                 && !ManagerAccessor.Instance.dataManager.player2.GetComponent<PlayerController>().change_liftimage)
-            {
-                anim.SetBool("isMove", true);
-            }
-            else
-            {
-                anim.SetBool("isMove", false);
-            }
+                {
+                    anim.SetBool("isMove", true);
+                }
+                else
+                {
+                    anim.SetBool("isMove", false);
+                }
+            }  
         }
-
-
     }
 }

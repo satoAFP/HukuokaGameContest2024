@@ -75,6 +75,9 @@ MonoBehaviour:
   - RpcMoveLeftandRight
   - RpcMoveAnimPlay
   - RpcMoveAnimStop
+  - RpcShareHitPlayer
+  - RpcShareHitPlayerName
+  - RpcShareHitUnlockButton
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
