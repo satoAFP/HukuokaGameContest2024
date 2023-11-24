@@ -47,7 +47,6 @@ public class GimmickBlock : CGimmick
             {
                 Player = dataManager.player2;
             }
-            Debug.Log(Player.name);
             
             //1P、2Pが触れているかつ、アクションしているとき持ち上がる
             if (dataManager.isOwnerInputKey_CB && dataManager.isClientInputKey_CB) 
