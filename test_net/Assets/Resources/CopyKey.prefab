@@ -773,7 +773,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 10
   m_Sprite: {fileID: 21300000, guid: c9ea86edf3c5e7c4fa969692c758d64d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -956,10 +956,6 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: b350f6fb-e6a5-4a9b-b978-df2bbbe25939
     m_ActionName: Player/Jump[/XInputControllerWindows/buttonSouth]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: c76de7bd-b413-4b85-8b7a-55ef518f3810
-    m_ActionName: Player/Action[/XInputControllerWindows/buttonEast]
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: 3484cd2b-bc1f-4ed9-b26a-093a4fac76a5
