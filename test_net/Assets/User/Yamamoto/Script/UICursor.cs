@@ -48,7 +48,6 @@ public class UICursor : MonoBehaviourPunCallbacks
                 ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().choicecursor = "None";
                 movestart = true;
                 LRmove = 2;//ç∂Ç…ÉJÅ[É\Éãà⁄ìÆ
-                           // transform.position = Vector2.MoveTowards(transform.position, BoardIcon.transform.position, moveSpeed * Time.deltaTime);
             }
         }
 

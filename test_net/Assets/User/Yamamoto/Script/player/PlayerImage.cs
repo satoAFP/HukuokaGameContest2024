@@ -65,7 +65,6 @@ public class PlayerImage : MonoBehaviourPunCallbacks
             }
             else
             {
-                Debug.Log("•Â‚¶‚é‚™");
                 GetComponent<SpriteRenderer>().sprite = p1Image;
             }
 
@@ -87,10 +86,12 @@ public class PlayerImage : MonoBehaviourPunCallbacks
             && !ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().change_boxopenimage
             && !ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().change_liftimage)
             {
+                Debug.Log("player1‚ ‚É‚ÞŠJŽn");
                 anim.SetBool("isMove", true);
             }
             else
             {
+                Debug.Log("player1‚ ‚É‚Þowari");
                 anim.SetBool("isMove", false);
             }
 

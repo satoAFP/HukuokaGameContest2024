@@ -132,14 +132,14 @@ public class PlayerController : MonoBehaviourPunCallbacks
         if (firstLR)
         {
             //プレイヤーの左右の向きを変える
-            if (datamanager.isOwnerInputKey_C_L_LEFT || datamanager.isClientInputKey_C_L_LEFT)
+            if (datamanager.isOwnerInputKey_C_L_LEFT && !movelock || datamanager.isClientInputKey_C_L_LEFT)
             {
                 //Debug.Log("左いいいい");
                 left = true;
                 firstLR = false;
                 photonView.RPC(nameof(RpcMoveLeftandRight), RpcTarget.All);
             }
-            else if (datamanager.isOwnerInputKey_C_L_RIGHT || datamanager.isClientInputKey_C_L_RIGHT)
+            else if (datamanager.isOwnerInputKey_C_L_RIGHT && !movelock || datamanager.isClientInputKey_C_L_RIGHT)
             {
                // Debug.Log("右いいいい");
                 left = false;
@@ -236,7 +236,8 @@ public class PlayerController : MonoBehaviourPunCallbacks
                     }
 
                     //コントローラーの下ボタンを押したとき箱を閉じる
-                    if (datamanager.isOwnerInputKey_CA)
+                    if (datamanager.isOwnerInputKey_C_D_DOWN
+                         && !ManagerAccessor.Instance.dataManager.isUnlockButtonStart)
                     {
                         //箱を閉じて移動ロックを解除
                         if (gameObject.name == "Player1" && boxopen)
@@ -483,6 +484,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
             //操作が競合しないための設定
             if (photonView.IsMine)
             {
+                photonView.RPC(nameof(RpcMoveAnimStop), RpcTarget.All);
                 rigid.AddForce(Vector2.up * jumpSpeed, ForceMode2D.Impulse);
                 bjump = true;//一度ジャンプしたら着地するまでジャンプできなくする
             }
