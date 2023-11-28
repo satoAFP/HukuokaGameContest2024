@@ -251,7 +251,7 @@ public class GimmickRotateBomb : MonoBehaviourPunCallbacks
                     //破壊できるオブジェクトが爆発範囲内にいるとき破壊
                     if (dis < ExplosionRange)
                     {
-                        Destroy(obstacles[i]);
+                        obstacles[i].GetComponent<GimmickDestroyBlock>().DestroyStart = true;
                     }
                 }
 
