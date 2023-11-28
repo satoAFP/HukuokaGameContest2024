@@ -58,6 +58,8 @@ public class PlayerController : MonoBehaviourPunCallbacks
     [System.NonSerialized] public bool change_liftimage = false;//プレイヤーの画像をブロックを持ち上げたときの画像に変更
     [System.NonSerialized] public bool change_unloadimage = false;//ブロックをおろした時プレイヤーの画像を元に戻す
 
+    [System.NonSerialized] public bool imageleft = false;//画像を左向きにするフラグ
+    
     [System.NonSerialized] public bool animplay = false;//アニメーションを再生
      private bool firstanimplay = true;
 
@@ -448,10 +450,19 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        DataManager datamanager = ManagerAccessor.Instance.dataManager;
+
         //プレイヤーが床または着地出来るものに乗っている時、再ジャンプ可能にする
         if (collision.gameObject.tag == "Floor")
         {
             bjump = false;
+        }
+
+        //プレイヤーが落下した時、ゲームオーバーの処理をする
+        if (collision.gameObject.tag == "DeathField")
+        {
+            Debug.Log("si");
+            datamanager.isDeth = true;
         }
     }
 
@@ -586,14 +597,14 @@ public class PlayerController : MonoBehaviourPunCallbacks
         {
             if (left1P)
             {
-                Debug.Log("player1の左");
-                transform.localScale = new Vector3(-1.0f, 1.0f, 1.0f);
+               // Debug.Log("player1の左");
+                imageleft = true;
                 firstLR_1P = true;
             }
             else
             {
-                 Debug.Log("player1の右");
-                transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+                 //Debug.Log("player1の右");
+                imageleft = false;
                 firstLR_1P = true;
             }
 
@@ -603,13 +614,13 @@ public class PlayerController : MonoBehaviourPunCallbacks
             if (left2P)
             {
                 //Debug.Log("player2の左");
-                transform.localScale = new Vector3(-1.0f, 1.0f, 1.0f);
+                imageleft = true;
                 firstLR_2P = true;
             }
             else
             {
                 //Debug.Log("player2の右");
-                transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+                imageleft = false;
                 firstLR_2P = true;
             }
         }
