@@ -59,7 +59,7 @@ public class PlayerImage : MonoBehaviourPunCallbacks
             //宝箱オープン画像
             if (ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().change_boxopenimage)
             {
-                Debug.Log("空く");
+               // Debug.Log("空く");
 
                 GetComponent<SpriteRenderer>().sprite = p1OpenImage;
             }
@@ -86,12 +86,19 @@ public class PlayerImage : MonoBehaviourPunCallbacks
             && !ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().change_boxopenimage
             && !ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().change_liftimage)
             {
-                Debug.Log("player1あにむ開始");
+               // Debug.Log("player1あにむ開始");
                 anim.SetBool("isMove", true);
             }
             else
             {
-                Debug.Log("player1あにむowari");
+               // Debug.Log("player1あにむowari");
+                anim.SetBool("isMove", false);
+            }
+
+            //ジャンプ中はアニメーション中断
+            if(ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().bjump)
+            {
+                //Debug.Log("jump1");
                 anim.SetBool("isMove", false);
             }
 
@@ -119,6 +126,13 @@ public class PlayerImage : MonoBehaviourPunCallbacks
             }
             else
             {
+                anim.SetBool("isMove", false);
+            }
+
+            //ジャンプ中はアニメーション中断
+            if (ManagerAccessor.Instance.dataManager.player2.GetComponent<PlayerController>().bjump)
+            {
+               // Debug.Log("jump2");
                 anim.SetBool("isMove", false);
             }
         }
