@@ -2282,7 +2282,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 346c5c5921b4feb438a609dfc6a74ed7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneName: TestStage1
+  sceneName: Stage3
 --- !u!61 &292016788
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2470,7 +2470,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 346c5c5921b4feb438a609dfc6a74ed7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneName: TestStage1
+  sceneName: Stage4
 --- !u!61 &316610499
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2814,7 +2814,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 346c5c5921b4feb438a609dfc6a74ed7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneName: TestStage1
+  sceneName: Stage1
 --- !u!114 &336209113
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2968,7 +2968,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 346c5c5921b4feb438a609dfc6a74ed7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneName: TestStage1
+  sceneName: Stage6
 --- !u!61 &372624493
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -8298,7 +8298,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 346c5c5921b4feb438a609dfc6a74ed7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneName: TestStage1
+  sceneName: Stage2
 --- !u!61 &1562920569
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -8683,7 +8683,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 346c5c5921b4feb438a609dfc6a74ed7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneName: TestStage1
+  sceneName: Stage8
 --- !u!61 &1652147094
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -9389,7 +9389,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 346c5c5921b4feb438a609dfc6a74ed7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneName: TestStage1
+  sceneName: Stage5
 --- !u!61 &1826198969
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -9991,7 +9991,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 346c5c5921b4feb438a609dfc6a74ed7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneName: TestStage1
+  sceneName: Stage7
 --- !u!61 &1949976452
 BoxCollider2D:
   m_ObjectHideFlags: 0

@@ -17,7 +17,7 @@ public class GameStart : MonoBehaviourPunCallbacks
     {
         PhotonNetwork.IsMessageQueueRunning = true;
 
-        //ランダムな座標に自身のアバター（ネットワークオブジェクト）を生成する
+        //自身のアバター（ネットワークオブジェクト）を生成する
         if (PhotonNetwork.LocalPlayer.IsMasterClient)
         {
             GameObject clone = PhotonNetwork.Instantiate("Avatar", p1pos, Quaternion.identity);
