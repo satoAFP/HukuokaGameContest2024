@@ -32,11 +32,12 @@ public class SceneMoveManager : MonoBehaviour
 
     private IEnumerator DelaySceneMoveName(string name)
     {
-        // 3•bŠÔ‘Ò‚Â
-        yield return new WaitForSeconds(1.0f);
-
         if (PhotonNetwork.IsMasterClient)
         {
+            // 1•bŠÔ‘Ò‚Â
+            yield return new WaitForSeconds(1.0f);
+
+            PhotonNetwork.IsMessageQueueRunning = false;
             PhotonNetwork.LoadLevel(name);
         }
     }
@@ -52,11 +53,14 @@ public class SceneMoveManager : MonoBehaviour
 
     private IEnumerator DelaySceneMoveRetry()
     {
-        // 3•bŠÔ‘Ò‚Â
-        yield return new WaitForSeconds(1.0f);
+        if (PhotonNetwork.IsMasterClient)
+        {
+            // 1•bŠÔ‘Ò‚Â
+            yield return new WaitForSeconds(1.0f);
 
-        PhotonNetwork.IsMessageQueueRunning = false;
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            PhotonNetwork.IsMessageQueueRunning = false;
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
     }
 
     public string GetSceneName()
