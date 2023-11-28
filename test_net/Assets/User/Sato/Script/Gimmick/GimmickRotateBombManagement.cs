@@ -19,7 +19,7 @@ public class GimmickRotateBombManagement : MonoBehaviourPunCallbacks
     {
         if (clone == null) 
         {
-            //自身のアバター（ネットワークオブジェクト）を生成する
+            //P1側で爆弾生成
             if (PhotonNetwork.LocalPlayer.IsMasterClient)
             {
                 clone = PhotonNetwork.Instantiate("RotateBomb", transform.position, Quaternion.identity);
