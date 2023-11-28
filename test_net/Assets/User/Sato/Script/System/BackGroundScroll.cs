@@ -9,25 +9,18 @@ public class BackGroundScroll : MonoBehaviourPunCallbacks
 
     [SerializeField, Header("‰æ‘œƒTƒCƒY")] private Vector2 Size;
 
-    private GameObject[] imgObj = new GameObject[9];
-    private GameObject player = null;
+    private GameObject[] imgObj = new GameObject[9];    //”wŒi‰æ‘œŠi”[—p
+    private GameObject player = null;                   //‚»‚Ì‰æ–Ê‚Å‚Ì‘€ìƒLƒƒƒ‰æ“¾—p
 
-    
-
-    private Vector3 memPos = Vector3.zero;
-    [SerializeField] private Vector2 mapPos = Vector2.zero;
+    [SerializeField] private Vector2 mapPos = Vector2.zero;//”wŒi‰æ‘œ’PˆÊ‚Å‚ÌålŒö‚ÌÀ•W
 
     private bool first = true;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
     // Update is called once per frame
     void FixedUpdate()
     {
+        //‚»‚Ì‰æ–Ê‚Å‚Ì‘€ìƒLƒƒƒ‰æ“¾
         if (PhotonNetwork.IsMasterClient)
         {
             player = ManagerAccessor.Instance.dataManager.player1;
@@ -39,20 +32,11 @@ public class BackGroundScroll : MonoBehaviourPunCallbacks
 
         if (first)
         {
-            if (PhotonNetwork.IsMasterClient)
-            {
-                memPos = player.transform.position;
-                first = false;
-            }
-            else
-            {
-                memPos = player.transform.position;
-                first = false;
-            }
-
+            //”wŒi¶¬
             for (int i = 0; i < 9; i++)
                 imgObj[i] = Instantiate(BackGround);
 
+            //”wŒi‚Ì‰ŠúÀ•Wİ’è
             for (int i = 0; i < 9; i += 3) 
             {
                 imgObj[i].transform.position = new Vector3(-9, Size.y / 2 - (Size.y * i / 3), 0);
@@ -60,8 +44,10 @@ public class BackGroundScroll : MonoBehaviourPunCallbacks
                 imgObj[i + 2].transform.position = new Vector3(27, Size.y / 2 - (Size.y * i / 3), 0);
             }
 
+            first = false;
         }
 
+        //”wŒi‰æ‘œ’PˆÊ‚Å‚ÌålŒö‚ÌÀ•Wİ’è
         if (player.transform.position.x >= 0) 
         {
             mapPos.x = Mathf.Floor(player.transform.position.x / Size.x);
@@ -86,6 +72,7 @@ public class BackGroundScroll : MonoBehaviourPunCallbacks
             mapPos.y = Mathf.Ceil(player.transform.position.y / Size.y) - 1;
         }
 
+        //‘€ìƒLƒƒƒ‰‚ÌÀ•W‚É‚æ‚Á‚Ä”wŒi‰æ‘œ‚ÌÀ•WXV
         for (int i = 0; i < 9; i += 3)
         {
             imgObj[i].transform.position = new Vector3(-9 + (mapPos.x * Size.x), Size.y - (Size.y * i / 3) + (mapPos.y * Size.y), 0);

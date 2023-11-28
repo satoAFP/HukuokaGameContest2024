@@ -123,6 +123,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d6da2fed2fe5294b8e17f7ef2bc1319, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  BombEffect: {fileID: 20842577314992071, guid: b85e6134c97fc8946ae73ee5c56508ba, type: 3}
   LimitTime: 10
   ExplosionRange: 6
   MovePower: 0.005
@@ -146,7 +147,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1.0078125}
+    oldSize: {x: 1, y: 1}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
