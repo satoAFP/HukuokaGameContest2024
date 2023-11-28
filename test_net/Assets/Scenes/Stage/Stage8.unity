@@ -253,7 +253,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1469050261785031192, guid: 93a1c9e44b029b04da9cd2890ccef298, type: 3}
       propertyPath: m_LocalScale.x
-      value: 1.5
+      value: 3.25
       objectReference: {fileID: 0}
     - target: {fileID: 1469050261785031192, guid: 93a1c9e44b029b04da9cd2890ccef298, type: 3}
       propertyPath: m_LocalScale.y
@@ -302,6 +302,34 @@ PrefabInstance:
     - target: {fileID: 1469050261785031193, guid: 93a1c9e44b029b04da9cd2890ccef298, type: 3}
       propertyPath: m_Name
       value: Goal
+      objectReference: {fileID: 0}
+    - target: {fileID: 1469050261785031268, guid: 93a1c9e44b029b04da9cd2890ccef298, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 1b198d97f0c587e4d90a075e4dd71e41, type: 3}
+    - target: {fileID: 1469050261785031269, guid: 93a1c9e44b029b04da9cd2890ccef298, type: 3}
+      propertyPath: m_Size.x
+      value: 3.8931298
+      objectReference: {fileID: 0}
+    - target: {fileID: 1469050261785031269, guid: 93a1c9e44b029b04da9cd2890ccef298, type: 3}
+      propertyPath: m_Size.y
+      value: 0.70583844
+      objectReference: {fileID: 0}
+    - target: {fileID: 1469050261785031269, guid: 93a1c9e44b029b04da9cd2890ccef298, type: 3}
+      propertyPath: m_Offset.x
+      value: -0.047840357
+      objectReference: {fileID: 0}
+    - target: {fileID: 1469050261785031269, guid: 93a1c9e44b029b04da9cd2890ccef298, type: 3}
+      propertyPath: m_Offset.y
+      value: 0.34725314
+      objectReference: {fileID: 0}
+    - target: {fileID: 1469050261785031269, guid: 93a1c9e44b029b04da9cd2890ccef298, type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.x
+      value: 5.12
+      objectReference: {fileID: 0}
+    - target: {fileID: 1469050261785031269, guid: 93a1c9e44b029b04da9cd2890ccef298, type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.y
+      value: 5.12
       objectReference: {fileID: 0}
     - target: {fileID: 1469050261785031270, guid: 93a1c9e44b029b04da9cd2890ccef298, type: 3}
       propertyPath: text
