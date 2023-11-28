@@ -8,6 +8,8 @@ public class GimmickRotateBomb : MonoBehaviourPunCallbacks
     //データマネージャー取得用
     DataManager dataManager = null;
 
+    [SerializeField, Header("爆発エフェクト")] private GameObject BombEffect;
+
     [SerializeField, Header("制限時間")] private int LimitTime;
 
     [SerializeField, Header("爆発範囲")] private float ExplosionRange;
@@ -260,6 +262,11 @@ public class GimmickRotateBomb : MonoBehaviourPunCallbacks
                     ManagerAccessor.Instance.dataManager.player2.transform.GetChild(1).gameObject.SetActive(false);
                 if (hitObjName == "CopyKey")
                     copyKeyObj.transform.GetChild(1).gameObject.SetActive(false);
+
+                //エフェクト生成
+                GameObject clone = Instantiate(BombEffect);
+                clone.transform.position = transform.position;
+                clone.transform.localScale = new Vector3(ExplosionRange, ExplosionRange, 1);
 
                 //すべて破壊し終えると自身も消滅
                 Destroy(gameObject);
