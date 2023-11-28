@@ -9230,6 +9230,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 2864375565067719241, guid: 700a978ca785573469ada89ba712339d, type: 3}
+      propertyPath: gimmickNum
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2864375565067719241, guid: 700a978ca785573469ada89ba712339d, type: 3}
       propertyPath: timeLimitSlider
       value: 
       objectReference: {fileID: 0}
