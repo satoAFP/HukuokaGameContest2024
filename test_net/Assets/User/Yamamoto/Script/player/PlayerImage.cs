@@ -56,6 +56,16 @@ public class PlayerImage : MonoBehaviourPunCallbacks
         //箱イラスト
         if (parentObjectName == "Player1")
         {
+            //プレイヤーの移動した方向に応じてプレイヤーの向きを変える
+            if(ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().imageleft)
+            {
+                transform.localScale = new Vector3(-1.0f, 1.0f, 1.0f);
+            }
+            else
+            {
+                transform.localScale = new Vector3( 1.0f, 1.0f, 1.0f);
+            }
+
             //宝箱オープン画像
             if (ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().change_boxopenimage)
             {
@@ -106,6 +116,16 @@ public class PlayerImage : MonoBehaviourPunCallbacks
         //鍵イラスト
         else if (parentObjectName == "Player2")
         {
+            //プレイヤーの移動した方向に応じてプレイヤーの向きを変える
+            if (ManagerAccessor.Instance.dataManager.player2.GetComponent<PlayerController>().imageleft)
+            {
+                transform.localScale = new Vector3(-1.0f, 1.0f, 1.0f);
+            }
+            else
+            {
+                transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+            }
+
             //ブロック持ち上げ画像
             if (ManagerAccessor.Instance.dataManager.player2.GetComponent<PlayerController>().change_liftimage)
             {

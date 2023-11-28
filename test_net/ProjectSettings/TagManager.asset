@@ -8,6 +8,8 @@ TagManager:
   - Floor
   - Gimmick
   - Obstacle
+  - Bullet
+  - DeathField
   layers:
   - Default
   - TransparentFX
