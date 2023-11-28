@@ -40,6 +40,7 @@ public class GimmickUnlockButton : CGimmick
 
     private bool first1 = true;
     private bool firstInput = true;
+    private bool firstSet = true;
 
     private void Start()
     {
@@ -88,13 +89,6 @@ public class GimmickUnlockButton : CGimmick
                 //最初の入力が正解の時、カウント開始
                 if (ClearSituation[0])
                 {
-                    //入力開始前に１回アンロックボタンの担当を設定
-                    if(!transform.parent.GetComponent<GimmickUnlockButtonManagement>().isStartCount)
-                    {
-                        if (HitNames.Count != 0)
-                            transform.parent.GetComponent<GimmickUnlockButtonManagement>().CallRpcShareHitPlayerName(HitNames[0], ObjNum);
-                    }
-
                     transform.parent.GetComponent<GimmickUnlockButtonManagement>().isStartCount = true;
                 }
 
@@ -113,8 +107,26 @@ public class GimmickUnlockButton : CGimmick
                 }
             }
 
+            if(transform.parent.GetComponent<GimmickUnlockButtonManagement>().isStartCount)
+            {
+                if (firstSet)
+                {
+                    if (HitNames.Count != 0)
+                    {
+                        //入力開始前に１回アンロックボタンの担当を設定
+                        if (HitNames[0] == "Player1")
+                            transform.parent.GetComponent<GimmickUnlockButtonManagement>().CallRpcShareHitPlayerName(0, ObjNum);
+                        else if (HitNames[0] == "Player2")
+                            transform.parent.GetComponent<GimmickUnlockButtonManagement>().CallRpcShareHitPlayerName(1, ObjNum);
+                        else if (HitNames[0] == "CopyKey")
+                            transform.parent.GetComponent<GimmickUnlockButtonManagement>().CallRpcShareHitPlayerName(2, ObjNum);
+
+                        firstSet = false;
+                    }
+                }
+            }
             //入力時間終了時、担当のプレイヤーが外される
-            if (!transform.parent.GetComponent<GimmickUnlockButtonManagement>().isStartCount)
+            else
             {
                 managementPlayerName = "";
 
@@ -127,6 +139,8 @@ public class GimmickUnlockButton : CGimmick
                     ManagerAccessor.Instance.dataManager.isUnlockButtonStart = false;
                     islocalUnlockButtonStart = false;
                 }
+
+                firstSet = true;
             }
 
             //OnCollisionStay2Dを常に動かす処理
@@ -184,6 +198,7 @@ public class GimmickUnlockButton : CGimmick
             //入力開始時違うキャラが入力しないための処理
             if (collision.gameObject.name == managementPlayerName || managementPlayerName == "") 
             {
+                Debug.Log(managementPlayerName);
                 if (collision.gameObject.name == "Player1" || collision.gameObject.name == "CopyKey")
                 {
                     //両ボタンにプレイヤーがいるとき
@@ -193,6 +208,7 @@ public class GimmickUnlockButton : CGimmick
                     {
                         if (PhotonNetwork.LocalPlayer.IsMasterClient)
                         {
+                            Debug.Log("bbb");
                             //タイムリミットと回答データ描画
                             transform.parent.GetComponent<GimmickUnlockButtonManagement>().answerArea.SetActive(true);
                             transform.parent.GetComponent<GimmickUnlockButtonManagement>().timeLimitSlider.SetActive(true);
