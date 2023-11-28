@@ -60,15 +60,12 @@ public class PlayerImage : MonoBehaviourPunCallbacks
             if (ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().change_boxopenimage)
             {
                 Debug.Log("空く");
-                //anim.SetBool("isMove", false);
-                // anim.SetBool("isOpen", true);
-               // anim.enabled = false;
+
                 GetComponent<SpriteRenderer>().sprite = p1OpenImage;
             }
             else
             {
-               // anim.SetBool("isOpen", false);
-                //GetComponent<SpriteRenderer>().sprite = p1Image;
+                GetComponent<SpriteRenderer>().sprite = p1Image;
             }
 
             //ブロック持ち上げ画像
@@ -83,19 +80,18 @@ public class PlayerImage : MonoBehaviourPunCallbacks
                GetComponent<SpriteRenderer>().sprite = p1Image;
             }
 
-            //if (photonView.IsMine)
-            //{
-               
-            //}
+       
             //アニメーションを再生
             if (ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().animplay
             && !ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().change_boxopenimage
             && !ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().change_liftimage)
             {
+                Debug.Log("player1あにむ開始");
                 anim.SetBool("isMove", true);
             }
             else
             {
+                Debug.Log("player1あにむowari");
                 anim.SetBool("isMove", false);
             }
 
@@ -113,11 +109,6 @@ public class PlayerImage : MonoBehaviourPunCallbacks
             if (ManagerAccessor.Instance.dataManager.player2.GetComponent<PlayerController>().change_unloadimage)
             {
                 GetComponent<SpriteRenderer>().sprite = p2Image;
-            }
-
-            if (photonView.IsMine)
-            {
-               
             }
 
             //アニメーションを再生

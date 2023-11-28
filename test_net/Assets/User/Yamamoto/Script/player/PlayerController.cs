@@ -50,6 +50,8 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
     private bool firstLR = true;//左右移動一度だけ処理を行う
 
+    private bool firstchange_boximage = true;//一度だけ箱を開くフラグ共有をさせる
+
     [System.NonSerialized] public bool boxopen = false;//箱の開閉を許可するフラグ
 
     [System.NonSerialized] public bool cursorlock = true;//UIカーソルの移動を制限する
@@ -130,14 +132,14 @@ public class PlayerController : MonoBehaviourPunCallbacks
         if (firstLR)
         {
             //プレイヤーの左右の向きを変える
-            if (datamanager.isOwnerInputKey_C_L_LEFT || datamanager.isClientInputKey_C_L_LEFT)
+            if (datamanager.isOwnerInputKey_C_L_LEFT && !movelock || datamanager.isClientInputKey_C_L_LEFT)
             {
                 //Debug.Log("左いいいい");
                 left = true;
                 firstLR = false;
                 photonView.RPC(nameof(RpcMoveLeftandRight), RpcTarget.All);
             }
-            else if (datamanager.isOwnerInputKey_C_L_RIGHT || datamanager.isClientInputKey_C_L_RIGHT)
+            else if (datamanager.isOwnerInputKey_C_L_RIGHT && !movelock || datamanager.isClientInputKey_C_L_RIGHT)
             {
                // Debug.Log("右いいいい");
                 left = false;
@@ -159,8 +161,9 @@ public class PlayerController : MonoBehaviourPunCallbacks
                 }
 
                 //宝箱が空いていないときは通常の画像に戻す
-                if (!movelock)
+                if (!change_boxopenimage && !movelock)
                 {
+                    Debug.Log("ashidaka");
                     photonView.RPC(nameof(RpcChangeUnloadImage), RpcTarget.All);
                 }
 
@@ -215,7 +218,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
                         if(firstboxopen)
                         {
                             //boxopen関数を共有する
-                            Debug.Log("firstboxopenが入ってる");
+                           // Debug.Log("firstboxopenが入ってる");
                             photonView.RPC(nameof(RpcShareBoxOpen), RpcTarget.All,true);
                             firstboxopen = false;
                         }
@@ -233,7 +236,8 @@ public class PlayerController : MonoBehaviourPunCallbacks
                     }
 
                     //コントローラーの下ボタンを押したとき箱を閉じる
-                    if (datamanager.isOwnerInputKey_CA)
+                    if (datamanager.isOwnerInputKey_C_D_DOWN
+                         && !ManagerAccessor.Instance.dataManager.isUnlockButtonStart)
                     {
                         //箱を閉じて移動ロックを解除
                         if (gameObject.name == "Player1" && boxopen)
@@ -349,10 +353,10 @@ public class PlayerController : MonoBehaviourPunCallbacks
                     //同時に上ボタンを押していないときは画像を元に戻す
                     if (gameObject.name == "Player1" && boxopen)
                     {
-                        //Debug.Log("おぺん22");
+                       // Debug.Log("おぺん22");
                         //GetComponent<SpriteRenderer>().sprite = p1Image;
-                        change_boxopenimage = false;//箱を閉じた画像にする
-                        boxopen = false;
+                        //change_boxopenimage = false;//箱を閉じた画像にする
+                        //boxopen = false;
                     }
                 }
             }
@@ -370,19 +374,28 @@ public class PlayerController : MonoBehaviourPunCallbacks
         if (Mathf.Abs(p1pos.x - p2pos.x) < 1.0f)
         {
             //上ボタンの同時押しで箱オープン
-            if (datamanager.isOwnerInputKey_C_D_UP && datamanager.isClientInputKey_C_D_UP)
+            if (datamanager.isOwnerInputKey_C_D_UP && datamanager.isClientInputKey_C_D_UP
+                && !ManagerAccessor.Instance.dataManager.isUnlockButtonStart)
             {
                 //Debug.Log("上キー両押し");
                 //宝箱のプレイヤーの時、空いている箱のイラストに変更
                 if (gameObject.name == "Player1")
                 {
-                    //GetComponent<SpriteRenderer>().sprite = p1OpenImage;
-                    change_boxopenimage = true;//箱プレイヤーの画像変更
+                    if(firstchange_boximage)
+                    {
+                        photonView.RPC(nameof(RpcChangeBoxOpenImage), RpcTarget.All);//箱を空けるイラスト変更フラグを送信
+                        firstchange_boximage = false;
+                    }
+                   
                     movelock = true;//箱の移動を制限
                     cursorlock = false;//UIカーソル移動を許可
                     GetComponent<PlayerGetHitObjTagManagement>().isMotion = false;//箱の周りの判定をとるのをやめる
                 }
 
+            }
+            else
+            {
+                firstchange_boximage = true;
             }
         }
 
@@ -404,7 +417,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
             if(!firstanimplay)
             {
                 photonView.RPC(nameof(RpcMoveAnimStop), RpcTarget.All);
-                Debug.Log("steam");
+              //  Debug.Log("steam");
             }
            
         }
@@ -436,7 +449,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
                     firstanimplay = false;
                 }
 
-                Debug.Log("スティック動かして移動している");
+                //Debug.Log("スティック動かして移動している");
                 //移動方向の入力情報がInputdirectionの中に入るようになる
                 inputDirection = context.ReadValue<Vector2>();
             }
@@ -471,6 +484,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
             //操作が競合しないための設定
             if (photonView.IsMine)
             {
+                photonView.RPC(nameof(RpcMoveAnimStop), RpcTarget.All);
                 rigid.AddForce(Vector2.up * jumpSpeed, ForceMode2D.Impulse);
                 bjump = true;//一度ジャンプしたら着地するまでジャンプできなくする
             }
@@ -507,6 +521,14 @@ public class PlayerController : MonoBehaviourPunCallbacks
     }
 
     [PunRPC]
+    private void RpcChangeBoxOpenImage()
+    {
+        change_unloadimage = false;//ここでfalseにしないと箱が空くイラストに変わらないので注意
+        change_boxopenimage = true;//箱プレイヤーの画像変更
+    }
+
+
+    [PunRPC]
     private void RpcChangeUnloadImage()
     {
         //プレイヤーがブロックを降ろしたときイラスト変更
@@ -515,14 +537,12 @@ public class PlayerController : MonoBehaviourPunCallbacks
             Debug.Log("P1降ろす画像");
             change_liftimage = false;//持ち上げ画像から元の画像に戻す
             change_unloadimage = true;
-          //  GetComponent<SpriteRenderer>().sprite = p1Image;
         }
         else if (gameObject.name == "Player2")
         {
             Debug.Log("P2降ろす画像");
             change_liftimage = false;//持ち上げ画像から元の画像に戻す
             change_unloadimage = true;
-         //   GetComponent<SpriteRenderer>().sprite = p2Image;
         }
     }
 
