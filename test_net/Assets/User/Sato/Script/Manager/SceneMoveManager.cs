@@ -35,10 +35,8 @@ public class SceneMoveManager : MonoBehaviour
         // 1•bŠÔ‘Ò‚Â
         yield return new WaitForSeconds(2.0f);
 
-        if (PhotonNetwork.IsMasterClient)
-        {
-            PhotonNetwork.LoadLevel(name);
-        }
+        PhotonNetwork.LoadLevel(name);
+
     }
 
     /// <summary>
@@ -55,8 +53,7 @@ public class SceneMoveManager : MonoBehaviour
         // 3•bŠÔ‘Ò‚Â
         yield return new WaitForSeconds(1.0f);
 
-        PhotonNetwork.IsMessageQueueRunning = false;
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        PhotonNetwork.LoadLevel(SceneManager.GetActiveScene().name);
     }
 
     public string GetSceneName()

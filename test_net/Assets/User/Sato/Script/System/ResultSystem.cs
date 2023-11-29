@@ -74,15 +74,21 @@ public class ResultSystem : MonoBehaviourPunCallbacks
     [PunRPC]
     private void RcpShareIsRetry()
     {
-        isRetry = true;
-        noTapArea.SetActive(true);
+        if (PhotonNetwork.IsMasterClient)
+        {
+            isRetry = true;
+            noTapArea.SetActive(true);
+        }
     }
 
     [PunRPC]
     private void RcpShareIsStageSelect()
     {
-        isStageSelect = true;
-        noTapArea.SetActive(true);
+        if (PhotonNetwork.IsMasterClient)
+        {
+            isStageSelect = true;
+            noTapArea.SetActive(true);
+        }
     }
 
 }
