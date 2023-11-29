@@ -433,16 +433,19 @@ public class PlayerController : MonoBehaviourPunCallbacks
     {
         
 
-        Debug.Log("移動量"+inputDirection.x);
+       // Debug.Log("移動量"+inputDirection.x);
 
         //一定の移動量が無いと進まないようにする
-        if(Mathf.Abs(inputDirection.x) > 0.1f)
-        {
-            //プレイヤーが入力した方向に横方向限定で移動速度分の力を加える
-            rigid.velocity = new Vector2(inputDirection.x * moveSpeed, rigid.velocity.y);
-        }
+        //if(Mathf.Abs(inputDirection.x) > 0.1f)
+        //{
+        //Debug.Log("あの丘");
+        //}
 
-        if(inputDirection.x == 0)
+
+        //プレイヤーが入力した方向に横方向限定で移動速度分の力を加える
+        rigid.velocity = new Vector2(inputDirection.x * moveSpeed, rigid.velocity.y);
+
+        if (inputDirection.x == 0)
         {
             //現在アニメーションを再生している時
             if(!firstanimplay)

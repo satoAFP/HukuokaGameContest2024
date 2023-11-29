@@ -837,11 +837,11 @@ BoxCollider2D:
   m_GameObject: {fileID: 4645120399147915654}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: c2ba7e3bed8d430438139c085cdc34cc, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.061531946}
+  m_Offset: {x: -0.0040233433, y: -0.06153196}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -852,7 +852,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 0.84717524}
+  m_Size: {x: 0.87929994, y: 0.84717524}
   m_EdgeRadius: 0
 --- !u!50 &8659956767534430028
 Rigidbody2D:
@@ -870,7 +870,7 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: c2ba7e3bed8d430438139c085cdc34cc, type: 2}
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
@@ -967,7 +967,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 5
-  jumpSpeed: 6
+  jumpSpeed: 10
   boardobj: {fileID: 3959372731708805272, guid: e0d96d23c9a53174496ad92f449d45b4, type: 3}
   copykeyobj: {fileID: 3734986411308915629, guid: 5cdc0e7ef43ad0f4089747d0a16345ae, type: 3}
   currentBoardObject: {fileID: 0}
