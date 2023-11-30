@@ -61,7 +61,10 @@ public class PlayerController : MonoBehaviourPunCallbacks
     [System.NonSerialized] public bool imageleft = false;//画像を左向きにするフラグ
     
     [System.NonSerialized] public bool animplay = false;//アニメーションを再生
-     private bool firstanimplay = true;
+
+    private bool firstanimplay = true;//複数アニメ起動をさせないフラグ
+
+    private bool firststickprocess = true;//スティックを動かしたときの移動処理を一回ずつ行う
 
     //入力された方向を入れる変数
     private Vector2 inputDirection;
@@ -127,14 +130,14 @@ public class PlayerController : MonoBehaviourPunCallbacks
             //プレイヤーの左右の向きを変える
             if (datamanager.isOwnerInputKey_C_L_LEFT && !movelock)
             {
-                Debug.Log("左いいいい");
+                //Debug.Log("左いいいい");
                 left1P = true;
                 firstLR_1P = false;
                 photonView.RPC(nameof(RpcMoveLeftandRight), RpcTarget.All);
             }
             else if (datamanager.isOwnerInputKey_C_L_RIGHT && !movelock)
             {
-                Debug.Log("右いいいい");
+                //Debug.Log("右いいいい");
                 left1P = false;
                 firstLR_1P = false;
                 photonView.RPC(nameof(RpcMoveLeftandRight), RpcTarget.All);
@@ -146,14 +149,14 @@ public class PlayerController : MonoBehaviourPunCallbacks
         {
             if (datamanager.isClientInputKey_C_L_LEFT)
             {
-                Debug.Log("2P左いいいい");
+               // Debug.Log("2P左いいいい");
                 left2P = true;
                 firstLR_2P = false;
                 photonView.RPC(nameof(RpcMoveLeftandRight), RpcTarget.All);
             }
             else if (datamanager.isClientInputKey_C_L_RIGHT)
             {
-                Debug.Log("2P右いいいい");
+               // Debug.Log("2P右いいいい");
                 left2P = false;
                 firstLR_2P = false;
                 photonView.RPC(nameof(RpcMoveLeftandRight), RpcTarget.All);
@@ -362,22 +365,22 @@ public class PlayerController : MonoBehaviourPunCallbacks
                 distanceFirst = true;
             }
 
-            if (movelock)
-            {
-                //コントローラーの下ボタンを押したとき箱処理中断（相手側）
-                if (datamanager.isOwnerInputKey_CA)
-                {
+            //if (movelock)
+            //{
+            //    //コントローラーの下ボタンを押したとき箱処理中断（相手側）
+            //    if (datamanager.isOwnerInputKey_CA)
+            //    {
 
-                    //同時に上ボタンを押していないときは画像を元に戻す
-                    if (gameObject.name == "Player1" && boxopen)
-                    {
-                       // Debug.Log("おぺん22");
-                        //GetComponent<SpriteRenderer>().sprite = p1Image;
-                        //change_boxopenimage = false;//箱を閉じた画像にする
-                        //boxopen = false;
-                    }
-                }
-            }
+            //        //同時に上ボタンを押していないときは画像を元に戻す
+            //        if (gameObject.name == "Player1" && boxopen)
+            //        {
+            //           // Debug.Log("おぺん22");
+            //            //GetComponent<SpriteRenderer>().sprite = p1Image;
+            //            //change_boxopenimage = false;//箱を閉じた画像にする
+            //            //boxopen = false;
+            //        }
+            //    }
+            //}
         }
 
        
@@ -431,26 +434,30 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
     private void Move()//移動処理（計算部分）
     {
-        
 
-       // Debug.Log("移動量"+inputDirection.x);
 
-        //一定の移動量が無いと進まないようにする
-        //if(Mathf.Abs(inputDirection.x) > 0.1f)
+         //Debug.Log("移動量"+ Mathf.Abs(inputDirection.x));
+
+        rigid.velocity = new Vector2(inputDirection.x * moveSpeed, rigid.velocity.y);
+
+        ////一定の移動量が無いと進まないようにする
+        //if (Mathf.Abs(inputDirection.x) > 0.08f
+        //    && firststickprocess)
         //{
-        //Debug.Log("あの丘");
+        //    Debug.Log("あの丘");
+        //    //プレイヤーが入力した方向に横方向限定で移動速度分の力を加える
+            
+        //    firststickprocess = false;//スティックが再入力されなければ処理を行わない
         //}
 
 
-        //プレイヤーが入力した方向に横方向限定で移動速度分の力を加える
-        rigid.velocity = new Vector2(inputDirection.x * moveSpeed, rigid.velocity.y);
-
         if (inputDirection.x == 0)
         {
+           // firststickprocess = true;
             //現在アニメーションを再生している時
-            if(!firstanimplay)
+            if (!firstanimplay)
             {
-                photonView.RPC(nameof(RpcMoveAnimStop), RpcTarget.All);
+                photonView.RPC(nameof(RpcMoveAnimStop), RpcTarget.All); 
               //  Debug.Log("steam");
             }
            
