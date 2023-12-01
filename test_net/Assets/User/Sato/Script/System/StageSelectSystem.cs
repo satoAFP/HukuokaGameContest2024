@@ -4,22 +4,19 @@ using UnityEngine;
 
 public class StageSelectSystem : MonoBehaviour
 {
-    const int NONE = 9999;
+    const int NONE = 9999;      //データが入っていない
+    const int startTime = 5;    //初期化するタイミング
 
     [SerializeField, Header("階段")] private GameObject[] stairs;
 
     [SerializeField, Header("フェード速度")] private int feedSpeed;
 
-    private int memFeedStairs = NONE;//クリアしたてのステージ数
+    private List<GameObject> stairChildren;//階段の子オブジェクト取得用
 
-    private int startTime = 5;
-    private int count = 0;
+    private int memFeedStairs = NONE;   //クリアしたてのステージ数
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    private int count = 0;              //フレームカウント
+
 
     // Update is called once per frame
     void FixedUpdate()
@@ -38,6 +35,11 @@ public class StageSelectSystem : MonoBehaviour
                     {
                         stairs[i].SetActive(true);
                         stairs[i].GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
+                        for (int j = 0; j < stairs[i].transform.childCount; j++)
+                        {
+                            stairs[i].transform.GetChild(j).gameObject.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
+                        }
+
                         ManagerAccessor.Instance.saveDataManager.FirstClearDataSave("first" + (i + 1));
                         memFeedStairs = i;
                     }
@@ -55,8 +57,12 @@ public class StageSelectSystem : MonoBehaviour
         {
             if (stairs[memFeedStairs].GetComponent<SpriteRenderer>().color.a < 255)
             {
-                Debug.Log("aaa");
                 stairs[memFeedStairs].GetComponent<SpriteRenderer>().color += new Color32(0, 0, 0, (byte)feedSpeed);
+
+                for (int i = 0; i < stairs[i].transform.childCount; i++) 
+                {
+                    stairs[memFeedStairs].transform.GetChild(i).gameObject.GetComponent<SpriteRenderer>().color += new Color32(0, 0, 0, (byte)feedSpeed);
+                }
             }
             else
             {

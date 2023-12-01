@@ -10,6 +10,11 @@ public class SceneMoveManager : MonoBehaviour
     {
         //マネージャーアクセッサに登録
         ManagerAccessor.Instance.sceneMoveManager = this;
+
+        if(GetSceneName()!="Title"&& GetSceneName() != "StageSelect" && GetSceneName() != "LoadScene")
+        {
+            GlobalSceneName.SceneName = GetSceneName();
+        }
     }
 
     private void Awake()
@@ -44,7 +49,6 @@ public class SceneMoveManager : MonoBehaviour
     /// </summary>
     public void SceneMoveRetry()
     {
-        GlobalSceneName.SceneName = GetSceneName();
         ManagerAccessor.Instance.sceneMoveManager.SceneMoveName("LoadScene");
     }
 
