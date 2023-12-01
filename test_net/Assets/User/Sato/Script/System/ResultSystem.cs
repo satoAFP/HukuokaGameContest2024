@@ -37,6 +37,7 @@ public class ResultSystem : MonoBehaviourPunCallbacks
         if (ManagerAccessor.Instance.dataManager.isDeth)
         {
             gameObject.transform.GetChild(1).gameObject.SetActive(true);
+            Debug.Log("aaa");
         }
 
         //ˆê’èŠÔŠu‚Å‰æ‘œ‚ğo‚·
