@@ -33,12 +33,10 @@ public class SceneMoveManager : MonoBehaviour
     private IEnumerator DelaySceneMoveName(string name)
     {
         // 1秒間待つ
-        yield return new WaitForSeconds(2.0f);
+        yield return new WaitForSeconds(1.0f);
 
-        if (PhotonNetwork.IsMasterClient)
-        {
-            PhotonNetwork.LoadLevel(name);
-        }
+        PhotonNetwork.LoadLevel(name);
+
     }
 
     /// <summary>
@@ -46,21 +44,22 @@ public class SceneMoveManager : MonoBehaviour
     /// </summary>
     public void SceneMoveRetry()
     {
-        // コルーチンの起動
-        StartCoroutine(DelaySceneMoveRetry());
+        GlobalSceneName.SceneName = GetSceneName();
+        ManagerAccessor.Instance.sceneMoveManager.SceneMoveName("LoadScene");
     }
 
-    private IEnumerator DelaySceneMoveRetry()
-    {
-        // 3秒間待つ
-        yield return new WaitForSeconds(1.0f);
 
-        PhotonNetwork.IsMessageQueueRunning = false;
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-    }
-
+    //現在のシー名取得用関数
     public string GetSceneName()
     {
         return SceneManager.GetActiveScene().name;
     }
+
+
+    
+}
+
+public static class GlobalSceneName
+{
+    public static string SceneName = "";
 }

@@ -48,16 +48,6 @@ public class ResultSystem : MonoBehaviourPunCallbacks
             count = 0;
         }
 
-        //リトライ選択したとき
-        if (isRetry)
-        {
-            ManagerAccessor.Instance.sceneMoveManager.SceneMoveRetry();
-        }
-        //ステージセレクト選択したとき
-        if (isStageSelect)
-        {
-            ManagerAccessor.Instance.sceneMoveManager.SceneMoveName("StageSelect");
-        }
     }
 
     public void Retry()
@@ -74,15 +64,21 @@ public class ResultSystem : MonoBehaviourPunCallbacks
     [PunRPC]
     private void RcpShareIsRetry()
     {
-        isRetry = true;
-        noTapArea.SetActive(true);
+        if (PhotonNetwork.IsMasterClient)
+        {
+            noTapArea.SetActive(true);
+            ManagerAccessor.Instance.sceneMoveManager.SceneMoveRetry();
+        }
     }
 
     [PunRPC]
     private void RcpShareIsStageSelect()
     {
-        isStageSelect = true;
-        noTapArea.SetActive(true);
+        if (PhotonNetwork.IsMasterClient)
+        {
+            noTapArea.SetActive(true);
+            ManagerAccessor.Instance.sceneMoveManager.SceneMoveName("StageSelect");
+        }
     }
 
 }
