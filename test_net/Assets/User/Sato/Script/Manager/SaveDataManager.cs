@@ -5,14 +5,17 @@ using UnityEngine;
 public class SaveDataManager : MonoBehaviour
 {
     //クリア情報
-    [System.NonSerialized] public int[] clearData = new int[ManagerAccessor.Instance.dataManager.StageNum];
-    [System.NonSerialized] public int[] firstClearData = new int[ManagerAccessor.Instance.dataManager.StageNum];
+    [System.NonSerialized] public int[] clearData;
+    [System.NonSerialized] public int[] firstClearData;
 
     // Start is called before the first frame update
     void Start()
     {
         //マネージャーアクセッサに登録
         ManagerAccessor.Instance.saveDataManager = this;
+
+        clearData = new int[ManagerAccessor.Instance.dataManager.StageNum];
+        firstClearData = new int[ManagerAccessor.Instance.dataManager.StageNum];
 
         //ステージ数に初期化
         clearData = new int[ManagerAccessor.Instance.dataManager.StageNum];
@@ -34,18 +37,18 @@ public class SaveDataManager : MonoBehaviour
     //クリアデータ更新用関数
     public void ClearDataLoad()
     {
-        for (int i = 0; i < clearData.Length; i++) 
+        for (int i = 0; i < ManagerAccessor.Instance.dataManager.StageNum; i++) 
         {
-            clearData[i] = PlayerPrefs.GetInt("Stage" + i, 0);
+            clearData[i] = PlayerPrefs.GetInt("Stage" + (i + 1), 0);
         }
     }
 
     //初クリアデータ更新用関数
     public void FirstClearDataLoad()
     {
-        for (int i = 0; i < firstClearData.Length; i++)
+        for (int i = 0; i < ManagerAccessor.Instance.dataManager.StageNum; i++)
         {
-            firstClearData[i] = PlayerPrefs.GetInt("first" + i, 0);
+            firstClearData[i] = PlayerPrefs.GetInt("first" + (i + 1), 0);
         }
     }
 

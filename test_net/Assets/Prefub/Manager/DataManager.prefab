@@ -44,6 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 732d651766182f442b44a6fe49847738, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  StageNum: 8
   text: {fileID: 0}
   chat: {fileID: 0}
   clear: {fileID: 0}

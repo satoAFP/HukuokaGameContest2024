@@ -48,16 +48,6 @@ public class ResultSystem : MonoBehaviourPunCallbacks
             count = 0;
         }
 
-        //リトライ選択したとき
-        if (isRetry)
-        {
-            ManagerAccessor.Instance.sceneMoveManager.SceneMoveRetry();
-        }
-        //ステージセレクト選択したとき
-        if (isStageSelect)
-        {
-            ManagerAccessor.Instance.sceneMoveManager.SceneMoveName("StageSelect");
-        }
     }
 
     public void Retry()
@@ -76,8 +66,8 @@ public class ResultSystem : MonoBehaviourPunCallbacks
     {
         if (PhotonNetwork.IsMasterClient)
         {
-            isRetry = true;
             noTapArea.SetActive(true);
+            ManagerAccessor.Instance.sceneMoveManager.SceneMoveRetry();
         }
     }
 
@@ -86,8 +76,8 @@ public class ResultSystem : MonoBehaviourPunCallbacks
     {
         if (PhotonNetwork.IsMasterClient)
         {
-            isStageSelect = true;
             noTapArea.SetActive(true);
+            ManagerAccessor.Instance.sceneMoveManager.SceneMoveName("StageSelect");
         }
     }
 
