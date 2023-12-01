@@ -678,7 +678,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5312506398248839464, guid: d3164c48dd8fb5b47b30420bf94c1571, type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5312506398248839464, guid: d3164c48dd8fb5b47b30420bf94c1571, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2777,7 +2777,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1638662336430680348, guid: 67d697408de187e4ba1fe85028b7e0b7, type: 3}
       propertyPath: m_RootOrder
-      value: 7
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1638662336430680348, guid: 67d697408de187e4ba1fe85028b7e0b7, type: 3}
       propertyPath: m_AnchorMax.x
@@ -3821,7 +3821,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5450645839726291585, guid: 30141d95ffc039a438524da9584e6ea7, type: 3}
       propertyPath: m_RootOrder
-      value: 6
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5450645839726291585, guid: 30141d95ffc039a438524da9584e6ea7, type: 3}
       propertyPath: m_AnchorMax.x
@@ -4174,7 +4174,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8479752834298216577, guid: 3cd9495f6c9288e4a99d73e7fde50671, type: 3}
       propertyPath: m_RootOrder
-      value: 5
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8479752834298216577, guid: 3cd9495f6c9288e4a99d73e7fde50671, type: 3}
       propertyPath: m_LocalPosition.x
@@ -9293,7 +9293,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5312506398248839464, guid: d3164c48dd8fb5b47b30420bf94c1571, type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5312506398248839464, guid: d3164c48dd8fb5b47b30420bf94c1571, type: 3}
       propertyPath: m_LocalPosition.x
@@ -11908,7 +11908,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2864375565067719240, guid: 700a978ca785573469ada89ba712339d, type: 3}
       propertyPath: m_RootOrder
-      value: 6
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 2864375565067719240, guid: 700a978ca785573469ada89ba712339d, type: 3}
       propertyPath: m_LocalPosition.x
@@ -11961,7 +11961,7 @@ PrefabInstance:
     - target: {fileID: 2864375565067719241, guid: 700a978ca785573469ada89ba712339d, type: 3}
       propertyPath: answerArea
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 8477742199951602142}
     - target: {fileID: 2864375565067719241, guid: 700a978ca785573469ada89ba712339d, type: 3}
       propertyPath: gimmickNum
       value: 0
@@ -11969,7 +11969,7 @@ PrefabInstance:
     - target: {fileID: 2864375565067719241, guid: 700a978ca785573469ada89ba712339d, type: 3}
       propertyPath: timeLimitSlider
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 8477742199951602141}
     - target: {fileID: 2864375565067719242, guid: 700a978ca785573469ada89ba712339d, type: 3}
       propertyPath: m_Name
       value: UnlockButtonManager
@@ -12395,7 +12395,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2864375565067719240, guid: 700a978ca785573469ada89ba712339d, type: 3}
       propertyPath: m_RootOrder
-      value: 7
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 2864375565067719240, guid: 700a978ca785573469ada89ba712339d, type: 3}
       propertyPath: m_LocalPosition.x
@@ -12448,7 +12448,7 @@ PrefabInstance:
     - target: {fileID: 2864375565067719241, guid: 700a978ca785573469ada89ba712339d, type: 3}
       propertyPath: answerArea
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 8477742199951602142}
     - target: {fileID: 2864375565067719241, guid: 700a978ca785573469ada89ba712339d, type: 3}
       propertyPath: gimmickNum
       value: 0
@@ -12456,7 +12456,7 @@ PrefabInstance:
     - target: {fileID: 2864375565067719241, guid: 700a978ca785573469ada89ba712339d, type: 3}
       propertyPath: timeLimitSlider
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 8477742199951602141}
     - target: {fileID: 2864375565067719242, guid: 700a978ca785573469ada89ba712339d, type: 3}
       propertyPath: m_Name
       value: UnlockButtonManager (1)
@@ -14677,7 +14677,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8477742199900114621, guid: fc5340921c3a5664c81ec6d8511fec20, type: 3}
       propertyPath: m_RootOrder
-      value: 5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8477742199900114621, guid: fc5340921c3a5664c81ec6d8511fec20, type: 3}
       propertyPath: m_AnchorMax.x
@@ -14753,6 +14753,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fc5340921c3a5664c81ec6d8511fec20, type: 3}
+--- !u!1 &8477742199951602141 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7174684262924026296, guid: fc5340921c3a5664c81ec6d8511fec20, type: 3}
+  m_PrefabInstance: {fileID: 8477742199951602140}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &8477742199951602142 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8477742200127547934, guid: fc5340921c3a5664c81ec6d8511fec20, type: 3}
+  m_PrefabInstance: {fileID: 8477742199951602140}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8479752833980813371
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14822,7 +14832,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8479752834298216577, guid: 3cd9495f6c9288e4a99d73e7fde50671, type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8479752834298216577, guid: 3cd9495f6c9288e4a99d73e7fde50671, type: 3}
       propertyPath: m_LocalPosition.x

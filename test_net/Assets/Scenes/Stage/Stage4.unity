@@ -14084,7 +14084,7 @@ PrefabInstance:
     - target: {fileID: 2864375565067719241, guid: 700a978ca785573469ada89ba712339d, type: 3}
       propertyPath: answerArea
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 8477742199951602142}
     - target: {fileID: 2864375565067719241, guid: 700a978ca785573469ada89ba712339d, type: 3}
       propertyPath: gimmickNum
       value: 0
@@ -14092,7 +14092,7 @@ PrefabInstance:
     - target: {fileID: 2864375565067719241, guid: 700a978ca785573469ada89ba712339d, type: 3}
       propertyPath: timeLimitSlider
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 8477742199951602141}
     - target: {fileID: 2864375565067719242, guid: 700a978ca785573469ada89ba712339d, type: 3}
       propertyPath: m_Name
       value: UnlockButtonManager
@@ -16356,6 +16356,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fc5340921c3a5664c81ec6d8511fec20, type: 3}
+--- !u!1 &8477742199951602141 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7174684262924026296, guid: fc5340921c3a5664c81ec6d8511fec20, type: 3}
+  m_PrefabInstance: {fileID: 8477742199951602140}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &8477742199951602142 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8477742200127547934, guid: fc5340921c3a5664c81ec6d8511fec20, type: 3}
+  m_PrefabInstance: {fileID: 8477742199951602140}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8479752833980813371
 PrefabInstance:
   m_ObjectHideFlags: 0
