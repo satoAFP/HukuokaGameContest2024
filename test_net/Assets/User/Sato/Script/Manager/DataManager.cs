@@ -8,6 +8,8 @@ public class DataManager : MonoBehaviourPunCallbacks
 {
     [Header("ステージ数")] public int StageNum;
 
+    [Header("ミスまでのフレーム")] public int MissFrame;
+
     //それぞれのクリア状況
     [System.NonSerialized] public bool isOwnerClear = false;
     [System.NonSerialized] public bool isClientClear = false;
@@ -41,6 +43,10 @@ public class DataManager : MonoBehaviourPunCallbacks
 
     //死亡フラグ
     [System.NonSerialized] public bool isDeth = false;
+
+    //ミスの回数
+    /*[System.NonSerialized]*/ public int ownerMissCount = 0;
+    /*[System.NonSerialized]*/ public int clientMissCount = 0;
 
     //左右下判定
     [System.NonSerialized] public bool isOwnerHitRight = false;
@@ -133,11 +139,35 @@ public class DataManager : MonoBehaviourPunCallbacks
 
     public Text clear;
 
+    private int ownerMemCount = 0;
+    private int clientMemCount = 0;
+
+    private bool ownerFirst = true;
+    private bool clinetFirst = true;
+
 
     // Start is called before the first frame update
     void Start()
     {
         ManagerAccessor.Instance.dataManager = this;
+    }
+
+    private void Update()
+    {
+        //2Pにミスデータ共有
+        if(PhotonNetwork.IsMasterClient)
+        {
+            if (ownerMemCount != ManagerAccessor.Instance.dataManager.ownerMissCount)
+            {
+                photonView.RPC(nameof(RpcShareOwnerMissCount), RpcTarget.Others, ManagerAccessor.Instance.dataManager.ownerMissCount);
+                ownerMemCount = ManagerAccessor.Instance.dataManager.ownerMissCount;
+            }
+            if (ownerMemCount != ManagerAccessor.Instance.dataManager.clientMissCount)
+            {
+                photonView.RPC(nameof(RpcShareClientMissCount), RpcTarget.Others, ManagerAccessor.Instance.dataManager.clientMissCount);
+                clientMemCount = ManagerAccessor.Instance.dataManager.clientMissCount;
+            }
+        }
     }
 
 
@@ -157,5 +187,15 @@ public class DataManager : MonoBehaviourPunCallbacks
         return null;
     }
 
+    [PunRPC]
+    private void RpcShareOwnerMissCount(int miss)
+    {
+        ManagerAccessor.Instance.dataManager.ownerMissCount = miss;
+    }
 
+    [PunRPC]
+    private void RpcShareClientMissCount(int miss)
+    {
+        ManagerAccessor.Instance.dataManager.clientMissCount = miss;
+    }
 }

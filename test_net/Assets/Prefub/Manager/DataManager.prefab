@@ -45,6 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   StageNum: 8
+  MissFrame: 40
   text: {fileID: 0}
   chat: {fileID: 0}
   clear: {fileID: 0}
