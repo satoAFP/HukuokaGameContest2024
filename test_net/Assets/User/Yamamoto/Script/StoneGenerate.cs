@@ -8,11 +8,15 @@ public class StoneGenerate : MonoBehaviour
     [SerializeField] private GameObject GenelateErea_R;//生成場所右
 
 
-    [SerializeField] private GameObject Stone_L;//大きい岩
+    [SerializeField] private GameObject[] Stones = new GameObject[3];//大きい岩
+
+    private int stonetype = 0;//生成する岩の種類をランダムに決める
 
     private float height;
 
-    [SerializeField] private float spawnInterval = 1f; // 生成間隔
+    [SerializeField, Header("何秒間ずつに生成するか設定できる")] private float spawnInterval; // 生成間隔
+
+    [SerializeField, Header("spawnIntervalで設定した秒ごとに何個生成するか設定できる")] private int spawnstone;      // 一回に生成する岩の数
 
     private float timer = 0f;//時間をカウント
 
@@ -29,27 +33,35 @@ public class StoneGenerate : MonoBehaviour
     {
         timer += Time.deltaTime;
 
+        //ここで岩を生成する時間を計測
         if (timer >= spawnInterval)
         {
-            SpawnObject();
+            for(int i=0;i < spawnstone; i++)
+            {
+                SpawnObject();
+            }
+           
             timer = 0f;
         }
-
-        //print("width: " + width);
     }
 
     public void SpawnObject()
     {
-       
 
-        float randomX = Random.Range(GenelateErea_L.transform.localPosition.x, GenelateErea_R.transform.localPosition.x);
+        stonetype = Random.Range(1, 3);//岩の種類をランダム選出
 
-        Debug.Log(randomX);
+        float randomX = Random.Range(GenelateErea_L.transform.localPosition.x, GenelateErea_R.transform.localPosition.x);//ランダムなX座標
 
-        spawnPosition = new Vector2(randomX, height);
+        spawnPosition = new Vector2(randomX, height);//生成位置を設定
 
-        Debug.Log(spawnPosition);
+        var worldPoint = transform.TransformPoint(spawnPosition);//ワールド座標に変換
 
-        Instantiate(Stone_L, spawnPosition, Quaternion.identity);
+        worldPoint.y = height;//高さをワールド座標にするとずれるのでローカルに戻す
+
+       // Debug.Log(spawnPosition);
+
+        // Debug.Log("ワールド返還"+worldPoint);
+
+        Instantiate(Stones[stonetype], worldPoint, Quaternion.identity);
     }
 }
