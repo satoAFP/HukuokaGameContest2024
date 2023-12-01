@@ -52,7 +52,7 @@ public class PlayerGetHitObjTagManagement : MonoBehaviourPunCallbacks
             //‰º‚É“–‚½‚Á‚Ä‚¢‚é”»’è
             for (int i = 0; i < downJudge.HitTags.Count; i++)
             {
-                if (downJudge.HitTags.Count != 0 && downJudge.HitTags[i] == "Floor" && downJudge.HitTags[i] == "Gimmick") 
+                if (downJudge.HitTags.Count != 0 && downJudge.HitTags[i] == "Floor" || downJudge.HitTags[i] == "Gimmick") 
                 {
                     if ((PhotonNetwork.IsMasterClient && photonView.IsMine) || (!PhotonNetwork.IsMasterClient && !photonView.IsMine))
                     {
