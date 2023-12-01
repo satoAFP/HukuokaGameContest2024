@@ -18,6 +18,9 @@ public class StoneGenerate : MonoBehaviour
 
     [SerializeField, Header("spawnIntervalで設定した秒ごとに何個生成するか設定できる")] private int spawnstone;      // 一回に生成する岩の数
 
+    [SerializeField, Header("移動速度")] private float moveSpeed;
+
+
     private float timer = 0f;//時間をカウント
 
     private Vector2 spawnPosition;//岩生成場所
@@ -31,6 +34,9 @@ public class StoneGenerate : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        // オブジェクトを右に移動させる
+        transform.Translate(Vector2.right * moveSpeed * Time.deltaTime);
+
         timer += Time.deltaTime;
 
         //ここで岩を生成する時間を計測

@@ -245,6 +245,7 @@ MonoBehaviour:
   - {fileID: 8708001624880048959, guid: 13b2f02177fdf67428c0a3fea5207841, type: 3}
   spawnInterval: 0.5
   spawnstone: 20
+  moveSpeed: 1.2
 --- !u!1 &5754481299050000917
 GameObject:
   m_ObjectHideFlags: 0
