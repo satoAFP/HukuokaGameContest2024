@@ -139,11 +139,7 @@ public class DataManager : MonoBehaviourPunCallbacks
 
     public Text clear;
 
-    private int ownerMemCount = 0;
-    private int clientMemCount = 0;
 
-    private bool ownerFirst = true;
-    private bool clinetFirst = true;
 
 
     // Start is called before the first frame update
@@ -154,20 +150,7 @@ public class DataManager : MonoBehaviourPunCallbacks
 
     private void Update()
     {
-        //2Pにミスデータ共有
-        if(PhotonNetwork.IsMasterClient)
-        {
-            if (ownerMemCount != ManagerAccessor.Instance.dataManager.ownerMissCount)
-            {
-                photonView.RPC(nameof(RpcShareOwnerMissCount), RpcTarget.All, ManagerAccessor.Instance.dataManager.ownerMissCount);
-                ownerMemCount = ManagerAccessor.Instance.dataManager.ownerMissCount;
-            }
-            if (ownerMemCount != ManagerAccessor.Instance.dataManager.clientMissCount)
-            {
-                photonView.RPC(nameof(RpcShareClientMissCount), RpcTarget.All, ManagerAccessor.Instance.dataManager.clientMissCount);
-                clientMemCount = ManagerAccessor.Instance.dataManager.clientMissCount;
-            }
-        }
+        
     }
 
 
@@ -187,15 +170,5 @@ public class DataManager : MonoBehaviourPunCallbacks
         return null;
     }
 
-    [PunRPC]
-    private void RpcShareOwnerMissCount(int miss)
-    {
-        ManagerAccessor.Instance.dataManager.ownerMissCount = miss;
-    }
-
-    [PunRPC]
-    private void RpcShareClientMissCount(int miss)
-    {
-        ManagerAccessor.Instance.dataManager.clientMissCount = miss;
-    }
+    
 }
