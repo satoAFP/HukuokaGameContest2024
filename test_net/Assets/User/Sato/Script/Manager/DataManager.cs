@@ -159,12 +159,12 @@ public class DataManager : MonoBehaviourPunCallbacks
         {
             if (ownerMemCount != ManagerAccessor.Instance.dataManager.ownerMissCount)
             {
-                photonView.RPC(nameof(RpcShareOwnerMissCount), RpcTarget.Others, ManagerAccessor.Instance.dataManager.ownerMissCount);
+                photonView.RPC(nameof(RpcShareOwnerMissCount), RpcTarget.All, ManagerAccessor.Instance.dataManager.ownerMissCount);
                 ownerMemCount = ManagerAccessor.Instance.dataManager.ownerMissCount;
             }
             if (ownerMemCount != ManagerAccessor.Instance.dataManager.clientMissCount)
             {
-                photonView.RPC(nameof(RpcShareClientMissCount), RpcTarget.Others, ManagerAccessor.Instance.dataManager.clientMissCount);
+                photonView.RPC(nameof(RpcShareClientMissCount), RpcTarget.All, ManagerAccessor.Instance.dataManager.clientMissCount);
                 clientMemCount = ManagerAccessor.Instance.dataManager.clientMissCount;
             }
         }

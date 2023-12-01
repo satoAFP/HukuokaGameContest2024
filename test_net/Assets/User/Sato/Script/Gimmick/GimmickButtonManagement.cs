@@ -35,56 +35,58 @@ public class GimmickButtonManagement : MonoBehaviourPunCallbacks
     // Update is called once per frame
     void Update()
     {
-        //どちらか片方が入力開始でカウント開始
-        if (gimmickButton[0].GetComponent<GimmickButton>().isButton ||
-            gimmickButton[1].GetComponent<GimmickButton>().isButton)
+        if (!isSuccess)
         {
-            //失敗した時はいれない
-            if (!isFailure)
+            //どちらか片方が入力開始でカウント開始
+            if (gimmickButton[0].GetComponent<GimmickButton>().isButton ||
+                gimmickButton[1].GetComponent<GimmickButton>().isButton)
             {
-                count++;
-                //失敗までのフレームまで
-                if (count <= ManagerAccessor.Instance.dataManager.MissFrame)
+                //失敗した時はいれない
+                if (!isFailure)
                 {
-                    //同時入力成功でGimmick起動
-                    if (gimmickButton[0].GetComponent<GimmickButton>().isButton &&
-                        gimmickButton[1].GetComponent<GimmickButton>().isButton)
+                    count++;
+                    //失敗までのフレームまで
+                    if (count <= ManagerAccessor.Instance.dataManager.MissFrame)
                     {
-                        isSuccess = true;
-                    }
-                }
-                else
-                {
-                    if (PhotonNetwork.IsMasterClient)
-                    {
-                        if (gimmickButton[0].GetComponent<GimmickButton>().isButton)
+                        //同時入力成功でGimmick起動
+                        if (gimmickButton[0].GetComponent<GimmickButton>().isButton &&
+                            gimmickButton[1].GetComponent<GimmickButton>().isButton)
                         {
-                            if (gimmickButton[1].GetComponent<GimmickButton>().isOwner)
-                                ManagerAccessor.Instance.dataManager.clientMissCount++;
-                            else
-                                ManagerAccessor.Instance.dataManager.ownerMissCount++;
-                        }
-                        if (gimmickButton[1].GetComponent<GimmickButton>().isButton)
-                        {
-                            if (gimmickButton[0].GetComponent<GimmickButton>().isOwner)
-                                ManagerAccessor.Instance.dataManager.clientMissCount++;
-                            else
-                                ManagerAccessor.Instance.dataManager.ownerMissCount++;
+                            isSuccess = true;
                         }
                     }
+                    else
+                    {
+                        if (PhotonNetwork.IsMasterClient)
+                        {
+                            if (gimmickButton[0].GetComponent<GimmickButton>().isButton)
+                            {
+                                if (gimmickButton[1].GetComponent<GimmickButton>().isOwner)
+                                    ManagerAccessor.Instance.dataManager.clientMissCount++;
+                                else
+                                    ManagerAccessor.Instance.dataManager.ownerMissCount++;
+                            }
+                            if (gimmickButton[1].GetComponent<GimmickButton>().isButton)
+                            {
+                                if (gimmickButton[0].GetComponent<GimmickButton>().isOwner)
+                                    ManagerAccessor.Instance.dataManager.clientMissCount++;
+                                else
+                                    ManagerAccessor.Instance.dataManager.ownerMissCount++;
+                            }
+                        }
 
-                    //制限時間内にできなければ失敗
-                    isFailure = true;
-                    count = 0;
+                        //制限時間内にできなければ失敗
+                        isFailure = true;
+                        count = 0;
+                    }
                 }
             }
+            else
+            {
+                //両方の入力解除で再度入力受付
+                isFailure = false;
+            }
         }
-        else
-        {
-            //両方の入力解除で再度入力受付
-            isFailure = false;
-        }
-
 
 
         //同時押しが成功すると、扉が開く
