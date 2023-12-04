@@ -7,7 +7,10 @@ public class GimmickButton : MonoBehaviourPunCallbacks
 {
     //それぞれのボタン入力状況
     [System.NonSerialized] public bool isButton = false;
-    [System.NonSerialized] public bool isOwner = true;
+    [System.NonSerialized] public bool isOwnerOnButton = false;
+    [System.NonSerialized] public bool isClientOnButton = false;
+    [System.NonSerialized] public bool isOwnerHit = false;
+    [System.NonSerialized] public bool isClientHit = false;
 
     private Rigidbody2D rb2d;
 
@@ -44,7 +47,7 @@ public class GimmickButton : MonoBehaviourPunCallbacks
                 if (firstPushP1)
                 {
                     //ボタン押している判定
-                    photonView.RPC(nameof(RpcButtonCheck), RpcTarget.All, true, true);
+                    photonView.RPC(nameof(RpcButtonCheck), RpcTarget.All, true, true, true);
                     firstPushP1 = false;
                 }
             }
@@ -53,7 +56,7 @@ public class GimmickButton : MonoBehaviourPunCallbacks
                 if (!firstPushP1)
                 {
                     //ボタン離した判定
-                    photonView.RPC(nameof(RpcButtonCheck), RpcTarget.All, false, true);
+                    photonView.RPC(nameof(RpcButtonCheck), RpcTarget.All, false, true, false);
                     firstPushP1 = true;
                 }
             }
@@ -74,7 +77,7 @@ public class GimmickButton : MonoBehaviourPunCallbacks
                 if (firstPushP2)
                 {
                     //ボタン押している判定
-                    photonView.RPC(nameof(RpcButtonCheck), RpcTarget.All, true, false);
+                    photonView.RPC(nameof(RpcButtonCheck), RpcTarget.All, true, false, true);
                     firstPushP2 = false;
                 }
             }
@@ -83,18 +86,31 @@ public class GimmickButton : MonoBehaviourPunCallbacks
                 if (!firstPushP2)
                 {
                     //ボタン離した判定
-                    photonView.RPC(nameof(RpcButtonCheck), RpcTarget.All, false, false);
+                    photonView.RPC(nameof(RpcButtonCheck), RpcTarget.All, false, false, false);
                     firstPushP2 = true;
                 }
             }
         }
     }
 
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.name == "Player1" || collision.gameObject.name == "CopyKey")
+        {
+            photonView.RPC(nameof(RpcShareIsOwnerHit), RpcTarget.All, true, true);
+        }
+        if (collision.gameObject.name == "Player2")
+        {
+            photonView.RPC(nameof(RpcShareIsOwnerHit), RpcTarget.All, false, true);
+        }
+    }
 
     private void OnCollisionExit2D(Collision2D collision)
     {
         if (collision.gameObject.name == "Player1" || collision.gameObject.name == "CopyKey")
         {
+            photonView.RPC(nameof(RpcShareIsOwnerHit), RpcTarget.All, true, false);
+
             //押すべきボタンの画像表示
             collision.transform.GetChild(0).gameObject.SetActive(false);
 
@@ -103,12 +119,14 @@ public class GimmickButton : MonoBehaviourPunCallbacks
             if (PhotonNetwork.LocalPlayer.IsMasterClient)
             {
                 //ボタンから離れた判定
-                photonView.RPC(nameof(RpcButtonCheck), RpcTarget.All, false, true);
+                photonView.RPC(nameof(RpcButtonCheck), RpcTarget.All, false, true, false);
                 firstPushP1 = true;
             }
         }
         if (collision.gameObject.name == "Player2")
         {
+            photonView.RPC(nameof(RpcShareIsOwnerHit), RpcTarget.All, false, false);
+
             //押すべきボタンの画像表示
             collision.transform.GetChild(0).gameObject.SetActive(false);
 
@@ -117,7 +135,7 @@ public class GimmickButton : MonoBehaviourPunCallbacks
             if (!PhotonNetwork.LocalPlayer.IsMasterClient)
             {
                 //ボタンから離れた判定
-                photonView.RPC(nameof(RpcButtonCheck), RpcTarget.All, false, false);
+                photonView.RPC(nameof(RpcButtonCheck), RpcTarget.All, false, false, false);
                 firstPushP2 = true;
             }
         }
@@ -126,9 +144,25 @@ public class GimmickButton : MonoBehaviourPunCallbacks
 
     //ボタン入力情報を相手に送信
     [PunRPC]
-    protected void RpcButtonCheck(bool onButton, bool onOwner)
+    protected void RpcButtonCheck(bool onButton, bool onOwner,bool data)
     {
         isButton = onButton;
-        isOwner = onOwner;
+
+        if (onOwner)
+            isOwnerOnButton = data;
+        else
+            isClientOnButton = data;
+
+    }
+
+    //ボタン入力情報を相手に送信
+    [PunRPC]
+    protected void RpcShareIsOwnerHit(bool onOwner, bool data)
+    {
+        if (onOwner)
+            isOwnerHit = data;
+        else
+            isClientHit = data;
+
     }
 }
