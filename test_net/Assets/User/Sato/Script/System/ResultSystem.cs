@@ -17,13 +17,33 @@ public class ResultSystem : MonoBehaviourPunCallbacks
     private bool isRetry = false;       //リトライ選択したとき
     private bool isStageSelect = false; //ステージセレクト選択したとき
 
+
+    private int ownerMemCount = 0;
+    private int clientMemCount = 0;
+
     //クリア処理に一回しか入らない処理
     private bool clearFirst;
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        if(ManagerAccessor.Instance.dataManager.isClear)
+        //2Pにミスデータ共有
+        if (PhotonNetwork.IsMasterClient)
+        {
+            if (ownerMemCount != ManagerAccessor.Instance.dataManager.ownerMissCount)
+            {
+                photonView.RPC(nameof(RpcShareOwnerMissCount), RpcTarget.All, ManagerAccessor.Instance.dataManager.ownerMissCount);
+                ownerMemCount = ManagerAccessor.Instance.dataManager.ownerMissCount;
+            }
+            if (ownerMemCount != ManagerAccessor.Instance.dataManager.clientMissCount)
+            {
+                photonView.RPC(nameof(RpcShareClientMissCount), RpcTarget.All, ManagerAccessor.Instance.dataManager.clientMissCount);
+                clientMemCount = ManagerAccessor.Instance.dataManager.clientMissCount;
+            }
+        }
+
+
+        if (ManagerAccessor.Instance.dataManager.isClear)
         {
             //クリアパネル表示
             gameObject.transform.GetChild(0).gameObject.SetActive(true);
@@ -48,16 +68,6 @@ public class ResultSystem : MonoBehaviourPunCallbacks
             count = 0;
         }
 
-        //リトライ選択したとき
-        if (isRetry)
-        {
-            ManagerAccessor.Instance.sceneMoveManager.SceneMoveRetry();
-        }
-        //ステージセレクト選択したとき
-        if (isStageSelect)
-        {
-            ManagerAccessor.Instance.sceneMoveManager.SceneMoveName("StageSelect");
-        }
     }
 
     public void Retry()
@@ -74,15 +84,32 @@ public class ResultSystem : MonoBehaviourPunCallbacks
     [PunRPC]
     private void RcpShareIsRetry()
     {
-        isRetry = true;
-        noTapArea.SetActive(true);
+        if (PhotonNetwork.IsMasterClient)
+        {
+            noTapArea.SetActive(true);
+            ManagerAccessor.Instance.sceneMoveManager.SceneMoveRetry();
+        }
     }
 
     [PunRPC]
     private void RcpShareIsStageSelect()
     {
-        isStageSelect = true;
-        noTapArea.SetActive(true);
+        if (PhotonNetwork.IsMasterClient)
+        {
+            noTapArea.SetActive(true);
+            ManagerAccessor.Instance.sceneMoveManager.SceneMoveName("StageSelect");
+        }
     }
 
+    [PunRPC]
+    private void RpcShareOwnerMissCount(int miss)
+    {
+        ManagerAccessor.Instance.dataManager.ownerMissCount = miss;
+    }
+
+    [PunRPC]
+    private void RpcShareClientMissCount(int miss)
+    {
+        ManagerAccessor.Instance.dataManager.clientMissCount = miss;
+    }
 }

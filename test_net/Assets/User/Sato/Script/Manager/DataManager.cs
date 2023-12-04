@@ -8,6 +8,8 @@ public class DataManager : MonoBehaviourPunCallbacks
 {
     [Header("ステージ数")] public int StageNum;
 
+    [Header("ミスまでのフレーム")] public int MissFrame;
+
     //それぞれのクリア状況
     [System.NonSerialized] public bool isOwnerClear = false;
     [System.NonSerialized] public bool isClientClear = false;
@@ -41,6 +43,10 @@ public class DataManager : MonoBehaviourPunCallbacks
 
     //死亡フラグ
     [System.NonSerialized] public bool isDeth = false;
+
+    //ミスの回数
+    /*[System.NonSerialized]*/ public int ownerMissCount = 0;
+    /*[System.NonSerialized]*/ public int clientMissCount = 0;
 
     //左右下判定
     [System.NonSerialized] public bool isOwnerHitRight = false;
@@ -134,10 +140,17 @@ public class DataManager : MonoBehaviourPunCallbacks
     public Text clear;
 
 
+
+
     // Start is called before the first frame update
     void Start()
     {
         ManagerAccessor.Instance.dataManager = this;
+    }
+
+    private void Update()
+    {
+        
     }
 
 
@@ -157,5 +170,5 @@ public class DataManager : MonoBehaviourPunCallbacks
         return null;
     }
 
-
+    
 }

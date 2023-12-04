@@ -80,6 +80,8 @@ MonoBehaviour:
   - RpcShareHitUnlockButton
   - RpcChangeBoxOpenImage
   - RpcShareMoveLock
+  - RpcShareClientMissCount
+  - RpcShareOwnerMissCount
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

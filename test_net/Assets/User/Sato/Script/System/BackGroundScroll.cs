@@ -20,65 +20,70 @@ public class BackGroundScroll : MonoBehaviourPunCallbacks
     // Update is called once per frame
     void FixedUpdate()
     {
-        //その画面での操作キャラ取得
-        if (PhotonNetwork.IsMasterClient)
+        //プレイヤーが存在しているとき
+        if (ManagerAccessor.Instance.dataManager.player1 != null &&
+            ManagerAccessor.Instance.dataManager.player2 != null)
         {
-            player = ManagerAccessor.Instance.dataManager.player1;
-        }
-        else
-        {
-            player = ManagerAccessor.Instance.dataManager.player2;
-        }
 
-        if (first)
-        {
-            //背景生成
-            for (int i = 0; i < 9; i++)
-                imgObj[i] = Instantiate(BackGround);
-
-            //背景の初期座標設定
-            for (int i = 0; i < 9; i += 3) 
+            //その画面での操作キャラ取得
+            if (PhotonNetwork.IsMasterClient)
             {
-                imgObj[i].transform.position = new Vector3(-9, Size.y / 2 - (Size.y * i / 3), 0);
-                imgObj[i + 1].transform.position = new Vector3(9, Size.y / 2 - (Size.y * i / 3), 0);
-                imgObj[i + 2].transform.position = new Vector3(27, Size.y / 2 - (Size.y * i / 3), 0);
+                player = ManagerAccessor.Instance.dataManager.player1;
+            }
+            else
+            {
+                player = ManagerAccessor.Instance.dataManager.player2;
             }
 
-            first = false;
-        }
+            if (first)
+            {
+                //背景生成
+                for (int i = 0; i < 9; i++)
+                    imgObj[i] = Instantiate(BackGround);
 
-        //背景画像単位での主人公の座標設定
-        if (player.transform.position.x >= 0) 
-        {
-            mapPos.x = Mathf.Floor(player.transform.position.x / Size.x);
-        }
-        else
-        {
-            if (mapPos.x == 0)
-                mapPos.x = -1;
+                //背景の初期座標設定
+                for (int i = 0; i < 9; i += 3)
+                {
+                    imgObj[i].transform.position = new Vector3(-9, Size.y / 2 - (Size.y * i / 3), 0);
+                    imgObj[i + 1].transform.position = new Vector3(9, Size.y / 2 - (Size.y * i / 3), 0);
+                    imgObj[i + 2].transform.position = new Vector3(27, Size.y / 2 - (Size.y * i / 3), 0);
+                }
 
-            mapPos.x = Mathf.Ceil(player.transform.position.x / Size.x) - 1;
-        }
+                first = false;
+            }
 
-        if (player.transform.position.y >= 0)
-        {
-            mapPos.y = Mathf.Floor(player.transform.position.y / Size.y);
-        }
-        else
-        {
-            if (mapPos.y == 0)
-                mapPos.y = -1;
+            //背景画像単位での主人公の座標設定
+            if (player.transform.position.x >= 0)
+            {
+                mapPos.x = Mathf.Floor(player.transform.position.x / Size.x);
+            }
+            else
+            {
+                if (mapPos.x == 0)
+                    mapPos.x = -1;
 
-            mapPos.y = Mathf.Ceil(player.transform.position.y / Size.y) - 1;
-        }
+                mapPos.x = Mathf.Ceil(player.transform.position.x / Size.x) - 1;
+            }
 
-        //操作キャラの座標によって背景画像の座標更新
-        for (int i = 0; i < 9; i += 3)
-        {
-            imgObj[i].transform.position = new Vector3(-9 + (mapPos.x * Size.x), Size.y - (Size.y * i / 3) + (mapPos.y * Size.y), 0);
-            imgObj[i + 1].transform.position = new Vector3(9 + (mapPos.x * Size.x), Size.y - (Size.y * i / 3) + (mapPos.y * Size.y), 0);
-            imgObj[i + 2].transform.position = new Vector3(27 + (mapPos.x * Size.x), Size.y - (Size.y * i / 3) + (mapPos.y * Size.y), 0);
-        }
+            if (player.transform.position.y >= 0)
+            {
+                mapPos.y = Mathf.Floor(player.transform.position.y / Size.y);
+            }
+            else
+            {
+                if (mapPos.y == 0)
+                    mapPos.y = -1;
 
+                mapPos.y = Mathf.Ceil(player.transform.position.y / Size.y) - 1;
+            }
+
+            //操作キャラの座標によって背景画像の座標更新
+            for (int i = 0; i < 9; i += 3)
+            {
+                imgObj[i].transform.position = new Vector3(-9 + (mapPos.x * Size.x), Size.y - (Size.y * i / 3) + (mapPos.y * Size.y), 0);
+                imgObj[i + 1].transform.position = new Vector3(9 + (mapPos.x * Size.x), Size.y - (Size.y * i / 3) + (mapPos.y * Size.y), 0);
+                imgObj[i + 2].transform.position = new Vector3(27 + (mapPos.x * Size.x), Size.y - (Size.y * i / 3) + (mapPos.y * Size.y), 0);
+            }
+        }
     }
 }
