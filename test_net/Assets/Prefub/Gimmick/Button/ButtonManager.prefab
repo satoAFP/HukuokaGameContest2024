@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6597643679682269254}
   m_Layer: 0
   m_Name: door
-  m_TagString: Untagged
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -236,11 +236,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 773841766374285821, guid: fe0973d968c5e53489e2949c9061470f, type: 3}
       propertyPath: m_SpriteTilingProperty.oldSize.x
-      value: 1
+      value: 1.4140625
       objectReference: {fileID: 0}
     - target: {fileID: 773841766374285821, guid: fe0973d968c5e53489e2949c9061470f, type: 3}
       propertyPath: m_SpriteTilingProperty.oldSize.y
-      value: 1
+      value: 1.4140625
       objectReference: {fileID: 0}
     - target: {fileID: 773841766374285823, guid: fe0973d968c5e53489e2949c9061470f, type: 3}
       propertyPath: m_Sprite
@@ -327,11 +327,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 773841766374285821, guid: fe0973d968c5e53489e2949c9061470f, type: 3}
       propertyPath: m_SpriteTilingProperty.oldSize.x
-      value: 1
+      value: 1.4140625
       objectReference: {fileID: 0}
     - target: {fileID: 773841766374285821, guid: fe0973d968c5e53489e2949c9061470f, type: 3}
       propertyPath: m_SpriteTilingProperty.oldSize.y
-      value: 1
+      value: 1.4140625
       objectReference: {fileID: 0}
     - target: {fileID: 773841766374285823, guid: fe0973d968c5e53489e2949c9061470f, type: 3}
       propertyPath: m_Sprite
