@@ -49,6 +49,7 @@ public class GimmickButton : MonoBehaviourPunCallbacks
                     //ボタン押している判定
                     photonView.RPC(nameof(RpcButtonCheck), RpcTarget.All, true, true, true);
                     firstPushP1 = false;
+                    Debug.Log("true");
                 }
             }
             else
@@ -58,6 +59,7 @@ public class GimmickButton : MonoBehaviourPunCallbacks
                     //ボタン離した判定
                     photonView.RPC(nameof(RpcButtonCheck), RpcTarget.All, false, true, false);
                     firstPushP1 = true;
+                    Debug.Log("false");
                 }
             }
         }
@@ -121,6 +123,7 @@ public class GimmickButton : MonoBehaviourPunCallbacks
                 //ボタンから離れた判定
                 photonView.RPC(nameof(RpcButtonCheck), RpcTarget.All, false, true, false);
                 firstPushP1 = true;
+                Debug.Log("false2");
             }
         }
         if (collision.gameObject.name == "Player2")
