@@ -10,6 +10,7 @@ TagManager:
   - Obstacle
   - Bullet
   - DeathField
+  - DeathErea
   layers:
   - Default
   - TransparentFX

@@ -1848,8 +1848,10 @@ MonoBehaviour:
   p1Image: {fileID: 21300000, guid: dbdf3a75f9f895246bc80a53aab379e0, type: 3}
   p1OpenImage: {fileID: 21300000, guid: 9e43314602f423d42baf6904f8b159b0, type: 3}
   p1LiftImage: {fileID: 21300000, guid: 862ae6b0c814dfb468dc9f422ca4640f, type: 3}
+  p1DeathImage: {fileID: 21300000, guid: 68b6ecf65a3edd24097e8e935784fa2e, type: 3}
   p2Image: {fileID: 21300000, guid: bb09d92abcdac794a8965d1fae7d9b3f, type: 3}
   p2LiftImage: {fileID: 21300000, guid: 9f178adb3f62e224a86eacf347c79188, type: 3}
+  p2DeathImage: {fileID: 21300000, guid: 885c0bb93c4a1b446b281769dad405d4, type: 3}
 --- !u!95 &7678245296942017412
 Animator:
   serializedVersion: 5

@@ -7,10 +7,10 @@ public class GimmickButton : MonoBehaviourPunCallbacks
 {
     //‚»‚ê‚¼‚ê‚Ìƒ{ƒ^ƒ““ü—Íó‹µ
     [System.NonSerialized] public bool isButton = false;
-    [System.NonSerialized] public bool isOwnerOnButton = true;
-    [System.NonSerialized] public bool isClientOnButton = true;
-    [System.NonSerialized] public bool isOwnerHit = true;
-    [System.NonSerialized] public bool isClientHit = true;
+    [System.NonSerialized] public bool isOwnerOnButton = false;
+    [System.NonSerialized] public bool isClientOnButton = false;
+    [System.NonSerialized] public bool isOwnerHit = false;
+    [System.NonSerialized] public bool isClientHit = false;
 
     private Rigidbody2D rb2d;
 
