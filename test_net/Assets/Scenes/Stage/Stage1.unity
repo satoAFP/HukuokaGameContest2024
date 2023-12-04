@@ -3091,6 +3091,63 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1001 &268820087
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 5754481298633445864, guid: 45461b3ebf7c7dd4689e76ed32063752, type: 3}
+      propertyPath: m_Name
+      value: DeathErea
+      objectReference: {fileID: 0}
+    - target: {fileID: 5754481298633445867, guid: 45461b3ebf7c7dd4689e76ed32063752, type: 3}
+      propertyPath: m_RootOrder
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5754481298633445867, guid: 45461b3ebf7c7dd4689e76ed32063752, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -31.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5754481298633445867, guid: 45461b3ebf7c7dd4689e76ed32063752, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.9391
+      objectReference: {fileID: 0}
+    - target: {fileID: 5754481298633445867, guid: 45461b3ebf7c7dd4689e76ed32063752, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5754481298633445867, guid: 45461b3ebf7c7dd4689e76ed32063752, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5754481298633445867, guid: 45461b3ebf7c7dd4689e76ed32063752, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5754481298633445867, guid: 45461b3ebf7c7dd4689e76ed32063752, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5754481298633445867, guid: 45461b3ebf7c7dd4689e76ed32063752, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5754481298633445867, guid: 45461b3ebf7c7dd4689e76ed32063752, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5754481298633445867, guid: 45461b3ebf7c7dd4689e76ed32063752, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5754481298633445867, guid: 45461b3ebf7c7dd4689e76ed32063752, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 45461b3ebf7c7dd4689e76ed32063752, type: 3}
 --- !u!1 &274945004
 GameObject:
   m_ObjectHideFlags: 0
@@ -6725,7 +6782,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5450645839726291585, guid: 30141d95ffc039a438524da9584e6ea7, type: 3}
       propertyPath: m_RootOrder
-      value: 6
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5450645839726291585, guid: 30141d95ffc039a438524da9584e6ea7, type: 3}
       propertyPath: m_AnchorMax.x
@@ -7426,7 +7483,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1638662336430680348, guid: 67d697408de187e4ba1fe85028b7e0b7, type: 3}
       propertyPath: m_RootOrder
-      value: 7
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1638662336430680348, guid: 67d697408de187e4ba1fe85028b7e0b7, type: 3}
       propertyPath: m_AnchorMax.x
@@ -10934,6 +10991,10 @@ PrefabInstance:
     - target: {fileID: 978951746300664208, guid: 4f8921b087f5ffc4580100264459bbd9, type: 3}
       propertyPath: m_Name
       value: Managers
+      objectReference: {fileID: 0}
+    - target: {fileID: 2707172249724366773, guid: 4f8921b087f5ffc4580100264459bbd9, type: 3}
+      propertyPath: sceneViewId
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4933497826015900843, guid: 4f8921b087f5ffc4580100264459bbd9, type: 3}
       propertyPath: m_RootOrder
@@ -17405,7 +17466,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8477742199900114621, guid: fc5340921c3a5664c81ec6d8511fec20, type: 3}
       propertyPath: m_RootOrder
-      value: 5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8477742199900114621, guid: fc5340921c3a5664c81ec6d8511fec20, type: 3}
       propertyPath: m_AnchorMax.x

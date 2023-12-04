@@ -14,11 +14,16 @@ public class PlayerImage : MonoBehaviourPunCallbacks
     private Sprite p1OpenImage;
     [SerializeField, Header("持ち上げモーション中の宝箱")]
     private Sprite p1LiftImage;
+    [SerializeField, Header("死亡時の宝箱")]
+    private Sprite p1DeathImage;
+
     //プレイヤー2
     [SerializeField, Header("鍵")]
     private Sprite p2Image;
     [SerializeField, Header("持ち上げモーション中の鍵")]
     private Sprite p2LiftImage;
+    [SerializeField, Header("死亡時の鍵")]
+    private Sprite p2DeathImage;
 
     private Animator anim;//アニメーター
 
@@ -56,104 +61,121 @@ public class PlayerImage : MonoBehaviourPunCallbacks
         //箱イラスト
         if (parentObjectName == "Player1")
         {
-            //プレイヤーの移動した方向に応じてプレイヤーの向きを変える
-            if(ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().imageleft)
+            //死亡時はすべての処理を止めて死亡時の画像に変える
+            if(datamanager.isDeth)
             {
-                transform.localScale = new Vector3(-1.0f, 1.0f, 1.0f);
+                GetComponent<SpriteRenderer>().sprite = p1DeathImage;
+                anim.SetBool("isMove", false);//アニメーションを止める
             }
             else
             {
-                transform.localScale = new Vector3( 1.0f, 1.0f, 1.0f);
-            }
+                //プレイヤーの移動した方向に応じてプレイヤーの向きを変える
+                if (ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().imageleft)
+                {
+                    transform.localScale = new Vector3(-1.0f, 1.0f, 1.0f);
+                }
+                else
+                {
+                    transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+                }
 
-            //宝箱オープン画像
-            if (ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().change_boxopenimage)
-            {
-               // Debug.Log("空く");
+                //宝箱オープン画像
+                if (ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().change_boxopenimage)
+                {
+                    // Debug.Log("空く");
 
-                GetComponent<SpriteRenderer>().sprite = p1OpenImage;
-            }
-            else
-            {
-                GetComponent<SpriteRenderer>().sprite = p1Image;
-            }
+                    GetComponent<SpriteRenderer>().sprite = p1OpenImage;
+                }
+                else
+                {
+                    GetComponent<SpriteRenderer>().sprite = p1Image;
+                }
 
-            //ブロック持ち上げ画像
-            if (ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().change_liftimage)
-            {
-                GetComponent<SpriteRenderer>().sprite = p1LiftImage;
-            }
-            
-            //ブロックを降ろした時（元の画像に戻す）
-            if(ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().change_unloadimage)
-            {
-               GetComponent<SpriteRenderer>().sprite = p1Image;
-            }
+                //ブロック持ち上げ画像
+                if (ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().change_liftimage)
+                {
+                    GetComponent<SpriteRenderer>().sprite = p1LiftImage;
+                }
 
-       
-            //アニメーションを再生
-            if (ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().animplay
-            && !ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().change_boxopenimage
-            && !ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().change_liftimage)
-            {
-               // Debug.Log("player1あにむ開始");
-                anim.SetBool("isMove", true);
-            }
-            else
-            {
-               // Debug.Log("player1あにむowari");
-                anim.SetBool("isMove", false);
-            }
+                //ブロックを降ろした時（元の画像に戻す）
+                if (ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().change_unloadimage)
+                {
+                    GetComponent<SpriteRenderer>().sprite = p1Image;
+                }
 
-            //ジャンプ中はアニメーション中断
-            if(ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().bjump)
-            {
-                //Debug.Log("jump1");
-                anim.SetBool("isMove", false);
-            }
 
+                //アニメーションを再生
+                if (ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().animplay
+                && !ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().change_boxopenimage
+                && !ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().change_liftimage)
+                {
+                    // Debug.Log("player1あにむ開始");
+                    anim.SetBool("isMove", true);
+                }
+                else
+                {
+                    // Debug.Log("player1あにむowari");
+                    anim.SetBool("isMove", false);
+                }
+
+                //ジャンプ中はアニメーション中断
+                if (ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().bjump)
+                {
+                    //Debug.Log("jump1");
+                    anim.SetBool("isMove", false);
+                }
+            }
         }
         //鍵イラスト
         else if (parentObjectName == "Player2")
         {
-            //プレイヤーの移動した方向に応じてプレイヤーの向きを変える
-            if (ManagerAccessor.Instance.dataManager.player2.GetComponent<PlayerController>().imageleft)
+            //死亡時はすべての処理を止めて死亡時の画像に変える
+            if (datamanager.isDeth)
             {
-                transform.localScale = new Vector3(-1.0f, 1.0f, 1.0f);
+                GetComponent<SpriteRenderer>().sprite = p2DeathImage;
+                anim.SetBool("isMove", false);//アニメーションを止める
             }
             else
             {
-                transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
-            }
+                //プレイヤーの移動した方向に応じてプレイヤーの向きを変える
+                if (ManagerAccessor.Instance.dataManager.player2.GetComponent<PlayerController>().imageleft)
+                {
+                    transform.localScale = new Vector3(-1.0f, 1.0f, 1.0f);
+                }
+                else
+                {
+                    transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+                }
 
-            //ブロック持ち上げ画像
-            if (ManagerAccessor.Instance.dataManager.player2.GetComponent<PlayerController>().change_liftimage)
-            {
-                GetComponent<SpriteRenderer>().sprite = p2LiftImage;
-            }
+                //ブロック持ち上げ画像
+                if (ManagerAccessor.Instance.dataManager.player2.GetComponent<PlayerController>().change_liftimage)
+                {
+                    GetComponent<SpriteRenderer>().sprite = p2LiftImage;
+                }
 
-            //ブロックを降ろした時（元の画像に戻す）
-            if (ManagerAccessor.Instance.dataManager.player2.GetComponent<PlayerController>().change_unloadimage)
-            {
-                GetComponent<SpriteRenderer>().sprite = p2Image;
-            }
+                //ブロックを降ろした時（元の画像に戻す）
+                if (ManagerAccessor.Instance.dataManager.player2.GetComponent<PlayerController>().change_unloadimage)
+                {
+                    GetComponent<SpriteRenderer>().sprite = p2Image;
+                }
 
-            //アニメーションを再生
-            if (ManagerAccessor.Instance.dataManager.player2.GetComponent<PlayerController>().animplay
-            && !ManagerAccessor.Instance.dataManager.player2.GetComponent<PlayerController>().change_liftimage)
-            {
-                anim.SetBool("isMove", true);
-            }
-            else
-            {
-                anim.SetBool("isMove", false);
-            }
+                //アニメーションを再生
+                if (ManagerAccessor.Instance.dataManager.player2.GetComponent<PlayerController>().animplay
+                && !ManagerAccessor.Instance.dataManager.player2.GetComponent<PlayerController>().change_liftimage)
+                {
+                    anim.SetBool("isMove", true);
+                }
+                else
+                {
+                    anim.SetBool("isMove", false);
+                }
 
-            //ジャンプ中はアニメーション中断
-            if (ManagerAccessor.Instance.dataManager.player2.GetComponent<PlayerController>().bjump)
-            {
-               // Debug.Log("jump2");
-                anim.SetBool("isMove", false);
+                //ジャンプ中はアニメーション中断
+                if (ManagerAccessor.Instance.dataManager.player2.GetComponent<PlayerController>().bjump)
+                {
+                    // Debug.Log("jump2");
+                    anim.SetBool("isMove", false);
+                }
             }
         }
     }

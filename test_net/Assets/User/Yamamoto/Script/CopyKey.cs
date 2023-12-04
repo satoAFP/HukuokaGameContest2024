@@ -143,17 +143,22 @@ public class CopyKey : MonoBehaviourPunCallbacks
         }
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        DataManager datamanager = ManagerAccessor.Instance.dataManager;
+
+        //落石エリアに入るとゲームオーバーのシーン
+        if (collision.gameObject.tag == "DeathErea")
+        {
+            // Debug.Log("いわーい");
+            datamanager.isDeth = true;
+        }
+    }
+
     //playerinputで起動させる関数
     //移動処理
     public void OnMove(InputAction.CallbackContext context)
     {
-        //1P（箱側）での操作しか受け付けない
-        //if (PhotonNetwork.LocalPlayer.IsMasterClient)
-        //{
-        //    Debug.Log("コピーキー移動");
-        //}
-
-
         //移動方向の入力情報がInputdirectionの中に入るようになる
         inputDirection = context.ReadValue<Vector2>();
     }
