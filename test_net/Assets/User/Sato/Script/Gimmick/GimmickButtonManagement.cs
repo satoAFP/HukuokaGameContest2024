@@ -41,43 +41,48 @@ public class GimmickButtonManagement : MonoBehaviourPunCallbacks
             if (gimmickButton[0].GetComponent<GimmickButton>().isButton ||
                 gimmickButton[1].GetComponent<GimmickButton>().isButton)
             {
-                //¸”s‚µ‚½‚Í‚¢‚ê‚È‚¢
-                if (!isFailure)
+                //—¼•ûG‚ê‚Ä‚¢‚éê‡
+                if ((gimmickButton[0].GetComponent<GimmickButton>().isOwnerHit && gimmickButton[1].GetComponent<GimmickButton>().isClientHit) ||
+                    (gimmickButton[1].GetComponent<GimmickButton>().isOwnerHit && gimmickButton[0].GetComponent<GimmickButton>().isClientHit))  
                 {
-                    count++;
-                    //¸”s‚Ü‚Å‚ÌƒtƒŒ[ƒ€‚Ü‚Å
-                    if (count <= ManagerAccessor.Instance.dataManager.MissFrame)
+                    //¸”s‚µ‚½‚Í‚¢‚ê‚È‚¢
+                    if (!isFailure)
                     {
-                        //“¯“ü—Í¬Œ÷‚ÅGimmick‹N“®
-                        if (gimmickButton[0].GetComponent<GimmickButton>().isButton &&
-                            gimmickButton[1].GetComponent<GimmickButton>().isButton)
+                        count++;
+                        //¸”s‚Ü‚Å‚ÌƒtƒŒ[ƒ€‚Ü‚Å
+                        if (count <= ManagerAccessor.Instance.dataManager.MissFrame)
                         {
-                            isSuccess = true;
-                        }
-                    }
-                    else
-                    {
-                        if (PhotonNetwork.IsMasterClient)
-                        {
-                            if (gimmickButton[0].GetComponent<GimmickButton>().isButton)
+                            //“¯“ü—Í¬Œ÷‚ÅGimmick‹N“®
+                            if (gimmickButton[0].GetComponent<GimmickButton>().isButton &&
+                                gimmickButton[1].GetComponent<GimmickButton>().isButton)
                             {
-                                if (gimmickButton[1].GetComponent<GimmickButton>().isOwnerHit)
-                                    ManagerAccessor.Instance.dataManager.clientMissCount++;
-                                if (gimmickButton[1].GetComponent<GimmickButton>().isClientHit)
-                                    ManagerAccessor.Instance.dataManager.ownerMissCount++;
-                            }
-                            if (gimmickButton[1].GetComponent<GimmickButton>().isButton)
-                            {
-                                if (gimmickButton[0].GetComponent<GimmickButton>().isOwnerHit)
-                                    ManagerAccessor.Instance.dataManager.clientMissCount++;
-                                if (gimmickButton[0].GetComponent<GimmickButton>().isClientHit)
-                                    ManagerAccessor.Instance.dataManager.ownerMissCount++;
+                                isSuccess = true;
                             }
                         }
+                        else
+                        {
+                            if (PhotonNetwork.IsMasterClient)
+                            {
+                                if (gimmickButton[0].GetComponent<GimmickButton>().isButton)
+                                {
+                                    if (gimmickButton[1].GetComponent<GimmickButton>().isOwnerOnButton)
+                                        ManagerAccessor.Instance.dataManager.clientMissCount++;
+                                    if (gimmickButton[1].GetComponent<GimmickButton>().isClientOnButton)
+                                        ManagerAccessor.Instance.dataManager.ownerMissCount++;
+                                }
+                                if (gimmickButton[1].GetComponent<GimmickButton>().isButton)
+                                {
+                                    if (gimmickButton[0].GetComponent<GimmickButton>().isOwnerOnButton)
+                                        ManagerAccessor.Instance.dataManager.clientMissCount++;
+                                    if (gimmickButton[0].GetComponent<GimmickButton>().isClientOnButton)
+                                        ManagerAccessor.Instance.dataManager.ownerMissCount++;
+                                }
+                            }
 
-                        //§ŒÀŠÔ“à‚É‚Å‚«‚È‚¯‚ê‚Î¸”s
-                        isFailure = true;
-                        count = 0;
+                            //§ŒÀŠÔ“à‚É‚Å‚«‚È‚¯‚ê‚Î¸”s
+                            isFailure = true;
+                            count = 0;
+                        }
                     }
                 }
             }

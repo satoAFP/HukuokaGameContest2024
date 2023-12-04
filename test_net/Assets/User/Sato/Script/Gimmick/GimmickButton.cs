@@ -7,6 +7,8 @@ public class GimmickButton : MonoBehaviourPunCallbacks
 {
     //それぞれのボタン入力状況
     [System.NonSerialized] public bool isButton = false;
+    [System.NonSerialized] public bool isOwnerOnButton = true;
+    [System.NonSerialized] public bool isClientOnButton = true;
     [System.NonSerialized] public bool isOwnerHit = true;
     [System.NonSerialized] public bool isClientHit = true;
 
@@ -91,11 +93,24 @@ public class GimmickButton : MonoBehaviourPunCallbacks
         }
     }
 
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.name == "Player1" || collision.gameObject.name == "CopyKey")
+        {
+            photonView.RPC(nameof(RpcShareIsOwnerHit), RpcTarget.All, true, true);
+        }
+        if (collision.gameObject.name == "Player2")
+        {
+            photonView.RPC(nameof(RpcShareIsOwnerHit), RpcTarget.All, false, true);
+        }
+    }
 
     private void OnCollisionExit2D(Collision2D collision)
     {
         if (collision.gameObject.name == "Player1" || collision.gameObject.name == "CopyKey")
         {
+            photonView.RPC(nameof(RpcShareIsOwnerHit), RpcTarget.All, true, false);
+
             //押すべきボタンの画像表示
             collision.transform.GetChild(0).gameObject.SetActive(false);
 
@@ -110,6 +125,8 @@ public class GimmickButton : MonoBehaviourPunCallbacks
         }
         if (collision.gameObject.name == "Player2")
         {
+            photonView.RPC(nameof(RpcShareIsOwnerHit), RpcTarget.All, false, false);
+
             //押すべきボタンの画像表示
             collision.transform.GetChild(0).gameObject.SetActive(false);
 
@@ -131,6 +148,17 @@ public class GimmickButton : MonoBehaviourPunCallbacks
     {
         isButton = onButton;
 
+        if (onOwner)
+            isOwnerOnButton = data;
+        else
+            isClientOnButton = data;
+
+    }
+
+    //ボタン入力情報を相手に送信
+    [PunRPC]
+    protected void RpcShareIsOwnerHit(bool onOwner, bool data)
+    {
         if (onOwner)
             isOwnerHit = data;
         else
