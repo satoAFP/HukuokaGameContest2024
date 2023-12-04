@@ -13263,6 +13263,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Managers
       objectReference: {fileID: 0}
+    - target: {fileID: 2707172249724366773, guid: 4f8921b087f5ffc4580100264459bbd9, type: 3}
+      propertyPath: sceneViewId
+      value: 11
+      objectReference: {fileID: 0}
     - target: {fileID: 4933497826015900843, guid: 4f8921b087f5ffc4580100264459bbd9, type: 3}
       propertyPath: m_RootOrder
       value: 3
