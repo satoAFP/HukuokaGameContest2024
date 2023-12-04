@@ -10,6 +10,11 @@ public class SceneMoveManager : MonoBehaviour
     {
         //マネージャーアクセッサに登録
         ManagerAccessor.Instance.sceneMoveManager = this;
+
+        if(GetSceneName()!="Title"&& GetSceneName() != "StageSelect" && GetSceneName() != "LoadScene")
+        {
+            GlobalSceneName.SceneName = GetSceneName();
+        }
     }
 
     private void Awake()
@@ -32,13 +37,11 @@ public class SceneMoveManager : MonoBehaviour
 
     private IEnumerator DelaySceneMoveName(string name)
     {
-        // 3秒間待つ
+        // 1秒間待つ
         yield return new WaitForSeconds(1.0f);
 
-        if (PhotonNetwork.IsMasterClient)
-        {
-            PhotonNetwork.LoadLevel(name);
-        }
+        PhotonNetwork.LoadLevel(name);
+
     }
 
     /// <summary>
@@ -46,21 +49,21 @@ public class SceneMoveManager : MonoBehaviour
     /// </summary>
     public void SceneMoveRetry()
     {
-        // コルーチンの起動
-        StartCoroutine(DelaySceneMoveRetry());
+        ManagerAccessor.Instance.sceneMoveManager.SceneMoveName("LoadScene");
     }
 
-    private IEnumerator DelaySceneMoveRetry()
-    {
-        // 3秒間待つ
-        yield return new WaitForSeconds(1.0f);
 
-        PhotonNetwork.IsMessageQueueRunning = false;
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-    }
-
+    //現在のシー名取得用関数
     public string GetSceneName()
     {
         return SceneManager.GetActiveScene().name;
     }
+
+
+    
+}
+
+public static class GlobalSceneName
+{
+    public static string SceneName = "";
 }

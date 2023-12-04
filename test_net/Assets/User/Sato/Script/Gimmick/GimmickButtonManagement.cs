@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-public class GimmickButtonManagement : CGimmick
+public class GimmickButtonManagement : MonoBehaviourPunCallbacks
 {
     [SerializeField, Header("ギミック用ボタン")]
     private List<GameObject> gimmickButton;
@@ -13,6 +14,14 @@ public class GimmickButtonManagement : CGimmick
     [SerializeField, Header("どのギミックにするか")]
     [Header("0:オブジェクト消失 / 1:オブジェクト出現")]
     private int gimmickNum;
+
+    //成功判定
+    private bool isSuccess = false;
+    //失敗判定
+    private bool isFailure = false;
+
+    //フレームカウント用
+    private int count = 0;
 
     private void Start()
     {
@@ -26,21 +35,62 @@ public class GimmickButtonManagement : CGimmick
     // Update is called once per frame
     void Update()
     {
-        //ボタンが押されているオブジェクトの数カウント用
-        int count = 0;
-
-        //ボタンの数だけ回す
-        for (int i = 0; i < gimmickButton.Count; i++)
+        if (!isSuccess)
         {
-            if (gimmickButton[i].GetComponent<GimmickButton>().isButton == true)
+            //どちらか片方が入力開始でカウント開始
+            if (gimmickButton[0].GetComponent<GimmickButton>().isButton ||
+                gimmickButton[1].GetComponent<GimmickButton>().isButton)
             {
-                count++;
+                //失敗した時はいれない
+                if (!isFailure)
+                {
+                    count++;
+                    //失敗までのフレームまで
+                    if (count <= ManagerAccessor.Instance.dataManager.MissFrame)
+                    {
+                        //同時入力成功でGimmick起動
+                        if (gimmickButton[0].GetComponent<GimmickButton>().isButton &&
+                            gimmickButton[1].GetComponent<GimmickButton>().isButton)
+                        {
+                            isSuccess = true;
+                        }
+                    }
+                    else
+                    {
+                        if (PhotonNetwork.IsMasterClient)
+                        {
+                            if (gimmickButton[0].GetComponent<GimmickButton>().isButton)
+                            {
+                                if (gimmickButton[1].GetComponent<GimmickButton>().isOwner)
+                                    ManagerAccessor.Instance.dataManager.clientMissCount++;
+                                else
+                                    ManagerAccessor.Instance.dataManager.ownerMissCount++;
+                            }
+                            if (gimmickButton[1].GetComponent<GimmickButton>().isButton)
+                            {
+                                if (gimmickButton[0].GetComponent<GimmickButton>().isOwner)
+                                    ManagerAccessor.Instance.dataManager.clientMissCount++;
+                                else
+                                    ManagerAccessor.Instance.dataManager.ownerMissCount++;
+                            }
+                        }
+
+                        //制限時間内にできなければ失敗
+                        isFailure = true;
+                        count = 0;
+                    }
+                }
+            }
+            else
+            {
+                //両方の入力解除で再度入力受付
+                isFailure = false;
             }
         }
 
 
         //同時押しが成功すると、扉が開く
-        if (gimmickButton.Count == count) 
+        if (isSuccess) 
         {
             if (gimmickNum == 0)
                 door.SetActive(false);

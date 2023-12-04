@@ -180,7 +180,7 @@ public class GimmickUnlockButtonManagement : CGimmick
 
                 //Žc‚èŽžŠÔ•\Ž¦
                 timeLimitSlider.GetComponent<Slider>().value = 1 - (float)frameCount / (float)(timeLimit * 60);
-                timetext.text = frameCount.ToString() + "/" + timeLimit * 60;
+                //timetext.text = frameCount.ToString() + "/" + timeLimit * 60;
             }
             else
             {

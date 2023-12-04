@@ -68,7 +68,8 @@ public class StageSelect : MonoBehaviourPunCallbacks
     [PunRPC]
     private void RpcShareStart()
     {
-        ManagerAccessor.Instance.sceneMoveManager.SceneMoveName(sceneName);
+        if (PhotonNetwork.IsMasterClient)
+            ManagerAccessor.Instance.sceneMoveManager.SceneMoveName(sceneName);
     }
 
     /// <summary>
