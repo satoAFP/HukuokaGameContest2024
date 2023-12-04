@@ -17,13 +17,35 @@ public class ResultSystem : MonoBehaviourPunCallbacks
     private bool isRetry = false;       //リトライ選択したとき
     private bool isStageSelect = false; //ステージセレクト選択したとき
 
+
+    private int ownerMemCount = 0;
+    private int clientMemCount = 0;
+
     //クリア処理に一回しか入らない処理
     private bool clearFirst;
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        if(ManagerAccessor.Instance.dataManager.isClear)
+        //2Pにミスデータ共有
+        if (PhotonNetwork.IsMasterClient)
+        {
+            if (ownerMemCount != ManagerAccessor.Instance.dataManager.ownerMissCount)
+            {
+                photonView.RPC(nameof(RpcShareOwnerMissCount), RpcTarget.All, ManagerAccessor.Instance.dataManager.ownerMissCount);
+                ownerMemCount = ManagerAccessor.Instance.dataManager.ownerMissCount;
+                Debug.Log("aaa");
+            }
+            if (clientMemCount != ManagerAccessor.Instance.dataManager.clientMissCount)
+            {
+                photonView.RPC(nameof(RpcShareClientMissCount), RpcTarget.All, ManagerAccessor.Instance.dataManager.clientMissCount);
+                clientMemCount = ManagerAccessor.Instance.dataManager.clientMissCount;
+                Debug.Log("bbb");
+            }
+        }
+
+
+        if (ManagerAccessor.Instance.dataManager.isClear)
         {
             //クリアパネル表示
             gameObject.transform.GetChild(0).gameObject.SetActive(true);
@@ -37,7 +59,6 @@ public class ResultSystem : MonoBehaviourPunCallbacks
         if (ManagerAccessor.Instance.dataManager.isDeth)
         {
             gameObject.transform.GetChild(1).gameObject.SetActive(true);
-            Debug.Log("aaa");
         }
 
         //一定間隔で画像を出す
@@ -82,4 +103,15 @@ public class ResultSystem : MonoBehaviourPunCallbacks
         }
     }
 
+    [PunRPC]
+    private void RpcShareOwnerMissCount(int miss)
+    {
+        ManagerAccessor.Instance.dataManager.ownerMissCount = miss;
+    }
+
+    [PunRPC]
+    private void RpcShareClientMissCount(int miss)
+    {
+        ManagerAccessor.Instance.dataManager.clientMissCount = miss;
+    }
 }
