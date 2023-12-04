@@ -45,6 +45,7 @@ public class GimmickButtonManagement : MonoBehaviourPunCallbacks
                 if ((gimmickButton[0].GetComponent<GimmickButton>().isOwnerHit && gimmickButton[1].GetComponent<GimmickButton>().isClientHit) ||
                     (gimmickButton[1].GetComponent<GimmickButton>().isOwnerHit && gimmickButton[0].GetComponent<GimmickButton>().isClientHit))  
                 {
+                    Debug.Log("ccc");
                     //Ž¸”s‚µ‚½Žž‚Í‚¢‚ê‚È‚¢
                     if (!isFailure)
                     {
