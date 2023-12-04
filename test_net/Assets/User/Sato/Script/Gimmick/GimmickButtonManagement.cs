@@ -61,16 +61,16 @@ public class GimmickButtonManagement : MonoBehaviourPunCallbacks
                         {
                             if (gimmickButton[0].GetComponent<GimmickButton>().isButton)
                             {
-                                if (gimmickButton[1].GetComponent<GimmickButton>().isOwner)
+                                if (gimmickButton[1].GetComponent<GimmickButton>().isOwnerHit)
                                     ManagerAccessor.Instance.dataManager.clientMissCount++;
-                                else
+                                if (gimmickButton[1].GetComponent<GimmickButton>().isClientHit)
                                     ManagerAccessor.Instance.dataManager.ownerMissCount++;
                             }
                             if (gimmickButton[1].GetComponent<GimmickButton>().isButton)
                             {
-                                if (gimmickButton[0].GetComponent<GimmickButton>().isOwner)
+                                if (gimmickButton[0].GetComponent<GimmickButton>().isOwnerHit)
                                     ManagerAccessor.Instance.dataManager.clientMissCount++;
-                                else
+                                if (gimmickButton[0].GetComponent<GimmickButton>().isClientHit)
                                     ManagerAccessor.Instance.dataManager.ownerMissCount++;
                             }
                         }
