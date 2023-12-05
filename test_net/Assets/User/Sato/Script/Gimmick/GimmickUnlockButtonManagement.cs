@@ -167,6 +167,12 @@ public class GimmickUnlockButtonManagement : CGimmick
                     isStartCount = false;
                     frameCount = 0;
 
+                    //ミス情報カウント
+                    if (!isOwnerClear)
+                        ManagerAccessor.Instance.dataManager.ownerMissCount++;
+                    if (!isClientClear)
+                        transform.parent.gameObject.GetComponent<GimmickUnlockButtonManagement>().CallRpcShareInputMiss();
+
                     //二つ分初期化
                     for (int i = 0; i < gimmickButton.Count; i++)
                     {
@@ -425,4 +431,15 @@ public class GimmickUnlockButtonManagement : CGimmick
             gimmickButton[objNum].GetComponent<GimmickUnlockButton>().managementPlayerName = "CopyKey";
     }
 
+
+    //クライアント側でミスったらオーナー側で加算
+    public void CallRpcShareInputMiss()
+    {
+        photonView.RPC(nameof(RpcShareInputMiss), RpcTarget.Others);
+    }
+    [PunRPC]
+    private void RpcShareInputMiss()
+    {
+        ManagerAccessor.Instance.dataManager.clientMissCount++;
+    }
 }

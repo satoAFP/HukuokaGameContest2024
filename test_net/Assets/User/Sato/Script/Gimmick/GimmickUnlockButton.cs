@@ -154,6 +154,7 @@ public class GimmickUnlockButton : CGimmick
             {
                 ClearSituation[i] = false;
             }
+
             isAnswerReset = false;
         }
 
@@ -376,7 +377,15 @@ public class GimmickUnlockButton : CGimmick
         if (inputkey)
             ClearSituation[ansnum] = true;
         else
+        {
             isAnswerReset = true;
+
+            //ミス情報カウント
+            if (PhotonNetwork.IsMasterClient)
+                ManagerAccessor.Instance.dataManager.ownerMissCount++;
+            else
+                transform.parent.gameObject.GetComponent<GimmickUnlockButtonManagement>().CallRpcShareInputMiss();
+        }
     }
 
     //コントローラーが入力されているかどうか
