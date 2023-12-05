@@ -95,6 +95,10 @@ public class PlayerController : MonoBehaviourPunCallbacks
     private float knockbacktime = 1.0f;//ノックバックするときのＸ座標も移動
     private float timer = 0f;//時間をカウント
     [System.NonSerialized] public bool knockback_finish = false;//ノックバック終了
+
+
+    private string objName;
+
     void Start()
     {
 
@@ -516,7 +520,11 @@ public class PlayerController : MonoBehaviourPunCallbacks
         //落石エリアに入るとゲームオーバーのシーン
         if (collision.gameObject.tag == "DeathErea")
         {
-           // Debug.Log("いわーい");
+            // Debug.Log("いわーい");
+
+            objName = collision.gameObject.name;
+            Debug.Log(objName);
+
             datamanager.isDeth = true;
         }
     }
