@@ -64,25 +64,20 @@ public class GimmickBlock : CGimmick
             {
                 if (!isSuccess)
                 {
-                    Debug.Log("aaa");
                     //両方触れている場合又は、持ち上げが開始した場合
                     if ((hitOwner && hitClient && dataManager.isOwnerHitRight && dataManager.isClientHitLeft) ||
                         (hitOwner && hitClient && dataManager.isOwnerHitLeft && dataManager.isClientHitRight) ||
                         isStart)
                     {
-                        Debug.Log("bbb");
                         if (!isFailure)
                         {
-                            Debug.Log("ccc");
                             //失敗までのフレームまで
                             if (count <= ManagerAccessor.Instance.dataManager.MissFrame)
                             {
-                                Debug.Log("ddd");
                                 count++;
                                 //1P、2Pが触れているかつ、アクションしているとき持ち上がる
                                 if (dataManager.isOwnerInputKey_CB && dataManager.isClientInputKey_CB)
                                 {
-                                    Debug.Log("eee");
                                     //成功
                                     isSuccess = true;
                                 }

@@ -171,7 +171,7 @@ public class GimmickUnlockButtonManagement : CGimmick
                     if (!isOwnerClear)
                         ManagerAccessor.Instance.dataManager.ownerMissCount++;
                     if (!isClientClear)
-                        transform.parent.gameObject.GetComponent<GimmickUnlockButtonManagement>().CallRpcShareInputMiss();
+                        CallRpcShareInputMiss();
 
                     //“ñ‚Â•ª‰Šú‰»
                     for (int i = 0; i < gimmickButton.Count; i++)
