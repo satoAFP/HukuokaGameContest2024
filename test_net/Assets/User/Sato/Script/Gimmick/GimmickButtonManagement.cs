@@ -44,7 +44,7 @@ public class GimmickButtonManagement : MonoBehaviourPunCallbacks
             {
                 //óºï˚êGÇÍÇƒÇ¢ÇÈèÍçá
                 if ((gimmickButton[0].GetComponent<GimmickButton>().isOwnerHit && gimmickButton[1].GetComponent<GimmickButton>().isClientHit) ||
-                    (gimmickButton[1].GetComponent<GimmickButton>().isOwnerHit && gimmickButton[0].GetComponent<GimmickButton>().isClientHit))  
+                    (gimmickButton[1].GetComponent<GimmickButton>().isOwnerHit && gimmickButton[0].GetComponent<GimmickButton>().isClientHit))
                 {
                     //é∏îsÇµÇΩéûÇÕÇ¢ÇÍÇ»Ç¢
                     if (!isFailure)
@@ -64,18 +64,16 @@ public class GimmickButtonManagement : MonoBehaviourPunCallbacks
                         {
                             if (PhotonNetwork.IsMasterClient)
                             {
-                                Debug.Log("aaa");
-                                if (!gimmickButton[0].GetComponent<GimmickButton>().isButton)
+                                Debug.Log(gimmickButton[0].GetComponent<GimmickButton>().isButton+":"+gimmickButton[1].GetComponent<GimmickButton>().isButton);
+                                if (gimmickButton[0].GetComponent<GimmickButton>().isButton)
                                 {
-                                    Debug.Log(gimmickButton[0].GetComponent<GimmickButton>().isOwnerOnButton+":"+ gimmickButton[1].GetComponent<GimmickButton>().isClientOnButton); 
                                     if (gimmickButton[0].GetComponent<GimmickButton>().isOwnerOnButton)
                                         ManagerAccessor.Instance.dataManager.clientMissCount++;
                                     if (gimmickButton[0].GetComponent<GimmickButton>().isClientOnButton)
                                         ManagerAccessor.Instance.dataManager.ownerMissCount++;
                                 }
-                                if (!gimmickButton[1].GetComponent<GimmickButton>().isButton)
+                                if (gimmickButton[1].GetComponent<GimmickButton>().isButton)
                                 {
-                                    Debug.Log(gimmickButton[1].GetComponent<GimmickButton>().isOwnerOnButton + ":" + gimmickButton[0].GetComponent<GimmickButton>().isClientOnButton);
                                     if (gimmickButton[1].GetComponent<GimmickButton>().isOwnerOnButton)
                                         ManagerAccessor.Instance.dataManager.clientMissCount++;
                                     if (gimmickButton[1].GetComponent<GimmickButton>().isClientOnButton)
