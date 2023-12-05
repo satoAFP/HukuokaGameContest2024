@@ -20,6 +20,10 @@ public class ResultSystem : MonoBehaviourPunCallbacks
 
     private int ownerMemCount = 0;
     private int clientMemCount = 0;
+    private bool firstdeath = true;//一度だけゲームオーバーの処理を通す
+
+    private float resultspawnInterval = 1.0f;//フェードイン・アウトの後にリザルト画面を出すためのカウント
+    private float timer = 0f;//時間をカウント
 
     //クリア処理に一回しか入らない処理
     private bool clearFirst;
@@ -54,9 +58,19 @@ public class ResultSystem : MonoBehaviourPunCallbacks
             count++;
         }
 
-        if (ManagerAccessor.Instance.dataManager.isDeth)
+        //ゲームオーバー画面
+        if (ManagerAccessor.Instance.dataManager.isDeth
+            && firstdeath)
         {
-            gameObject.transform.GetChild(1).gameObject.SetActive(true);
+            timer += Time.deltaTime;
+
+            //ここで岩を生成する時間を計測
+            if (timer >= resultspawnInterval)
+            {
+                gameObject.transform.GetChild(1).gameObject.SetActive(true);
+                timer = 0f;
+                firstdeath = false;
+            }
         }
 
         //一定間隔で画像を出す
