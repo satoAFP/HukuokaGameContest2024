@@ -23,6 +23,14 @@ public class GimmickBlock : CGimmick
     //ブロックとプレイヤーの距離
     private Vector3 dis = Vector3.zero;
 
+    //成功判定
+    private bool isSuccess = false;
+    //失敗判定
+    private bool isFailure = false;
+
+    //フレームカウント用
+    private int count = 0;
+
     //連続で反応しないための処理
     private bool first = true;
 
@@ -30,8 +38,10 @@ public class GimmickBlock : CGimmick
     {
         dataManager = ManagerAccessor.Instance.dataManager;
         
+        //両プレイヤーがいるとき
         if (dataManager.player1 != null && dataManager.player2 != null) 
         {
+            //取得すべきプレイヤー
             if (PhotonNetwork.LocalPlayer.IsMasterClient)
             {
                 if (!dataManager.isAppearCopyKey)
@@ -47,9 +57,58 @@ public class GimmickBlock : CGimmick
             {
                 Player = dataManager.player2;
             }
-            
-            //1P、2Pが触れているかつ、アクションしているとき持ち上がる
-            if (dataManager.isOwnerInputKey_CB && dataManager.isClientInputKey_CB) 
+
+             
+            //どちらかが持ち上げようとした場合
+            if (dataManager.isOwnerInputKey_CB || dataManager.isClientInputKey_CB)
+            {
+                if (!isSuccess)
+                {
+                    //両方触れている場合又は、持ち上げが開始した場合
+                    if ((hitOwner && hitClient && dataManager.isOwnerHitRight && dataManager.isClientHitLeft) ||
+                        (hitOwner && hitClient && dataManager.isOwnerHitLeft && dataManager.isClientHitRight) ||
+                        isStart)
+                    {
+                        if (!isFailure)
+                        {
+                            //失敗までのフレームまで
+                            if (count <= ManagerAccessor.Instance.dataManager.MissFrame)
+                            {
+                                count++;
+                                //1P、2Pが触れているかつ、アクションしているとき持ち上がる
+                                if (dataManager.isOwnerInputKey_CB && dataManager.isClientInputKey_CB)
+                                {
+                                    //成功
+                                    isSuccess = true;
+                                }
+
+                            }
+                            else
+                            {
+                                //失敗情報送信
+                                if (PhotonNetwork.IsMasterClient)
+                                {
+                                    if (dataManager.isOwnerInputKey_CB)
+                                        ManagerAccessor.Instance.dataManager.clientMissCount++;
+                                    if (dataManager.isClientInputKey_CB)
+                                        ManagerAccessor.Instance.dataManager.ownerMissCount++;
+                                }
+
+                                isFailure = true;
+                                count = 0;
+                            }
+                        }
+                    }
+                }
+            }
+            else
+            {
+                isSuccess = false;
+                isFailure = false;
+            }
+
+            //成功時
+            if (isSuccess)
             {
                 //持ち上げ準備完了
                 if ((hitOwner && hitClient && dataManager.isOwnerHitRight && dataManager.isClientHitLeft) ||
@@ -84,6 +143,7 @@ public class GimmickBlock : CGimmick
 
                     liftMode = true;
 
+                    //持ち上げている判定
                     if (PhotonNetwork.IsMasterClient)
                     {
                         if (!dataManager.isAppearCopyKey)
@@ -101,7 +161,10 @@ public class GimmickBlock : CGimmick
                     }
                 }
             }
-            else
+
+
+            //持ち上げ終了時
+            if (!dataManager.isOwnerInputKey_CB || !dataManager.isClientInputKey_CB)
             {
                 if (!first)
                 {
@@ -134,7 +197,7 @@ public class GimmickBlock : CGimmick
                 GetComponent<AvatarOnlyTransformView>().isPlayerMove = false;
 
                 liftMode = false;
-                
+
             }
         }
 

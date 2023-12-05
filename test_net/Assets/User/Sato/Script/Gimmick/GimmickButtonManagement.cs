@@ -35,7 +35,6 @@ public class GimmickButtonManagement : MonoBehaviourPunCallbacks
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(gimmickButton[1].GetComponent<GimmickButton>().isOwnerOnButton + ":" + gimmickButton[1].GetComponent<GimmickButton>().isClientOnButton);
         if (!isSuccess)
         {
             //どちらか片方が入力開始でカウント開始
@@ -62,9 +61,9 @@ public class GimmickButtonManagement : MonoBehaviourPunCallbacks
                         }
                         else
                         {
+                            //失敗情報送信
                             if (PhotonNetwork.IsMasterClient)
                             {
-                                Debug.Log(gimmickButton[0].GetComponent<GimmickButton>().isButton+":"+gimmickButton[1].GetComponent<GimmickButton>().isButton);
                                 if (gimmickButton[0].GetComponent<GimmickButton>().isButton)
                                 {
                                     if (gimmickButton[0].GetComponent<GimmickButton>().isOwnerOnButton)
