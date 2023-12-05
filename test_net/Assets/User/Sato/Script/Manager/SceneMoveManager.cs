@@ -38,7 +38,7 @@ public class SceneMoveManager : MonoBehaviour
     private IEnumerator DelaySceneMoveName(string name)
     {
         // 1•bŠÔ‘Ò‚Â
-        yield return new WaitForSeconds(1.0f);
+        yield return new WaitForSeconds(2.0f);
 
         PhotonNetwork.LoadLevel(name);
 

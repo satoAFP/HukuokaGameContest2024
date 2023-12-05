@@ -152,7 +152,7 @@ public class GimmickButton : MonoBehaviourPunCallbacks
             isOwnerOnButton = data;
         else
             isClientOnButton = data;
-
+        
     }
 
     //ƒ{ƒ^ƒ““ü—Íî•ñ‚ğ‘Šè‚É‘—M

@@ -8,6 +8,11 @@ public class FadeAnimation : MonoBehaviourPunCallbacks
 
     private Animator anim;//アニメーター
 
+    private bool firstfadeout = true;//一度だけフェードアウトの処理を通す
+    private bool firstendfadeout = true;//一度だけフェードアウトアニメーション終了の処理を通す
+
+    public bool  fadeoutfinish = false;//フェードアウトが終了したとき
+
     // Start is called before the first frame update
     void Start()
     {
@@ -19,15 +24,23 @@ public class FadeAnimation : MonoBehaviourPunCallbacks
     {
         DataManager datamanager = ManagerAccessor.Instance.dataManager;
 
-        if (datamanager.isDeth)
+        if (datamanager.isDeth && firstfadeout)
         {
+            Debug.Log("フェードアウト一回");
             anim.SetBool("FadeOut", true);//フェードアウトアニメーション開始
+            firstfadeout = false;
         }
     }
 
     public void EndFadeOutAnimation()
     {
-        Debug.Log("EndFadeOutAnimation通ってるぞいいいい");
-        anim.SetBool("FadeOut", false);//フェードアウトアニメーション終了
+        if(firstendfadeout)
+        {
+            Debug.Log("EndFadeOutAnimation通ってるぞいいいい");
+            anim.SetBool("FadeOut", false);//フェードアウトアニメーション終了
+            firstendfadeout = false;
+            fadeoutfinish = true;
+        }
+       
     }
 }
