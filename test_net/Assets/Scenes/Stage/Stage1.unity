@@ -17400,6 +17400,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: NewDeathErea
       objectReference: {fileID: 0}
+    - target: {fileID: 6771165422549457736, guid: 22e8121194061174da16f4db3d5be913, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6771165422549457739, guid: 22e8121194061174da16f4db3d5be913, type: 3}
       propertyPath: m_RootOrder
       value: 10
