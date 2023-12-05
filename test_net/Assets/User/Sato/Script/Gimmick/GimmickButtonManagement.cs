@@ -62,9 +62,9 @@ public class GimmickButtonManagement : MonoBehaviourPunCallbacks
                         }
                         else
                         {
+                            //é∏îsèÓïÒëóêM
                             if (PhotonNetwork.IsMasterClient)
                             {
-                                Debug.Log(gimmickButton[0].GetComponent<GimmickButton>().isButton+":"+gimmickButton[1].GetComponent<GimmickButton>().isButton);
                                 if (gimmickButton[0].GetComponent<GimmickButton>().isButton)
                                 {
                                     if (gimmickButton[0].GetComponent<GimmickButton>().isOwnerOnButton)
