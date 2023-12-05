@@ -140,28 +140,58 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
             timer += Time.deltaTime;
 
-            //ノックバック処理
-            //ここはノックバックしたとき一度跳ねる処理
-            if (firstdeathjump)
+            if(datamanager.DeathPlayerName=="Player1")
             {
-                //Debug.Log("Takeru");
-                rigid.AddForce(Vector2.up * jumpSpeed, ForceMode2D.Impulse);
-                firstdeathjump = false;
+                if(PhotonNetwork.LocalPlayer.IsMasterClient)
+                {
+                    //ノックバック処理
+                    //ここはノックバックしたとき一度跳ねる処理
+                    if (firstdeathjump)
+                    {
+                        //Debug.Log("Takeru");
+                        rigid.AddForce(Vector2.up * jumpSpeed, ForceMode2D.Impulse);
+                        firstdeathjump = false;
+                    }
+
+                    //ここは1秒ぐらい横に移動する処理
+                    if (timer <= knockbacktime)
+                    {
+                        rigid.velocity = new Vector2(0.5f * moveSpeed, rigid.velocity.y);
+                    }
+                    else
+                    {
+                        rigid.constraints = RigidbodyConstraints2D.FreezePositionX;//FreezePositionXをオンにする
+                        knockback_finish = true;
+                    }
+                }
+            }
+            else if (datamanager.DeathPlayerName == "Player2")
+            {
+                if (!PhotonNetwork.LocalPlayer.IsMasterClient)
+                {
+                    //ノックバック処理
+                    //ここはノックバックしたとき一度跳ねる処理
+                    if (firstdeathjump)
+                    {
+                        rigid.AddForce(Vector2.up * jumpSpeed, ForceMode2D.Impulse);
+                        firstdeathjump = false;
+                    }
+
+                    //ここは1秒ぐらい横に移動する処理
+                    if (timer <= knockbacktime)
+                    {
+                        rigid.velocity = new Vector2(0.5f * moveSpeed, rigid.velocity.y);
+                    }
+                    else
+                    {
+                        rigid.constraints = RigidbodyConstraints2D.FreezePositionX;//FreezePositionXをオンにする
+                        knockback_finish = true;
+                    }
+                }
             }
 
-            //ここは1秒ぐらい横に移動する処理
-            if (timer <= knockbacktime)
-            {
-               // Debug.Log("のっく");
-                rigid.velocity = new Vector2(0.5f * moveSpeed, rigid.velocity.y);
-            }
-            else
-            {
-               // Debug.Log("Takeru");
-                rigid.constraints = RigidbodyConstraints2D.FreezePositionX;//FreezePositionXをオンにする
-                knockback_finish = true;
-            }
-            
+
+
 
         }
         else
