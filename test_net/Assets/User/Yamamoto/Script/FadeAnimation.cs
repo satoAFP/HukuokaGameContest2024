@@ -36,7 +36,7 @@ public class FadeAnimation : MonoBehaviourPunCallbacks
     {
         if(firstendfadeout)
         {
-            Debug.Log("EndFadeOutAnimation通ってるぞいいいい");
+            Debug.Log("EndFadeOutAnimation");
             anim.SetBool("FadeOut", false);//フェードアウトアニメーション終了
             firstendfadeout = false;
             fadeoutfinish = true;
