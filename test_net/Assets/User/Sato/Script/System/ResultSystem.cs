@@ -20,13 +20,16 @@ public class ResultSystem : MonoBehaviourPunCallbacks
 
     private int ownerMemCount = 0;
     private int clientMemCount = 0;
-    private bool firstdeath = true;//一度だけゲームオーバーの処理を通す
 
-    private float resultspawnInterval = 1.0f;//フェードイン・アウトの後にリザルト画面を出すためのカウント
-    private float timer = 0f;//時間をカウント
-
+    private FadeAnimation fadeanimation;//フェードアニメーションスクリプトを代入する変数
+   
     //クリア処理に一回しか入らない処理
     private bool clearFirst;
+
+    void Start()
+    {
+        fadeanimation = GameObject.Find("Fade").GetComponent<FadeAnimation>();//フェードアニメーションスクリプト取得
+    }
 
     // Update is called once per frame
     void FixedUpdate()
@@ -47,6 +50,7 @@ public class ResultSystem : MonoBehaviourPunCallbacks
         }
 
 
+        //クリア画面
         if (ManagerAccessor.Instance.dataManager.isClear)
         {
             //クリアパネル表示
@@ -59,18 +63,14 @@ public class ResultSystem : MonoBehaviourPunCallbacks
         }
 
         //ゲームオーバー画面
-        if (ManagerAccessor.Instance.dataManager.isDeth
-            && firstdeath)
+        if (!ManagerAccessor.Instance.dataManager.isClear
+            &&ManagerAccessor.Instance.dataManager.isDeth)
         {
-            timer += Time.deltaTime;
-
-            //ここで岩を生成する時間を計測
-            if (timer >= resultspawnInterval)
+            if(fadeanimation.fadeoutfinish)
             {
                 gameObject.transform.GetChild(1).gameObject.SetActive(true);
-                timer = 0f;
-                firstdeath = false;
             }
+
         }
 
         //一定間隔で画像を出す
