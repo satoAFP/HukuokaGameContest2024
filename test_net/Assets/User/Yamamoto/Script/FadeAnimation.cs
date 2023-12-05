@@ -24,12 +24,24 @@ public class FadeAnimation : MonoBehaviourPunCallbacks
     {
         DataManager datamanager = ManagerAccessor.Instance.dataManager;
 
-        if (datamanager.isDeth && firstfadeout)
+        //フェードアウト処理
+        if(firstfadeout)
         {
-            Debug.Log("フェードアウト一回");
-            anim.SetBool("FadeOut", true);//フェードアウトアニメーション開始
-            firstfadeout = false;
+            //死亡時のフェードアウト
+            if (datamanager.isDeth)
+            {
+                //死亡時のノックバックが終了したらフェードアウト開始
+                if(datamanager.player1.GetComponent<PlayerController>().knockback_finish
+                || datamanager.player2.GetComponent<PlayerController>().knockback_finish)
+                {
+                    Debug.Log("フェードアウト一回");
+                    anim.SetBool("FadeOut", true);//フェードアウトアニメーション開始
+                    firstfadeout = false;
+                }
+            }
         }
+
+        
     }
 
     public void EndFadeOutAnimation()

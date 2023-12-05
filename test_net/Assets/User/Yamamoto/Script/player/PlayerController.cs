@@ -90,6 +90,11 @@ public class PlayerController : MonoBehaviourPunCallbacks
     private bool distanceFirst = true;
     private Vector3 dis = Vector3.zero;
 
+
+    private bool firstdeathjump = true;//死亡時のノックバックジャンプを一回だけさせる
+    private float knockbacktime = 1.0f;//ノックバックするときのＸ座標も移動
+    private float timer = 0f;//時間をカウント
+    [System.NonSerialized] public bool knockback_finish = false;//ノックバック終了
     void Start()
     {
 
@@ -128,8 +133,32 @@ public class PlayerController : MonoBehaviourPunCallbacks
         //死亡時に全ての処理を止める
         if(datamanager.isDeth)
         {
-            //FreezePositionXをオンにする
-            rigid.constraints = RigidbodyConstraints2D.FreezePositionX;
+
+            timer += Time.deltaTime;
+
+            //ノックバック処理
+            //ここはノックバックしたとき一度跳ねる処理
+            if (firstdeathjump)
+            {
+                //Debug.Log("Takeru");
+                rigid.AddForce(Vector2.up * jumpSpeed, ForceMode2D.Impulse);
+                firstdeathjump = false;
+            }
+
+            //ここは1秒ぐらい横に移動する処理
+            if (timer <= knockbacktime)
+            {
+                Debug.Log("のっく");
+                rigid.velocity = new Vector2(0.5f * moveSpeed, rigid.velocity.y);
+            }
+            else
+            {
+                Debug.Log("Takeru");
+                rigid.constraints = RigidbodyConstraints2D.FreezePositionX;//FreezePositionXをオンにする
+                knockback_finish = true;
+            }
+            
+
         }
         else
         {
@@ -430,10 +459,13 @@ public class PlayerController : MonoBehaviourPunCallbacks
     private void Move()//移動処理（計算部分）
     {
 
+        //ゲームオーバー処理を返すまで移動の計算をする
+        if(!ManagerAccessor.Instance.dataManager.isDeth)
+        {
+            rigid.velocity = new Vector2(inputDirection.x * moveSpeed, rigid.velocity.y);
+        }
 
-         //Debug.Log("移動量"+ Mathf.Abs(inputDirection.x));
-
-        rigid.velocity = new Vector2(inputDirection.x * moveSpeed, rigid.velocity.y);
+       
 
         ////一定の移動量が無いと進まないようにする
         //if (Mathf.Abs(inputDirection.x) > 0.08f
