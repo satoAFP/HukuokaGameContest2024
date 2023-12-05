@@ -35,6 +35,7 @@ public class GimmickButtonManagement : MonoBehaviourPunCallbacks
     // Update is called once per frame
     void Update()
     {
+        Debug.Log(gimmickButton[1].GetComponent<GimmickButton>().isOwnerOnButton + ":" + gimmickButton[1].GetComponent<GimmickButton>().isClientOnButton);
         if (!isSuccess)
         {
             //どちらか片方が入力開始でカウント開始
@@ -43,9 +44,8 @@ public class GimmickButtonManagement : MonoBehaviourPunCallbacks
             {
                 //両方触れている場合
                 if ((gimmickButton[0].GetComponent<GimmickButton>().isOwnerHit && gimmickButton[1].GetComponent<GimmickButton>().isClientHit) ||
-                    (gimmickButton[1].GetComponent<GimmickButton>().isOwnerHit && gimmickButton[0].GetComponent<GimmickButton>().isClientHit))  
+                    (gimmickButton[1].GetComponent<GimmickButton>().isOwnerHit && gimmickButton[0].GetComponent<GimmickButton>().isClientHit))
                 {
-                    Debug.Log("ccc");
                     //失敗した時はいれない
                     if (!isFailure)
                     {
@@ -64,18 +64,19 @@ public class GimmickButtonManagement : MonoBehaviourPunCallbacks
                         {
                             if (PhotonNetwork.IsMasterClient)
                             {
+                                Debug.Log(gimmickButton[0].GetComponent<GimmickButton>().isButton+":"+gimmickButton[1].GetComponent<GimmickButton>().isButton);
                                 if (gimmickButton[0].GetComponent<GimmickButton>().isButton)
-                                {
-                                    if (gimmickButton[1].GetComponent<GimmickButton>().isOwnerOnButton)
-                                        ManagerAccessor.Instance.dataManager.clientMissCount++;
-                                    if (gimmickButton[1].GetComponent<GimmickButton>().isClientOnButton)
-                                        ManagerAccessor.Instance.dataManager.ownerMissCount++;
-                                }
-                                if (gimmickButton[1].GetComponent<GimmickButton>().isButton)
                                 {
                                     if (gimmickButton[0].GetComponent<GimmickButton>().isOwnerOnButton)
                                         ManagerAccessor.Instance.dataManager.clientMissCount++;
                                     if (gimmickButton[0].GetComponent<GimmickButton>().isClientOnButton)
+                                        ManagerAccessor.Instance.dataManager.ownerMissCount++;
+                                }
+                                if (gimmickButton[1].GetComponent<GimmickButton>().isButton)
+                                {
+                                    if (gimmickButton[1].GetComponent<GimmickButton>().isOwnerOnButton)
+                                        ManagerAccessor.Instance.dataManager.clientMissCount++;
+                                    if (gimmickButton[1].GetComponent<GimmickButton>().isClientOnButton)
                                         ManagerAccessor.Instance.dataManager.ownerMissCount++;
                                 }
                             }

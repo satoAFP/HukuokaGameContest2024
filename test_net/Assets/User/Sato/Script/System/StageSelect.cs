@@ -19,9 +19,9 @@ public class StageSelect : MonoBehaviourPunCallbacks
     {
         //ステージに入る
         if (PhotonNetwork.LocalPlayer.IsMasterClient)
-            MoveStage(isOwnerEnter, ManagerAccessor.Instance.dataManager.isOwnerInputKey_C_L_UP);
+            MoveStage(isOwnerEnter, ManagerAccessor.Instance.dataManager.isOwnerInputKey_C_D_UP);
         else
-            MoveStage(isClientEnter, ManagerAccessor.Instance.dataManager.isClientInputKey_C_L_UP);
+            MoveStage(isClientEnter, ManagerAccessor.Instance.dataManager.isClientInputKey_C_D_UP);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
