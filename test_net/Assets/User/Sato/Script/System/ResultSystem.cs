@@ -95,6 +95,20 @@ public class ResultSystem : MonoBehaviourPunCallbacks
     }
 
 
+    private int ResultScoreCheck()
+    {
+        int owner;
+        return 0;
+    }
+
+    private int ResultScoreChange(int miss)
+    {
+        if (0 <= miss && miss < 3)
+            return 3;
+
+        return 0;
+    }
+
     [PunRPC]
     private void RcpShareIsRetry()
     {
