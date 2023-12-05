@@ -151,7 +151,7 @@ public class CopyKey : MonoBehaviourPunCallbacks
         if (collision.gameObject.tag == "DeathErea")
         {
             // Debug.Log("Ç¢ÇÌÅ[Ç¢");
-            datamanager.isDeth = true;
+            //datamanager.isDeth = true;
         }
     }
 

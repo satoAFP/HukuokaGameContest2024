@@ -152,12 +152,12 @@ public class PlayerController : MonoBehaviourPunCallbacks
             //ここは1秒ぐらい横に移動する処理
             if (timer <= knockbacktime)
             {
-                Debug.Log("のっく");
+               // Debug.Log("のっく");
                 rigid.velocity = new Vector2(0.5f * moveSpeed, rigid.velocity.y);
             }
             else
             {
-                Debug.Log("Takeru");
+               // Debug.Log("Takeru");
                 rigid.constraints = RigidbodyConstraints2D.FreezePositionX;//FreezePositionXをオンにする
                 knockback_finish = true;
             }
@@ -508,7 +508,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
         //プレイヤーが落下した時、ゲームオーバーの処理をする
         if (collision.gameObject.tag == "DeathField")
         {
-            Debug.Log("si");
+            //Debug.Log("si");
             datamanager.isDeth = true;
         }
     }
@@ -520,10 +520,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
         //落石エリアに入るとゲームオーバーのシーン
         if (collision.gameObject.tag == "DeathErea")
         {
-            // Debug.Log("いわーい");
-
-            objName = collision.gameObject.name;
-            Debug.Log(objName);
+             Debug.Log("いわーい");
 
             datamanager.isDeth = true;
         }
