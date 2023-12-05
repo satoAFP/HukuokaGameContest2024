@@ -44,6 +44,8 @@ public class DataManager : MonoBehaviourPunCallbacks
     //死亡フラグ
     [System.NonSerialized] public bool isDeth = false;
 
+    [System.NonSerialized] public string DeathPlayerName = null;//死亡したプレイヤーの名前を取得
+
     //ミスの回数
     /*[System.NonSerialized]*/ public int ownerMissCount = 0;
     /*[System.NonSerialized]*/ public int clientMissCount = 0;

@@ -520,7 +520,11 @@ public class PlayerController : MonoBehaviourPunCallbacks
         //落石エリアに入るとゲームオーバーのシーン
         if (collision.gameObject.tag == "DeathErea")
         {
-             Debug.Log("いわーい");
+             
+
+            datamanager.DeathPlayerName = this.gameObject.name;
+
+            Debug.Log("死んだ奴の名前"+ datamanager.DeathPlayerName);
 
             datamanager.isDeth = true;
         }
