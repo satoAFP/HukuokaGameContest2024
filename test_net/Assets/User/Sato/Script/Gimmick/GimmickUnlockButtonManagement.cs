@@ -173,6 +173,10 @@ public class GimmickUnlockButtonManagement : CGimmick
                     if (!isClientClear)
                         CallRpcShareInputMiss();
 
+                    //ƒNƒŠƒAó‹µ‰Šú‰»
+                    isOwnerClear = false;
+                    isClientClear = false;
+
                     //“ñ‚Â•ª‰Šú‰»
                     for (int i = 0; i < gimmickButton.Count; i++)
                     {
