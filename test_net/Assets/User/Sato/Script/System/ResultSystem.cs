@@ -1,11 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using Photon.Pun;
 
 public class ResultSystem : MonoBehaviourPunCallbacks
 {
     [SerializeField, Header("クリア時に出すオブジェクト")] private GameObject[] clearObjs;
+
+    [SerializeField, Header("オーナー失敗回数用テキスト")] private Text OwnerMissText;
+    [SerializeField, Header("クライアント失敗回数用テキスト")] private Text ClientMissText;
+
+    [SerializeField, Header("オーナーの評価画像")] private GameObject[] OwnerEvaluationObjs;
+    [SerializeField, Header("クライアントの評価画像")] private GameObject[] ClientEvaluationObjs;
+
+    [SerializeField, Header("評価描画用テキスト")] private Text EvaluationText;
 
     [SerializeField, Header("出す間隔")] private int intervalFrame;
 
@@ -48,6 +57,26 @@ public class ResultSystem : MonoBehaviourPunCallbacks
                 clientMemCount = ManagerAccessor.Instance.dataManager.clientMissCount;
             }
         }
+
+        //失敗回数描画
+        OwnerMissText.text = "操作ミス：" + ManagerAccessor.Instance.dataManager.ownerMissCount.ToString() + "回";
+        ClientMissText.text = "操作ミス：" + ManagerAccessor.Instance.dataManager.clientMissCount.ToString() + "回";
+
+        //評価画像表示
+        //それぞれの評価取得
+        int owner = ResultScoreChange(ManagerAccessor.Instance.dataManager.ownerMissCount);
+        int client = ResultScoreChange(ManagerAccessor.Instance.dataManager.clientMissCount);
+
+        for (int i = 0; i < 3; i++)
+        {
+            if (i < owner)
+                OwnerEvaluationObjs[i].SetActive(true);
+            if (i < client)
+                ClientEvaluationObjs[i].SetActive(true);
+        }
+
+        //評価描画
+        EvaluationText.text = ResultScoreCheck();
 
 
         //クリア画面
@@ -94,17 +123,48 @@ public class ResultSystem : MonoBehaviourPunCallbacks
         photonView.RPC(nameof(RcpShareIsStageSelect), RpcTarget.All);
     }
 
-
-    private int ResultScoreCheck()
+    //リザルトの評価描画用
+    private string ResultScoreCheck()
     {
-        int owner;
-        return 0;
+        //それぞれの評価取得
+        int owner = ResultScoreChange(ManagerAccessor.Instance.dataManager.ownerMissCount);
+        int client = ResultScoreChange(ManagerAccessor.Instance.dataManager.clientMissCount);
+
+        if (owner == 3 && client == 3)
+            return "心の友";
+        if ((owner == 3 && client == 2) || (owner == 2 && client == 3)) 
+            return "親友";
+        if ((owner == 3 && client == 1) || (owner == 1 && client == 3))
+            return "喧嘩中";
+        if ((owner == 3 && client == 0) || (owner == 0 && client == 3))
+            return "片思い";
+        if (owner == 2 && client == 2)
+            return "友達";
+        if ((owner == 2 && client == 1) || (owner == 1 && client == 2))
+            return "友達の友達";
+        if ((owner == 2 && client == 0) || (owner == 0 && client == 2))
+            return "偽りの仲";
+        if (owner == 1 && client == 1)
+            return "知り合い";
+        if ((owner == 1 && client == 0) || (owner == 0 && client == 1))
+            return "初対面";
+        if (owner == 0 && client == 0)
+            return "他人";
+
+        return "";
     }
 
+    //ミスの回数をリザルト表示用のスコアに変更
     private int ResultScoreChange(int miss)
     {
         if (0 <= miss && miss < 3)
             return 3;
+        else if (3 <= miss && miss < 6)
+            return 2;
+        else if (6 <= miss && miss < 9)
+            return 1;
+        else if (9 <= miss)
+            return 0;
 
         return 0;
     }
