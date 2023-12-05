@@ -23,6 +23,8 @@ public class GimmickBlock : CGimmick
     //ブロックとプレイヤーの距離
     private Vector3 dis = Vector3.zero;
 
+    //成功判定
+    private bool isSuccess = false;
     //失敗判定
     private bool isFailure = false;
 
@@ -78,56 +80,8 @@ public class GimmickBlock : CGimmick
                             if (dataManager.isOwnerInputKey_CB && dataManager.isClientInputKey_CB)
                             {
                                 Debug.Log("eee");
-                                //持ち上げ準備完了
-                                if ((hitOwner && hitClient && dataManager.isOwnerHitRight && dataManager.isClientHitLeft) ||
-                                    (hitOwner && hitClient && dataManager.isOwnerHitLeft && dataManager.isClientHitRight))
-                                {
-                                    isStart = true;
-                                }
-
-                                //持ち上げ開始
-                                if (isStart)
-                                {
-                                    if (first)
-                                    {
-                                        //持ち上がった位置に移動
-                                        Vector3 input = gameObject.transform.position;
-                                        input.y += 1.2f;
-                                        gameObject.transform.localPosition = input;
-
-                                        dis = transform.position - Player.transform.position;
-
-                                        first = false;
-                                    }
-
-                                    //プレイヤーに追従させる
-                                    gameObject.transform.position = dis + Player.transform.position;
-
-                                    //プレイヤーが動いているとき、ブロックサイドも同期させる
-                                    if (Player.GetComponent<AvatarTransformView>().isPlayerMove)
-                                        GetComponent<AvatarOnlyTransformView>().isPlayerMove = true;
-                                    else
-                                        GetComponent<AvatarOnlyTransformView>().isPlayerMove = false;
-
-                                    liftMode = true;
-
-                                    //持ち上げている判定
-                                    if (PhotonNetwork.IsMasterClient)
-                                    {
-                                        if (!dataManager.isAppearCopyKey)
-                                        {
-                                            ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().islift = true;
-                                        }
-                                        else
-                                        {
-                                            ManagerAccessor.Instance.dataManager.copyKey.GetComponent<CopyKey>().islift = true;
-                                        }
-                                    }
-                                    else
-                                    {
-                                        ManagerAccessor.Instance.dataManager.player2.GetComponent<PlayerController>().islift = true;
-                                    }
-                                }
+                                //成功
+                                isSuccess = true;
                             }
 
                         }
@@ -150,44 +104,99 @@ public class GimmickBlock : CGimmick
             }
             else
             {
+                isSuccess = false;
                 isFailure = false;
             }
 
-            //持ち上げ終了時
-            if (!dataManager.isOwnerInputKey_CB && !dataManager.isClientInputKey_CB)
+
+            if (isSuccess)
             {
-                if (!first)
+                //持ち上げ準備完了
+                if ((hitOwner && hitClient && dataManager.isOwnerHitRight && dataManager.isClientHitLeft) ||
+                    (hitOwner && hitClient && dataManager.isOwnerHitLeft && dataManager.isClientHitRight))
                 {
-                    //元の高さに戻す
-                    Vector3 input = gameObject.transform.position;
-                    input.y -= 1.2f;
-                    gameObject.transform.localPosition = input;
+                    isStart = true;
+                }
 
-                    dis = new Vector3(gameObject.transform.position.x - Player.transform.position.x, gameObject.transform.position.y - Player.transform.position.y, 0);
+                //持ち上げ開始
+                if (isStart)
+                {
+                    if (first)
+                    {
+                        //持ち上がった位置に移動
+                        Vector3 input = gameObject.transform.position;
+                        input.y += 1.2f;
+                        gameObject.transform.localPosition = input;
 
-                    first = true;
-                    hitOwner = false;
-                    hitClient = false;
-                    isStart = false;
+                        dis = transform.position - Player.transform.position;
 
+                        first = false;
+                    }
+
+                    //プレイヤーに追従させる
+                    gameObject.transform.position = dis + Player.transform.position;
+
+                    //プレイヤーが動いているとき、ブロックサイドも同期させる
+                    if (Player.GetComponent<AvatarTransformView>().isPlayerMove)
+                        GetComponent<AvatarOnlyTransformView>().isPlayerMove = true;
+                    else
+                        GetComponent<AvatarOnlyTransformView>().isPlayerMove = false;
+
+                    liftMode = true;
+
+                    //持ち上げている判定
                     if (PhotonNetwork.IsMasterClient)
                     {
                         if (!dataManager.isAppearCopyKey)
-                            ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().islift = false;
+                        {
+                            ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().islift = true;
+                        }
                         else
-                            ManagerAccessor.Instance.dataManager.copyKey.GetComponent<CopyKey>().islift = false;
+                        {
+                            ManagerAccessor.Instance.dataManager.copyKey.GetComponent<CopyKey>().islift = true;
+                        }
                     }
                     else
                     {
-                        ManagerAccessor.Instance.dataManager.player2.GetComponent<PlayerController>().islift = false;
+                        ManagerAccessor.Instance.dataManager.player2.GetComponent<PlayerController>().islift = true;
                     }
                 }
+                //持ち上げ終了時
+                else
+                {
+                    if (!first)
+                    {
+                        //元の高さに戻す
+                        Vector3 input = gameObject.transform.position;
+                        input.y -= 1.2f;
+                        gameObject.transform.localPosition = input;
 
-                //同期解除
-                GetComponent<AvatarOnlyTransformView>().isPlayerMove = false;
+                        dis = new Vector3(gameObject.transform.position.x - Player.transform.position.x, gameObject.transform.position.y - Player.transform.position.y, 0);
 
-                liftMode = false;
+                        first = true;
+                        hitOwner = false;
+                        hitClient = false;
+                        isStart = false;
 
+                        if (PhotonNetwork.IsMasterClient)
+                        {
+                            if (!dataManager.isAppearCopyKey)
+                                ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().islift = false;
+                            else
+                                ManagerAccessor.Instance.dataManager.copyKey.GetComponent<CopyKey>().islift = false;
+                        }
+                        else
+                        {
+                            ManagerAccessor.Instance.dataManager.player2.GetComponent<PlayerController>().islift = false;
+                        }
+                    }
+
+                    //同期解除
+                    GetComponent<AvatarOnlyTransformView>().isPlayerMove = false;
+
+                    liftMode = false;
+
+                }
             }
         }
 
