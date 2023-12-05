@@ -169,7 +169,7 @@ public class GimmickBlock : CGimmick
 
 
             //‚¿ã‚°I—¹
-            if (!dataManager.isOwnerInputKey_CB && !dataManager.isClientInputKey_CB)
+            if (!dataManager.isOwnerInputKey_CB || !dataManager.isClientInputKey_CB)
             {
                 if (!first)
                 {

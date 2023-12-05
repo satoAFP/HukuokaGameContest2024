@@ -35,7 +35,6 @@ public class GimmickButtonManagement : MonoBehaviourPunCallbacks
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(gimmickButton[1].GetComponent<GimmickButton>().isOwnerOnButton + ":" + gimmickButton[1].GetComponent<GimmickButton>().isClientOnButton);
         if (!isSuccess)
         {
             //どちらか片方が入力開始でカウント開始
