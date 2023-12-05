@@ -58,46 +58,50 @@ public class GimmickBlock : CGimmick
                 Player = dataManager.player2;
             }
 
+             
             //どちらかが持ち上げようとした場合
             if (dataManager.isOwnerInputKey_CB || dataManager.isClientInputKey_CB)
             {
-                Debug.Log("aaa");
-                //両方触れている場合又は、持ち上げが開始した場合
-                if ((hitOwner && hitClient && dataManager.isOwnerHitRight && dataManager.isClientHitLeft) ||
-                    (hitOwner && hitClient && dataManager.isOwnerHitLeft && dataManager.isClientHitRight) ||
-                    isStart)
+                if (!isSuccess)
                 {
-                    Debug.Log("bbb");
-                    if (!isFailure)
+                    Debug.Log("aaa");
+                    //両方触れている場合又は、持ち上げが開始した場合
+                    if ((hitOwner && hitClient && dataManager.isOwnerHitRight && dataManager.isClientHitLeft) ||
+                        (hitOwner && hitClient && dataManager.isOwnerHitLeft && dataManager.isClientHitRight) ||
+                        isStart)
                     {
-                        Debug.Log("ccc");
-                        //失敗までのフレームまで
-                        if (count <= ManagerAccessor.Instance.dataManager.MissFrame)
+                        Debug.Log("bbb");
+                        if (!isFailure)
                         {
-                            Debug.Log("ddd");
-                            count++;
-                            //1P、2Pが触れているかつ、アクションしているとき持ち上がる
-                            if (dataManager.isOwnerInputKey_CB && dataManager.isClientInputKey_CB)
+                            Debug.Log("ccc");
+                            //失敗までのフレームまで
+                            if (count <= ManagerAccessor.Instance.dataManager.MissFrame)
                             {
-                                Debug.Log("eee");
-                                //成功
-                                isSuccess = true;
-                            }
+                                Debug.Log("ddd");
+                                count++;
+                                //1P、2Pが触れているかつ、アクションしているとき持ち上がる
+                                if (dataManager.isOwnerInputKey_CB && dataManager.isClientInputKey_CB)
+                                {
+                                    Debug.Log("eee");
+                                    //成功
+                                    isSuccess = true;
+                                }
 
-                        }
-                        else
-                        {
-                            //失敗情報送信
-                            if (PhotonNetwork.IsMasterClient)
+                            }
+                            else
                             {
-                                if (dataManager.isOwnerInputKey_CB)
-                                    ManagerAccessor.Instance.dataManager.clientMissCount++;
-                                if (dataManager.isClientInputKey_CB)
-                                    ManagerAccessor.Instance.dataManager.ownerMissCount++;
-                            }
+                                //失敗情報送信
+                                if (PhotonNetwork.IsMasterClient)
+                                {
+                                    if (dataManager.isOwnerInputKey_CB)
+                                        ManagerAccessor.Instance.dataManager.clientMissCount++;
+                                    if (dataManager.isClientInputKey_CB)
+                                        ManagerAccessor.Instance.dataManager.ownerMissCount++;
+                                }
 
-                            isFailure = true;
-                            count = 0;
+                                isFailure = true;
+                                count = 0;
+                            }
                         }
                     }
                 }
@@ -108,7 +112,7 @@ public class GimmickBlock : CGimmick
                 isFailure = false;
             }
 
-
+            //成功時
             if (isSuccess)
             {
                 //持ち上げ準備完了
@@ -161,42 +165,44 @@ public class GimmickBlock : CGimmick
                         ManagerAccessor.Instance.dataManager.player2.GetComponent<PlayerController>().islift = true;
                     }
                 }
-                //持ち上げ終了時
-                else
+            }
+
+
+            //持ち上げ終了時
+            if (!dataManager.isOwnerInputKey_CB && !dataManager.isClientInputKey_CB)
+            {
+                if (!first)
                 {
-                    if (!first)
+                    //元の高さに戻す
+                    Vector3 input = gameObject.transform.position;
+                    input.y -= 1.2f;
+                    gameObject.transform.localPosition = input;
+
+                    dis = new Vector3(gameObject.transform.position.x - Player.transform.position.x, gameObject.transform.position.y - Player.transform.position.y, 0);
+
+                    first = true;
+                    hitOwner = false;
+                    hitClient = false;
+                    isStart = false;
+
+                    if (PhotonNetwork.IsMasterClient)
                     {
-                        //元の高さに戻す
-                        Vector3 input = gameObject.transform.position;
-                        input.y -= 1.2f;
-                        gameObject.transform.localPosition = input;
-
-                        dis = new Vector3(gameObject.transform.position.x - Player.transform.position.x, gameObject.transform.position.y - Player.transform.position.y, 0);
-
-                        first = true;
-                        hitOwner = false;
-                        hitClient = false;
-                        isStart = false;
-
-                        if (PhotonNetwork.IsMasterClient)
-                        {
-                            if (!dataManager.isAppearCopyKey)
-                                ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().islift = false;
-                            else
-                                ManagerAccessor.Instance.dataManager.copyKey.GetComponent<CopyKey>().islift = false;
-                        }
+                        if (!dataManager.isAppearCopyKey)
+                            ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().islift = false;
                         else
-                        {
-                            ManagerAccessor.Instance.dataManager.player2.GetComponent<PlayerController>().islift = false;
-                        }
+                            ManagerAccessor.Instance.dataManager.copyKey.GetComponent<CopyKey>().islift = false;
                     }
-
-                    //同期解除
-                    GetComponent<AvatarOnlyTransformView>().isPlayerMove = false;
-
-                    liftMode = false;
-
+                    else
+                    {
+                        ManagerAccessor.Instance.dataManager.player2.GetComponent<PlayerController>().islift = false;
+                    }
                 }
+
+                //同期解除
+                GetComponent<AvatarOnlyTransformView>().isPlayerMove = false;
+
+                liftMode = false;
+
             }
         }
 
