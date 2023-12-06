@@ -727,6 +727,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2331382924595039276, guid: 0348b1e04de422141b58ccaecd0b8ac9, type: 3}
+      propertyPath: sceneViewId
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 7893229267152345243, guid: 0348b1e04de422141b58ccaecd0b8ac9, type: 3}
       propertyPath: m_Name
       value: DataManager
@@ -2800,6 +2804,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5754481298633445876, guid: 45461b3ebf7c7dd4689e76ed32063752, type: 3}
+      propertyPath: StoneParentObject
+      value: 
+      objectReference: {fileID: 1894421765493975623, guid: 6c956e84d46b06c4b9dfbae960e19ced, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 45461b3ebf7c7dd4689e76ed32063752, type: 3}
 --- !u!1001 &7956102370635049932

@@ -132,6 +132,7 @@ MonoBehaviour:
   - {fileID: 5362598988728009694, guid: bab703e80af83f348bb6474293c25753, type: 3}
   - {fileID: 1336264757331944481, guid: fcf196291f37c6c4083715cc6e347c05, type: 3}
   - {fileID: 8708001624880048959, guid: 13b2f02177fdf67428c0a3fea5207841, type: 3}
+  StoneParentObject: {fileID: 1894421765493975623, guid: 6c956e84d46b06c4b9dfbae960e19ced, type: 3}
   spawnInterval: 0.3
   spawnstone: 30
   moveSpeed: 1.2

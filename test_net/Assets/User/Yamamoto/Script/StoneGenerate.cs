@@ -10,6 +10,8 @@ public class StoneGenerate : MonoBehaviour
 
     [SerializeField] private GameObject[] Stones = new GameObject[3];//大きい岩
 
+    [SerializeField] private GameObject StoneParentObject;//生成した岩の親オブジェクト
+
     private int stonetype = 0;//生成する岩の種類をランダムに決める
 
     private float height;
@@ -25,10 +27,16 @@ public class StoneGenerate : MonoBehaviour
 
     private Vector2 spawnPosition;//岩生成場所
 
+    private GameObject ParentObj;//岩の親オブジェクトになるもの
+
+    private GameObject ChildObj;//生成した岩オブジェクトを子オブジェクトにする
+
     // Start is called before the first frame update
     void Start()
     {
         height = gameObject.GetComponent<Renderer>().bounds.size.y;
+
+        ParentObj = Instantiate(StoneParentObject, Vector2.zero, Quaternion.identity);
     }
 
     // Update is called once per frame
@@ -64,10 +72,10 @@ public class StoneGenerate : MonoBehaviour
 
         worldPoint.y = height;//高さをワールド座標にするとずれるのでローカルに戻す
 
-       // Debug.Log(spawnPosition);
 
-        // Debug.Log("ワールド返還"+worldPoint);
 
-        Instantiate(Stones[stonetype], worldPoint, Quaternion.identity);
+        ChildObj = Instantiate(Stones[stonetype], worldPoint, Quaternion.identity);
+
+        ChildObj.transform.parent = ParentObj.transform; // 生成した岩をParentObjの子オブジェクトにする
     }
 }
