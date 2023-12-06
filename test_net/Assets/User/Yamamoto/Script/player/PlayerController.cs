@@ -94,6 +94,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
     private bool firstdeathjump = true;//死亡時のノックバックジャンプを一回だけさせる
     private float knockbacktime = 1.0f;//ノックバックするときのＸ座標も移動
     private float timer = 0f;//時間をカウント
+    private bool firstdeathknockback = true;
     [System.NonSerialized] public bool knockback_finish = false;//ノックバック終了
 
 
@@ -137,62 +138,12 @@ public class PlayerController : MonoBehaviourPunCallbacks
         //死亡時に全ての処理を止める
         if(datamanager.isDeth)
         {
-
-            timer += Time.deltaTime;
-
-            if(datamanager.DeathPlayerName=="Player1")
+            if (firstdeathknockback)
             {
-                if(PhotonNetwork.LocalPlayer.IsMasterClient)
-                {
-                    //ノックバック処理
-                    //ここはノックバックしたとき一度跳ねる処理
-                    if (firstdeathjump)
-                    {
-                        //Debug.Log("Takeru");
-                        rigid.AddForce(Vector2.up * jumpSpeed, ForceMode2D.Impulse);
-                        firstdeathjump = false;
-                    }
-
-                    //ここは1秒ぐらい横に移動する処理
-                    if (timer <= knockbacktime)
-                    {
-                        rigid.velocity = new Vector2(0.5f * moveSpeed, rigid.velocity.y);
-                    }
-                    else
-                    {
-                        rigid.constraints = RigidbodyConstraints2D.FreezePositionX;//FreezePositionXをオンにする
-                        knockback_finish = true;
-                    }
-                }
+                photonView.RPC(nameof(RpcDeathKnockBack), RpcTarget.All);//死亡時のノックバック
+                firstdeathknockback = false;
             }
-            else if (datamanager.DeathPlayerName == "Player2")
-            {
-                if (!PhotonNetwork.LocalPlayer.IsMasterClient)
-                {
-                    //ノックバック処理
-                    //ここはノックバックしたとき一度跳ねる処理
-                    if (firstdeathjump)
-                    {
-                        rigid.AddForce(Vector2.up * jumpSpeed, ForceMode2D.Impulse);
-                        firstdeathjump = false;
-                    }
-
-                    //ここは1秒ぐらい横に移動する処理
-                    if (timer <= knockbacktime)
-                    {
-                        rigid.velocity = new Vector2(0.5f * moveSpeed, rigid.velocity.y);
-                    }
-                    else
-                    {
-                        rigid.constraints = RigidbodyConstraints2D.FreezePositionX;//FreezePositionXをオンにする
-                        knockback_finish = true;
-                    }
-                }
-            }
-
-
-
-
+           
         }
         else
         {
@@ -719,6 +670,62 @@ public class PlayerController : MonoBehaviourPunCallbacks
                 //Debug.Log("player2の右");
                 imageleft = false;
                 firstLR_2P = true;
+            }
+        }
+    }
+
+    [PunRPC]
+    private void RpcDeathKnockBack()
+    {
+        timer += Time.deltaTime;
+
+        if (ManagerAccessor.Instance.dataManager.DeathPlayerName == "Player1")
+        {
+            if (PhotonNetwork.LocalPlayer.IsMasterClient)
+            {
+                //ノックバック処理
+                //ここはノックバックしたとき一度跳ねる処理
+                if (firstdeathjump)
+                {
+                    //Debug.Log("Takeru");
+                    rigid.AddForce(Vector2.up * jumpSpeed, ForceMode2D.Impulse);
+                    firstdeathjump = false;
+                }
+
+                //ここは1秒ぐらい横に移動する処理
+                if (timer <= knockbacktime)
+                {
+                    rigid.velocity = new Vector2(0.5f * moveSpeed, rigid.velocity.y);
+                }
+                else
+                {
+                    rigid.constraints = RigidbodyConstraints2D.FreezePositionX;//FreezePositionXをオンにする
+                    knockback_finish = true;
+                }
+            }
+        }
+        else if (ManagerAccessor.Instance.dataManager.DeathPlayerName == "Player2")
+        {
+            if (!PhotonNetwork.LocalPlayer.IsMasterClient)
+            {
+                //ノックバック処理
+                //ここはノックバックしたとき一度跳ねる処理
+                if (firstdeathjump)
+                {
+                    rigid.AddForce(Vector2.up * jumpSpeed, ForceMode2D.Impulse);
+                    firstdeathjump = false;
+                }
+
+                //ここは1秒ぐらい横に移動する処理
+                if (timer <= knockbacktime)
+                {
+                    rigid.velocity = new Vector2(0.5f * moveSpeed, rigid.velocity.y);
+                }
+                else
+                {
+                    rigid.constraints = RigidbodyConstraints2D.FreezePositionX;//FreezePositionXをオンにする
+                    knockback_finish = true;
+                }
             }
         }
     }
