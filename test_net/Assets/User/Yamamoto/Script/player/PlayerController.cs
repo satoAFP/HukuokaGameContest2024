@@ -95,6 +95,8 @@ public class PlayerController : MonoBehaviourPunCallbacks
     private float knockbacktime = 1.0f;//ノックバックするときのＸ座標も移動
     private float timer = 0f;//時間をカウント
     private bool firstdeathknockback = true;
+    private bool knockbackmove = true;
+
     [System.NonSerialized] public bool knockback_finish = false;//ノックバック終了
 
 
@@ -138,12 +140,24 @@ public class PlayerController : MonoBehaviourPunCallbacks
         //死亡時に全ての処理を止める
         if(datamanager.isDeth)
         {
+            timer += Time.deltaTime;
+
+            //1秒ぐらい経過したら再度RpcDeathKnockBackを呼び出す
+            if (knockbacktime <= timer)
+            {
+                knockbackmove = false;
+                firstdeathknockback = true;
+            }
+
             if (firstdeathknockback)
             {
+                Debug.Log("Rpc返す");
+
                 photonView.RPC(nameof(RpcDeathKnockBack), RpcTarget.All);//死亡時のノックバック
+
                 firstdeathknockback = false;
             }
-           
+
         }
         else
         {
@@ -677,7 +691,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
     [PunRPC]
     private void RpcDeathKnockBack()
     {
-        timer += Time.deltaTime;
+      
 
         if (ManagerAccessor.Instance.dataManager.DeathPlayerName == "Player1")
         {
@@ -693,7 +707,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
                 }
 
                 //ここは1秒ぐらい横に移動する処理
-                if (timer <= knockbacktime)
+                if (knockbackmove)
                 {
                     rigid.velocity = new Vector2(0.5f * moveSpeed, rigid.velocity.y);
                 }
@@ -717,7 +731,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
                 }
 
                 //ここは1秒ぐらい横に移動する処理
-                if (timer <= knockbacktime)
+                if (knockbackmove)
                 {
                     rigid.velocity = new Vector2(0.5f * moveSpeed, rigid.velocity.y);
                 }
