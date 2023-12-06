@@ -122,7 +122,7 @@ public class GimmickUnlockButtonManagement : CGimmick
 
                         photonView.RPC(nameof(RpcShareAnswer), RpcTarget.Others, answer[i]);
                     }
-                    ManagerAccessor.Instance.dataManager.chat.text = answer[0].ToString() + ":" + answer[1].ToString() + ":" + answer[2].ToString() + ":" + answer[3].ToString() + ":" + answer[4].ToString();
+                    //ManagerAccessor.Instance.dataManager.chat.text = answer[0].ToString() + ":" + answer[1].ToString() + ":" + answer[2].ToString() + ":" + answer[3].ToString() + ":" + answer[4].ToString();
 
                     //ìöÇ¶ê›íË
                     AnswerSet();
@@ -139,7 +139,7 @@ public class GimmickUnlockButtonManagement : CGimmick
                 //ç≈èâÇÃàÍâÒÇæÇØ
                 if (isAnswerFirst)
                 {
-                    ManagerAccessor.Instance.dataManager.chat.text = answer[0].ToString() + ":" + answer[1].ToString() + ":" + answer[2].ToString() + ":" + answer[3].ToString() + ":" + answer[4].ToString();
+                    //ManagerAccessor.Instance.dataManager.chat.text = answer[0].ToString() + ":" + answer[1].ToString() + ":" + answer[2].ToString() + ":" + answer[3].ToString() + ":" + answer[4].ToString();
                     //ìöÇ¶ê›íË
                     AnswerSet();
 

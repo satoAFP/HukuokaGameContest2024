@@ -33,7 +33,7 @@ public class GimmickButtonManagement : MonoBehaviourPunCallbacks
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         if (!isSuccess)
         {
@@ -57,6 +57,7 @@ public class GimmickButtonManagement : MonoBehaviourPunCallbacks
                                 gimmickButton[1].GetComponent<GimmickButton>().isButton)
                             {
                                 isSuccess = true;
+                                PhotonNetwork
                             }
                         }
                         else
@@ -105,4 +106,15 @@ public class GimmickButtonManagement : MonoBehaviourPunCallbacks
         }
 
     }
+
+
+    //ƒ{ƒ^ƒ““ü—Íî•ñ‚ğ‘Šè‚É‘—M
+    [PunRPC]
+    protected void RpcShareIsSuccess()
+    {
+        isSuccess = true;
+    }
+
+
+
 }
