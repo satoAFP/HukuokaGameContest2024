@@ -28,9 +28,6 @@ public class GimmickUnlockButtonManagement : CGimmick
     [SerializeField, Header("“ü—Í‚·‚é”")]
     private int inputKey;
 
-    [SerializeField, Header("c‚èŠÔ")]
-    private Text timetext;
-
     [SerializeField, Header("“ü—Í‚Ì§ŒÀŠÔ")]
     private int timeLimit;
 

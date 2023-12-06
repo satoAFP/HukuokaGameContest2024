@@ -199,7 +199,6 @@ public class GimmickUnlockButton : CGimmick
             //入力開始時違うキャラが入力しないための処理
             if (collision.gameObject.name == managementPlayerName || managementPlayerName == "") 
             {
-                Debug.Log(managementPlayerName);
                 if (collision.gameObject.name == "Player1" || collision.gameObject.name == "CopyKey")
                 {
                     //両ボタンにプレイヤーがいるとき
@@ -209,7 +208,6 @@ public class GimmickUnlockButton : CGimmick
                     {
                         if (PhotonNetwork.LocalPlayer.IsMasterClient)
                         {
-                            Debug.Log("bbb");
                             //タイムリミットと回答データ描画
                             transform.parent.GetComponent<GimmickUnlockButtonManagement>().answerArea.SetActive(true);
                             transform.parent.GetComponent<GimmickUnlockButtonManagement>().timeLimitSlider.SetActive(true);
