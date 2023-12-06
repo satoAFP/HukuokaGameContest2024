@@ -69,12 +69,14 @@ public class ResultSystem : MonoBehaviourPunCallbacks
 
         Debug.Log(owner + ":" + client);
 
-        for (int i = 0; i < owner; i++)
-            OwnerEvaluationObjs[i].SetActive(true);
+        if (ManagerAccessor.Instance.dataManager.isClear)
+        {
+            for (int i = 0; i < owner; i++)
+                OwnerEvaluationObjs[i].SetActive(true);
 
-        for (int i = 0; i < client; i++)
-            ClientEvaluationObjs[i].SetActive(true);
-
+            for (int i = 0; i < client; i++)
+                ClientEvaluationObjs[i].SetActive(true);
+        }
 
         //•]‰¿•`‰æ
         EvaluationText.text = ResultScoreCheck();
