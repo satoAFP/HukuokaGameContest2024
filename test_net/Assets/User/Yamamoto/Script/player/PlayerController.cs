@@ -158,6 +158,12 @@ public class PlayerController : MonoBehaviourPunCallbacks
                 firstdeathknockback = false;
             }
 
+            if(!knockbackmove)
+            {
+                rigid.constraints = RigidbodyConstraints2D.FreezePositionX;//FreezePositionXをオンにする
+                knockback_finish = true;
+            }
+
         }
         else
         {
@@ -610,7 +616,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
         //プレイヤーを持ち上げ時のイラストに変更
         if (gameObject.name == "Player1")
         {
-            Debug.Log("QQQP1持ち上げ画像");
+            //Debug.Log("QQQP1持ち上げ画像");
             change_unloadimage = false;//通常画像から持ち上げ画像に
             change_liftimage = true;
             //GetComponent<SpriteRenderer>().sprite = p1LiftImage;
@@ -618,7 +624,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
         }
         else if (gameObject.name == "Player2")
         {
-            Debug.Log("QQQP2持ち上げ画像");
+           // Debug.Log("QQQP2持ち上げ画像");
             change_unloadimage = false;//通常画像から持ち上げ画像に
             change_liftimage = true;
             //GetComponent<SpriteRenderer>().sprite = p2LiftImage;
@@ -711,11 +717,11 @@ public class PlayerController : MonoBehaviourPunCallbacks
                 {
                     rigid.velocity = new Vector2(0.5f * moveSpeed, rigid.velocity.y);
                 }
-                else
-                {
-                    rigid.constraints = RigidbodyConstraints2D.FreezePositionX;//FreezePositionXをオンにする
-                    knockback_finish = true;
-                }
+                //else
+                //{
+                //    rigid.constraints = RigidbodyConstraints2D.FreezePositionX;//FreezePositionXをオンにする
+                //    knockback_finish = true;
+                //}
             }
         }
         else if (ManagerAccessor.Instance.dataManager.DeathPlayerName == "Player2")
@@ -735,11 +741,11 @@ public class PlayerController : MonoBehaviourPunCallbacks
                 {
                     rigid.velocity = new Vector2(0.5f * moveSpeed, rigid.velocity.y);
                 }
-                else
-                {
-                    rigid.constraints = RigidbodyConstraints2D.FreezePositionX;//FreezePositionXをオンにする
-                    knockback_finish = true;
-                }
+                //else
+                //{
+                //    rigid.constraints = RigidbodyConstraints2D.FreezePositionX;//FreezePositionXをオンにする
+                //    knockback_finish = true;
+                //}
             }
         }
     }

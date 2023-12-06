@@ -84,7 +84,6 @@ MonoBehaviour:
   - RpcShareOwnerMissCount
   - RpcShareIsOwnerHit
   - RpcShareInputMiss
-  - RpcShareIsSuccess
   - RpcDeathKnockBack
   DisableAutoOpenWizard: 1
   ShowSettings: 1
