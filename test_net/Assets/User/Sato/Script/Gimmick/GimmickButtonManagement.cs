@@ -57,7 +57,7 @@ public class GimmickButtonManagement : MonoBehaviourPunCallbacks
                                 gimmickButton[1].GetComponent<GimmickButton>().isButton)
                             {
                                 isSuccess = true;
-                                PhotonNetwork
+                                //PhotonNetwork
                             }
                         }
                         else
