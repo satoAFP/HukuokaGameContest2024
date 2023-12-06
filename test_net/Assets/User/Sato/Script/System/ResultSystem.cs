@@ -67,13 +67,14 @@ public class ResultSystem : MonoBehaviourPunCallbacks
         int owner = ResultScoreChange(ManagerAccessor.Instance.dataManager.ownerMissCount);
         int client = ResultScoreChange(ManagerAccessor.Instance.dataManager.clientMissCount);
 
-        for (int i = 0; i < 3; i++)
-        {
-            if (i < owner)
-                OwnerEvaluationObjs[i].SetActive(true);
-            if (i < client)
-                ClientEvaluationObjs[i].SetActive(true);
-        }
+        Debug.Log(owner + ":" + client);
+
+        for (int i = 0; i < owner; i++)
+            OwnerEvaluationObjs[i].SetActive(true);
+
+        for (int i = 0; i < client; i++)
+            ClientEvaluationObjs[i].SetActive(true);
+
 
         //•]‰¿•`‰æ
         EvaluationText.text = ResultScoreCheck();
