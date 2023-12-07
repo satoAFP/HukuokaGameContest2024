@@ -1113,8 +1113,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dca4cdd049595804aa2bd04cdb7fb7c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  DeathImage: {fileID: 0}
   moveSpeed: 5
-  jumpSpeed: 6
+  jumpSpeed: 10
   collecttime: 60
   holdtime: 0
 --- !u!114 &7337972729792979311
