@@ -323,7 +323,7 @@ public class GimmickFly : MonoBehaviourPunCallbacks
                 mag = 0;
 
             //Šp“xİ’è
-            float rad = dis * Mathf.Deg2Rad; //Šp“x‚ğƒ‰ƒWƒAƒ“Šp‚É•ÏŠ·
+            float rad = -dis * Mathf.Deg2Rad; //Šp“x‚ğƒ‰ƒWƒAƒ“Šp‚É•ÏŠ·
 
             //ˆÚ“®•ûŒüİ’è
             Vector2 power = new Vector2(Mathf.Sin(rad) * mag, Mathf.Cos(rad) * mag);
