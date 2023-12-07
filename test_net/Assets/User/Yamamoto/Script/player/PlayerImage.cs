@@ -61,11 +61,15 @@ public class PlayerImage : MonoBehaviourPunCallbacks
         //箱イラスト
         if (parentObjectName == "Player1")
         {
-            //死亡時はすべての処理を止めて死亡時の画像に変える
+            //死亡時の画像
             if(datamanager.isDeth)
             {
-                GetComponent<SpriteRenderer>().sprite = p1DeathImage;
-                anim.SetBool("isMove", false);//アニメーションを止める
+                //岩に当たったほうのプレイヤーが死亡時の画像に変更
+                if (ManagerAccessor.Instance.dataManager.DeathPlayerName == "Player1")
+                {
+                    GetComponent<SpriteRenderer>().sprite = p1DeathImage;
+                    anim.SetBool("isMove", false);//アニメーションを止める
+                }
             }
             else
             {
@@ -129,11 +133,16 @@ public class PlayerImage : MonoBehaviourPunCallbacks
         //鍵イラスト
         else if (parentObjectName == "Player2")
         {
-            //死亡時はすべての処理を止めて死亡時の画像に変える
+            //死亡時の画像
             if (datamanager.isDeth)
             {
-                GetComponent<SpriteRenderer>().sprite = p2DeathImage;
-                anim.SetBool("isMove", false);//アニメーションを止める
+                //岩に当たったほうのプレイヤーが死亡時の画像に変更
+                if (ManagerAccessor.Instance.dataManager.DeathPlayerName == "Player2")
+                {
+                    GetComponent<SpriteRenderer>().sprite = p2DeathImage;
+                    anim.SetBool("isMove", false);//アニメーションを止める
+                }
+                  
             }
             else
             {

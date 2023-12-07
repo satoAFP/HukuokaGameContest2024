@@ -3,9 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class CopyKey : MonoBehaviourPunCallbacks
 {
+    [SerializeField, Header("死亡時のコピーキー")]
+    private Sprite DeathImage;
+
+    private Image image;//取得した SpriteRendererを入れる
+
     [SerializeField, Header("移動速度")]
     private float moveSpeed;
 
@@ -28,6 +34,10 @@ public class CopyKey : MonoBehaviourPunCallbacks
 
     private Test_net test_net;//inputsystemをスクリプトで呼び出す
 
+    private bool copykey_death = false;//コピーキーが死亡した時のフラグ
+    private bool firstdeathjump = true;//死亡時のノックバックジャンプを一回だけさせる
+    private float knockbacktime = 1.0f;//ノックバックするときのＸ座標も移動
+    private float timer = 0f;//時間をカウント
 
     //ブロック持ち上げに使う変数
     [System.NonSerialized] public bool islift = false;//持ち上げフラグ
@@ -40,6 +50,9 @@ public class CopyKey : MonoBehaviourPunCallbacks
     {
         //名前を設定
         gameObject.name = "CopyKey";
+
+        // SpriteRendererコンポーネントを取得します
+        image = GetComponent<Image>();
 
         //全体からコピー鍵取得
         ManagerAccessor.Instance.dataManager.copyKey = gameObject;
@@ -59,54 +72,59 @@ public class CopyKey : MonoBehaviourPunCallbacks
     {
         DataManager datamanager = ManagerAccessor.Instance.dataManager;
 
-
-        //カーソルが鍵を選んでいるとき操作可能
-        if (!ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().keymovelock
-        && ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().choicecursor == "CopyKey")
+        //プレイヤーがゲームオーバーになっていなければコピーキーの基本操作許可
+        if (!ManagerAccessor.Instance.dataManager.isDeth || !copykey_death)
         {
-            //操作が競合しないための設定
-            if (photonView.IsMine)
+            //カーソルが鍵を選んでいるとき操作可能
+            if ( !ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().keymovelock
+                &&ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().choicecursor == "CopyKey")
             {
-                //持ち上げていないときは普通に移動させる
-                if (!islift)
+                //操作が競合しないための設定
+                if (photonView.IsMine)
                 {
-                    Move();//移動処理をON
-                    distanceFirst = true;
-                }
-                else
-                {
-                    //持ち上げている時は2プレイヤーが同じ移動方向を入力時移動
-                    if ((datamanager.isOwnerInputKey_C_L_RIGHT && datamanager.isClientInputKey_C_L_RIGHT) ||
-                       (datamanager.isOwnerInputKey_C_L_LEFT && datamanager.isClientInputKey_C_L_LEFT))
+                    //持ち上げていないときは普通に移動させる
+                    if (!islift)
                     {
-                        if (PhotonNetwork.LocalPlayer.IsMasterClient)
+                        Move();//移動処理をON
+                        distanceFirst = true;
+                    }
+                    else
+                    {
+                        //持ち上げている時は2プレイヤーが同じ移動方向を入力時移動
+                        if ((datamanager.isOwnerInputKey_C_L_RIGHT && datamanager.isClientInputKey_C_L_RIGHT) ||
+                           (datamanager.isOwnerInputKey_C_L_LEFT && datamanager.isClientInputKey_C_L_LEFT))
                         {
-                            Move();
-                        }
-                        else
-                        {
-                            //物を持ち上げて移動するとき、最初にプレイヤー同士の差を求める
-                            if (distanceFirst)
+                            if (PhotonNetwork.LocalPlayer.IsMasterClient)
                             {
-                                //1Pと2Pの座標の差を記憶
-                                if (!ManagerAccessor.Instance.dataManager.isAppearCopyKey)
-                                    dis = datamanager.player1.transform.position - gameObject.transform.position;
-                                else
-                                    dis = datamanager.copyKey.transform.position - gameObject.transform.position;
-                                distanceFirst = false;
+                                Move();
                             }
-
-                            //2Pが1Pに追従するようにする
-                            if (!ManagerAccessor.Instance.dataManager.isAppearCopyKey)
-                                transform.position = datamanager.player1.transform.position - dis;
                             else
-                                transform.position = datamanager.copyKey.transform.position - dis;
+                            {
+                                //物を持ち上げて移動するとき、最初にプレイヤー同士の差を求める
+                                if (distanceFirst)
+                                {
+                                    //1Pと2Pの座標の差を記憶
+                                    if (!ManagerAccessor.Instance.dataManager.isAppearCopyKey)
+                                        dis = datamanager.player1.transform.position - gameObject.transform.position;
+                                    else
+                                        dis = datamanager.copyKey.transform.position - gameObject.transform.position;
+                                    distanceFirst = false;
+                                }
+
+                                //2Pが1Pに追従するようにする
+                                if (!ManagerAccessor.Instance.dataManager.isAppearCopyKey)
+                                    transform.position = datamanager.player1.transform.position - dis;
+                                else
+                                    transform.position = datamanager.copyKey.transform.position - dis;
+                            }
                         }
                     }
                 }
+
             }
+
             //ゲームパッド下ボタンで置きなおし
-            if (datamanager.isOwnerInputKey_CA)
+            if (datamanager.isOwnerInputKey_C_D_DOWN)
             {
                 holdtime--;//長押しカウントダウン
 
@@ -123,6 +141,39 @@ public class CopyKey : MonoBehaviourPunCallbacks
             else
             {
                 holdtime = collecttime;//長押しカウントリセット
+            }
+        }
+        //else
+        //{
+        //    Destroy(gameObject);//念のためにコピーキーを削除
+        //}
+
+          
+        if (copykey_death)
+        {
+            Debug.Log("copykey_death00");
+
+            // 画像を切り替えます
+            image.sprite = DeathImage;
+
+            timer += Time.deltaTime;//時間計測
+
+            //ノックバック処理
+            //ここはノックバックしたとき一度跳ねる処理
+            if (firstdeathjump)
+            {
+                rigid.AddForce(Vector2.up * jumpSpeed, ForceMode2D.Impulse);
+                firstdeathjump = false;
+            }
+
+            //ここは1秒ぐらい横に移動する処理
+            if (timer <= knockbacktime)
+            {
+                rigid.velocity = new Vector2(0.5f * moveSpeed, rigid.velocity.y);
+            }
+            else if (timer >= 2.5f)
+            {
+                Destroy(gameObject);//念のためにコピーキーを削除
             }
         }
     }
@@ -147,11 +198,11 @@ public class CopyKey : MonoBehaviourPunCallbacks
     {
         DataManager datamanager = ManagerAccessor.Instance.dataManager;
 
-        //落石エリアに入るとゲームオーバーのシーン
+        //落石エリアに入るとコピーキー死亡の処理
         if (collision.gameObject.tag == "DeathErea")
         {
-            // Debug.Log("いわーい");
-            //datamanager.isDeth = true;
+            Debug.Log("コピーキー当たる");
+            copykey_death = true;
         }
     }
 
