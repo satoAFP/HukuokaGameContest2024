@@ -12,6 +12,7 @@ TagManager:
   - DeathField
   - DeathErea
   - CameraCollider
+  - VirtualCamera
   layers:
   - Default
   - TransparentFX
