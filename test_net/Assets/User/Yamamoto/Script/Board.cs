@@ -73,86 +73,93 @@ public class Board : MonoBehaviourPunCallbacks
         //データマネージャー取得
         DataManager datamanager = ManagerAccessor.Instance.dataManager;
         
-
-
-        //現在カーソルが板を選んでいる時
-        if (ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().choicecursor == "Board")
+        //プレイヤーがゲームオーバーになっていなければ板の基本操作許可
+        if(!ManagerAccessor.Instance.dataManager.isDeth)
         {
-            //プレイヤー1側（箱）でしか操作できない
-            if (PhotonNetwork.LocalPlayer.IsMasterClient)
+            //現在カーソルが板を選んでいる時
+            if (ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().choicecursor == "Board")
             {
-                // 2軸入力読み込み
-                var inputValue = _moveAction.action.ReadValue<Vector2>();
-
-                if (!movelock)
+                //プレイヤー1側（箱）でしか操作できない
+                if (PhotonNetwork.LocalPlayer.IsMasterClient)
                 {
-                    // xy軸方向で移動
-                    transform.Translate(inputValue * (moveSpeed * Time.deltaTime));
-                }
+                    // 2軸入力読み込み
+                    var inputValue = _moveAction.action.ReadValue<Vector2>();
 
-
-                //ゲームパッドの右ボタンを押したとき
-                if (datamanager.isOwnerInputKey_CB)
-                {
-                    if (!pushbutton)
+                    if (!movelock)
                     {
-                        pushbutton = true;
-                        pushnum++;
+                        // xy軸方向で移動
+                        transform.Translate(inputValue * (moveSpeed * Time.deltaTime));
                     }
 
-                }
-                else
-                {
-                    pushbutton = false;
+
+                    //ゲームパッドの右ボタンを押したとき
+                    if (datamanager.isOwnerInputKey_CB)
+                    {
+                        if (!pushbutton)
+                        {
+                            pushbutton = true;
+                            pushnum++;
+                        }
+
+                    }
+                    else
+                    {
+                        pushbutton = false;
+                    }
+
+                    //pushnumが2なのは板生成時に右ボタンが押された状態のため初期値が1になっている
+                    if (pushnum == 2)
+                    {
+                        Debug.Log("Set");
+                        photonView.RPC(nameof(Rpc_SetBoard), RpcTarget.All);
+                    }
+
+
                 }
 
-                //pushnumが2なのは板生成時に右ボタンが押された状態のため初期値が1になっている
-                if (pushnum == 2)
+
+                //ゲームパッド下ボタンで置きなおし
+                if (datamanager.isOwnerInputKey_CA)
                 {
-                    Debug.Log("Set");
-                    photonView.RPC(nameof(Rpc_SetBoard), RpcTarget.All);
+                    //holdtime--;//長押しカウントダウン
+                    movelock = false;
+                    collider.isTrigger = true;//トリガー化
+                    ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().generatestop = true;//鍵の生成を止める
+                    ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().cursorlock = true;//カーソル移動を止める
+                    ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().keymovelock = true;//鍵の移動させない
+
+
                 }
 
 
             }
 
-
-            //ゲームパッド下ボタンで置きなおし
-            if (datamanager.isOwnerInputKey_CA)
+            //十字キー下でアイテム回収
+            if (datamanager.isOwnerInputKey_C_D_DOWN)
             {
-                //holdtime--;//長押しカウントダウン
-                movelock = false;
-                collider.isTrigger = true;//トリガー化
+                holdtime--;//長押しカウントダウン
+
                 ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().generatestop = true;//鍵の生成を止める
                 ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().cursorlock = true;//カーソル移動を止める
                 ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().keymovelock = true;//鍵の移動させない
 
-              
+                //ゲームパッド下ボタン長押しで回収
+                if (holdtime <= 0)//回収カウントが0になると回収
+                {
+                    DeleteBoard();
+                }
+
             }
-          
-           
-        }
-
-        //十字キー下でアイテム回収
-        if (datamanager.isOwnerInputKey_C_D_DOWN)
-        {
-            holdtime--;//長押しカウントダウン
-
-            ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().generatestop = true;//鍵の生成を止める
-            ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().cursorlock = true;//カーソル移動を止める
-            ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().keymovelock = true;//鍵の移動させない
-
-            //ゲームパッド下ボタン長押しで回収
-            if (holdtime <= 0)//回収カウントが0になると回収
+            else
             {
-                DeleteBoard();
+                holdtime = collecttime;//長押しカウントリセット
             }
-
         }
         else
         {
-            holdtime = collecttime;//長押しカウントリセット
+            collider.isTrigger = true;//念のためにトリガー化
         }
+        
 
     }
 
