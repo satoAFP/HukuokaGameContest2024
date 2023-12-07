@@ -3,9 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class CopyKey : MonoBehaviourPunCallbacks
 {
+    [SerializeField, Header("死亡時のコピーキー")]
+    private Sprite DeathImage;
+
+    private Image image;//取得した SpriteRendererを入れる
+
     [SerializeField, Header("移動速度")]
     private float moveSpeed;
 
@@ -28,6 +34,10 @@ public class CopyKey : MonoBehaviourPunCallbacks
 
     private Test_net test_net;//inputsystemをスクリプトで呼び出す
 
+    private bool copykey_death = false;//コピーキーが死亡した時のフラグ
+    private bool firstdeathjump = true;//死亡時のノックバックジャンプを一回だけさせる
+    private float knockbacktime = 1.0f;//ノックバックするときのＸ座標も移動
+    private float timer = 0f;//時間をカウント
 
     //ブロック持ち上げに使う変数
     [System.NonSerialized] public bool islift = false;//持ち上げフラグ
@@ -40,6 +50,9 @@ public class CopyKey : MonoBehaviourPunCallbacks
     {
         //名前を設定
         gameObject.name = "CopyKey";
+
+        // SpriteRendererコンポーネントを取得します
+        image = GetComponent<Image>();
 
         //全体からコピー鍵取得
         ManagerAccessor.Instance.dataManager.copyKey = gameObject;
@@ -60,7 +73,7 @@ public class CopyKey : MonoBehaviourPunCallbacks
         DataManager datamanager = ManagerAccessor.Instance.dataManager;
 
         //プレイヤーがゲームオーバーになっていなければコピーキーの基本操作許可
-        if (!ManagerAccessor.Instance.dataManager.isDeth)
+        if (!ManagerAccessor.Instance.dataManager.isDeth || !copykey_death)
         {
             //カーソルが鍵を選んでいるとき操作可能
             if ( !ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().keymovelock
@@ -130,12 +143,39 @@ public class CopyKey : MonoBehaviourPunCallbacks
                 holdtime = collecttime;//長押しカウントリセット
             }
         }
-        else
-        {
-            Destroy(gameObject);//念のためにコピーキーを削除
-        }
+        //else
+        //{
+        //    Destroy(gameObject);//念のためにコピーキーを削除
+        //}
 
           
+        if (copykey_death)
+        {
+            Debug.Log("copykey_death00");
+
+            // 画像を切り替えます
+            image.sprite = DeathImage;
+
+            timer += Time.deltaTime;//時間計測
+
+            //ノックバック処理
+            //ここはノックバックしたとき一度跳ねる処理
+            if (firstdeathjump)
+            {
+                rigid.AddForce(Vector2.up * jumpSpeed, ForceMode2D.Impulse);
+                firstdeathjump = false;
+            }
+
+            //ここは1秒ぐらい横に移動する処理
+            if (timer <= knockbacktime)
+            {
+                rigid.velocity = new Vector2(0.5f * moveSpeed, rigid.velocity.y);
+            }
+            else if (timer >= 2.5f)
+            {
+                Destroy(gameObject);//念のためにコピーキーを削除
+            }
+        }
     }
 
 
@@ -158,11 +198,11 @@ public class CopyKey : MonoBehaviourPunCallbacks
     {
         DataManager datamanager = ManagerAccessor.Instance.dataManager;
 
-        //落石エリアに入るとゲームオーバーのシーン
+        //落石エリアに入るとコピーキー死亡の処理
         if (collision.gameObject.tag == "DeathErea")
         {
-            // Debug.Log("いわーい");
-            //datamanager.isDeth = true;
+            Debug.Log("コピーキー当たる");
+            copykey_death = true;
         }
     }
 
