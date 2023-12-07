@@ -3,14 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using UnityEngine.InputSystem;
-using UnityEngine.UI;
 
 public class CopyKey : MonoBehaviourPunCallbacks
 {
     [SerializeField, Header("死亡時のコピーキー")]
     private Sprite DeathImage;
-
-    private Image image;//取得した SpriteRendererを入れる
 
     [SerializeField, Header("移動速度")]
     private float moveSpeed;
@@ -50,9 +47,6 @@ public class CopyKey : MonoBehaviourPunCallbacks
     {
         //名前を設定
         gameObject.name = "CopyKey";
-
-        // SpriteRendererコンポーネントを取得します
-        image = GetComponent<Image>();
 
         //全体からコピー鍵取得
         ManagerAccessor.Instance.dataManager.copyKey = gameObject;
@@ -151,10 +145,10 @@ public class CopyKey : MonoBehaviourPunCallbacks
           
         if (copykey_death)
         {
-            Debug.Log("copykey_death00");
+
 
             // 画像を切り替えます
-            image.sprite = DeathImage;
+            GetComponent<SpriteRenderer>().sprite = DeathImage;
 
             timer += Time.deltaTime;//時間計測
 
@@ -162,6 +156,7 @@ public class CopyKey : MonoBehaviourPunCallbacks
             //ここはノックバックしたとき一度跳ねる処理
             if (firstdeathjump)
             {
+                Debug.Log("copykey_deathjump");
                 rigid.AddForce(Vector2.up * jumpSpeed, ForceMode2D.Impulse);
                 firstdeathjump = false;
             }
@@ -169,11 +164,16 @@ public class CopyKey : MonoBehaviourPunCallbacks
             //ここは1秒ぐらい横に移動する処理
             if (timer <= knockbacktime)
             {
+                Debug.Log("copykey_deathmove");
                 rigid.velocity = new Vector2(0.5f * moveSpeed, rigid.velocity.y);
             }
             else if (timer >= 2.5f)
             {
                 Destroy(gameObject);//念のためにコピーキーを削除
+
+                //コピー鍵出現中フラグ
+                ManagerAccessor.Instance.dataManager.isAppearCopyKey = false;
+                ManagerAccessor.Instance.dataManager.copyKey = null;
             }
         }
     }
