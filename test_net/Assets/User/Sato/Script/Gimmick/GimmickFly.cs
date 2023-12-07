@@ -60,10 +60,11 @@ public class GimmickFly : MonoBehaviourPunCallbacks
         //データマネージャー取得
         dataManager = ManagerAccessor.Instance.dataManager;
 
-        //ロケットに触れている状態でB入力で発射待機状態
-        if (dataManager.isOwnerInputKey_CB)
+
+        if (PhotonNetwork.LocalPlayer.IsMasterClient)
         {
-            if (PhotonNetwork.LocalPlayer.IsMasterClient)
+            //ロケットに触れている状態でB入力で発射待機状態
+            if (dataManager.isOwnerInputKey_CB)
             {
                 if (isHit)
                 {
@@ -84,6 +85,12 @@ public class GimmickFly : MonoBehaviourPunCallbacks
                 }
             }
             else
+                startFirst = true;
+        }
+        else
+        {
+            //ロケットに触れている状態でB入力で発射待機状態
+            if (dataManager.isOwnerInputKey_CB)
             {
                 if (isHit)
                 {
@@ -102,14 +109,14 @@ public class GimmickFly : MonoBehaviourPunCallbacks
                     }
                 }
             }
+            else
+                startFirst = true;
         }
-        else
-            startFirst = true;
 
         //それぞれロケット発射状態の時、別の画面の自身のオブジェクトも非表示にする
         if (PhotonNetwork.LocalPlayer.IsMasterClient)
         {
-            if(isClientStart)
+            if (isClientStart)
             {
                 if (startOtherFirst)
                 {
@@ -232,7 +239,7 @@ public class GimmickFly : MonoBehaviourPunCallbacks
             transform.GetChild(1).gameObject.SetActive(false);
 
 
-        
+
 
         if (isStart)
         {
@@ -310,13 +317,13 @@ public class GimmickFly : MonoBehaviourPunCallbacks
             //倍率設定
             if (!isOwnerCoolTime && !isClientCoolTime)
                 mag = 2;
-            else if (!isOwnerCoolTime || !isClientCoolTime) 
+            else if (!isOwnerCoolTime || !isClientCoolTime)
                 mag = 1;
             else
                 mag = 0;
 
             //角度設定
-            float rad = dis * Mathf.Deg2Rad; //角度をラジアン角に変換
+            float rad = -dis * Mathf.Deg2Rad; //角度をラジアン角に変換
 
             //移動方向設定
             Vector2 power = new Vector2(Mathf.Sin(rad) * mag, Mathf.Cos(rad) * mag);
@@ -339,11 +346,22 @@ public class GimmickFly : MonoBehaviourPunCallbacks
                 gravity = 0;
             }
 
+            if (isOwnerCoolTime)
+                transform.GetChild(3).gameObject.SetActive(false);
+            else
+                transform.GetChild(3).gameObject.SetActive(true);
+
+            if (isClientCoolTime)
+                transform.GetChild(2).gameObject.SetActive(false);
+            else
+                transform.GetChild(2).gameObject.SetActive(true);
+
+
             if (PhotonNetwork.LocalPlayer.IsMasterClient)
             {
                 //移動量、角度の代入
                 transform.position = input;
-                transform.eulerAngles = new Vector3(0, 0, -dis);
+                transform.eulerAngles = new Vector3(0, 0, dis);
             }
         }
     }
