@@ -60,10 +60,11 @@ public class GimmickFly : MonoBehaviourPunCallbacks
         //データマネージャー取得
         dataManager = ManagerAccessor.Instance.dataManager;
 
-        //ロケットに触れている状態でB入力で発射待機状態
-        if (dataManager.isOwnerInputKey_CB)
+
+        if (PhotonNetwork.LocalPlayer.IsMasterClient)
         {
-            if (PhotonNetwork.LocalPlayer.IsMasterClient)
+            //ロケットに触れている状態でB入力で発射待機状態
+            if (dataManager.isOwnerInputKey_CB)
             {
                 if (isHit)
                 {
@@ -84,6 +85,12 @@ public class GimmickFly : MonoBehaviourPunCallbacks
                 }
             }
             else
+                startFirst = true;
+        }
+        else
+        {
+            //ロケットに触れている状態でB入力で発射待機状態
+            if (dataManager.isOwnerInputKey_CB)
             {
                 if (isHit)
                 {
@@ -102,14 +109,14 @@ public class GimmickFly : MonoBehaviourPunCallbacks
                     }
                 }
             }
+            else
+                startFirst = true;
         }
-        else
-            startFirst = true;
 
         //それぞれロケット発射状態の時、別の画面の自身のオブジェクトも非表示にする
         if (PhotonNetwork.LocalPlayer.IsMasterClient)
         {
-            if(isClientStart)
+            if (isClientStart)
             {
                 if (startOtherFirst)
                 {
@@ -232,7 +239,7 @@ public class GimmickFly : MonoBehaviourPunCallbacks
             transform.GetChild(1).gameObject.SetActive(false);
 
 
-        
+
 
         if (isStart)
         {
@@ -310,7 +317,7 @@ public class GimmickFly : MonoBehaviourPunCallbacks
             //倍率設定
             if (!isOwnerCoolTime && !isClientCoolTime)
                 mag = 2;
-            else if (!isOwnerCoolTime || !isClientCoolTime) 
+            else if (!isOwnerCoolTime || !isClientCoolTime)
                 mag = 1;
             else
                 mag = 0;
@@ -338,6 +345,17 @@ public class GimmickFly : MonoBehaviourPunCallbacks
             {
                 gravity = 0;
             }
+
+            if (isOwnerCoolTime)
+                transform.GetChild(3).gameObject.SetActive(true);
+            else
+                transform.GetChild(3).gameObject.SetActive(false);
+
+            if (isClientCoolTime)
+                transform.GetChild(2).gameObject.SetActive(true);
+            else
+                transform.GetChild(2).gameObject.SetActive(false);
+
 
             if (PhotonNetwork.LocalPlayer.IsMasterClient)
             {
