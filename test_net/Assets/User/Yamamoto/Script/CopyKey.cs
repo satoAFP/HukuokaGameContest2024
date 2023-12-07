@@ -105,25 +105,27 @@ public class CopyKey : MonoBehaviourPunCallbacks
                     }
                 }
             }
-            //ゲームパッド下ボタンで置きなおし
-            if (datamanager.isOwnerInputKey_CA)
-            {
-                holdtime--;//長押しカウントダウン
+            
+        }
 
-                //ゲームパッド下ボタン長押しで回収
-                if (holdtime <= 0)//回収カウントが0になると回収
-                {
-                    Destroy(gameObject);
+        //ゲームパッド下ボタンで置きなおし
+        if (datamanager.isOwnerInputKey_C_D_DOWN)
+        {
+            holdtime--;//長押しカウントダウン
 
-                    //コピー鍵出現中フラグ
-                    ManagerAccessor.Instance.dataManager.isAppearCopyKey = false;
-                    ManagerAccessor.Instance.dataManager.copyKey = null;
-                }
-            }
-            else
+            //ゲームパッド下ボタン長押しで回収
+            if (holdtime <= 0)//回収カウントが0になると回収
             {
-                holdtime = collecttime;//長押しカウントリセット
+                Destroy(gameObject);
+
+                //コピー鍵出現中フラグ
+                ManagerAccessor.Instance.dataManager.isAppearCopyKey = false;
+                ManagerAccessor.Instance.dataManager.copyKey = null;
             }
+        }
+        else
+        {
+            holdtime = collecttime;//長押しカウントリセット
         }
     }
 

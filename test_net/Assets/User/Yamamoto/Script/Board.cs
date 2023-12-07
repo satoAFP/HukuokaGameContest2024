@@ -73,6 +73,8 @@ public class Board : MonoBehaviourPunCallbacks
         //データマネージャー取得
         DataManager datamanager = ManagerAccessor.Instance.dataManager;
         
+
+
         //現在カーソルが板を選んでいる時
         if (ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().choicecursor == "Board")
         {
@@ -118,26 +120,40 @@ public class Board : MonoBehaviourPunCallbacks
             //ゲームパッド下ボタンで置きなおし
             if (datamanager.isOwnerInputKey_CA)
             {
-                holdtime--;//長押しカウントダウン
+                //holdtime--;//長押しカウントダウン
                 movelock = false;
                 collider.isTrigger = true;//トリガー化
                 ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().generatestop = true;//鍵の生成を止める
                 ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().cursorlock = true;//カーソル移動を止める
                 ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().keymovelock = true;//鍵の移動させない
 
-                //ゲームパッド下ボタン長押しで回収
-                if (holdtime <= 0)//回収カウントが0になると回収
-                {
-                    DeleteBoard();
-                }
+              
             }
-            else
-            {
-                //ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().boxopen = false;
-                holdtime = collecttime;//長押しカウントリセット
-            }
+          
+           
         }
- 
+
+        //十字キー下でアイテム回収
+        if (datamanager.isOwnerInputKey_C_D_DOWN)
+        {
+            holdtime--;//長押しカウントダウン
+
+            ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().generatestop = true;//鍵の生成を止める
+            ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().cursorlock = true;//カーソル移動を止める
+            ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().keymovelock = true;//鍵の移動させない
+
+            //ゲームパッド下ボタン長押しで回収
+            if (holdtime <= 0)//回収カウントが0になると回収
+            {
+                DeleteBoard();
+            }
+
+        }
+        else
+        {
+            holdtime = collecttime;//長押しカウントリセット
+        }
+
     }
 
 
