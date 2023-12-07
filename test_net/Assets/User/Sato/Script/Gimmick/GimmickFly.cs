@@ -347,21 +347,21 @@ public class GimmickFly : MonoBehaviourPunCallbacks
             }
 
             if (isOwnerCoolTime)
-                transform.GetChild(3).gameObject.SetActive(true);
-            else
                 transform.GetChild(3).gameObject.SetActive(false);
+            else
+                transform.GetChild(3).gameObject.SetActive(true);
 
             if (isClientCoolTime)
-                transform.GetChild(2).gameObject.SetActive(true);
-            else
                 transform.GetChild(2).gameObject.SetActive(false);
+            else
+                transform.GetChild(2).gameObject.SetActive(true);
 
 
             if (PhotonNetwork.LocalPlayer.IsMasterClient)
             {
                 //à⁄ìÆó ÅAäpìxÇÃë„ì¸
                 transform.position = input;
-                transform.eulerAngles = new Vector3(0, 0, -dis);
+                transform.eulerAngles = new Vector3(0, 0, dis);
             }
         }
     }
