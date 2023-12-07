@@ -79,7 +79,7 @@ public class ResultSystem : MonoBehaviourPunCallbacks
         }
 
         //評価描画
-        EvaluationText.text = ResultScoreCheck();
+        EvaluationText.text = "二人は「" + ResultScoreCheck() + "」";
 
 
         //クリア画面
