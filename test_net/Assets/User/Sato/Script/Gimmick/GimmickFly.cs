@@ -70,7 +70,6 @@ public class GimmickFly : MonoBehaviourPunCallbacks
                     if (startFirst)
                     {
                         photonView.RPC(nameof(RpcShareIsOwnerStart), RpcTarget.All, true);
-                        transform.GetChild(2).gameObject.SetActive(true);
 
                         //プレイヤーのパラメータ変更
                         ManagerAccessor.Instance.dataManager.player1.transform.Find("PlayerImage").gameObject.SetActive(false);
@@ -91,7 +90,6 @@ public class GimmickFly : MonoBehaviourPunCallbacks
                     if (startFirst)
                     {
                         photonView.RPC(nameof(RpcShareIsClientStart), RpcTarget.All, true);
-                        transform.GetChild(2).gameObject.SetActive(true);
 
                         //プレイヤーのパラメータ変更
                         ManagerAccessor.Instance.dataManager.player2.transform.Find("PlayerImage").gameObject.SetActive(false);
@@ -185,7 +183,6 @@ public class GimmickFly : MonoBehaviourPunCallbacks
                         if (startFirst)
                         {
                             photonView.RPC(nameof(RpcShareIsOwnerStart), RpcTarget.All, false);
-                            transform.GetChild(2).gameObject.SetActive(false);
 
                             //プレイヤーのパラメータ変更
                             ManagerAccessor.Instance.dataManager.player1.transform.Find("PlayerImage").gameObject.SetActive(true);
@@ -205,7 +202,6 @@ public class GimmickFly : MonoBehaviourPunCallbacks
                         if (startFirst)
                         {
                             photonView.RPC(nameof(RpcShareIsClientStart), RpcTarget.All, false);
-                            transform.GetChild(2).gameObject.SetActive(false);
 
                             //プレイヤーのパラメータ変更
                             ManagerAccessor.Instance.dataManager.player2.transform.Find("PlayerImage").gameObject.SetActive(true);
