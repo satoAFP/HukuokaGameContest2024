@@ -137,11 +137,7 @@ public class CopyKey : MonoBehaviourPunCallbacks
                 holdtime = collecttime;//長押しカウントリセット
             }
         }
-        //else
-        //{
-        //    Destroy(gameObject);//念のためにコピーキーを削除
-        //}
-
+      
           
         if (copykey_death)
         {
