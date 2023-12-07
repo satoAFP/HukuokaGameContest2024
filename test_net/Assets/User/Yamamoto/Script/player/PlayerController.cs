@@ -563,8 +563,9 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
         //アンロックボタン、ロケットが起動中でない時 死亡してない時
         if (!ManagerAccessor.Instance.dataManager.isUnlockButtonStart && !movelock && !isFly
-            && !datamanager.isDeth) 
+          &&!islift  && !ManagerAccessor.Instance.dataManager.isDeth) 
         {
+            Debug.Log("ジャンプできる");
 
             photonView.RPC(nameof(RpcMoveAnimStop), RpcTarget.All);//ジャンプしている時は移動アニメーションを止める
 
