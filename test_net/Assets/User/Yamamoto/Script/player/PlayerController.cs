@@ -704,7 +704,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
     [PunRPC]
     private void RpcDeathKnockBack()
     {
-      
+        Debug.Log("ノックバック処理はいる");
 
         if (ManagerAccessor.Instance.dataManager.DeathPlayerName == "Player1")
         {
