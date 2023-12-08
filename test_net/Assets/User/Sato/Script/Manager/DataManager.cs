@@ -35,6 +35,10 @@ public class DataManager : MonoBehaviourPunCallbacks
     //アンロックボタン操作中かどうか
     [System.NonSerialized] public bool isUnlockButtonStart = false;
 
+    //Locket操作中かどうか
+    [System.NonSerialized] public bool isFlyStart = false;
+    [System.NonSerialized] public Vector3 flyPos = Vector3.zero;
+
     //コピー鍵出現中かどうか
     [System.NonSerialized] public bool isAppearCopyKey = false;
 
@@ -47,8 +51,8 @@ public class DataManager : MonoBehaviourPunCallbacks
     [System.NonSerialized] public string DeathPlayerName = null;//死亡したプレイヤーの名前を取得
 
     //ミスの回数
-    /*[System.NonSerialized]*/ public int ownerMissCount = 0;
-    /*[System.NonSerialized]*/ public int clientMissCount = 0;
+    [System.NonSerialized] public int ownerMissCount = 0;
+    [System.NonSerialized] public int clientMissCount = 0;
 
     //左右下判定
     [System.NonSerialized] public bool isOwnerHitRight = false;
