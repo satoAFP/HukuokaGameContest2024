@@ -99,6 +99,8 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
     [System.NonSerialized] public bool knockback_finish = false;//ノックバック終了
 
+    [System.NonSerialized] public bool copykeydelete = false;//コピーキーが岩に当たって消えたとき
+
 
     private string objName;
 
@@ -294,9 +296,10 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
                         }
 
-                        //コントローラーの下ボタンを押したとき箱を閉じる
+                        //コントローラーの下ボタンを押したとき箱を閉じる・またはコピーキーが死んだとき板を出していなければ閉じる
                         if (datamanager.isOwnerInputKey_C_D_DOWN
-                             && !ManagerAccessor.Instance.dataManager.isUnlockButtonStart)
+                             && !ManagerAccessor.Instance.dataManager.isUnlockButtonStart
+                             || copykeydelete)
                         {
                             //箱を閉じて移動ロックを解除
                             if (gameObject.name == "Player1" && boxopen)
@@ -362,6 +365,8 @@ public class PlayerController : MonoBehaviourPunCallbacks
                                     //コピー鍵出現中フラグ
                                     ManagerAccessor.Instance.dataManager.isAppearCopyKey = true;
                                     // Debug.Log("鍵だす");
+
+                                    copykeydelete = false;//鍵削除フラグをfalse
 
                                 }
                                 CK_instantiatefirst = false;
