@@ -18,11 +18,9 @@ public class GimmickFly : MonoBehaviourPunCallbacks
     [SerializeField, Header("落下までのクールタイム")]
     private int CoolTime;
 
-    [SerializeField, Header("重力加速度")]
-    private float Gravity;
+    [SerializeField, Header("ゴール後クリア表示までのフレーム")]
+    private int GoalTime;
 
-    [SerializeField, Header("重力加速度最大値")]
-    private float GravityMax;
 
     private DataManager dataManager;        //データマネージャー
 
@@ -32,6 +30,7 @@ public class GimmickFly : MonoBehaviourPunCallbacks
     private GameObject player2;
 
     private bool isStart = false;           //ロケット開始
+    private bool isGoal = false;            //ゴール判定
 
     private int ownerTapNum = 0;            //それぞれのタップ回数
     private int clientTapNum = 0;
@@ -42,7 +41,7 @@ public class GimmickFly : MonoBehaviourPunCallbacks
     private bool isOwnerCoolTime = false;   //それぞれクールタイム中か
     private bool isClientCoolTime = false;
 
-    private float gravity = 0;              //重力
+    private float dis = 0;                  //タップ回数の差
 
     private bool isHit = false;             //そぞれぞのプレイヤーがロケットに触れているかどうか
 
@@ -50,6 +49,7 @@ public class GimmickFly : MonoBehaviourPunCallbacks
     private bool isClientStart = false;
 
     private int startWaitTimeCount = 0;     //ロケット開始時入力をいったん受け付けない
+    private int goalCount = 0;              //ゴール後クリアを表示するまでのカウント
 
     //連続で反応しない
     private bool startFirst = true;
@@ -192,7 +192,7 @@ public class GimmickFly : MonoBehaviourPunCallbacks
             isStart = true;
 
             //重力設定
-            rigidbody.bodyType = 0;
+            rigidbody.bodyType = RigidbodyType2D.Dynamic;
             //当たり判定設定
             GetComponent<BoxCollider2D>().isTrigger = false;
         }
@@ -258,136 +258,163 @@ public class GimmickFly : MonoBehaviourPunCallbacks
 
 
 
-
-        if (isStart)
+        if (!isGoal)
         {
-            startWaitTimeCount++;
-            if (startWaitTimeCount >= START_WAIT_TIME)
+            if (isStart)
             {
-                //それぞれの連打処理
-                if (dataManager.isOwnerInputKey_CB)
+                startWaitTimeCount++;
+                if (startWaitTimeCount >= START_WAIT_TIME)
                 {
-                    if (ownerFirst)
+                    //それぞれの連打処理
+                    if (dataManager.isOwnerInputKey_CB)
                     {
-                        ownerTapNum += MoveAngle;
-                        ownerFirst = false;
-                        ownerCoolTimeCount = 0;
+                        if (ownerFirst)
+                        {
+                            ownerTapNum += MoveAngle;
+                            ownerFirst = false;
+                            ownerCoolTimeCount = 0;
+                        }
+                    }
+                    else
+                    {
+                        ownerFirst = true;
+                    }
+
+                    if (dataManager.isClientInputKey_CB)
+                    {
+                        if (clientFirst)
+                        {
+                            clientTapNum += MoveAngle;
+                            clientFirst = false;
+                            clientCoolTimeCount = 0;
+                        }
+                    }
+                    else
+                    {
+                        clientFirst = true;
+                    }
+                }
+
+                //クールタイムカウント
+                ownerCoolTimeCount++;
+                clientCoolTimeCount++;
+
+                //タップ回数の差
+                dis = ownerTapNum - clientTapNum;
+                //移動量の倍率
+                float mag = 0;
+
+                //クールタイム内に連打しないと落ちる
+                if (ownerCoolTimeCount >= CoolTime)
+                {
+                    if (OwnerCoolTimeFirst)
+                    {
+                        photonView.RPC(nameof(RpcShareIsOwnerCoolTime), RpcTarget.All, true);
+                        OwnerCoolTimeFirst = false;
                     }
                 }
                 else
                 {
-                    ownerFirst = true;
+                    if (!OwnerCoolTimeFirst)
+                    {
+                        photonView.RPC(nameof(RpcShareIsOwnerCoolTime), RpcTarget.All, false);
+                        OwnerCoolTimeFirst = true;
+                    }
                 }
 
-                if (dataManager.isClientInputKey_CB)
+                if (clientCoolTimeCount >= CoolTime)
                 {
-                    if (clientFirst)
+                    if (ClientCoolTimeFirst)
                     {
-                        clientTapNum += MoveAngle;
-                        clientFirst = false;
-                        clientCoolTimeCount = 0;
+                        photonView.RPC(nameof(RpcShareIsClientCoolTime), RpcTarget.All, true);
+                        ClientCoolTimeFirst = false;
                     }
                 }
                 else
                 {
-                    clientFirst = true;
+                    if (!ClientCoolTimeFirst)
+                    {
+                        photonView.RPC(nameof(RpcShareIsClientCoolTime), RpcTarget.All, false);
+                        ClientCoolTimeFirst = true;
+                    }
                 }
-            }
 
-            //クールタイムカウント
-            ownerCoolTimeCount++;
-            clientCoolTimeCount++;
+                //倍率設定
+                if (!isOwnerCoolTime && !isClientCoolTime)
+                    mag = 2;
+                else if (!isOwnerCoolTime || !isClientCoolTime)
+                    mag = 1;
+                else
+                    mag = 0;
 
-            //タップ回数の差
-            int dis = ownerTapNum - clientTapNum;
-            //移動量の倍率
-            float mag = 0;
+                //角度設定
+                float rad = -dis * Mathf.Deg2Rad; //角度をラジアン角に変換
 
-            //クールタイム内に連打しないと落ちる
-            if (ownerCoolTimeCount >= CoolTime)
-            {
-                if (OwnerCoolTimeFirst)
+                //移動方向設定
+                Vector2 power = new Vector2(Mathf.Sin(rad) * mag, Mathf.Cos(rad) * mag);
+
+                //移動量加算
+                if (isOwnerCoolTime && isClientCoolTime)
                 {
-                    photonView.RPC(nameof(RpcShareIsOwnerCoolTime), RpcTarget.All, true);
-                    OwnerCoolTimeFirst = false;
+                    
                 }
-            }
-            else
-            {
-                if (!OwnerCoolTimeFirst)
+                else
                 {
-                    photonView.RPC(nameof(RpcShareIsOwnerCoolTime), RpcTarget.All, false);
-                    OwnerCoolTimeFirst = true;
+                    rigidbody.velocity = new Vector2(power.x, power.y);
                 }
-            }
 
-            if (clientCoolTimeCount >= CoolTime)
-            {
-                if (ClientCoolTimeFirst)
+                if (isOwnerCoolTime)
+                    transform.GetChild(3).gameObject.SetActive(false);
+                else
+                    transform.GetChild(3).gameObject.SetActive(true);
+
+                if (isClientCoolTime)
+                    transform.GetChild(2).gameObject.SetActive(false);
+                else
+                    transform.GetChild(2).gameObject.SetActive(true);
+
+                //親の座標を共有する
+                if (PhotonNetwork.LocalPlayer.IsMasterClient)
                 {
-                    photonView.RPC(nameof(RpcShareIsClientCoolTime), RpcTarget.All, true);
-                    ClientCoolTimeFirst = false;
+                    //角度の代入
+                    transform.eulerAngles = new Vector3(0, 0, dis);
                 }
             }
-            else
+        }
+        else
+        {
+            //重力設定
+            //rigidbody.bodyType = RigidbodyType2D.Static;
+            //当たり判定設定
+            GetComponent<BoxCollider2D>().isTrigger = true;
+
+            if (dis <= -0.1f && dis >= 0.1f)  
             {
-                if (!ClientCoolTimeFirst)
+                if (dis < 0)
+                    dis += 0.1f;
+                if (dis > 0)
+                    dis -= 0.1f;
+
+
+                //親の座標を共有する
+                if (PhotonNetwork.LocalPlayer.IsMasterClient)
                 {
-                    photonView.RPC(nameof(RpcShareIsClientCoolTime), RpcTarget.All, false);
-                    ClientCoolTimeFirst = true;
+                    //角度の代入
+                    transform.eulerAngles = new Vector3(0, 0, dis);
                 }
             }
-
-            //倍率設定
-            if (!isOwnerCoolTime && !isClientCoolTime)
-                mag = 2;
-            else if (!isOwnerCoolTime || !isClientCoolTime)
-                mag = 1;
-            else
-                mag = 0;
-
-            //角度設定
-            float rad = -dis * Mathf.Deg2Rad; //角度をラジアン角に変換
-
-            //移動方向設定
-            Vector2 power = new Vector2(Mathf.Sin(rad) * mag, Mathf.Cos(rad) * mag);
-            Vector2 input;
-
-            //お互い入力が無いとき落下する
-            if (isOwnerCoolTime && isClientCoolTime)
-            {
-                ////重力加速の最大値設定
-                //if (gravity < GravityMax)
-                //    gravity += Gravity;
-
-                ////重力加算
-                //input.y = transform.position.y - gravity;
-            }
             else
             {
-                //input.x = transform.position.x + power.x * MovePower;
-                //input.y = transform.position.y + power.y * MovePower;
-                rigidbody.velocity = new Vector2(power.x, power.y);
-                Debug.Log("aaa");
-                gravity = 0;
-            }
+                //本体を真っすぐにする
+                transform.eulerAngles = new Vector3(0, 0, 0);
+                //飛び立っていく
+                rigidbody.velocity = new Vector2(rigidbody.velocity.x, 2);
 
-            if (isOwnerCoolTime)
-                transform.GetChild(3).gameObject.SetActive(false);
-            else
-                transform.GetChild(3).gameObject.SetActive(true);
-
-            if (isClientCoolTime)
-                transform.GetChild(2).gameObject.SetActive(false);
-            else
-                transform.GetChild(2).gameObject.SetActive(true);
-
-            //親の座標を共有する
-            if (PhotonNetwork.LocalPlayer.IsMasterClient)
-            {
-                //移動量、角度の代入
-                //transform.position = input;
-                transform.eulerAngles = new Vector3(0, 0, dis);
+                //ゴールしてから一定時間でリザルトを出す
+                if (goalCount == GoalTime) 
+                {
+                    ManagerAccessor.Instance.dataManager.isClear = true;
+                }
             }
         }
     }
@@ -420,7 +447,7 @@ public class GimmickFly : MonoBehaviourPunCallbacks
 
         if (collision.gameObject.tag == "Goal")
         {
-            ManagerAccessor.Instance.dataManager.isClear = true;
+            isGoal = true;
         }
     }
 
@@ -450,13 +477,7 @@ public class GimmickFly : MonoBehaviourPunCallbacks
         }
     }
 
-    //private void OnCollisionEnter2D(Collision2D collision)
-    //{
-    //    if (collision.gameObject.tag == "Goal")
-    //    {
-    //        ManagerAccessor.Instance.dataManager.isClear = true;
-    //    }
-    //}
+
 
 
 

@@ -156,8 +156,7 @@ MonoBehaviour:
   MovePower: 0.015
   MoveAngle: 3
   CoolTime: 20
-  Gravity: 0.002
-  GravityMax: 0.1
+  GoalTime: 240
 --- !u!114 &106794444274010251
 MonoBehaviour:
   m_ObjectHideFlags: 0
