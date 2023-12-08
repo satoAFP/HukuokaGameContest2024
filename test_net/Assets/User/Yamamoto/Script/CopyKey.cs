@@ -165,13 +165,15 @@ public class CopyKey : MonoBehaviourPunCallbacks
                 Debug.Log("copykey_deathmove");
                 rigid.velocity = new Vector2(0.5f * moveSpeed, rigid.velocity.y);
             }
-            else if (timer >= 2.5f)
+            else if (timer >= 2.0f)
             {
                 Destroy(gameObject);//念のためにコピーキーを削除
 
                 //コピー鍵出現中フラグ
                 ManagerAccessor.Instance.dataManager.isAppearCopyKey = false;
                 ManagerAccessor.Instance.dataManager.copyKey = null;
+
+                ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().copykeydelete = true;
             }
         }
     }
