@@ -304,7 +304,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
                             //箱を閉じて移動ロックを解除
                             if (gameObject.name == "Player1" && boxopen)
                             {
-                                //Debug.Log("おぺん");
+                                Debug.Log("おぺん");
                                 change_boxopenimage = false;//箱を閉じた画像にする
                                 cursorlock = true;//カーソル移動を止める
                                 if (!firstmovelock)
@@ -314,6 +314,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
                                 }
                                 //movelock = false;
                                 GetComponent<PlayerGetHitObjTagManagement>().isMotion = true;//箱の周りの判定をとるのを再開
+                                copykeydelete = false;//コピーキー削除済みフラグリセット
                                 firstboxopen = true;//boxopenフラグ共有再会
                             }
                         }
