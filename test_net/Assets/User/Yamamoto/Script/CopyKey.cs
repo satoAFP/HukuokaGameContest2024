@@ -179,8 +179,12 @@ public class CopyKey : MonoBehaviourPunCallbacks
 
     private void Move()//移動処理（計算部分）
     {
-        //プレイヤーが入力した方向に横方向限定で移動速度分の力を加える
-        rigid.velocity = new Vector2(inputDirection.x * moveSpeed, rigid.velocity.y);
+        if(!copykey_death)
+        {
+            //プレイヤーが入力した方向に横方向限定で移動速度分の力を加える
+            rigid.velocity = new Vector2(inputDirection.x * moveSpeed, rigid.velocity.y);
+        }
+      
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -220,29 +224,31 @@ public class CopyKey : MonoBehaviourPunCallbacks
     //ジャンプ
     public void Onjump(InputAction.CallbackContext context)
     {
-
-        if (!ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().keymovelock
-            && ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().choicecursor == "CopyKey")//カーソルが鍵を選択している時
+        if (!copykey_death)
         {
-            //1P（箱側）での操作しか受け付けない
-            if (PhotonNetwork.LocalPlayer.IsMasterClient)
+            if (!ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().keymovelock
+           && ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().choicecursor == "CopyKey")//カーソルが鍵を選択している時
             {
-                //アンロックボタンが起動中
-                if (!ManagerAccessor.Instance.dataManager.isUnlockButtonStart)
+                //1P（箱側）での操作しか受け付けない
+                if (PhotonNetwork.LocalPlayer.IsMasterClient)
                 {
-                    Debug.Log("コピーキージャンプ");
-                    //Input Systemからジャンプの入力があった時に呼ばれる
-                    if (!context.performed || bjump)
+                    //アンロックボタンが起動中
+                    if (!ManagerAccessor.Instance.dataManager.isUnlockButtonStart)
                     {
-                        return;
-                    }
-                    else
-                    {
-                        rigid.AddForce(Vector2.up * jumpSpeed, ForceMode2D.Impulse);
-                        bjump = true;//一度ジャンプしたら着地するまでジャンプできなくする
-                    }
+                        Debug.Log("コピーキージャンプ");
+                        //Input Systemからジャンプの入力があった時に呼ばれる
+                        if (!context.performed || bjump)
+                        {
+                            return;
+                        }
+                        else
+                        {
+                            rigid.AddForce(Vector2.up * jumpSpeed, ForceMode2D.Impulse);
+                            bjump = true;//一度ジャンプしたら着地するまでジャンプできなくする
+                        }
 
 
+                    }
                 }
             }
 
