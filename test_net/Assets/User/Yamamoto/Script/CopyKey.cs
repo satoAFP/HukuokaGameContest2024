@@ -173,6 +173,7 @@ public class CopyKey : MonoBehaviourPunCallbacks
                 ManagerAccessor.Instance.dataManager.isAppearCopyKey = false;
                 ManagerAccessor.Instance.dataManager.copyKey = null;
 
+                //コピーキーが消えたことをプレイヤー側に返す
                 ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().copykeydelete = true;
             }
         }
