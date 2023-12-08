@@ -384,7 +384,7 @@ public class GimmickFly : MonoBehaviourPunCallbacks
             //“–‚½‚è”»’èİ’è
             GetComponent<BoxCollider2D>().isTrigger = true;
 
-            if (dis <= -0.1f && dis >= 0.1f)  
+            if (dis <= -0.1f || dis >= 0.1f)  
             {
                 if (dis < 0)
                     dis += 0.1f;

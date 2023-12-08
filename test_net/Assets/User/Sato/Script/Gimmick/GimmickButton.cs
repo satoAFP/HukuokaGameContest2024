@@ -30,7 +30,8 @@ public class GimmickButton : MonoBehaviourPunCallbacks
         rb2d.WakeUp();
     }
 
-    private void OnCollisionStay2D(Collision2D collision)
+
+    private void OnTriggerStay2D(Collider2D collision)
     {
         if (collision.gameObject.name == "Player1" || collision.gameObject.name == "CopyKey")
         {
@@ -93,7 +94,8 @@ public class GimmickButton : MonoBehaviourPunCallbacks
         }
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+
+    private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.name == "Player1" || collision.gameObject.name == "CopyKey")
         {
@@ -105,7 +107,7 @@ public class GimmickButton : MonoBehaviourPunCallbacks
         }
     }
 
-    private void OnCollisionExit2D(Collision2D collision)
+    private void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.gameObject.name == "Player1" || collision.gameObject.name == "CopyKey")
         {

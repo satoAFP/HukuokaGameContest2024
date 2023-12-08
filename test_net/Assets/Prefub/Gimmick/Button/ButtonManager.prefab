@@ -172,7 +172,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 773841766374285792, guid: fe0973d968c5e53489e2949c9061470f, type: 3}
       propertyPath: m_Name
-      value: Button
+      value: Button1
       objectReference: {fileID: 0}
     - target: {fileID: 773841766374285793, guid: fe0973d968c5e53489e2949c9061470f, type: 3}
       propertyPath: m_RootOrder
@@ -267,7 +267,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 773841766374285792, guid: fe0973d968c5e53489e2949c9061470f, type: 3}
       propertyPath: m_Name
-      value: Button (1)
+      value: Button2
       objectReference: {fileID: 0}
     - target: {fileID: 773841766374285793, guid: fe0973d968c5e53489e2949c9061470f, type: 3}
       propertyPath: m_RootOrder
