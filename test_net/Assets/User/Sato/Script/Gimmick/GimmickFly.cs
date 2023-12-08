@@ -190,11 +190,12 @@ public class GimmickFly : MonoBehaviourPunCallbacks
         if (isOwnerStart && isClientStart)
         {
             isStart = true;
+            ManagerAccessor.Instance.dataManager.isFlyStart = true;
 
             //重力設定
             rigidbody.bodyType = RigidbodyType2D.Dynamic;
             //当たり判定設定
-            GetComponent<BoxCollider2D>().isTrigger = false;
+            GetComponent<CapsuleCollider2D>().isTrigger = false;
         }
         else
         {
@@ -256,7 +257,8 @@ public class GimmickFly : MonoBehaviourPunCallbacks
         else
             transform.GetChild(1).gameObject.SetActive(false);
 
-
+        //オブジェクト取得更新
+        ManagerAccessor.Instance.dataManager.flyPos = transform.position;
 
         if (!isGoal)
         {
@@ -354,11 +356,7 @@ public class GimmickFly : MonoBehaviourPunCallbacks
                 Vector2 power = new Vector2(Mathf.Sin(rad) * mag, Mathf.Cos(rad) * mag);
 
                 //移動量加算
-                if (isOwnerCoolTime && isClientCoolTime)
-                {
-                    
-                }
-                else
+                if (!(isOwnerCoolTime && isClientCoolTime))
                 {
                     rigidbody.velocity = new Vector2(power.x, power.y);
                 }
@@ -383,10 +381,8 @@ public class GimmickFly : MonoBehaviourPunCallbacks
         }
         else
         {
-            //重力設定
-            //rigidbody.bodyType = RigidbodyType2D.Static;
             //当たり判定設定
-            GetComponent<BoxCollider2D>().isTrigger = true;
+            GetComponent<CapsuleCollider2D>().isTrigger = true;
 
             if (dis <= -0.1f && dis >= 0.1f)  
             {
@@ -408,9 +404,10 @@ public class GimmickFly : MonoBehaviourPunCallbacks
                 //本体を真っすぐにする
                 transform.eulerAngles = new Vector3(0, 0, 0);
                 //飛び立っていく
-                rigidbody.velocity = new Vector2(rigidbody.velocity.x, 2);
+                rigidbody.velocity = new Vector2(0, 2);
 
                 //ゴールしてから一定時間でリザルトを出す
+                goalCount++;
                 if (goalCount == GoalTime) 
                 {
                     ManagerAccessor.Instance.dataManager.isClear = true;

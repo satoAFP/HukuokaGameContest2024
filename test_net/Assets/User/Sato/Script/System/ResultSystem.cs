@@ -67,7 +67,6 @@ public class ResultSystem : MonoBehaviourPunCallbacks
         int owner = ResultScoreChange(ManagerAccessor.Instance.dataManager.ownerMissCount);
         int client = ResultScoreChange(ManagerAccessor.Instance.dataManager.clientMissCount);
 
-        Debug.Log(owner + ":" + client);
 
         if (ManagerAccessor.Instance.dataManager.isClear)
         {
