@@ -10,7 +10,7 @@ public class BackGroundScroll : MonoBehaviourPunCallbacks
     [SerializeField, Header("画像サイズ")] private Vector2 Size;
 
     private GameObject[] imgObj = new GameObject[9];    //背景画像格納用
-    private GameObject player = null;                   //その画面での操作キャラ取得用
+    private Vector3 player = Vector3.zero;              //その画面での操作キャラ取得用
 
     [SerializeField] private Vector2 mapPos = Vector2.zero;//背景画像単位での主人公の座標
 
@@ -24,15 +24,22 @@ public class BackGroundScroll : MonoBehaviourPunCallbacks
         if (ManagerAccessor.Instance.dataManager.player1 != null &&
             ManagerAccessor.Instance.dataManager.player2 != null)
         {
-
-            //その画面での操作キャラ取得
-            if (PhotonNetwork.IsMasterClient)
+            //Locketに乗っていない時
+            if (!ManagerAccessor.Instance.dataManager.isFlyStart)
             {
-                player = ManagerAccessor.Instance.dataManager.player1;
+                //その画面での操作キャラ取得
+                if (PhotonNetwork.IsMasterClient)
+                {
+                    player = ManagerAccessor.Instance.dataManager.player1.transform.position;
+                }
+                else
+                {
+                    player = ManagerAccessor.Instance.dataManager.player2.transform.position;
+                }
             }
             else
             {
-                player = ManagerAccessor.Instance.dataManager.player2;
+                player = ManagerAccessor.Instance.dataManager.flyPos;
             }
 
             if (first)
@@ -53,28 +60,28 @@ public class BackGroundScroll : MonoBehaviourPunCallbacks
             }
 
             //背景画像単位での主人公の座標設定
-            if (player.transform.position.x >= 0)
+            if (player.x >= 0)
             {
-                mapPos.x = Mathf.Floor(player.transform.position.x / Size.x);
+                mapPos.x = Mathf.Floor(player.x / Size.x);
             }
             else
             {
                 if (mapPos.x == 0)
                     mapPos.x = -1;
 
-                mapPos.x = Mathf.Ceil(player.transform.position.x / Size.x) - 1;
+                mapPos.x = Mathf.Ceil(player.x / Size.x) - 1;
             }
 
-            if (player.transform.position.y >= 0)
+            if (player.y >= 0)
             {
-                mapPos.y = Mathf.Floor(player.transform.position.y / Size.y);
+                mapPos.y = Mathf.Floor(player.y / Size.y);
             }
             else
             {
                 if (mapPos.y == 0)
                     mapPos.y = -1;
 
-                mapPos.y = Mathf.Ceil(player.transform.position.y / Size.y) - 1;
+                mapPos.y = Mathf.Ceil(player.y / Size.y) - 1;
             }
 
             //操作キャラの座標によって背景画像の座標更新

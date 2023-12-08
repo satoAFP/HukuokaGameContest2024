@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cinemachine;
 using Photon.Pun;
 
 public class CameraSet : MonoBehaviourPunCallbacks
@@ -17,8 +18,8 @@ public class CameraSet : MonoBehaviourPunCallbacks
             {
                 if (ManagerAccessor.Instance.dataManager.player1 != null)
                 {
-                    transform.parent = ManagerAccessor.Instance.dataManager.player1.transform;
-                    transform.localPosition = new Vector3(0, 0, -10);
+                    //バーチャルカメラにP1設定
+                    GetComponent<CinemachineVirtualCamera>().Follow = ManagerAccessor.Instance.dataManager.player1.transform;
                     first = false;
                 }
             }
@@ -26,8 +27,8 @@ public class CameraSet : MonoBehaviourPunCallbacks
             {
                 if (ManagerAccessor.Instance.dataManager.player2 != null)
                 {
-                    transform.parent = ManagerAccessor.Instance.dataManager.player2.transform;
-                    transform.localPosition = new Vector3(0, 0, -10);
+                    //バーチャルカメラにP2設定
+                    GetComponent<CinemachineVirtualCamera>().Follow = ManagerAccessor.Instance.dataManager.player2.transform;
                     first = false;
                 }
             }

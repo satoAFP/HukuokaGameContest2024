@@ -1,10 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cinemachine;
 using Photon.Pun;
 
 public class GimmickFly : MonoBehaviourPunCallbacks
 {
+    const int START_WAIT_TIME = 20;//入力を受け付けない時間
+
 
     [SerializeField, Header("移動量")]
     private float MovePower;
@@ -15,18 +18,19 @@ public class GimmickFly : MonoBehaviourPunCallbacks
     [SerializeField, Header("落下までのクールタイム")]
     private int CoolTime;
 
-    [SerializeField, Header("重力加速度")]
-    private float Gravity;
+    [SerializeField, Header("ゴール後クリア表示までのフレーム")]
+    private int GoalTime;
 
-    [SerializeField, Header("重力加速度最大値")]
-    private float GravityMax;
 
     private DataManager dataManager;        //データマネージャー
+
+    private Rigidbody2D rigidbody;          //リジットボディ
 
     private GameObject player1;              //プレイヤーオブジェクト取得用
     private GameObject player2;
 
     private bool isStart = false;           //ロケット開始
+    private bool isGoal = false;            //ゴール判定
 
     private int ownerTapNum = 0;            //それぞれのタップ回数
     private int clientTapNum = 0;
@@ -37,12 +41,15 @@ public class GimmickFly : MonoBehaviourPunCallbacks
     private bool isOwnerCoolTime = false;   //それぞれクールタイム中か
     private bool isClientCoolTime = false;
 
-    private float gravity = 0;              //重力
+    private float dis = 0;                  //タップ回数の差
 
     private bool isHit = false;             //そぞれぞのプレイヤーがロケットに触れているかどうか
 
     private bool isOwnerStart = false;      //そぞれぞのプレイヤーがロケット操作開始中かどうか
     private bool isClientStart = false;
+
+    private int startWaitTimeCount = 0;     //ロケット開始時入力をいったん受け付けない
+    private int goalCount = 0;              //ゴール後クリアを表示するまでのカウント
 
     //連続で反応しない
     private bool startFirst = true;
@@ -53,30 +60,37 @@ public class GimmickFly : MonoBehaviourPunCallbacks
     private bool ClientCoolTimeFirst = true;
 
 
+    private void Start()
+    {
+        rigidbody = GetComponent<Rigidbody2D>();
+        ownerCoolTimeCount = CoolTime;
+        clientCoolTimeCount = CoolTime;
+    }
+
     // Update is called once per frame
     void FixedUpdate()
     {
         //データマネージャー取得
         dataManager = ManagerAccessor.Instance.dataManager;
 
-        //ロケットに触れている状態でB入力で発射待機状態
-        if (dataManager.isOwnerInputKey_CB)
+
+        if (PhotonNetwork.LocalPlayer.IsMasterClient)
         {
-            if (PhotonNetwork.LocalPlayer.IsMasterClient)
+            //ロケットに触れている状態でB入力で発射待機状態
+            if (dataManager.isOwnerInputKey_CB)
             {
                 if (isHit)
                 {
                     if (startFirst)
                     {
                         photonView.RPC(nameof(RpcShareIsOwnerStart), RpcTarget.All, true);
-                        transform.GetChild(2).gameObject.SetActive(true);
 
                         //プレイヤーのパラメータ変更
+                        ManagerAccessor.Instance.dataManager.player1.transform.Find("PlayerImage").gameObject.SetActive(false);
                         ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().isFly = true;
                         ManagerAccessor.Instance.dataManager.player1.GetComponent<BoxCollider2D>().enabled = false;
-                        ManagerAccessor.Instance.dataManager.player1.GetComponent<SpriteRenderer>().enabled = false;
                         ManagerAccessor.Instance.dataManager.player1.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
-                        ManagerAccessor.Instance.dataManager.player1.transform.Find("Main Camera").gameObject.SetActive(false);
+                        GameObject.FindWithTag("VirtualCamera").GetComponent<CinemachineVirtualCamera>().Follow = transform;
 
 
                         startFirst = false;
@@ -84,40 +98,45 @@ public class GimmickFly : MonoBehaviourPunCallbacks
                 }
             }
             else
+                startFirst = true;
+        }
+        else
+        {
+            //ロケットに触れている状態でB入力で発射待機状態
+            if (dataManager.isOwnerInputKey_CB)
             {
                 if (isHit)
                 {
                     if (startFirst)
                     {
                         photonView.RPC(nameof(RpcShareIsClientStart), RpcTarget.All, true);
-                        transform.GetChild(2).gameObject.SetActive(true);
 
                         //プレイヤーのパラメータ変更
+                        ManagerAccessor.Instance.dataManager.player2.transform.Find("PlayerImage").gameObject.SetActive(false);
                         ManagerAccessor.Instance.dataManager.player2.GetComponent<PlayerController>().isFly = true;
                         ManagerAccessor.Instance.dataManager.player2.GetComponent<BoxCollider2D>().enabled = false;
-                        ManagerAccessor.Instance.dataManager.player2.GetComponent<SpriteRenderer>().enabled = false;
                         ManagerAccessor.Instance.dataManager.player2.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
-                        ManagerAccessor.Instance.dataManager.player2.transform.Find("Main Camera").gameObject.SetActive(false);
+                        GameObject.FindWithTag("VirtualCamera").GetComponent<CinemachineVirtualCamera>().Follow = transform;
 
                         startFirst = false;
                     }
                 }
             }
+            else
+                startFirst = true;
         }
-        else
-            startFirst = true;
 
         //それぞれロケット発射状態の時、別の画面の自身のオブジェクトも非表示にする
         if (PhotonNetwork.LocalPlayer.IsMasterClient)
         {
-            if(isClientStart)
+            if (isClientStart)
             {
                 if (startOtherFirst)
                 {
                     //プレイヤーのパラメータ変更
+                    ManagerAccessor.Instance.dataManager.player2.transform.Find("PlayerImage").gameObject.SetActive(false);
                     ManagerAccessor.Instance.dataManager.player2.GetComponent<PlayerController>().isFly = true;
                     ManagerAccessor.Instance.dataManager.player2.GetComponent<BoxCollider2D>().enabled = false;
-                    ManagerAccessor.Instance.dataManager.player2.GetComponent<SpriteRenderer>().enabled = false;
                     ManagerAccessor.Instance.dataManager.player2.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
 
                     startOtherFirst = false;
@@ -128,9 +147,9 @@ public class GimmickFly : MonoBehaviourPunCallbacks
                 if (!startOtherFirst)
                 {
                     //プレイヤーのパラメータ変更
+                    ManagerAccessor.Instance.dataManager.player2.transform.Find("PlayerImage").gameObject.SetActive(true);
                     ManagerAccessor.Instance.dataManager.player2.GetComponent<PlayerController>().isFly = false;
                     ManagerAccessor.Instance.dataManager.player2.GetComponent<BoxCollider2D>().enabled = true;
-                    ManagerAccessor.Instance.dataManager.player2.GetComponent<SpriteRenderer>().enabled = true;
                     ManagerAccessor.Instance.dataManager.player2.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeRotation;
 
                     startOtherFirst = true;
@@ -144,9 +163,9 @@ public class GimmickFly : MonoBehaviourPunCallbacks
                 if (startOtherFirst)
                 {
                     //プレイヤーのパラメータ変更
+                    ManagerAccessor.Instance.dataManager.player1.transform.Find("PlayerImage").gameObject.SetActive(false);
                     ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().isFly = true;
                     ManagerAccessor.Instance.dataManager.player1.GetComponent<BoxCollider2D>().enabled = false;
-                    ManagerAccessor.Instance.dataManager.player1.GetComponent<SpriteRenderer>().enabled = false;
                     ManagerAccessor.Instance.dataManager.player1.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
 
                     startOtherFirst = false;
@@ -157,9 +176,9 @@ public class GimmickFly : MonoBehaviourPunCallbacks
                 if (!startOtherFirst)
                 {
                     //プレイヤーのパラメータ変更
+                    ManagerAccessor.Instance.dataManager.player1.transform.Find("PlayerImage").gameObject.SetActive(true);
                     ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().isFly = false;
                     ManagerAccessor.Instance.dataManager.player1.GetComponent<BoxCollider2D>().enabled = true;
-                    ManagerAccessor.Instance.dataManager.player1.GetComponent<SpriteRenderer>().enabled = true;
                     ManagerAccessor.Instance.dataManager.player1.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeRotation;
 
                     startOtherFirst = true;
@@ -171,6 +190,12 @@ public class GimmickFly : MonoBehaviourPunCallbacks
         if (isOwnerStart && isClientStart)
         {
             isStart = true;
+            ManagerAccessor.Instance.dataManager.isFlyStart = true;
+
+            //重力設定
+            rigidbody.bodyType = RigidbodyType2D.Dynamic;
+            //当たり判定設定
+            GetComponent<BoxCollider2D>().isTrigger = false;
         }
         else
         {
@@ -184,14 +209,13 @@ public class GimmickFly : MonoBehaviourPunCallbacks
                         if (startFirst)
                         {
                             photonView.RPC(nameof(RpcShareIsOwnerStart), RpcTarget.All, false);
-                            transform.GetChild(2).gameObject.SetActive(false);
 
                             //プレイヤーのパラメータ変更
+                            ManagerAccessor.Instance.dataManager.player1.transform.Find("PlayerImage").gameObject.SetActive(true);
                             ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().isFly = false;
                             ManagerAccessor.Instance.dataManager.player1.GetComponent<BoxCollider2D>().enabled = true;
-                            ManagerAccessor.Instance.dataManager.player1.GetComponent<SpriteRenderer>().enabled = true;
                             ManagerAccessor.Instance.dataManager.player1.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeRotation;
-                            ManagerAccessor.Instance.dataManager.player1.transform.Find("Main Camera").gameObject.SetActive(true);
+                            GameObject.FindWithTag("VirtualCamera").GetComponent<CinemachineVirtualCamera>().Follow = ManagerAccessor.Instance.dataManager.player1.transform;
 
                             startFirst = false;
                         }
@@ -204,14 +228,14 @@ public class GimmickFly : MonoBehaviourPunCallbacks
                         if (startFirst)
                         {
                             photonView.RPC(nameof(RpcShareIsClientStart), RpcTarget.All, false);
-                            transform.GetChild(2).gameObject.SetActive(false);
 
                             //プレイヤーのパラメータ変更
+                            ManagerAccessor.Instance.dataManager.player2.transform.Find("PlayerImage").gameObject.SetActive(true);
                             ManagerAccessor.Instance.dataManager.player2.GetComponent<PlayerController>().isFly = false;
                             ManagerAccessor.Instance.dataManager.player2.GetComponent<BoxCollider2D>().enabled = true;
                             ManagerAccessor.Instance.dataManager.player2.GetComponent<SpriteRenderer>().enabled = true;
                             ManagerAccessor.Instance.dataManager.player2.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeRotation;
-                            ManagerAccessor.Instance.dataManager.player2.transform.Find("Main Camera").gameObject.SetActive(true);
+                            GameObject.FindWithTag("VirtualCamera").GetComponent<CinemachineVirtualCamera>().Follow = ManagerAccessor.Instance.dataManager.player2.transform;
 
                             startFirst = false;
                         }
@@ -233,119 +257,161 @@ public class GimmickFly : MonoBehaviourPunCallbacks
         else
             transform.GetChild(1).gameObject.SetActive(false);
 
+        //オブジェクト取得更新
+        ManagerAccessor.Instance.dataManager.flyPos = transform.position;
 
-        
-
-        if (isStart)
+        if (!isGoal)
         {
-            //それぞれの連打処理
-            if (dataManager.isOwnerInputKey_CB)
+            if (isStart)
             {
-                if (ownerFirst)
+                startWaitTimeCount++;
+                if (startWaitTimeCount >= START_WAIT_TIME)
                 {
-                    ownerTapNum += MoveAngle;
-                    ownerFirst = false;
-                    ownerCoolTimeCount = 0;
+                    //それぞれの連打処理
+                    if (dataManager.isOwnerInputKey_CB)
+                    {
+                        if (ownerFirst)
+                        {
+                            ownerTapNum += MoveAngle;
+                            ownerFirst = false;
+                            ownerCoolTimeCount = 0;
+                        }
+                    }
+                    else
+                    {
+                        ownerFirst = true;
+                    }
+
+                    if (dataManager.isClientInputKey_CB)
+                    {
+                        if (clientFirst)
+                        {
+                            clientTapNum += MoveAngle;
+                            clientFirst = false;
+                            clientCoolTimeCount = 0;
+                        }
+                    }
+                    else
+                    {
+                        clientFirst = true;
+                    }
                 }
-            }
-            else
-            {
-                ownerFirst = true;
+
+                //クールタイムカウント
                 ownerCoolTimeCount++;
-            }
-
-            if (dataManager.isClientInputKey_CB)
-            {
-                if (clientFirst)
-                {
-                    clientTapNum += MoveAngle;
-                    clientFirst = false;
-                    clientCoolTimeCount = 0;
-                }
-            }
-            else
-            {
-                clientFirst = true;
                 clientCoolTimeCount++;
-            }
 
-            //タップ回数の差
-            int dis = ownerTapNum - clientTapNum;
-            //移動量の倍率
-            float mag = 0;
+                //タップ回数の差
+                dis = ownerTapNum - clientTapNum;
+                //移動量の倍率
+                float mag = 0;
 
-            //クールタイム内に連打しないと落ちる
-            if (ownerCoolTimeCount >= CoolTime)
-            {
-                if (OwnerCoolTimeFirst)
+                //クールタイム内に連打しないと落ちる
+                if (ownerCoolTimeCount >= CoolTime)
                 {
-                    photonView.RPC(nameof(RpcShareIsOwnerCoolTime), RpcTarget.All, true);
-                    OwnerCoolTimeFirst = false;
+                    if (OwnerCoolTimeFirst)
+                    {
+                        photonView.RPC(nameof(RpcShareIsOwnerCoolTime), RpcTarget.All, true);
+                        OwnerCoolTimeFirst = false;
+                    }
+                }
+                else
+                {
+                    if (!OwnerCoolTimeFirst)
+                    {
+                        photonView.RPC(nameof(RpcShareIsOwnerCoolTime), RpcTarget.All, false);
+                        OwnerCoolTimeFirst = true;
+                    }
+                }
+
+                if (clientCoolTimeCount >= CoolTime)
+                {
+                    if (ClientCoolTimeFirst)
+                    {
+                        photonView.RPC(nameof(RpcShareIsClientCoolTime), RpcTarget.All, true);
+                        ClientCoolTimeFirst = false;
+                    }
+                }
+                else
+                {
+                    if (!ClientCoolTimeFirst)
+                    {
+                        photonView.RPC(nameof(RpcShareIsClientCoolTime), RpcTarget.All, false);
+                        ClientCoolTimeFirst = true;
+                    }
+                }
+
+                //倍率設定
+                if (!isOwnerCoolTime && !isClientCoolTime)
+                    mag = 2;
+                else if (!isOwnerCoolTime || !isClientCoolTime)
+                    mag = 1;
+                else
+                    mag = 0;
+
+                //角度設定
+                float rad = -dis * Mathf.Deg2Rad; //角度をラジアン角に変換
+
+                //移動方向設定
+                Vector2 power = new Vector2(Mathf.Sin(rad) * mag, Mathf.Cos(rad) * mag);
+
+                //移動量加算
+                if (!(isOwnerCoolTime && isClientCoolTime))
+                {
+                    rigidbody.velocity = new Vector2(power.x, power.y);
+                }
+
+                if (isOwnerCoolTime)
+                    transform.GetChild(3).gameObject.SetActive(false);
+                else
+                    transform.GetChild(3).gameObject.SetActive(true);
+
+                if (isClientCoolTime)
+                    transform.GetChild(2).gameObject.SetActive(false);
+                else
+                    transform.GetChild(2).gameObject.SetActive(true);
+
+                //親の座標を共有する
+                if (PhotonNetwork.LocalPlayer.IsMasterClient)
+                {
+                    //角度の代入
+                    transform.eulerAngles = new Vector3(0, 0, dis);
+                }
+            }
+        }
+        else
+        {
+            //当たり判定設定
+            GetComponent<BoxCollider2D>().isTrigger = true;
+
+            if (dis <= -0.1f && dis >= 0.1f)  
+            {
+                if (dis < 0)
+                    dis += 0.1f;
+                if (dis > 0)
+                    dis -= 0.1f;
+
+
+                //親の座標を共有する
+                if (PhotonNetwork.LocalPlayer.IsMasterClient)
+                {
+                    //角度の代入
+                    transform.eulerAngles = new Vector3(0, 0, dis);
                 }
             }
             else
             {
-                if (!OwnerCoolTimeFirst)
+                //本体を真っすぐにする
+                transform.eulerAngles = new Vector3(0, 0, 0);
+                //飛び立っていく
+                rigidbody.velocity = new Vector2(0, 2);
+
+                //ゴールしてから一定時間でリザルトを出す
+                goalCount++;
+                if (goalCount == GoalTime) 
                 {
-                    photonView.RPC(nameof(RpcShareIsOwnerCoolTime), RpcTarget.All, false);
-                    OwnerCoolTimeFirst = true;
+                    ManagerAccessor.Instance.dataManager.isClear = true;
                 }
-            }
-
-            if (clientCoolTimeCount >= CoolTime)
-            {
-                if (ClientCoolTimeFirst)
-                {
-                    photonView.RPC(nameof(RpcShareIsClientCoolTime), RpcTarget.All, true);
-                    ClientCoolTimeFirst = false;
-                }
-            }
-            else
-            {
-                if (!ClientCoolTimeFirst)
-                {
-                    photonView.RPC(nameof(RpcShareIsClientCoolTime), RpcTarget.All, false);
-                    ClientCoolTimeFirst = true;
-                }
-            }
-
-            //倍率設定
-            if (!isOwnerCoolTime && !isClientCoolTime)
-                mag = 2;
-            else if (!isOwnerCoolTime || !isClientCoolTime) 
-                mag = 1;
-            else
-                mag = 0;
-
-            //角度設定
-            float rad = dis * Mathf.Deg2Rad; //角度をラジアン角に変換
-
-            //移動方向設定
-            Vector2 power = new Vector2(Mathf.Sin(rad) * mag, Mathf.Cos(rad) * mag);
-            Vector2 input;
-            input.x = transform.position.x + power.x * MovePower;
-            input.y = transform.position.y + power.y * MovePower;
-
-            //お互い入力が無いとき落下する
-            if (isOwnerCoolTime && isClientCoolTime)
-            {
-                //重力加速の最大値設定
-                if (gravity < GravityMax)
-                    gravity += Gravity;
-
-                //重力加算
-                input.y = transform.position.y - gravity;
-            }
-            else
-            {
-                gravity = 0;
-            }
-
-            if (PhotonNetwork.LocalPlayer.IsMasterClient)
-            {
-                //移動量、角度の代入
-                transform.position = input;
-                transform.eulerAngles = new Vector3(0, 0, -dis);
             }
         }
     }
@@ -375,6 +441,11 @@ public class GimmickFly : MonoBehaviourPunCallbacks
                 isHit = true;
             }
         }
+
+        if (collision.gameObject.tag == "Goal")
+        {
+            isGoal = true;
+        }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
@@ -402,6 +473,8 @@ public class GimmickFly : MonoBehaviourPunCallbacks
             }
         }
     }
+
+
 
 
 
