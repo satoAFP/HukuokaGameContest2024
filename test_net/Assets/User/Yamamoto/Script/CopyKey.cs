@@ -42,6 +42,8 @@ public class CopyKey : MonoBehaviourPunCallbacks
     private bool distanceFirst = true;//物を持ち上げて移動するとき、最初にプレイヤー同士の差を求める
     private Vector3 dis = Vector3.zero;
 
+    private bool firstDeathEreaHit = true;//一度だけゲームオーバーエリアに当たった処理をする
+
     // Start is called before the first frame update
     void Start()
     {
@@ -137,11 +139,7 @@ public class CopyKey : MonoBehaviourPunCallbacks
                 holdtime = collecttime;//長押しカウントリセット
             }
         }
-        //else
-        //{
-        //    Destroy(gameObject);//念のためにコピーキーを削除
-        //}
-
+      
           
         if (copykey_death)
         {
@@ -201,8 +199,13 @@ public class CopyKey : MonoBehaviourPunCallbacks
         //落石エリアに入るとコピーキー死亡の処理
         if (collision.gameObject.tag == "DeathErea")
         {
-            Debug.Log("コピーキー当たる");
-            copykey_death = true;
+            if(firstDeathEreaHit)
+            {
+                Debug.Log("コピーキー当たる");
+                photonView.RPC(nameof(RpcCopyKeyDeath), RpcTarget.All, true);
+                firstDeathEreaHit = false;
+            }
+           
         }
     }
 
@@ -255,6 +258,13 @@ public class CopyKey : MonoBehaviourPunCallbacks
             //}
 
         }
+    }
+
+
+    [PunRPC]
+    private void RpcCopyKeyDeath(bool data)
+    {
+        copykey_death = data;//copykey_death変数を共有する
     }
 }
 
