@@ -421,7 +421,7 @@ public class GimmickFly : MonoBehaviourPunCallbacks
     {
         if (PhotonNetwork.LocalPlayer.IsMasterClient)
         {
-            if (collision.gameObject.name == "Player1" || collision.gameObject.name == "CopyKey")
+            if (collision.gameObject.name == "Player1")
             {
                 //‰Ÿ‚·‚×‚«ƒ{ƒ^ƒ“‚Ì‰æ‘œ•\Ž¦
                 collision.transform.GetChild(0).gameObject.SetActive(true);
