@@ -11,11 +11,12 @@ GameObject:
   - component: {fileID: 106794444274010248}
   - component: {fileID: 106794444274010249}
   - component: {fileID: 9099680572017821774}
+  - component: {fileID: 3941592505144237067}
   - component: {fileID: 106794444274010246}
   - component: {fileID: 106794444274010251}
   - component: {fileID: 7089104607704006426}
   - component: {fileID: 7584135072154883340}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: GimmickFly
   m_TagString: Gimmick
   m_Icon: {fileID: 0}
@@ -119,6 +120,27 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.27936554, y: 1.1049075}
   m_EdgeRadius: 0
+--- !u!50 &3941592505144237067
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 106794444274010247}
+  m_BodyType: 2
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!114 &106794444274010246
 MonoBehaviour:
   m_ObjectHideFlags: 0

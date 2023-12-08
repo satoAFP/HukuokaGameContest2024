@@ -6,6 +6,8 @@ using Photon.Pun;
 
 public class GimmickFly : MonoBehaviourPunCallbacks
 {
+    const int START_WAIT_TIME = 20;//入力を受け付けない時間
+
 
     [SerializeField, Header("移動量")]
     private float MovePower;
@@ -23,6 +25,8 @@ public class GimmickFly : MonoBehaviourPunCallbacks
     private float GravityMax;
 
     private DataManager dataManager;        //データマネージャー
+
+    private Rigidbody2D rigidbody;          //リジットボディ
 
     private GameObject player1;              //プレイヤーオブジェクト取得用
     private GameObject player2;
@@ -45,6 +49,8 @@ public class GimmickFly : MonoBehaviourPunCallbacks
     private bool isOwnerStart = false;      //そぞれぞのプレイヤーがロケット操作開始中かどうか
     private bool isClientStart = false;
 
+    private int startWaitTimeCount = 0;     //ロケット開始時入力をいったん受け付けない
+
     //連続で反応しない
     private bool startFirst = true;
     private bool startOtherFirst = true;
@@ -53,6 +59,13 @@ public class GimmickFly : MonoBehaviourPunCallbacks
     private bool OwnerCoolTimeFirst = true;
     private bool ClientCoolTimeFirst = true;
 
+
+    private void Start()
+    {
+        rigidbody = GetComponent<Rigidbody2D>();
+        ownerCoolTimeCount = CoolTime;
+        clientCoolTimeCount = CoolTime;
+    }
 
     // Update is called once per frame
     void FixedUpdate()
@@ -177,6 +190,11 @@ public class GimmickFly : MonoBehaviourPunCallbacks
         if (isOwnerStart && isClientStart)
         {
             isStart = true;
+
+            //重力設定
+            rigidbody.bodyType = 0;
+            //当たり判定設定
+            GetComponent<BoxCollider2D>().isTrigger = false;
         }
         else
         {
@@ -243,36 +261,42 @@ public class GimmickFly : MonoBehaviourPunCallbacks
 
         if (isStart)
         {
-            //それぞれの連打処理
-            if (dataManager.isOwnerInputKey_CB)
+            startWaitTimeCount++;
+            if (startWaitTimeCount >= START_WAIT_TIME)
             {
-                if (ownerFirst)
+                //それぞれの連打処理
+                if (dataManager.isOwnerInputKey_CB)
                 {
-                    ownerTapNum += MoveAngle;
-                    ownerFirst = false;
-                    ownerCoolTimeCount = 0;
+                    if (ownerFirst)
+                    {
+                        ownerTapNum += MoveAngle;
+                        ownerFirst = false;
+                        ownerCoolTimeCount = 0;
+                    }
                 }
-            }
-            else
-            {
-                ownerFirst = true;
-                ownerCoolTimeCount++;
+                else
+                {
+                    ownerFirst = true;
+                }
+
+                if (dataManager.isClientInputKey_CB)
+                {
+                    if (clientFirst)
+                    {
+                        clientTapNum += MoveAngle;
+                        clientFirst = false;
+                        clientCoolTimeCount = 0;
+                    }
+                }
+                else
+                {
+                    clientFirst = true;
+                }
             }
 
-            if (dataManager.isClientInputKey_CB)
-            {
-                if (clientFirst)
-                {
-                    clientTapNum += MoveAngle;
-                    clientFirst = false;
-                    clientCoolTimeCount = 0;
-                }
-            }
-            else
-            {
-                clientFirst = true;
-                clientCoolTimeCount++;
-            }
+            //クールタイムカウント
+            ownerCoolTimeCount++;
+            clientCoolTimeCount++;
 
             //タップ回数の差
             int dis = ownerTapNum - clientTapNum;
@@ -328,21 +352,23 @@ public class GimmickFly : MonoBehaviourPunCallbacks
             //移動方向設定
             Vector2 power = new Vector2(Mathf.Sin(rad) * mag, Mathf.Cos(rad) * mag);
             Vector2 input;
-            input.x = transform.position.x + power.x * MovePower;
-            input.y = transform.position.y + power.y * MovePower;
 
             //お互い入力が無いとき落下する
             if (isOwnerCoolTime && isClientCoolTime)
             {
-                //重力加速の最大値設定
-                if (gravity < GravityMax)
-                    gravity += Gravity;
+                ////重力加速の最大値設定
+                //if (gravity < GravityMax)
+                //    gravity += Gravity;
 
-                //重力加算
-                input.y = transform.position.y - gravity;
+                ////重力加算
+                //input.y = transform.position.y - gravity;
             }
             else
             {
+                //input.x = transform.position.x + power.x * MovePower;
+                //input.y = transform.position.y + power.y * MovePower;
+                rigidbody.velocity = new Vector2(power.x, power.y);
+                Debug.Log("aaa");
                 gravity = 0;
             }
 
@@ -356,11 +382,11 @@ public class GimmickFly : MonoBehaviourPunCallbacks
             else
                 transform.GetChild(2).gameObject.SetActive(true);
 
-
+            //親の座標を共有する
             if (PhotonNetwork.LocalPlayer.IsMasterClient)
             {
                 //移動量、角度の代入
-                transform.position = input;
+                //transform.position = input;
                 transform.eulerAngles = new Vector3(0, 0, dis);
             }
         }
@@ -391,6 +417,11 @@ public class GimmickFly : MonoBehaviourPunCallbacks
                 isHit = true;
             }
         }
+
+        if (collision.gameObject.tag == "Goal")
+        {
+            ManagerAccessor.Instance.dataManager.isClear = true;
+        }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
@@ -418,6 +449,14 @@ public class GimmickFly : MonoBehaviourPunCallbacks
             }
         }
     }
+
+    //private void OnCollisionEnter2D(Collision2D collision)
+    //{
+    //    if (collision.gameObject.tag == "Goal")
+    //    {
+    //        ManagerAccessor.Instance.dataManager.isClear = true;
+    //    }
+    //}
 
 
 
