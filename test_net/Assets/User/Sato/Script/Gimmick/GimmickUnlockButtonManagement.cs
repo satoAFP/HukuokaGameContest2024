@@ -119,7 +119,6 @@ public class GimmickUnlockButtonManagement : CGimmick
 
                         photonView.RPC(nameof(RpcShareAnswer), RpcTarget.Others, answer[i]);
                     }
-                    //ManagerAccessor.Instance.dataManager.chat.text = answer[0].ToString() + ":" + answer[1].ToString() + ":" + answer[2].ToString() + ":" + answer[3].ToString() + ":" + answer[4].ToString();
 
                     //“š‚¦İ’è
                     AnswerSet();
@@ -136,7 +135,6 @@ public class GimmickUnlockButtonManagement : CGimmick
                 //Å‰‚Ìˆê‰ñ‚¾‚¯
                 if (isAnswerFirst)
                 {
-                    //ManagerAccessor.Instance.dataManager.chat.text = answer[0].ToString() + ":" + answer[1].ToString() + ":" + answer[2].ToString() + ":" + answer[3].ToString() + ":" + answer[4].ToString();
                     //“š‚¦İ’è
                     AnswerSet();
 
@@ -186,8 +184,7 @@ public class GimmickUnlockButtonManagement : CGimmick
                 }
 
                 //c‚èŠÔ•\¦
-                timeLimitSlider.GetComponent<Slider>().value = 1 - (float)frameCount / (float)(timeLimit * 60);
-                //timetext.text = frameCount.ToString() + "/" + timeLimit * 60;
+                timeLimitSlider.GetComponent<Slider>().value = 1 - frameCount / (timeLimit * 60);
             }
             else
             {
