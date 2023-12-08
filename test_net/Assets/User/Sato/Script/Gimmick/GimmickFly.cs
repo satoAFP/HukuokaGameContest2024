@@ -103,7 +103,7 @@ public class GimmickFly : MonoBehaviourPunCallbacks
         else
         {
             //ロケットに触れている状態でB入力で発射待機状態
-            if (dataManager.isOwnerInputKey_CB)
+            if (dataManager.isClientInputKey_CB)
             {
                 if (isHit)
                 {
