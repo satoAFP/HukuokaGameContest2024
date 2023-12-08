@@ -6,8 +6,8 @@ using UnityEngine.InputSystem;
 
 public class CopyKey : MonoBehaviourPunCallbacks
 {
-    [SerializeField, Header("死亡時のコピーキー")]
-    private Sprite DeathImage;
+    //[SerializeField, Header("死亡時のコピーキー")]
+    //private Sprite DeathImage;
 
     [SerializeField, Header("移動速度")]
     private float moveSpeed;
@@ -31,7 +31,7 @@ public class CopyKey : MonoBehaviourPunCallbacks
 
     private Test_net test_net;//inputsystemをスクリプトで呼び出す
 
-    private bool copykey_death = false;//コピーキーが死亡した時のフラグ
+    [System.NonSerialized] public bool copykey_death = false;//コピーキーが死亡した時のフラグ
     private bool firstdeathjump = true;//死亡時のノックバックジャンプを一回だけさせる
     private float knockbacktime = 1.0f;//ノックバックするときのＸ座標も移動
     private float timer = 0f;//時間をカウント
@@ -143,10 +143,8 @@ public class CopyKey : MonoBehaviourPunCallbacks
           
         if (copykey_death)
         {
-
-
             // 画像を切り替えます
-            GetComponent<SpriteRenderer>().sprite = DeathImage;
+            //GetComponent<SpriteRenderer>().sprite = DeathImage;
 
             timer += Time.deltaTime;//時間計測
 
