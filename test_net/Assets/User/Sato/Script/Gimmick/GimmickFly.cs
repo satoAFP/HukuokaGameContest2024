@@ -195,7 +195,7 @@ public class GimmickFly : MonoBehaviourPunCallbacks
             //d—Íİ’è
             rigidbody.bodyType = RigidbodyType2D.Dynamic;
             //“–‚½‚è”»’èİ’è
-            GetComponent<CapsuleCollider2D>().isTrigger = false;
+            GetComponent<BoxCollider2D>().isTrigger = false;
         }
         else
         {
@@ -382,7 +382,7 @@ public class GimmickFly : MonoBehaviourPunCallbacks
         else
         {
             //“–‚½‚è”»’èİ’è
-            GetComponent<CapsuleCollider2D>().isTrigger = true;
+            GetComponent<BoxCollider2D>().isTrigger = true;
 
             if (dis <= -0.1f && dis >= 0.1f)  
             {
