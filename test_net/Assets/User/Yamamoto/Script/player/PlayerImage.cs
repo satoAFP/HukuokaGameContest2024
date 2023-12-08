@@ -54,7 +54,7 @@ public class PlayerImage : MonoBehaviourPunCallbacks
     // Update is called once per frame
     void FixedUpdate()
     {
-        DataManager datamanager = ManagerAccessor.Instance.dataManager;
+        //DataManager datamanager = ManagerAccessor.Instance.dataManager;
 
         
 
@@ -62,7 +62,7 @@ public class PlayerImage : MonoBehaviourPunCallbacks
         if (parentObjectName == "Player1")
         {
             //死亡時の画像
-            if(datamanager.isDeth)
+            if(ManagerAccessor.Instance.dataManager.isDeth)
             {
                 //岩に当たったほうのプレイヤーが死亡時の画像に変更
                 if (ManagerAccessor.Instance.dataManager.DeathPlayerName == "Player1")
@@ -134,7 +134,7 @@ public class PlayerImage : MonoBehaviourPunCallbacks
         else if (parentObjectName == "Player2")
         {
             //死亡時の画像
-            if (datamanager.isDeth)
+            if (ManagerAccessor.Instance.dataManager.isDeth)
             {
                 //岩に当たったほうのプレイヤーが死亡時の画像に変更
                 if (ManagerAccessor.Instance.dataManager.DeathPlayerName == "Player2")
