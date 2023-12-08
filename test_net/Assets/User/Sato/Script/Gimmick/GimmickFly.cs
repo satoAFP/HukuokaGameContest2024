@@ -411,6 +411,7 @@ public class GimmickFly : MonoBehaviourPunCallbacks
                 rigidbody.velocity = new Vector2(rigidbody.velocity.x, 2);
 
                 //ゴールしてから一定時間でリザルトを出す
+                goalCount++;
                 if (goalCount == GoalTime) 
                 {
                     ManagerAccessor.Instance.dataManager.isClear = true;
