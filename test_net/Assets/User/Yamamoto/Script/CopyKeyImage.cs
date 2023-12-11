@@ -15,7 +15,7 @@ public class CopyKeyImage : MonoBehaviour
 
     CopyKey copykey;
 
-    private bool firstLR = true;//左右移動一度だけ処理を行う
+    
 
 
 
@@ -33,6 +33,18 @@ public class CopyKeyImage : MonoBehaviour
         if(copykey.copykey_death)
         {
             GetComponent<SpriteRenderer>().sprite = CKeyDeathImage;//コピーキーの死亡時画像
+        }
+        else
+        {
+            //コピーキーの移動した方向に応じてプレイヤーの向きを変える
+            if (ManagerAccessor.Instance.dataManager.copyKey.GetComponent<PlayerController>().imageleft)
+            {
+                transform.localScale = new Vector3(-1.0f, 1.0f, 1.0f);
+            }
+            else
+            {
+                transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+            }
         }
     }
 }

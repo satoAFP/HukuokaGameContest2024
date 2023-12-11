@@ -44,6 +44,10 @@ public class CopyKey : MonoBehaviourPunCallbacks
 
     private bool firstDeathEreaHit = true;//一度だけゲームオーバーエリアに当たった処理をする
 
+    private bool firstLR = true;//左右移動一度だけ処理を行う
+    private bool left = false;//コピーキーが左に向いているとき
+    [System.NonSerialized] public bool imageleft = false;//画像を左向きにするフラグ
+
     // Start is called before the first frame update
     void Start()
     {
@@ -78,6 +82,24 @@ public class CopyKey : MonoBehaviourPunCallbacks
                 //操作が競合しないための設定
                 if (photonView.IsMine)
                 {
+                    if (firstLR)
+                    {
+                        //コピーキーのの左右の向きを変える
+                        if (datamanager.isOwnerInputKey_C_L_LEFT)
+                        {
+                            left = true;
+                            firstLR = false;
+                            photonView.RPC(nameof(RpcMoveLeftandRight), RpcTarget.All);
+                        }
+                        else if (datamanager.isOwnerInputKey_C_L_RIGHT)
+                        {
+                            left = false;
+                            firstLR = false;
+                            photonView.RPC(nameof(RpcMoveLeftandRight), RpcTarget.All);
+                        }
+                    }
+                       
+
                     //持ち上げていないときは普通に移動させる
                     if (!islift)
                     {
@@ -272,6 +294,23 @@ public class CopyKey : MonoBehaviourPunCallbacks
     private void RpcCopyKeyDeath(bool data)
     {
         copykey_death = data;//copykey_death変数を共有する
+    }
+
+    [PunRPC]
+    private void RpcMoveLeftandRight()
+    {
+        if (left)
+        {
+          
+            imageleft = true;
+            firstLR = true;
+        }
+        else
+        {
+           
+            imageleft = false;
+            firstLR = true;
+        }
     }
 }
 
