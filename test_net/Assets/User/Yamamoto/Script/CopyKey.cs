@@ -48,6 +48,9 @@ public class CopyKey : MonoBehaviourPunCallbacks
     private bool left = false;//コピーキーが左に向いているとき
     [System.NonSerialized] public bool imageleft = false;//画像を左向きにするフラグ
 
+    private bool firstChangeLiftImage = true;
+    [System.NonSerialized] public bool changeliftimage = false;//コピーキーを持ち上げ画像変更
+
     // Start is called before the first frame update
     void Start()
     {
@@ -99,6 +102,17 @@ public class CopyKey : MonoBehaviourPunCallbacks
                     }
                 }
 
+                if(islift && firstChangeLiftImage)
+                {
+                    photonView.RPC(nameof(RpcChangeLiftImege), RpcTarget.All, true);
+                    firstChangeLiftImage = false;
+                }
+                else
+                {
+                    
+                }
+
+
                 //操作が競合しないための設定
                 if (photonView.IsMine)
                 {
@@ -107,9 +121,21 @@ public class CopyKey : MonoBehaviourPunCallbacks
                     {
                         Move();//移動処理をON
                         distanceFirst = true;
+
+                        if(firstChangeLiftImage)
+                        {
+                            photonView.RPC(nameof(RpcChangeLiftImege), RpcTarget.All, false);
+                            firstChangeLiftImage = false;
+                        }
                     }
                     else
                     {
+                        if (firstChangeLiftImage)
+                        {
+                            photonView.RPC(nameof(RpcChangeLiftImege), RpcTarget.All, true);
+                            firstChangeLiftImage = false;
+                        }
+
                         //持ち上げている時は2プレイヤーが同じ移動方向を入力時移動
                         if ((datamanager.isOwnerInputKey_C_L_RIGHT && datamanager.isClientInputKey_C_L_RIGHT) ||
                            (datamanager.isOwnerInputKey_C_L_LEFT && datamanager.isClientInputKey_C_L_LEFT))
@@ -296,6 +322,13 @@ public class CopyKey : MonoBehaviourPunCallbacks
     private void RpcCopyKeyDeath(bool data)
     {
         copykey_death = data;//copykey_death変数を共有する
+    }
+
+    [PunRPC]
+    private void RpcChangeLiftImege(bool data)
+    {
+        changeliftimage = data;//changeliftimageを共有する
+        firstChangeLiftImage = true;
     }
 
     [PunRPC]
