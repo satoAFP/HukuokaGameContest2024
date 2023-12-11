@@ -26,14 +26,28 @@ public class StageSelect : MonoBehaviourPunCallbacks
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.name == "Player1") 
+        if (collision.gameObject.name == "Player1")
         {
-            photonView.RPC(nameof(RpcShareIsOwnerEnter), RpcTarget.All, true);
+            if (PhotonNetwork.IsMasterClient)
+            {
+                //押すべきボタンの画像表示
+                collision.transform.GetChild(0).gameObject.SetActive(true);
+                collision.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = ManagerAccessor.Instance.spriteManager.CrossUp;
+
+                photonView.RPC(nameof(RpcShareIsOwnerEnter), RpcTarget.All, true);
+            }
         }
 
         if (collision.gameObject.name == "Player2")
         {
-            photonView.RPC(nameof(RpcShareIsClientEnter), RpcTarget.All, true);
+            if (PhotonNetwork.IsMasterClient)
+            {
+                //押すべきボタンの画像表示
+                collision.transform.GetChild(0).gameObject.SetActive(true);
+                collision.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = ManagerAccessor.Instance.spriteManager.CrossUp;
+
+                photonView.RPC(nameof(RpcShareIsClientEnter), RpcTarget.All, true);
+            }
         }
     }
 
@@ -41,12 +55,24 @@ public class StageSelect : MonoBehaviourPunCallbacks
     {
         if (collision.gameObject.name == "Player1")
         {
-            photonView.RPC(nameof(RpcShareIsOwnerEnter), RpcTarget.All, false);
+            if (PhotonNetwork.IsMasterClient)
+            {
+                //押すべきボタンの画像非表示
+                collision.transform.GetChild(0).gameObject.SetActive(false);
+
+                photonView.RPC(nameof(RpcShareIsOwnerEnter), RpcTarget.All, false);
+            }
         }
 
         if (collision.gameObject.name == "Player2")
         {
-            photonView.RPC(nameof(RpcShareIsClientEnter), RpcTarget.All, false);
+            if (PhotonNetwork.IsMasterClient)
+            {
+                //押すべきボタンの画像非表示
+                collision.transform.GetChild(0).gameObject.SetActive(false);
+
+                photonView.RPC(nameof(RpcShareIsClientEnter), RpcTarget.All, false);
+            }
         }
     }
 

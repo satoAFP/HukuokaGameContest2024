@@ -54,6 +54,9 @@ public class GimmickUnlockButtonManagement : CGimmick
     //入力開始情報
     [System.NonSerialized] public bool isAllClear = false;
 
+    //回答データ(オブジェクト)
+    [System.NonSerialized] public List<GameObject> clone = new List<GameObject>();
+
     //回答データ
     private List<int> answer = new List<int>();
 
@@ -184,7 +187,7 @@ public class GimmickUnlockButtonManagement : CGimmick
                 }
 
                 //残り時間表示
-                timeLimitSlider.GetComponent<Slider>().value = 1 - frameCount / (timeLimit * 60);
+                timeLimitSlider.GetComponent<Slider>().value = 1 - (float)frameCount / (float)(timeLimit * 60);
             }
             else
             {
@@ -264,7 +267,6 @@ public class GimmickUnlockButtonManagement : CGimmick
     //答え設定用関数
     private void AnswerSet()
     {
-        GameObject clone = null;
         SpriteManager spriteManager = ManagerAccessor.Instance.spriteManager;
 
         //答え入力用ブロックに答えデータを渡す
@@ -285,64 +287,64 @@ public class GimmickUnlockButtonManagement : CGimmick
             switch (answer[i])
             {
                 case (int)Key.A:
-                    clone = Instantiate(initAnswer);
-                    clone.gameObject.transform.parent = answerArea.transform;
-                    clone.GetComponent<Image>().sprite = spriteManager.ArrowDown;
+                    clone.Add(Instantiate(initAnswer));
+                    clone[i].gameObject.transform.parent = answerArea.transform;
+                    clone[i].GetComponent<Image>().sprite = spriteManager.ArrowDown;
                     break;
                 case (int)Key.B:
-                    clone = Instantiate(initAnswer);
-                    clone.gameObject.transform.parent = answerArea.transform;
-                    clone.GetComponent<Image>().sprite = spriteManager.ArrowRight;
+                    clone.Add(Instantiate(initAnswer));
+                    clone[i].gameObject.transform.parent = answerArea.transform;
+                    clone[i].GetComponent<Image>().sprite = spriteManager.ArrowRight;
                     break;
                 case (int)Key.X:
-                    clone = Instantiate(initAnswer);
-                    clone.gameObject.transform.parent = answerArea.transform;
-                    clone.GetComponent<Image>().sprite = spriteManager.ArrowLeft;
+                    clone.Add(Instantiate(initAnswer));
+                    clone[i].gameObject.transform.parent = answerArea.transform;
+                    clone[i].GetComponent<Image>().sprite = spriteManager.ArrowLeft;
                     break;
                 case (int)Key.Y:
-                    clone = Instantiate(initAnswer);
-                    clone.gameObject.transform.parent = answerArea.transform;
-                    clone.GetComponent<Image>().sprite = spriteManager.ArrowUp;
+                    clone.Add(Instantiate(initAnswer));
+                    clone[i].gameObject.transform.parent = answerArea.transform;
+                    clone[i].GetComponent<Image>().sprite = spriteManager.ArrowUp;
                     break;
                 case (int)Key.Right:
-                    clone = Instantiate(initAnswer);
-                    clone.gameObject.transform.parent = answerArea.transform;
-                    clone.GetComponent<Image>().sprite = spriteManager.CrossRight;
+                    clone.Add(Instantiate(initAnswer));
+                    clone[i].gameObject.transform.parent = answerArea.transform;
+                    clone[i].GetComponent<Image>().sprite = spriteManager.CrossRight;
                     break;
                 case (int)Key.Left:
-                    clone = Instantiate(initAnswer);
-                    clone.gameObject.transform.parent = answerArea.transform;
-                    clone.GetComponent<Image>().sprite = spriteManager.CrossLeft;
+                    clone.Add(Instantiate(initAnswer));
+                    clone[i].gameObject.transform.parent = answerArea.transform;
+                    clone[i].GetComponent<Image>().sprite = spriteManager.CrossLeft;
                     break;
                 case (int)Key.Up:
-                    clone = Instantiate(initAnswer);
-                    clone.gameObject.transform.parent = answerArea.transform;
-                    clone.GetComponent<Image>().sprite = spriteManager.CrossUp;
+                    clone.Add(Instantiate(initAnswer));
+                    clone[i].gameObject.transform.parent = answerArea.transform;
+                    clone[i].GetComponent<Image>().sprite = spriteManager.CrossUp;
                     break;
                 case (int)Key.Down:
-                    clone = Instantiate(initAnswer);
-                    clone.gameObject.transform.parent = answerArea.transform;
-                    clone.GetComponent<Image>().sprite = spriteManager.CrossDown;
+                    clone.Add(Instantiate(initAnswer));
+                    clone[i].gameObject.transform.parent = answerArea.transform;
+                    clone[i].GetComponent<Image>().sprite = spriteManager.CrossDown;
                     break;
                 case (int)Key.R1:
-                    clone = Instantiate(initAnswer);
-                    clone.gameObject.transform.parent = answerArea.transform;
-                    clone.GetComponent<Image>().sprite = spriteManager.R1;
+                    clone.Add(Instantiate(initAnswer));
+                    clone[i].gameObject.transform.parent = answerArea.transform;
+                    clone[i].GetComponent<Image>().sprite = spriteManager.R1;
                     break;
                 case (int)Key.R2:
-                    clone = Instantiate(initAnswer);
-                    clone.gameObject.transform.parent = answerArea.transform;
-                    clone.GetComponent<Image>().sprite = spriteManager.R2;
+                    clone.Add(Instantiate(initAnswer));
+                    clone[i].gameObject.transform.parent = answerArea.transform;
+                    clone[i].GetComponent<Image>().sprite = spriteManager.R2;
                     break;
                 case (int)Key.L1:
-                    clone = Instantiate(initAnswer);
-                    clone.gameObject.transform.parent = answerArea.transform;
-                    clone.GetComponent<Image>().sprite = spriteManager.L1;
+                    clone.Add(Instantiate(initAnswer));
+                    clone[i].gameObject.transform.parent = answerArea.transform;
+                    clone[i].GetComponent<Image>().sprite = spriteManager.L1;
                     break;
                 case (int)Key.L2:
-                    clone = Instantiate(initAnswer);
-                    clone.gameObject.transform.parent = answerArea.transform;
-                    clone.GetComponent<Image>().sprite = spriteManager.L2;
+                    clone.Add(Instantiate(initAnswer));
+                    clone[i].gameObject.transform.parent = answerArea.transform;
+                    clone[i].GetComponent<Image>().sprite = spriteManager.L2;
                     break;
             }
         }
