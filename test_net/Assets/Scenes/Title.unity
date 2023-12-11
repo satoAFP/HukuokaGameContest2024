@@ -2420,8 +2420,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   StageNum: 0
   MissFrame: 0
-  ownerMissCount: 0
-  clientMissCount: 0
+  isNotOpenBox: 0
   text: {fileID: 1265428159}
   chat: {fileID: 0}
   clear: {fileID: 0}
