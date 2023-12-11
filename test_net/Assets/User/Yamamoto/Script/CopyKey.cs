@@ -79,27 +79,29 @@ public class CopyKey : MonoBehaviourPunCallbacks
             if ( !ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().keymovelock
                 &&ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().choicecursor == "CopyKey")
             {
+
+                if (firstLR)
+                {
+                    //コピーキーのの左右の向きを変える
+                    if (datamanager.isOwnerInputKey_C_L_LEFT)
+                    {
+                        Debug.Log("左いいいい");
+                        left = true;
+                        firstLR = false;
+                        photonView.RPC(nameof(RpcMoveLeftandRight), RpcTarget.All);
+                    }
+                    else if (datamanager.isOwnerInputKey_C_L_RIGHT)
+                    {
+                        Debug.Log("右いいいい");
+                        left = false;
+                        firstLR = false;
+                        photonView.RPC(nameof(RpcMoveLeftandRight), RpcTarget.All);
+                    }
+                }
+
                 //操作が競合しないための設定
                 if (photonView.IsMine)
                 {
-                    if (firstLR)
-                    {
-                        //コピーキーのの左右の向きを変える
-                        if (datamanager.isOwnerInputKey_C_L_LEFT)
-                        {
-                            left = true;
-                            firstLR = false;
-                            photonView.RPC(nameof(RpcMoveLeftandRight), RpcTarget.All);
-                        }
-                        else if (datamanager.isOwnerInputKey_C_L_RIGHT)
-                        {
-                            left = false;
-                            firstLR = false;
-                            photonView.RPC(nameof(RpcMoveLeftandRight), RpcTarget.All);
-                        }
-                    }
-                       
-
                     //持ち上げていないときは普通に移動させる
                     if (!islift)
                     {

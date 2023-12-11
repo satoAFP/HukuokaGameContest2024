@@ -37,7 +37,7 @@ public class CopyKeyImage : MonoBehaviour
         else
         {
             //コピーキーの移動した方向に応じてプレイヤーの向きを変える
-            if (ManagerAccessor.Instance.dataManager.copyKey.GetComponent<PlayerController>().imageleft)
+            if (ManagerAccessor.Instance.dataManager.copyKey.GetComponent<CopyKey>().imageleft)
             {
                 transform.localScale = new Vector3(-1.0f, 1.0f, 1.0f);
             }
