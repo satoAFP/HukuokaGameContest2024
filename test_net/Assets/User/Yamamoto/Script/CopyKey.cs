@@ -102,17 +102,7 @@ public class CopyKey : MonoBehaviourPunCallbacks
                     }
                 }
 
-                if(islift && firstChangeLiftImage)
-                {
-                    photonView.RPC(nameof(RpcChangeLiftImege), RpcTarget.All, true);
-                    firstChangeLiftImage = false;
-                }
-                else
-                {
-                    
-                }
-
-
+              
                 //ëÄçÏÇ™ã£çáÇµÇ»Ç¢ÇΩÇﬂÇÃê›íË
                 if (photonView.IsMine)
                 {
