@@ -28,7 +28,7 @@ public class CopyKeyImage : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         if(copykey.copykey_death)
         {
@@ -50,10 +50,13 @@ public class CopyKeyImage : MonoBehaviour
             {
                 GetComponent<SpriteRenderer>().sprite = CKeyLiftImage;//‚¿ã‚°‚Ì‰æ‘œ‚É•Ï‚¦‚é
             }
-            else
+            else if(ManagerAccessor.Instance.dataManager.copyKey.GetComponent<CopyKey>().standardCopyKeyImage)
             {
                 GetComponent<SpriteRenderer>().sprite = CKeyImage;//‰æ‘œ‚ğŒ³‚É–ß‚·
             }
+
+
+
         }
     }
 }

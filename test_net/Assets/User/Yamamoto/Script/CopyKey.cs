@@ -50,6 +50,7 @@ public class CopyKey : MonoBehaviourPunCallbacks
 
     private bool firstChangeLiftImage = true;
     [System.NonSerialized] public bool changeliftimage = false;//コピーキーを持ち上げ画像変更
+    [System.NonSerialized] public bool standardCopyKeyImage = false;//標準コピーキー画像
 
     // Start is called before the first frame update
     void Start()
@@ -88,14 +89,14 @@ public class CopyKey : MonoBehaviourPunCallbacks
                     //コピーキーのの左右の向きを変える
                     if (datamanager.isOwnerInputKey_C_L_LEFT)
                     {
-                        Debug.Log("左いいいい");
+                       // Debug.Log("左いいいい");
                         left = true;
                         firstLR = false;
                         photonView.RPC(nameof(RpcMoveLeftandRight), RpcTarget.All);
                     }
                     else if (datamanager.isOwnerInputKey_C_L_RIGHT)
                     {
-                        Debug.Log("右いいいい");
+                       // Debug.Log("右いいいい");
                         left = false;
                         firstLR = false;
                         photonView.RPC(nameof(RpcMoveLeftandRight), RpcTarget.All);
@@ -112,19 +113,12 @@ public class CopyKey : MonoBehaviourPunCallbacks
                         Move();//移動処理をON
                         distanceFirst = true;
 
-                        if(firstChangeLiftImage)
-                        {
-                            photonView.RPC(nameof(RpcChangeLiftImege), RpcTarget.All, false);
-                            firstChangeLiftImage = false;
-                        }
+                        photonView.RPC(nameof(RpcChangeStandardImage), RpcTarget.All, true);
+
                     }
                     else
                     {
-                        if (firstChangeLiftImage)
-                        {
-                            photonView.RPC(nameof(RpcChangeLiftImege), RpcTarget.All, true);
-                            firstChangeLiftImage = false;
-                        }
+                        photonView.RPC(nameof(RpcChangeLiftImege), RpcTarget.All, true);
 
                         //持ち上げている時は2プレイヤーが同じ移動方向を入力時移動
                         if ((datamanager.isOwnerInputKey_C_L_RIGHT && datamanager.isClientInputKey_C_L_RIGHT) ||
@@ -317,8 +311,16 @@ public class CopyKey : MonoBehaviourPunCallbacks
     [PunRPC]
     private void RpcChangeLiftImege(bool data)
     {
+        standardCopyKeyImage = false;
         changeliftimage = data;//changeliftimageを共有する
-        firstChangeLiftImage = true;
+        //firstChangeLiftImage = true;
+    }
+
+    [PunRPC]
+    private void RpcChangeStandardImage(bool data)
+    {
+        changeliftimage = false;
+        standardCopyKeyImage = data;//standardCopyKeyImageを共有する
     }
 
     [PunRPC]
