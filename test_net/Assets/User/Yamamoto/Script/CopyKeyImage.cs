@@ -45,6 +45,15 @@ public class CopyKeyImage : MonoBehaviour
             {
                 transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
             }
+
+            if (ManagerAccessor.Instance.dataManager.copyKey.GetComponent<CopyKey>().islift)
+            {
+                GetComponent<SpriteRenderer>().sprite = CKeyLiftImage;//‚¿ã‚°‚Ì‰æ‘œ‚É•Ï‚¦‚é
+            }
+            else
+            {
+                GetComponent<SpriteRenderer>().sprite = CKeyImage;//‰æ‘œ‚ğŒ³‚É–ß‚·
+            }
         }
     }
 }
