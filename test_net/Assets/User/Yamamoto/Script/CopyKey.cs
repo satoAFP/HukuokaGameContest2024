@@ -6,8 +6,8 @@ using UnityEngine.InputSystem;
 
 public class CopyKey : MonoBehaviourPunCallbacks
 {
-    [SerializeField, Header("死亡時のコピーキー")]
-    private Sprite DeathImage;
+    //[SerializeField, Header("死亡時のコピーキー")]
+    //private Sprite DeathImage;
 
     [SerializeField, Header("移動速度")]
     private float moveSpeed;
@@ -31,7 +31,7 @@ public class CopyKey : MonoBehaviourPunCallbacks
 
     private Test_net test_net;//inputsystemをスクリプトで呼び出す
 
-    private bool copykey_death = false;//コピーキーが死亡した時のフラグ
+    [System.NonSerialized] public bool copykey_death = false;//コピーキーが死亡した時のフラグ
     private bool firstdeathjump = true;//死亡時のノックバックジャンプを一回だけさせる
     private float knockbacktime = 1.0f;//ノックバックするときのＸ座標も移動
     private float timer = 0f;//時間をカウント
@@ -43,6 +43,10 @@ public class CopyKey : MonoBehaviourPunCallbacks
     private Vector3 dis = Vector3.zero;
 
     private bool firstDeathEreaHit = true;//一度だけゲームオーバーエリアに当たった処理をする
+
+    private bool firstLR = true;//左右移動一度だけ処理を行う
+    private bool left = false;//コピーキーが左に向いているとき
+    [System.NonSerialized] public bool imageleft = false;//画像を左向きにするフラグ
 
     // Start is called before the first frame update
     void Start()
@@ -75,6 +79,26 @@ public class CopyKey : MonoBehaviourPunCallbacks
             if ( !ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().keymovelock
                 &&ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().choicecursor == "CopyKey")
             {
+
+                if (firstLR)
+                {
+                    //コピーキーのの左右の向きを変える
+                    if (datamanager.isOwnerInputKey_C_L_LEFT)
+                    {
+                        Debug.Log("左いいいい");
+                        left = true;
+                        firstLR = false;
+                        photonView.RPC(nameof(RpcMoveLeftandRight), RpcTarget.All);
+                    }
+                    else if (datamanager.isOwnerInputKey_C_L_RIGHT)
+                    {
+                        Debug.Log("右いいいい");
+                        left = false;
+                        firstLR = false;
+                        photonView.RPC(nameof(RpcMoveLeftandRight), RpcTarget.All);
+                    }
+                }
+
                 //操作が競合しないための設定
                 if (photonView.IsMine)
                 {
@@ -143,10 +167,8 @@ public class CopyKey : MonoBehaviourPunCallbacks
           
         if (copykey_death)
         {
-
-
             // 画像を切り替えます
-            GetComponent<SpriteRenderer>().sprite = DeathImage;
+            //GetComponent<SpriteRenderer>().sprite = DeathImage;
 
             timer += Time.deltaTime;//時間計測
 
@@ -274,6 +296,23 @@ public class CopyKey : MonoBehaviourPunCallbacks
     private void RpcCopyKeyDeath(bool data)
     {
         copykey_death = data;//copykey_death変数を共有する
+    }
+
+    [PunRPC]
+    private void RpcMoveLeftandRight()
+    {
+        if (left)
+        {
+          
+            imageleft = true;
+            firstLR = true;
+        }
+        else
+        {
+           
+            imageleft = false;
+            firstLR = true;
+        }
     }
 }
 
