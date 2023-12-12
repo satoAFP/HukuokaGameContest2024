@@ -7,6 +7,8 @@ public class StageSelectSystem : MonoBehaviour
     const int NONE = 9999;      //データが入っていない
     const int startTime = 5;    //初期化するタイミング
 
+    [SerializeField, Header("扉")] private GameObject[] door;
+
     [SerializeField, Header("階段")] private GameObject[] stairs;
 
     [SerializeField, Header("フェード速度")] private int feedSpeed;
@@ -22,8 +24,10 @@ public class StageSelectSystem : MonoBehaviour
     void FixedUpdate()
     {
         count++;
-        if(count==startTime)
+        //ロードの兼ね合い上ちょっと読み込みをずらす
+        if (count == startTime) 
         {
+            //クリアデータロード
             ManagerAccessor.Instance.saveDataManager.ClearDataLoad();
             ManagerAccessor.Instance.saveDataManager.FirstClearDataLoad();
 
@@ -31,6 +35,10 @@ public class StageSelectSystem : MonoBehaviour
             {
                 if (ManagerAccessor.Instance.saveDataManager.clearData[i] == 1)
                 {
+                    //クリアしているステージは金色にする
+                    door[i].GetComponent<SpriteRenderer>().color = new Color32(255, 238, 186, 255);
+
+                    //クリアしているステージの階段を出す
                     if (ManagerAccessor.Instance.saveDataManager.firstClearData[i] == 0)
                     {
                         stairs[i].SetActive(true);

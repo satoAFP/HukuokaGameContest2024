@@ -129,7 +129,7 @@ public class GoalSystem : CGimmick
     }
 
     [PunRPC]
-    protected void RpcClearCheck(int master)
+    private void RpcClearCheck(int master)
     {
         //オーナーの時
         if (master == PLAYER1)
