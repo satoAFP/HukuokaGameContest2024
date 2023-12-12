@@ -10,7 +10,11 @@ public class StageNameSet : MonoBehaviour
     {
         //ステージ数抽出
         int stageNum = int.Parse(ManagerAccessor.Instance.sceneMoveManager.GetSceneName().Substring(5, 1));
+
         //ステージ名表示
-        GetComponent<Text>().text = "第" + (9 - stageNum) + "層";
+        if (stageNum != 1)
+            GetComponent<Text>().text = "第" + (9 - stageNum) + "層";
+        else
+            GetComponent<Text>().text = "最下層";
     }
 }
