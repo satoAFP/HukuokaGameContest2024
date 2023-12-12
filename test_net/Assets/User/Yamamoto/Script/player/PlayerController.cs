@@ -549,7 +549,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
             {
                 if (firstanimplay)
                 {
-                    Debug.Log("アニメ送信");
+                    //Debug.Log("アニメ送信");
                     photonView.RPC(nameof(RpcMoveAnimPlay), RpcTarget.All);
                     firstanimplay = false;
                 }
@@ -571,7 +571,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
         if (!ManagerAccessor.Instance.dataManager.isUnlockButtonStart && !movelock && !isFly
           &&!islift  && !ManagerAccessor.Instance.dataManager.isDeth) 
         {
-            Debug.Log("ジャンプできる");
+            //Debug.Log("ジャンプできる");
 
             photonView.RPC(nameof(RpcMoveAnimStop), RpcTarget.All);//ジャンプしている時は移動アニメーションを止める
 

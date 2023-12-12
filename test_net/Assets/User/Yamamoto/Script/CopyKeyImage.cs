@@ -15,8 +15,8 @@ public class CopyKeyImage : MonoBehaviour
 
     CopyKey copykey;
 
-    
 
+    private Animator anim;//アニメーター
 
 
     // Start is called before the first frame update
@@ -25,6 +25,9 @@ public class CopyKeyImage : MonoBehaviour
         copykey = transform.parent.GetComponent<CopyKey>();//CopyKeyスクリプトを取得
 
         GetComponent<SpriteRenderer>().sprite = CKeyImage;//画像の初期化
+
+        anim = GetComponent<Animator>();
+
     }
 
     // Update is called once per frame
@@ -33,6 +36,7 @@ public class CopyKeyImage : MonoBehaviour
         if(copykey.copykey_death)
         {
             GetComponent<SpriteRenderer>().sprite = CKeyDeathImage;//コピーキーの死亡時画像
+            anim.SetBool("isMove", false);//アニメーションを止める
         }
         else
         {
@@ -55,7 +59,25 @@ public class CopyKeyImage : MonoBehaviour
                 GetComponent<SpriteRenderer>().sprite = CKeyImage;//画像を元に戻す
             }
 
+            //アニメーションを再生
+            if (ManagerAccessor.Instance.dataManager.copyKey.GetComponent<CopyKey>().animplay
+            && !ManagerAccessor.Instance.dataManager.copyKey.GetComponent<CopyKey>().changeliftimage)
+            {
+                Debug.Log("copykeyあにむ開始");
+                anim.SetBool("isMove", true);
+            }
+            else
+            {
+                Debug.Log("copykeyあにむowari");
+                anim.SetBool("isMove", false);
+            }
 
+            //ジャンプ中はアニメーション中断
+            if (ManagerAccessor.Instance.dataManager.copyKey.GetComponent<CopyKey>().bjump)
+            {
+                //Debug.Log("jump1");
+                anim.SetBool("isMove", false);
+            }
 
         }
     }
