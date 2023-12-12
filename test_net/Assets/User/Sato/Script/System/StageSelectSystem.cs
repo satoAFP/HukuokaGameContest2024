@@ -19,6 +19,11 @@ public class StageSelectSystem : MonoBehaviour
 
     private int count = 0;              //フレームカウント
 
+    private void Start()
+    {
+        ManagerAccessor.Instance.dataManager.isOwnerNotOpenBox = true;
+        ManagerAccessor.Instance.dataManager.isClientNotOpenBox = true;
+    }
 
     // Update is called once per frame
     void FixedUpdate()
