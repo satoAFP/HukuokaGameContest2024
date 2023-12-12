@@ -239,7 +239,7 @@ public class GimmickBlock : CGimmick
         {
             if (collision.gameObject.name == "Player1" || collision.gameObject.name == "CopyKey")
             {
-                //押すべきボタンの画像表示
+                //押すべきボタンの画像非表示
                 collision.transform.GetChild(0).gameObject.SetActive(false);
 
                 hitOwner = false;
@@ -247,7 +247,7 @@ public class GimmickBlock : CGimmick
 
             if (collision.gameObject.name == "Player2")
             {
-                //押すべきボタンの画像表示
+                //押すべきボタンの画像非表示
                 collision.transform.GetChild(0).gameObject.SetActive(false);
 
                 hitClient = false;

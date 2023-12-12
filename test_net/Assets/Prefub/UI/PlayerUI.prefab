@@ -381,6 +381,7 @@ GameObject:
   - component: {fileID: 6015127931566073887}
   - component: {fileID: 4971787847151093508}
   - component: {fileID: 8751367108937362376}
+  - component: {fileID: 9175814835469948503}
   m_Layer: 5
   m_Name: StageText
   m_TagString: Untagged
@@ -450,6 +451,18 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: "\u7B2C99\u5C64"
+--- !u!114 &9175814835469948503
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5404955714396055923}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e15de3cfa43c4e4198f91a63f54d749, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6287469679842378115
 GameObject:
   m_ObjectHideFlags: 0

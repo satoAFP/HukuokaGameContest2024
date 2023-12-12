@@ -57,7 +57,6 @@ public class GimmickButtonManagement : MonoBehaviourPunCallbacks
                                 gimmickButton[1].GetComponent<GimmickButton>().isButton)
                             {
                                 isSuccess = true;
-                                //PhotonNetwork
                             }
                         }
                         else
@@ -103,6 +102,9 @@ public class GimmickButtonManagement : MonoBehaviourPunCallbacks
                 door.SetActive(false);
             if (gimmickNum == 1)
                 door.SetActive(true);
+
+            gameObject.transform.Find("Button1").transform.localScale = new Vector2(-1, 1);
+            gameObject.transform.Find("Button2").transform.localScale = new Vector2(-1, 1);
         }
 
     }

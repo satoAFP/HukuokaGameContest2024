@@ -34,7 +34,7 @@ public class FadeAnimation : MonoBehaviourPunCallbacks
                 if(datamanager.player1.GetComponent<PlayerController>().knockback_finish
                 || datamanager.player2.GetComponent<PlayerController>().knockback_finish)
                 {
-                    Debug.Log("フェードアウト一回");
+                    //Debug.Log("フェードアウト一回");
                     anim.SetBool("FadeOut", true);//フェードアウトアニメーション開始
                     firstfadeout = false;
                 }
