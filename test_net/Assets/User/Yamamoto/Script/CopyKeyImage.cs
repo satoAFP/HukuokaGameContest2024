@@ -63,19 +63,18 @@ public class CopyKeyImage : MonoBehaviour
             if (ManagerAccessor.Instance.dataManager.copyKey.GetComponent<CopyKey>().animplay
             && !ManagerAccessor.Instance.dataManager.copyKey.GetComponent<CopyKey>().changeliftimage)
             {
-                Debug.Log("copykeyあにむ開始");
+               // Debug.Log("copykeyあにむ開始");
                 anim.SetBool("isMove", true);
             }
             else
             {
-                Debug.Log("copykeyあにむowari");
+              //  Debug.Log("copykeyあにむowari");
                 anim.SetBool("isMove", false);
             }
 
             //ジャンプ中はアニメーション中断
             if (ManagerAccessor.Instance.dataManager.copyKey.GetComponent<CopyKey>().bjump)
             {
-                //Debug.Log("jump1");
                 anim.SetBool("isMove", false);
             }
 

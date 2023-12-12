@@ -57,7 +57,20 @@ public class StoneGenerate : MonoBehaviour
            
             timer = 0f;
         }
+
     }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        //落石エリアに入るとゲームオーバーのシーン
+        if (collision.gameObject.tag == "StopErea")
+        {
+            Debug.Log("エリアストップ");
+
+          
+        }
+    }
+
 
     public void SpawnObject()
     {
@@ -78,4 +91,8 @@ public class StoneGenerate : MonoBehaviour
 
         ChildObj.transform.parent = ParentObj.transform; // 生成した岩をParentObjの子オブジェクトにする
     }
+
+
+
+
 }
