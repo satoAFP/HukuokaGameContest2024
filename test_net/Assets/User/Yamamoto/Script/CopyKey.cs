@@ -76,6 +76,8 @@ public class CopyKey : MonoBehaviourPunCallbacks
     {
         DataManager datamanager = ManagerAccessor.Instance.dataManager;
 
+        //Debug.Log("keymovelock" + ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().keymovelock);
+
         //プレイヤーがゲームオーバーになっていなければコピーキーの基本操作許可
         if (!ManagerAccessor.Instance.dataManager.isDeth || !copykey_death)
         {
@@ -216,6 +218,7 @@ public class CopyKey : MonoBehaviourPunCallbacks
     {
         if(!copykey_death)
         {
+            Debug.Log("Move");
             //プレイヤーが入力した方向に横方向限定で移動速度分の力を加える
             rigid.velocity = new Vector2(inputDirection.x * moveSpeed, rigid.velocity.y);
         }
@@ -252,8 +255,15 @@ public class CopyKey : MonoBehaviourPunCallbacks
     //移動処理
     public void OnMove(InputAction.CallbackContext context)
     {
-        //移動方向の入力情報がInputdirectionの中に入るようになる
-        inputDirection = context.ReadValue<Vector2>();
+        //操作が競合しないための設定
+        if (photonView.IsMine)
+        {
+            Debug.Log("歩く");
+            //移動方向の入力情報がInputdirectionの中に入るようになる
+            inputDirection = context.ReadValue<Vector2>();
+        }
+
+           
     }
 
     //ジャンプ
