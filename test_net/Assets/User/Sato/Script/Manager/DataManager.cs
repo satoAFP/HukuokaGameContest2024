@@ -161,12 +161,16 @@ public class DataManager : MonoBehaviourPunCallbacks
 
     private void Update()
     {
-        //スタート、ゴールにいるとき宝箱があかないようにする
-        if (ManagerAccessor.Instance.dataManager.isOwnerNotOpenBox ||
-            ManagerAccessor.Instance.dataManager.isClientNotOpenBox)
-            ManagerAccessor.Instance.dataManager.isNotOpenBox = true;
-        else
-            ManagerAccessor.Instance.dataManager.isNotOpenBox = false;
+        if (ManagerAccessor.Instance.dataManager.player1 != null &&
+            ManagerAccessor.Instance.dataManager.player2 != null)
+        {
+            //スタート、ゴールにいるとき宝箱があかないようにする
+            if (ManagerAccessor.Instance.dataManager.isOwnerNotOpenBox ||
+                ManagerAccessor.Instance.dataManager.isClientNotOpenBox)
+                ManagerAccessor.Instance.dataManager.isNotOpenBox = true;
+            else
+                ManagerAccessor.Instance.dataManager.isNotOpenBox = false;
+        }
     }
 
 
