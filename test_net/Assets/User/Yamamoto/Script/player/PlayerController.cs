@@ -549,7 +549,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
             {
                 if (firstanimplay)
                 {
-                    Debug.Log("アニメ送信");
+                   // Debug.Log("アニメ送信");
                     photonView.RPC(nameof(RpcMoveAnimPlay), RpcTarget.All);
                     firstanimplay = false;
                 }
