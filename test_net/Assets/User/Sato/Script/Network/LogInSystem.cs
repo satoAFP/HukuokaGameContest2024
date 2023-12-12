@@ -107,7 +107,7 @@ public class LogInSystem : MonoBehaviourPunCallbacks
             PhotonNetwork.CurrentRoom.IsOpen = false;
             
             if (roomNumber < 5)
-                ManagerAccessor.Instance.sceneMoveManager.SceneMoveName("StageSelect");
+                ManagerAccessor.Instance.sceneMoveManager.SceneMoveName("Opening");
             else if (roomNumber == 5)
                 ManagerAccessor.Instance.sceneMoveManager.SceneMoveName("Sato");
             else if (roomNumber == 6)
