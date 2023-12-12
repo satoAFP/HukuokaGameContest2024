@@ -52,9 +52,6 @@ public class CopyKey : MonoBehaviourPunCallbacks
     [System.NonSerialized] public bool changeliftimage = false;//コピーキーを持ち上げ画像変更
     [System.NonSerialized] public bool standardCopyKeyImage = false;//標準コピーキー画像
 
-    [System.NonSerialized] public bool animstart = false;//アニメーション開始フラグ
-    private bool firstanimplay = true;//複数アニメ起動をさせないフラグ
-
     // Start is called before the first frame update
     void Start()
     {
@@ -78,6 +75,8 @@ public class CopyKey : MonoBehaviourPunCallbacks
     void FixedUpdate()
     {
         DataManager datamanager = ManagerAccessor.Instance.dataManager;
+
+        //Debug.Log("keymovelock" + ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().keymovelock);
 
         //プレイヤーがゲームオーバーになっていなければコピーキーの基本操作許可
         if (!ManagerAccessor.Instance.dataManager.isDeth || !copykey_death)
@@ -219,22 +218,11 @@ public class CopyKey : MonoBehaviourPunCallbacks
     {
         if(!copykey_death)
         {
+            Debug.Log("Move");
             //プレイヤーが入力した方向に横方向限定で移動速度分の力を加える
             rigid.velocity = new Vector2(inputDirection.x * moveSpeed, rigid.velocity.y);
         }
-
-        if (inputDirection.x == 0)
-        {
-            // firststickprocess = true;
-            //現在アニメーションを再生している時
-            if (!firstanimplay)
-            {
-                photonView.RPC(nameof(RpcShareAnimStart), RpcTarget.All,false);
-                //  Debug.Log("steam");
-            }
-
-        }
-
+      
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -267,16 +255,15 @@ public class CopyKey : MonoBehaviourPunCallbacks
     //移動処理
     public void OnMove(InputAction.CallbackContext context)
     {
-
-        if (firstanimplay)
+        //操作が競合しないための設定
+        if (photonView.IsMine)
         {
-            Debug.Log("アニメ送信");
-            photonView.RPC(nameof(RpcShareAnimStart), RpcTarget.All,true);
-            firstanimplay = false;
+            Debug.Log("歩く");
+            //移動方向の入力情報がInputdirectionの中に入るようになる
+            inputDirection = context.ReadValue<Vector2>();
         }
 
-        //移動方向の入力情報がInputdirectionの中に入るようになる
-        inputDirection = context.ReadValue<Vector2>();
+           
     }
 
     //ジャンプ
@@ -294,10 +281,6 @@ public class CopyKey : MonoBehaviourPunCallbacks
                     if (!ManagerAccessor.Instance.dataManager.isUnlockButtonStart)
                     {
                         Debug.Log("コピーキージャンプ");
-
-                        photonView.RPC(nameof(RpcShareAnimStart), RpcTarget.All, false);//ジャンプしている時は移動アニメーションを止める
-
-
                         //Input Systemからジャンプの入力があった時に呼ばれる
                         if (!context.performed || bjump)
                         {
@@ -365,19 +348,6 @@ public class CopyKey : MonoBehaviourPunCallbacks
             imageleft = false;
             firstLR = true;
         }
-    }
-
-    [PunRPC]
-    //boxopen変数を共有する
-    private void RpcShareAnimStart(bool data)
-    {
-        animstart = data;
-
-        if(!animstart)
-        {
-            firstanimplay = true;//もう一度アニメ処理を拾うようにする
-        }
-
     }
 }
 
