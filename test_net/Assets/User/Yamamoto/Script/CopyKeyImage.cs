@@ -58,7 +58,25 @@ public class CopyKeyImage : MonoBehaviour
                 GetComponent<SpriteRenderer>().sprite = CKeyImage;//画像を元に戻す
             }
 
+            ////アニメーションを再生
+            //if (ManagerAccessor.Instance.dataManager.copyKey.GetComponent<CopyKey>().animstart
+            //&& !ManagerAccessor.Instance.dataManager.copyKey.GetComponent<CopyKey>().changeliftimage)
+            //{
+            //    // Debug.Log("player1あにむ開始");
+            //    anim.SetBool("ismove", true);
+            //}
+            //else
+            //{
+            //    // Debug.Log("player1あにむowari");
+            //    anim.SetBool("ismove", false);
+            //}
 
+            ////ジャンプ中はアニメーション中断
+            //if (ManagerAccessor.Instance.dataManager.copyKey.GetComponent<CopyKey>().bjump)
+            //{
+            //    //Debug.Log("jump1");
+            //    anim.SetBool("ismove", false);
+            //}
 
         }
     }
