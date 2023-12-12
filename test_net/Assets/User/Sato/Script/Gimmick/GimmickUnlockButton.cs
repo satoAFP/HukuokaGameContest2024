@@ -1,17 +1,24 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using Photon.Pun;
 
 
 public class GimmickUnlockButton : CGimmick
 {
+    const int NONE = 999;
+
     private enum Key
     {
         A, B, X, Y, Right, Left, Up, Down, R1, R2, L1, L2
     }
 
     [SerializeField, Header("ボタン番号")] private int ObjNum;
+
+    [SerializeField, Header("振動している時間")] private int vibrationTime;
+
+    [SerializeField, Header("振動時の移動量")] private Vector3 vibrationPower;
 
     private DataManager dataManager = null;
 
@@ -20,6 +27,11 @@ public class GimmickUnlockButton : CGimmick
 
     //入力が失敗した時リセットするよう
     private bool isAnswerReset = false;
+
+    //失敗時振動
+    private bool isVibration = false;
+    private int vibrationNum = NONE;
+    private int vibrationCount = 0;
 
     private List<string> HitNames = new List<string>();
 
@@ -48,7 +60,7 @@ public class GimmickUnlockButton : CGimmick
     }
 
 
-    private void Update()
+    private void FixedUpdate()
     {
         dataManager = ManagerAccessor.Instance.dataManager;
 
@@ -153,9 +165,33 @@ public class GimmickUnlockButton : CGimmick
             for (int i = 0; i < ClearSituation.Count; i++) 
             {
                 ClearSituation[i] = false;
+                transform.parent.gameObject.GetComponent<GimmickUnlockButtonManagement>().clone[i].GetComponent<Image>().color = new Color32(255, 255, 255, 255);
             }
 
             isAnswerReset = false;
+        }
+
+        if(isVibration)
+        {
+            if (vibrationCount < vibrationTime)
+            {
+                vibrationCount++;
+                if (vibrationCount % 2 == 0)
+                {
+                    Debug.Log("0");
+                    transform.parent.gameObject.GetComponent<GimmickUnlockButtonManagement>().clone[vibrationNum].transform.position += vibrationPower;
+                }
+                else
+                {
+                    Debug.Log("1");
+                    transform.parent.gameObject.GetComponent<GimmickUnlockButtonManagement>().clone[vibrationNum].transform.position -= vibrationPower;
+                }
+            }
+            else
+            {
+                isVibration = false;
+                vibrationCount = 0;
+            }
         }
 
 
@@ -372,11 +408,21 @@ public class GimmickUnlockButton : CGimmick
     //回答状況更新
     private void CheckInputButton(bool inputkey,int ansnum)
     {
+        //成功
         if (inputkey)
+        {
             ClearSituation[ansnum] = true;
+            transform.parent.gameObject.GetComponent<GimmickUnlockButtonManagement>().clone[ansnum].GetComponent<Image>().color = new Color32(128, 128, 128, 255);
+        }
+        //失敗
         else
         {
+            //答えのリセット
             isAnswerReset = true;
+
+            //バイブレーション開始
+            isVibration = true;
+            vibrationNum = ansnum;
 
             //ミス情報カウント
             if (PhotonNetwork.IsMasterClient)

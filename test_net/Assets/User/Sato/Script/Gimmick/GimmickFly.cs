@@ -103,7 +103,7 @@ public class GimmickFly : MonoBehaviourPunCallbacks
         else
         {
             //ロケットに触れている状態でB入力で発射待機状態
-            if (dataManager.isOwnerInputKey_CB)
+            if (dataManager.isClientInputKey_CB)
             {
                 if (isHit)
                 {
@@ -384,7 +384,7 @@ public class GimmickFly : MonoBehaviourPunCallbacks
             //当たり判定設定
             GetComponent<BoxCollider2D>().isTrigger = true;
 
-            if (dis <= -0.1f && dis >= 0.1f)  
+            if (dis <= -0.1f || dis >= 0.1f)  
             {
                 if (dis < 0)
                     dis += 0.1f;
@@ -421,7 +421,7 @@ public class GimmickFly : MonoBehaviourPunCallbacks
     {
         if (PhotonNetwork.LocalPlayer.IsMasterClient)
         {
-            if (collision.gameObject.name == "Player1" || collision.gameObject.name == "CopyKey")
+            if (collision.gameObject.name == "Player1")
             {
                 //押すべきボタンの画像表示
                 collision.transform.GetChild(0).gameObject.SetActive(true);
