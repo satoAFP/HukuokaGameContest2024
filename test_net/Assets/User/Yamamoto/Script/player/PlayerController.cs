@@ -136,8 +136,20 @@ public class PlayerController : MonoBehaviourPunCallbacks
     }
     void FixedUpdate()
     {
-
+        //データマネージャー取得
         DataManager datamanager = ManagerAccessor.Instance.dataManager;
+
+        //コピー鍵出現中は当たり判定を消す
+        if(ManagerAccessor.Instance.dataManager.isAppearCopyKey)
+        {
+            GetComponent<BoxCollider2D>().isTrigger = true;
+            GetComponent<Rigidbody2D>().simulated = false;
+        }
+        else
+        {
+            GetComponent<BoxCollider2D>().isTrigger = false;
+            GetComponent<Rigidbody2D>().simulated = true;
+        }
 
         //死亡時に全ての処理を止める
         if(datamanager.isDeth)
@@ -428,7 +440,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
             {
                 //上ボタンの同時押しで箱オープン
                 if (datamanager.isOwnerInputKey_C_D_UP && datamanager.isClientInputKey_C_D_UP
-                    && !ManagerAccessor.Instance.dataManager.isUnlockButtonStart)
+                    && !ManagerAccessor.Instance.dataManager.isUnlockButtonStart && !ManagerAccessor.Instance.dataManager.isNotOpenBox) 
                 {
                     //Debug.Log("上キー両押し");
                     //宝箱のプレイヤーの時、空いている箱のイラストに変更
@@ -549,7 +561,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
             {
                 if (firstanimplay)
                 {
-                    Debug.Log("アニメ送信");
+                   // Debug.Log("アニメ送信");
                     photonView.RPC(nameof(RpcMoveAnimPlay), RpcTarget.All);
                     firstanimplay = false;
                 }

@@ -41,28 +41,22 @@ public class GimmickButtonManagement : MonoBehaviourPunCallbacks
             if (gimmickButton[0].GetComponent<GimmickButton>().isButton ||
                 gimmickButton[1].GetComponent<GimmickButton>().isButton)
             {
-                Debug.Log("aaa");
                 //óºï˚êGÇÍÇƒÇ¢ÇÈèÍçá
                 if ((gimmickButton[0].GetComponent<GimmickButton>().isOwnerHit && gimmickButton[1].GetComponent<GimmickButton>().isClientHit) ||
                     (gimmickButton[1].GetComponent<GimmickButton>().isOwnerHit && gimmickButton[0].GetComponent<GimmickButton>().isClientHit))
                 {
-                    Debug.Log("b");
                     //é∏îsÇµÇΩéûÇÕÇ¢ÇÍÇ»Ç¢
                     if (!isFailure)
                     {
-                        Debug.Log("c");
                         count++;
                         //é∏îsÇ‹Ç≈ÇÃÉtÉåÅ[ÉÄÇ‹Ç≈
                         if (count <= ManagerAccessor.Instance.dataManager.MissFrame)
                         {
-                            Debug.Log("d");
                             //ìØéûì¸óÕê¨å˜Ç≈GimmickãNìÆ
                             if (gimmickButton[0].GetComponent<GimmickButton>().isButton &&
                                 gimmickButton[1].GetComponent<GimmickButton>().isButton)
                             {
-                                Debug.Log("e");
                                 isSuccess = true;
-                                //PhotonNetwork
                             }
                         }
                         else

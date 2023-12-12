@@ -42,6 +42,11 @@ public class DataManager : MonoBehaviourPunCallbacks
     //コピー鍵出現中かどうか
     [System.NonSerialized] public bool isAppearCopyKey = false;
 
+    //宝箱を開けれない状態
+    /*[System.NonSerialized]*/ public bool isNotOpenBox = false;
+    [System.NonSerialized] public bool isOwnerNotOpenBox = false;
+    [System.NonSerialized] public bool isClientNotOpenBox = false;
+
     //クリアフラグ
     [System.NonSerialized] public bool isClear = false;
 
@@ -156,7 +161,12 @@ public class DataManager : MonoBehaviourPunCallbacks
 
     private void Update()
     {
-        
+        //スタート、ゴールにいるとき宝箱があかないようにする
+        if (ManagerAccessor.Instance.dataManager.isOwnerNotOpenBox ||
+            ManagerAccessor.Instance.dataManager.isClientNotOpenBox)
+            ManagerAccessor.Instance.dataManager.isNotOpenBox = true;
+        else
+            ManagerAccessor.Instance.dataManager.isNotOpenBox = false;
     }
 
 

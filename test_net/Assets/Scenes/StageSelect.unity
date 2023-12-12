@@ -2685,6 +2685,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 346c5c5921b4feb438a609dfc6a74ed7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  FeedSpeed: 10
   sceneName: Stage3
 --- !u!61 &292016788
 BoxCollider2D:
@@ -2873,6 +2874,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 346c5c5921b4feb438a609dfc6a74ed7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  FeedSpeed: 10
   sceneName: Stage4
 --- !u!61 &316610499
 BoxCollider2D:
@@ -3406,6 +3408,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 346c5c5921b4feb438a609dfc6a74ed7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  FeedSpeed: 10
   sceneName: Stage1
 --- !u!114 &336209113
 MonoBehaviour:
@@ -3560,6 +3563,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 346c5c5921b4feb438a609dfc6a74ed7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  FeedSpeed: 10
   sceneName: Stage6
 --- !u!61 &372624493
 BoxCollider2D:
@@ -6754,6 +6758,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb8a47dbac3e56c42ad1e2a4ea75f1c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  door:
+  - {fileID: 336209108}
+  - {fileID: 1562920566}
+  - {fileID: 292016785}
+  - {fileID: 316610496}
+  - {fileID: 1826198966}
+  - {fileID: 372624490}
+  - {fileID: 1949976449}
+  - {fileID: 1652147091}
   stairs:
   - {fileID: 2110338580}
   - {fileID: 419609673}
@@ -8996,6 +9009,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 346c5c5921b4feb438a609dfc6a74ed7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  FeedSpeed: 10
   sceneName: Stage2
 --- !u!61 &1562920569
 BoxCollider2D:
@@ -9215,6 +9229,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 346c5c5921b4feb438a609dfc6a74ed7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  FeedSpeed: 10
   sceneName: Stage8
 --- !u!61 &1652147094
 BoxCollider2D:
@@ -10011,6 +10026,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 346c5c5921b4feb438a609dfc6a74ed7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  FeedSpeed: 10
   sceneName: Stage5
 --- !u!61 &1826198969
 BoxCollider2D:
@@ -10751,6 +10767,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 346c5c5921b4feb438a609dfc6a74ed7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  FeedSpeed: 10
   sceneName: Stage7
 --- !u!61 &1949976452
 BoxCollider2D:

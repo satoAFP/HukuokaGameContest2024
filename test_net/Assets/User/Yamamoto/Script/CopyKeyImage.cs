@@ -15,8 +15,7 @@ public class CopyKeyImage : MonoBehaviour
 
     CopyKey copykey;
 
-    
-
+    private Animator anim;//アニメーター
 
 
     // Start is called before the first frame update
@@ -25,6 +24,8 @@ public class CopyKeyImage : MonoBehaviour
         copykey = transform.parent.GetComponent<CopyKey>();//CopyKeyスクリプトを取得
 
         GetComponent<SpriteRenderer>().sprite = CKeyImage;//画像の初期化
+
+        anim = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -33,6 +34,8 @@ public class CopyKeyImage : MonoBehaviour
         if(copykey.copykey_death)
         {
             GetComponent<SpriteRenderer>().sprite = CKeyDeathImage;//コピーキーの死亡時画像
+
+            anim.SetBool("ismove", false);//アニメーションを止める
         }
         else
         {

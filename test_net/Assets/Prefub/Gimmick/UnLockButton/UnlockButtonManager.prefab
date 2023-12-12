@@ -100,6 +100,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ObjNum: 1
+  vibrationTime: 20
+  vibrationPower: {x: 8, y: 8, z: 0}
   ClearSituation: 
 --- !u!50 &2864375563346277396
 Rigidbody2D:
@@ -359,6 +361,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ObjNum: 0
+  vibrationTime: 20
+  vibrationPower: {x: 8, y: 8, z: 0}
   ClearSituation: 
 --- !u!50 &2864375564980447826
 Rigidbody2D:
@@ -486,7 +490,6 @@ MonoBehaviour:
   timeLimitSlider: {fileID: 0}
   initAnswer: {fileID: 5860324809959214315, guid: 9b3d740786234914186ce479d06c9b74, type: 3}
   inputKey: 5
-  timetext: {fileID: 0}
   timeLimit: 200
   isHideAnswer: 0
   isWhareHideAnswer: 
