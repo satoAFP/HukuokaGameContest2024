@@ -14,6 +14,7 @@ TagManager:
   - CameraCollider
   - VirtualCamera
   - Goal
+  - StopErea
   layers:
   - Default
   - TransparentFX
@@ -24,8 +25,8 @@ TagManager:
   - Player
   - CameraCollider
   - Locket
-  - 
-  - 
+  - StopErea
+  - DeathErea
   - 
   - 
   - 

@@ -284,7 +284,8 @@ public class CopyKey : MonoBehaviourPunCallbacks
         if (!copykey_death)
         {
             if (!ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().keymovelock
-           && ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().choicecursor == "CopyKey")//カーソルが鍵を選択している時
+           && ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().choicecursor == "CopyKey"
+           && !islift)//カーソルが鍵を選択している時
             {
                 //1P（箱側）での操作しか受け付けない
                 if (PhotonNetwork.LocalPlayer.IsMasterClient)

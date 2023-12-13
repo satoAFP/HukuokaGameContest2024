@@ -22,6 +22,7 @@ public class StoneGenerate : MonoBehaviour
 
     [SerializeField, Header("移動速度")] private float moveSpeed;
 
+    private bool movestop = false;//DeathEreaの移動を止める
 
     private float timer = 0f;//時間をカウント
 
@@ -43,7 +44,12 @@ public class StoneGenerate : MonoBehaviour
     void FixedUpdate()
     {
         // オブジェクトを右に移動させる
-        transform.Translate(Vector2.right * moveSpeed * Time.deltaTime);
+        if(!movestop)
+        {
+            Debug.Log("移動中");
+            transform.Translate(Vector2.right * moveSpeed * Time.deltaTime);
+        }
+        
 
         timer += Time.deltaTime;
 
@@ -57,7 +63,21 @@ public class StoneGenerate : MonoBehaviour
            
             timer = 0f;
         }
+
     }
+
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        //ストップエリアに入ると移動を止める
+        if (collision.gameObject.tag == "StopErea")
+        {
+            //Debug.Log("エリアストップ");
+            movestop = true;
+
+        }
+    }
+
 
     public void SpawnObject()
     {
@@ -78,4 +98,8 @@ public class StoneGenerate : MonoBehaviour
 
         ChildObj.transform.parent = ParentObj.transform; // 生成した岩をParentObjの子オブジェクトにする
     }
+
+
+
+
 }
