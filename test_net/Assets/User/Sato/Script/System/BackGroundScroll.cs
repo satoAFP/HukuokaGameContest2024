@@ -87,9 +87,9 @@ public class BackGroundScroll : MonoBehaviourPunCallbacks
             //操作キャラの座標によって背景画像の座標更新
             for (int i = 0; i < 9; i += 3)
             {
-                imgObj[i].transform.position = new Vector3(-9 + (mapPos.x * Size.x), Size.y - (Size.y * i / 3) + (mapPos.y * Size.y), 0);
-                imgObj[i + 1].transform.position = new Vector3(9 + (mapPos.x * Size.x), Size.y - (Size.y * i / 3) + (mapPos.y * Size.y), 0);
-                imgObj[i + 2].transform.position = new Vector3(27 + (mapPos.x * Size.x), Size.y - (Size.y * i / 3) + (mapPos.y * Size.y), 0);
+                imgObj[i].transform.position = new Vector3(-(Size.x / 2) + (mapPos.x * Size.x), Size.y - (Size.y * i / 3) + (mapPos.y * Size.y), 0);
+                imgObj[i + 1].transform.position = new Vector3((Size.x / 2) + (mapPos.x * Size.x), Size.y - (Size.y * i / 3) + (mapPos.y * Size.y), 0);
+                imgObj[i + 2].transform.position = new Vector3((Size.x / 2) + Size.x + (mapPos.x * Size.x), Size.y - (Size.y * i / 3) + (mapPos.y * Size.y), 0);
             }
         }
     }
