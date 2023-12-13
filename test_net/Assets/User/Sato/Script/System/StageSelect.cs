@@ -36,7 +36,7 @@ public class StageSelect : MonoBehaviourPunCallbacks
         {
             //押すべきボタンの画像非表示
             ManagerAccessor.Instance.dataManager.player1.transform.GetChild(0).gameObject.SetActive(false);
-            Debug.Log("aaa");
+            
             if (ManagerAccessor.Instance.dataManager.player1.transform.Find("PlayerImage").GetComponent<SpriteRenderer>().color.a > 0)
                 ManagerAccessor.Instance.dataManager.player1.transform.Find("PlayerImage").GetComponent<SpriteRenderer>().color -= new Color32(0, 0, 0, (byte)FeedSpeed);
         }
@@ -45,7 +45,7 @@ public class StageSelect : MonoBehaviourPunCallbacks
         {
             //押すべきボタンの画像非表示
             ManagerAccessor.Instance.dataManager.player2.transform.GetChild(0).gameObject.SetActive(false);
-            Debug.Log("aaa");
+            
             if (ManagerAccessor.Instance.dataManager.player2.transform.Find("PlayerImage").GetComponent<SpriteRenderer>().color.a > 0)
                 ManagerAccessor.Instance.dataManager.player2.transform.Find("PlayerImage").GetComponent<SpriteRenderer>().color -= new Color32(0, 0, 0, (byte)FeedSpeed);
         }

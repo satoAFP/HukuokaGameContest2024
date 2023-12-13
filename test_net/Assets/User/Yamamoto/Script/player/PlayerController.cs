@@ -254,6 +254,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
                     if ((datamanager.isOwnerInputKey_C_L_RIGHT && datamanager.isClientInputKey_C_L_RIGHT) ||
                        (datamanager.isOwnerInputKey_C_L_LEFT && datamanager.isClientInputKey_C_L_LEFT))
                     {
+                        Debug.Log("aaa");
                         if (PhotonNetwork.LocalPlayer.IsMasterClient)
                         {
                             Move();
