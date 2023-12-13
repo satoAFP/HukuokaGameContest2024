@@ -384,8 +384,10 @@ public class GimmickFly : MonoBehaviourPunCallbacks
             //当たり判定設定
             GetComponent<BoxCollider2D>().isTrigger = true;
 
-            if (dis <= -0.1f || dis >= 0.1f)  
+            if (dis <= -0.1f || dis >= 0.1f)
             {
+                GetComponent<Rigidbody2D>().simulated = false;
+
                 if (dis < 0)
                     dis += 0.1f;
                 if (dis > 0)
@@ -401,11 +403,13 @@ public class GimmickFly : MonoBehaviourPunCallbacks
             }
             else
             {
+
+                GetComponent<Rigidbody2D>().simulated = true;
                 //本体を真っすぐにする
                 transform.eulerAngles = new Vector3(0, 0, 0);
                 //飛び立っていく
                 rigidbody.velocity = new Vector2(0, 2);
-
+                
                 //ゴールしてから一定時間でリザルトを出す
                 goalCount++;
                 if (goalCount == GoalTime) 
