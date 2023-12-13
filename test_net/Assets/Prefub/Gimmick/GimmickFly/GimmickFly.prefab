@@ -155,8 +155,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MovePower: 0.015
   MoveAngle: 3
+  correctionAngle: 2
   CoolTime: 20
-  GoalTime: 240
+  GoalTime: 180
 --- !u!114 &106794444274010251
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -15,6 +15,9 @@ public class GimmickFly : MonoBehaviourPunCallbacks
     [SerializeField, Header("‰ñ“]—Ê")]
     private int MoveAngle;
 
+    [SerializeField, Header("ƒS[ƒ‹Œã‚Ì‰ñ“]—Ê")]
+    private float correctionAngle;
+
     [SerializeField, Header("—‰º‚Ü‚Å‚ÌƒN[ƒ‹ƒ^ƒCƒ€")]
     private int CoolTime;
 
@@ -375,7 +378,7 @@ public class GimmickFly : MonoBehaviourPunCallbacks
                 if (PhotonNetwork.LocalPlayer.IsMasterClient)
                 {
                     //Šp“x‚Ì‘ã“ü
-                    transform.eulerAngles = new Vector3(0, 0, dis);
+                    transform.eulerAngles = new Vector3(0, 0, dis * correctionAngle);
                 }
             }
         }
@@ -398,7 +401,7 @@ public class GimmickFly : MonoBehaviourPunCallbacks
                 if (PhotonNetwork.LocalPlayer.IsMasterClient)
                 {
                     //Šp“x‚Ì‘ã“ü
-                    transform.eulerAngles = new Vector3(0, 0, dis);
+                    transform.eulerAngles = new Vector3(0, 0, dis * 2);
                 }
             }
             else
