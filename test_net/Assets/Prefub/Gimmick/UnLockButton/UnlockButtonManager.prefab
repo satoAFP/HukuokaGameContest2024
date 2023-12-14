@@ -490,6 +490,6 @@ MonoBehaviour:
   timeLimitSlider: {fileID: 0}
   initAnswer: {fileID: 5860324809959214315, guid: 9b3d740786234914186ce479d06c9b74, type: 3}
   inputKey: 5
-  timeLimit: 200
+  timeLimit: 150
   isHideAnswer: 0
   isWhareHideAnswer: 
