@@ -323,6 +323,11 @@ public class PlayerController : MonoBehaviourPunCallbacks
                                 Debug.Log("おぺん");
                                 change_boxopenimage = false;//箱を閉じた画像にする
                                 cursorlock = true;//カーソル移動を止める
+
+                                //当たり判定を戻す
+                                GetComponent<BoxCollider2D>().isTrigger = false;
+                                GetComponent<Rigidbody2D>().simulated = true;
+
                                 if (!firstmovelock)
                                 {
                                     photonView.RPC(nameof(RpcShareMoveLock), RpcTarget.All, false);//箱の移動の制限解除
@@ -658,6 +663,10 @@ public class PlayerController : MonoBehaviourPunCallbacks
     [PunRPC]
     private void RpcChangeBoxOpenImage()
     {
+        //当たり判定を切る
+        GetComponent<BoxCollider2D>().isTrigger = true;
+        GetComponent<Rigidbody2D>().simulated = false;
+
         change_unloadimage = false;//ここでfalseにしないと箱が空くイラストに変わらないので注意
         change_boxopenimage = true;//箱プレイヤーの画像変更
     }
