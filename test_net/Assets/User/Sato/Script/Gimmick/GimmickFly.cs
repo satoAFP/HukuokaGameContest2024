@@ -378,7 +378,7 @@ public class GimmickFly : MonoBehaviourPunCallbacks
                 if (PhotonNetwork.LocalPlayer.IsMasterClient)
                 {
                     //Šp“x‚Ì‘ã“ü
-                    transform.eulerAngles = new Vector3(0, 0, dis * correctionAngle);
+                    transform.eulerAngles = new Vector3(0, 0, dis);
                 }
             }
         }
@@ -401,7 +401,7 @@ public class GimmickFly : MonoBehaviourPunCallbacks
                 if (PhotonNetwork.LocalPlayer.IsMasterClient)
                 {
                     //Šp“x‚Ì‘ã“ü
-                    transform.eulerAngles = new Vector3(0, 0, dis * 2);
+                    transform.eulerAngles = new Vector3(0, 0, dis * correctionAngle);
                 }
             }
             else
