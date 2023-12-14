@@ -15,6 +15,9 @@ public class GimmickFly : MonoBehaviourPunCallbacks
     [SerializeField, Header("回転量")]
     private int MoveAngle;
 
+    [SerializeField, Header("ゴール後の回転量")]
+    private float correctionAngle;
+
     [SerializeField, Header("落下までのクールタイム")]
     private int CoolTime;
 
@@ -375,7 +378,7 @@ public class GimmickFly : MonoBehaviourPunCallbacks
                 if (PhotonNetwork.LocalPlayer.IsMasterClient)
                 {
                     //角度の代入
-                    transform.eulerAngles = new Vector3(0, 0, dis);
+                    transform.eulerAngles = new Vector3(0, 0, dis * correctionAngle);
                 }
             }
         }
@@ -384,8 +387,10 @@ public class GimmickFly : MonoBehaviourPunCallbacks
             //当たり判定設定
             GetComponent<BoxCollider2D>().isTrigger = true;
 
-            if (dis <= -0.1f || dis >= 0.1f)  
+            if (dis <= -0.1f || dis >= 0.1f)
             {
+                GetComponent<Rigidbody2D>().simulated = false;
+
                 if (dis < 0)
                     dis += 0.1f;
                 if (dis > 0)
@@ -396,16 +401,18 @@ public class GimmickFly : MonoBehaviourPunCallbacks
                 if (PhotonNetwork.LocalPlayer.IsMasterClient)
                 {
                     //角度の代入
-                    transform.eulerAngles = new Vector3(0, 0, dis);
+                    transform.eulerAngles = new Vector3(0, 0, dis * 2);
                 }
             }
             else
             {
+
+                GetComponent<Rigidbody2D>().simulated = true;
                 //本体を真っすぐにする
                 transform.eulerAngles = new Vector3(0, 0, 0);
                 //飛び立っていく
                 rigidbody.velocity = new Vector2(0, 2);
-
+                
                 //ゴールしてから一定時間でリザルトを出す
                 goalCount++;
                 if (goalCount == GoalTime) 
