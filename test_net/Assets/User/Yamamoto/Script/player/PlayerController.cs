@@ -486,8 +486,8 @@ public class PlayerController : MonoBehaviourPunCallbacks
     private void Move()//移動処理（計算部分）
     {
 
-        //ゲームオーバー処理を返すまで移動の計算をする
-        if(!ManagerAccessor.Instance.dataManager.isDeth)
+        //ゲームオーバーまたはクリア処理を返すまで移動の計算をする
+        if(!ManagerAccessor.Instance.dataManager.isDeth || !ManagerAccessor.Instance.dataManager.isClear)
         {
             rigid.velocity = new Vector2(inputDirection.x * moveSpeed, rigid.velocity.y);
         }
@@ -585,7 +585,8 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
         //アンロックボタン、ロケットが起動中でない時 死亡してない時
         if (!ManagerAccessor.Instance.dataManager.isUnlockButtonStart && !movelock && !isFly
-          &&!islift  && !ManagerAccessor.Instance.dataManager.isDeth) 
+          &&!islift  && !ManagerAccessor.Instance.dataManager.isDeth
+          || !ManagerAccessor.Instance.dataManager.isClear) 
         {
             Debug.Log("ジャンプできる");
 
