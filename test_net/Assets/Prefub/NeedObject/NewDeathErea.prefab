@@ -12,7 +12,8 @@ GameObject:
   - component: {fileID: 6771165422549457738}
   - component: {fileID: 6771165422549457737}
   - component: {fileID: 6771165422549457748}
-  m_Layer: 0
+  - component: {fileID: 2121108824}
+  m_Layer: 10
   m_Name: NewDeathErea
   m_TagString: DeathErea
   m_Icon: {fileID: 0}
@@ -135,7 +136,28 @@ MonoBehaviour:
   StoneParentObject: {fileID: 1894421765493975623, guid: 6c956e84d46b06c4b9dfbae960e19ced, type: 3}
   spawnInterval: 0.3
   spawnstone: 30
-  moveSpeed: 1.2
+  moveSpeed: 2
+--- !u!50 &2121108824
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6771165422549457736}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 6
 --- !u!1 &6771165422726522002
 GameObject:
   m_ObjectHideFlags: 0

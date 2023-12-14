@@ -26,7 +26,7 @@ MonoBehaviour:
   m_MinSize: {x: 400, y: 200}
   m_MaxSize: {x: 32384, y: 16192}
   vertical: 0
-  controlID: 5348
+  controlID: 20053
 --- !u!114 &2
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -143,7 +143,7 @@ MonoBehaviour:
   m_MinSize: {x: 100, y: 200}
   m_MaxSize: {x: 8096, y: 16192}
   vertical: 1
-  controlID: 5349
+  controlID: 20054
 --- !u!114 &4
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -452,9 +452,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 55.550835, y: 10.564727, z: 2.1979504}
+    m_Target: {x: 58.316624, y: 14.64308, z: -0.19570857}
     speed: 2
-    m_Value: {x: 55.550835, y: 10.564727, z: 2.1979504}
+    m_Value: {x: 58.316624, y: 14.64308, z: -0.19570857}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -505,9 +505,9 @@ MonoBehaviour:
     speed: 2
     m_Value: {x: 0, y: 0, z: 0, w: 1}
   m_Size:
-    m_Target: 25.739525
+    m_Target: 22.198734
     speed: 2
-    m_Value: 25.739525
+    m_Value: 22.198734
   m_Ortho:
     m_Target: 1
     speed: 2
@@ -660,8 +660,8 @@ MonoBehaviour:
     y: 427
     width: 859
     height: 520
-  m_MinSize: {x: 201, y: 221}
-  m_MaxSize: {x: 4001, y: 4021}
+  m_MinSize: {x: 200, y: 200}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 2}
   m_Panes:
   - {fileID: 2}
@@ -726,21 +726,21 @@ MonoBehaviour:
       scrollPos: {x: 0, y: 0}
       m_SelectedIDs: 
       m_LastClickedID: 0
-      m_ExpandedIDs: 9c89f8ffd08cf8ff6292f8ffd89af8ffba13faffc013faffde13faffb615faff6a18faffc620faff6e24faff103bfbff8af9ffff54b300001acb000088cb000086d0000092d20000
+      m_ExpandedIDs: a044ecff7446ecff9849ecffc64eecffec51ecff5455ecffd858ecff325decff9a60ecff3466ecff9669ecff866eecff60ceecff6ad2ecff7ee8ecffc80cefff0610efffa010efffca15efff1219efff761defff9e20efff2024efff3e27efff9e2aefff242eefff2a32efffc435efff1039efff023befff743fefff1644efffd648effff24eefff9e4fefffb852efff1456efff3259efff925cefff1860efff3063efff9666efff186aefff966defff7e79effffc7cefff1480efff7a83efffec86efff048aefff6a8defff8290efff0494efffb097efff289befff1c9fefff36a2efff9ea5efffbaa9efff0eb3efff2ab6efff94b9efffacbcefff12c0efffe0c3efff46c7effff6cbefff8ed1efff20d5efffc2f5efff8af8efff3cfcefff5affefffee02f0ff0406f0ffe4c1f6ff94c3f6ff8cc7f6ffd2c7f6ff8eccf6ff9c89f8ffd08cf8ff6292f8ffd89af8ffba13faffc013faffde13faffb615faff6a18faffc620faff6e24faff103bfbff8af9ffff54b300001acb000088cb000086d0000092d20000ae8001007248020042570200d4630200f66f02005a7b0200987b0200b87b0200aa7c0200c8800200f4840200e09a02000e9f020076a30200bcb70200c0040300e8080300
       m_RenameOverlay:
         m_UserAcceptedRename: 0
-        m_Name: 
-        m_OriginalName: 
+        m_Name: Block
+        m_OriginalName: Block
         m_EditFieldRect:
           serializedVersion: 2
           x: 0
           y: 0
           width: 0
           height: 0
-        m_UserData: 0
+        m_UserData: 214598
         m_IsWaitingForDelay: 0
         m_IsRenaming: 0
-        m_OriginalEventType: 11
+        m_OriginalEventType: 0
         m_IsRenamingFilename: 0
         m_ClientGUIView: {fileID: 9}
       m_SearchString: 
@@ -760,7 +760,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 12006, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: ConsoleWindow
+  m_Name: ProjectBrowser
   m_EditorClassIdentifier: 
   m_Children: []
   m_Position:
@@ -769,14 +769,14 @@ MonoBehaviour:
     y: 0
     width: 400
     height: 947
-  m_MinSize: {x: 102, y: 121}
-  m_MaxSize: {x: 4002, y: 4021}
-  m_ActualView: {fileID: 13}
+  m_MinSize: {x: 232, y: 271}
+  m_MaxSize: {x: 10002, y: 10021}
+  m_ActualView: {fileID: 12}
   m_Panes:
   - {fileID: 12}
   - {fileID: 13}
-  m_Selected: 1
-  m_LastSelected: 0
+  m_Selected: 0
+  m_LastSelected: 1
 --- !u!114 &12
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -818,21 +818,21 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Resources
+    - Assets/Scenes
     m_Globs: []
     m_OriginalText: 
   m_ViewMode: 1
   m_StartGridSize: 16
   m_LastFolders:
-  - Assets/Resources
+  - Assets/Scenes
   m_LastFoldersGridSize: 16
   m_LastProjectPath: C:\Users\GA4\Documents\GameContest2024\test_net
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: e46b0000
-    m_LastClickedID: 27620
+    m_SelectedIDs: 706b0000
+    m_LastClickedID: 27504
     m_ExpandedIDs: 000000006e6b0000706b0000746b0000766b0000786b00007a6b00007c6b000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -886,9 +886,9 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_ListAreaState:
-    m_SelectedInstanceIDs: 
-    m_LastClickedInstanceID: 0
-    m_HadKeyboardFocusLastEvent: 0
+    m_SelectedInstanceIDs: b4740000
+    m_LastClickedInstanceID: 29876
+    m_HadKeyboardFocusLastEvent: 1
     m_ExpandedInstanceIDs: c6230000a4290000227e0000587000009c670000047b0000aa660000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -1006,7 +1006,7 @@ MonoBehaviour:
     m_CachedPref: -160
     m_ControlHash: -371814159
     m_PrefName: Preview_InspectorPreview
-  m_LastInspectedObjectInstanceID: -1
+  m_LastInspectedObjectInstanceID: 29876
   m_LastVerticalScrollValue: 0
   m_GlobalObjectId: 
   m_InspectorMode: 0
