@@ -25,6 +25,8 @@ public class PlayerController : MonoBehaviourPunCallbacks
     [SerializeField]
     private GameObject currentCopyKeyObject;// 現在の生成された鍵オブジェクト
 
+    private DataManager datamanager;
+
     private bool movelock = false;//移動処理を停止させる
 
     private bool left1P = false;//左向きに移動したときのフラグ(1P用）
@@ -137,14 +139,8 @@ public class PlayerController : MonoBehaviourPunCallbacks
     void FixedUpdate()
     {
         //データマネージャー取得
-        DataManager datamanager = ManagerAccessor.Instance.dataManager;
+        datamanager = ManagerAccessor.Instance.dataManager;
 
-        if (islift &&
-                        !((datamanager.isOwnerInputKey_C_L_RIGHT && datamanager.isClientInputKey_C_L_RIGHT) ||
-                        (datamanager.isOwnerInputKey_C_L_LEFT && datamanager.isClientInputKey_C_L_LEFT)))
-        {
-            inputDirection.x = 0;
-        }
 
         //死亡時に全ての処理を止める
         if (datamanager.isDeth)
@@ -311,7 +307,6 @@ public class PlayerController : MonoBehaviourPunCallbacks
                             //箱を閉じて移動ロックを解除
                             if (gameObject.name == "Player1" && boxopen)
                             {
-                                Debug.Log("おぺん");
                                 change_boxopenimage = false;//箱を閉じた画像にする
                                 cursorlock = true;//カーソル移動を止める
 
@@ -473,12 +468,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
         }
 
 
-        if (islift &&
-                       !((datamanager.isOwnerInputKey_C_L_RIGHT && datamanager.isClientInputKey_C_L_RIGHT) ||
-                       (datamanager.isOwnerInputKey_C_L_LEFT && datamanager.isClientInputKey_C_L_LEFT)))
-        {
-            inputDirection.x = 0;
-        }
+        
     }
 
 
@@ -493,7 +483,6 @@ public class PlayerController : MonoBehaviourPunCallbacks
             rigid.velocity = new Vector2(inputDirection.x * moveSpeed, rigid.velocity.y);
         }
 
-        Debug.Log("aaa");
 
         ////一定の移動量が無いと進まないようにする
         //if (Mathf.Abs(inputDirection.x) > 0.08f
@@ -573,7 +562,15 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
                 //Debug.Log("スティック動かして移動している");
                 //移動方向の入力情報がInputdirectionの中に入るようになる
-                inputDirection = context.ReadValue<Vector2>();
+                if (islift &&
+                    !((datamanager.isOwnerInputKey_C_L_RIGHT && datamanager.isClientInputKey_C_L_RIGHT) ||
+                    (datamanager.isOwnerInputKey_C_L_LEFT && datamanager.isClientInputKey_C_L_LEFT)))
+                {
+
+                    inputDirection.x = 0;
+                }
+                else
+                    inputDirection = context.ReadValue<Vector2>();
             }
 
         }
