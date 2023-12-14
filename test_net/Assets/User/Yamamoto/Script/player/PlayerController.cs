@@ -591,7 +591,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
         //アンロックボタン、ロケットが起動中でない時 死亡してない時
         if (!ManagerAccessor.Instance.dataManager.isUnlockButtonStart && !movelock && !isFly
           &&!islift  && !ManagerAccessor.Instance.dataManager.isDeth
-          || !ManagerAccessor.Instance.dataManager.isClear) 
+          && !ManagerAccessor.Instance.dataManager.isClear) 
         {
             Debug.Log("ジャンプできる");
 
