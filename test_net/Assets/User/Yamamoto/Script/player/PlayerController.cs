@@ -483,7 +483,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
             rigid.velocity = new Vector2(inputDirection.x * moveSpeed, rigid.velocity.y);
         }
 
-       
+        Debug.Log("aaa");
 
         ////ˆê’è‚ÌˆÚ“®—Ê‚ª–³‚¢‚Æi‚Ü‚È‚¢‚æ‚¤‚É‚·‚é
         //if (Mathf.Abs(inputDirection.x) > 0.08f
