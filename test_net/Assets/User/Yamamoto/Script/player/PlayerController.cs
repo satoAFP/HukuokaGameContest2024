@@ -322,6 +322,11 @@ public class PlayerController : MonoBehaviourPunCallbacks
                                 Debug.Log("おぺん");
                                 change_boxopenimage = false;//箱を閉じた画像にする
                                 cursorlock = true;//カーソル移動を止める
+
+                                //当たり判定を戻す
+                                GetComponent<BoxCollider2D>().isTrigger = false;
+                                GetComponent<Rigidbody2D>().simulated = true;
+
                                 if (!firstmovelock)
                                 {
                                     photonView.RPC(nameof(RpcShareMoveLock), RpcTarget.All, false);//箱の移動の制限解除
@@ -485,8 +490,8 @@ public class PlayerController : MonoBehaviourPunCallbacks
     private void Move()//移動処理（計算部分）
     {
 
-        //ゲームオーバー処理を返すまで移動の計算をする
-        if(!ManagerAccessor.Instance.dataManager.isDeth)
+        //ゲームオーバーまたはクリア処理を返すまで移動の計算をする
+        if(!ManagerAccessor.Instance.dataManager.isDeth || !ManagerAccessor.Instance.dataManager.isClear)
         {
             rigid.velocity = new Vector2(inputDirection.x * moveSpeed, rigid.velocity.y);
         }
@@ -584,7 +589,8 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
         //アンロックボタン、ロケットが起動中でない時 死亡してない時
         if (!ManagerAccessor.Instance.dataManager.isUnlockButtonStart && !movelock && !isFly
-          &&!islift  && !ManagerAccessor.Instance.dataManager.isDeth) 
+          &&!islift  && !ManagerAccessor.Instance.dataManager.isDeth
+          || !ManagerAccessor.Instance.dataManager.isClear) 
         {
             Debug.Log("ジャンプできる");
 
@@ -656,6 +662,10 @@ public class PlayerController : MonoBehaviourPunCallbacks
     [PunRPC]
     private void RpcChangeBoxOpenImage()
     {
+        //当たり判定を切る
+        GetComponent<BoxCollider2D>().isTrigger = true;
+        GetComponent<Rigidbody2D>().simulated = false;
+
         change_unloadimage = false;//ここでfalseにしないと箱が空くイラストに変わらないので注意
         change_boxopenimage = true;//箱プレイヤーの画像変更
     }
