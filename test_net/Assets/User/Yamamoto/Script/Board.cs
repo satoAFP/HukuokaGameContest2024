@@ -65,6 +65,9 @@ public class Board : MonoBehaviourPunCallbacks
 
         ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().cursorlock = true;//カーソル移動ロック
 
+        //画像を半透明にする
+        GetComponent<SpriteRenderer>().color = new Color32(255, 255, 255, 128);
+
     }
 
     // Update is called once per frame
@@ -95,6 +98,8 @@ public class Board : MonoBehaviourPunCallbacks
                     //ゲームパッドの右ボタンを押したとき
                     if (datamanager.isOwnerInputKey_CB)
                     {
+                       
+
                         if (!pushbutton)
                         {
                             pushbutton = true;
@@ -122,6 +127,10 @@ public class Board : MonoBehaviourPunCallbacks
                 if (datamanager.isOwnerInputKey_CA)
                 {
                     //holdtime--;//長押しカウントダウン
+
+                    //画像を半透明にする
+                    GetComponent<SpriteRenderer>().color = new Color32(255, 255, 255, 128);
+
                     movelock = false;
                     collider.isTrigger = true;//トリガー化
                     ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().generatestop = true;//鍵の生成を止める
@@ -168,6 +177,9 @@ public class Board : MonoBehaviourPunCallbacks
     [PunRPC]
     private void Rpc_SetBoard()
     {
+        //画像の透明度を元に戻す
+        GetComponent<SpriteRenderer>().color = new Color32(255, 255, 255, 255);
+
         movelock = true;
         collider.isTrigger = false;//トリガー化解除
         rigid.constraints = RigidbodyConstraints2D.FreezeAll;
