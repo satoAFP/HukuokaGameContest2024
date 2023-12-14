@@ -72,7 +72,7 @@ public class StageSelectSystem : MonoBehaviour
             {
                 stairs[memFeedStairs].GetComponent<SpriteRenderer>().color += new Color32(0, 0, 0, (byte)feedSpeed);
 
-                for (int i = 0; i < stairs[i].transform.childCount - 1; i++) 
+                for (int i = 0; i < stairs[i].transform.childCount; i++) 
                 {
                     stairs[memFeedStairs].transform.GetChild(i).gameObject.GetComponent<SpriteRenderer>().color += new Color32(0, 0, 0, (byte)feedSpeed);
                 }

@@ -45,5 +45,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BackGround: {fileID: 5103106629549382118, guid: 14173f2d86680db41978599ac919ae26, type: 3}
-  Size: {x: 21.6, y: 12.144}
+  Size: {x: 21.6, y: 12.1}
   mapPos: {x: 0, y: 0}
