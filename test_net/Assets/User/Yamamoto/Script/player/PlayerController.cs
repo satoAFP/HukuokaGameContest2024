@@ -139,20 +139,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
         //データマネージャー取得
         DataManager datamanager = ManagerAccessor.Instance.dataManager;
 
-        if (gameObject.name == "Player1")
-        {
-            //コピー鍵出現中は当たり判定を消す
-            if (ManagerAccessor.Instance.dataManager.isAppearCopyKey)
-            {
-                GetComponent<BoxCollider2D>().isTrigger = true;
-                GetComponent<Rigidbody2D>().simulated = false;
-            }
-            else
-            {
-                GetComponent<BoxCollider2D>().isTrigger = false;
-                GetComponent<Rigidbody2D>().simulated = true;
-            }
-        }
+       
 
         //死亡時に全ての処理を止める
         if (datamanager.isDeth)
@@ -590,7 +577,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
         //アンロックボタン、ロケットが起動中でない時 死亡してない時
         if (!ManagerAccessor.Instance.dataManager.isUnlockButtonStart && !movelock && !isFly
           &&!islift  && !ManagerAccessor.Instance.dataManager.isDeth
-          || !ManagerAccessor.Instance.dataManager.isClear) 
+          && !ManagerAccessor.Instance.dataManager.isClear) 
         {
             Debug.Log("ジャンプできる");
 
