@@ -76,6 +76,7 @@ public class StoneGenerate : MonoBehaviour
             movestop = true;
 
         }
+
     }
 
 

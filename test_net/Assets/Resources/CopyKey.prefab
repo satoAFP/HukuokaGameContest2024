@@ -1116,7 +1116,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 5
   jumpSpeed: 10
-  collecttime: 60
+  collecttime: 30
   holdtime: 0
 --- !u!114 &7337972729792979311
 MonoBehaviour:
