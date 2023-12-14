@@ -126,7 +126,7 @@ MonoBehaviour:
   BombEffect: {fileID: 20842577314992071, guid: b85e6134c97fc8946ae73ee5c56508ba, type: 3}
   LimitTime: 10
   ExplosionRange: 6
-  MovePower: 0.03
+  MovePower: 0.04
   PosUpData: 60
   DisplayTime: 10
   rotateSpeed: 30
