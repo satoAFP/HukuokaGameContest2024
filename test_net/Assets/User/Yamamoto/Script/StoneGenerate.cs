@@ -32,6 +32,9 @@ public class StoneGenerate : MonoBehaviour
 
     private GameObject ChildObj;//生成した岩オブジェクトを子オブジェクトにする
 
+
+    private string objName;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -72,10 +75,22 @@ public class StoneGenerate : MonoBehaviour
         //ストップエリアに入ると移動を止める
         if (collision.gameObject.tag == "StopErea")
         {
-            //Debug.Log("エリアストップ");
+            Debug.Log("エリアストップ");
             movestop = true;
 
         }
+
+        //ストップエリアに入ると移動を止める
+        if (collision.gameObject.tag == "DeathField")
+        {
+            Debug.Log("終わった人");
+           
+
+        }
+
+
+        objName = collision.gameObject.name;
+        Debug.Log(objName);
     }
 
 

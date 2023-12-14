@@ -9609,6 +9609,10 @@ PrefabInstance:
       propertyPath: m_Offset.y
       value: 12.105968
       objectReference: {fileID: 0}
+    - target: {fileID: 5388703138231628416, guid: b5c03709b274cda4bbbbcb4b3031e4db, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5388703138231628417, guid: b5c03709b274cda4bbbbcb4b3031e4db, type: 3}
       propertyPath: m_Name
       value: DeathField (3)
