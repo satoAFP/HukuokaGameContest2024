@@ -139,7 +139,12 @@ public class PlayerController : MonoBehaviourPunCallbacks
         //データマネージャー取得
         DataManager datamanager = ManagerAccessor.Instance.dataManager;
 
-       
+        if (islift &&
+                        !((datamanager.isOwnerInputKey_C_L_RIGHT && datamanager.isClientInputKey_C_L_RIGHT) ||
+                        (datamanager.isOwnerInputKey_C_L_LEFT && datamanager.isClientInputKey_C_L_LEFT)))
+        {
+            inputDirection.x = 0;
+        }
 
         //死亡時に全ての処理を止める
         if (datamanager.isDeth)
@@ -467,8 +472,13 @@ public class PlayerController : MonoBehaviourPunCallbacks
             }
         }
 
-      
 
+        if (islift &&
+                       !((datamanager.isOwnerInputKey_C_L_RIGHT && datamanager.isClientInputKey_C_L_RIGHT) ||
+                       (datamanager.isOwnerInputKey_C_L_LEFT && datamanager.isClientInputKey_C_L_LEFT)))
+        {
+            inputDirection.x = 0;
+        }
     }
 
 
