@@ -54,9 +54,6 @@ public class UICursor : MonoBehaviourPunCallbacks
                 // 内部時刻timeにおける明滅状態を反映
                 _target.enabled = repeatValue >= _cycle * 0.5f;
 
-                //画像を半透明にする
-                GetComponent<SpriteRenderer>().color = new Color32(255, 255, 255, 128);
-
                 //押されたボタンの左右でカーソルの移動位置を決める
                 if (datamanager.isOwnerInputKey_C_D_RIGHT && !movestart)
                 {
