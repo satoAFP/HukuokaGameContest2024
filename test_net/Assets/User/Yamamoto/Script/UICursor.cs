@@ -32,6 +32,8 @@ public class UICursor : MonoBehaviourPunCallbacks
     void Start()
     {
         test_net = new Test_net();//スクリプトを変数に格納
+
+        _target = this.gameObject.GetComponent<SpriteRenderer>();
     }
 
     // Update is called once per frame
