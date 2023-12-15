@@ -881,6 +881,8 @@ MonoBehaviour:
   moveSpeed: 50000
   BoardIcon: {fileID: 6287469681934766328}
   CopyKeyIcon: {fileID: 6287469679875995973}
+  _target: {fileID: 6287469680690714189}
+  _cycle: 1
 --- !u!1 &6287469681934766328
 GameObject:
   m_ObjectHideFlags: 0
