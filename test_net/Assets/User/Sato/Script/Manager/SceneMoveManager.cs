@@ -1,9 +1,10 @@
 using Photon.Pun;
+using Photon.Realtime;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class SceneMoveManager : MonoBehaviour
+public class SceneMoveManager : MonoBehaviourPunCallbacks
 {
     // Start is called before the first frame update
     void Start()
@@ -59,8 +60,15 @@ public class SceneMoveManager : MonoBehaviour
         return SceneManager.GetActiveScene().name;
     }
 
+    // 他のプレイヤーが切断されたときに呼ばれるコールバック
+    public override void OnPlayerLeftRoom(Player otherPlayer)
+    {
+        ManagerAccessor.Instance.sceneMoveManager.SceneMoveName("Title");
 
-    
+        // ロビーから退出する
+        PhotonNetwork.Disconnect();
+    }
+
 }
 
 public static class GlobalSceneName
