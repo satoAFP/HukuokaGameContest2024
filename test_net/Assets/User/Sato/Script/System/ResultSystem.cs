@@ -34,11 +34,13 @@ public class ResultSystem : MonoBehaviourPunCallbacks
             {
                 photonView.RPC(nameof(RpcShareOwnerMissCount), RpcTarget.All, ManagerAccessor.Instance.dataManager.ownerMissCount);
                 ownerMemCount = ManagerAccessor.Instance.dataManager.ownerMissCount;
+                Debug.Log("aaa");
             }
-            if (ownerMemCount != ManagerAccessor.Instance.dataManager.clientMissCount)
+            if (clientMemCount != ManagerAccessor.Instance.dataManager.clientMissCount)
             {
                 photonView.RPC(nameof(RpcShareClientMissCount), RpcTarget.All, ManagerAccessor.Instance.dataManager.clientMissCount);
                 clientMemCount = ManagerAccessor.Instance.dataManager.clientMissCount;
+                Debug.Log("bbb");
             }
         }
 

@@ -19,6 +19,7 @@ public class GameStart : MonoBehaviourPunCallbacks
     {
         PhotonNetwork.IsMessageQueueRunning = true;
 
+
         if (ManagerAccessor.Instance.sceneMoveManager.GetSceneName() == "StageSelect") 
         {
             for (int i = 0; i < ManagerAccessor.Instance.dataManager.StageNum; i++) 
