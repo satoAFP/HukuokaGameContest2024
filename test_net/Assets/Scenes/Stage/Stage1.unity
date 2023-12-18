@@ -16443,6 +16443,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PauseMenu
       objectReference: {fileID: 0}
+    - target: {fileID: 3572248216130489809, guid: ec8171485e5c5764891eb57015734ea7, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4371385724307718613, guid: ec8171485e5c5764891eb57015734ea7, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -16526,6 +16530,26 @@ PrefabInstance:
     - target: {fileID: 4371385724307718613, guid: ec8171485e5c5764891eb57015734ea7, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7352391652450903617, guid: ec8171485e5c5764891eb57015734ea7, type: 3}
+      propertyPath: m_Color.b
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7352391652450903617, guid: ec8171485e5c5764891eb57015734ea7, type: 3}
+      propertyPath: m_Color.g
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7352391652450903617, guid: ec8171485e5c5764891eb57015734ea7, type: 3}
+      propertyPath: m_Color.r
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7777187976182727378, guid: ec8171485e5c5764891eb57015734ea7, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 681.69995
+      objectReference: {fileID: 0}
+    - target: {fileID: 7777187976182727378, guid: ec8171485e5c5764891eb57015734ea7, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -390.3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ec8171485e5c5764891eb57015734ea7, type: 3}
