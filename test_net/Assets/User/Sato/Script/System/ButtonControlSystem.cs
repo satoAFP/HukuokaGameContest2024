@@ -39,15 +39,19 @@ public class ButtonControlSystem : MonoBehaviourPunCallbacks
             else
             {
                 //左右を入力するとカーソルが左右する
-                if (ManagerAccessor.Instance.dataManager.isOwnerInputKey_C_L_RIGHT || ManagerAccessor.Instance.dataManager.isOwnerInputKey_C_L_LEFT)
+                if (ManagerAccessor.Instance.dataManager.isOwnerInputKey_CA /*|| ManagerAccessor.Instance.dataManager.isOwnerInputKey_C_L_LEFT*/)
                 {
                     if (first)
                     {
+                        Debug.Log("aaa");
                         buttonNum = !buttonNum;
                         first = false;
                     }
                     else
+                    {
+                        Debug.Log("bbb");
                         first = true;
+                    }
                 }
             }
 
