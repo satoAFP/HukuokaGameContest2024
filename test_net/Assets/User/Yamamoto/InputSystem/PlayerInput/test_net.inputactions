@@ -247,6 +247,24 @@
                     "processors": "",
                     "interactions": "Press(behavior=1)",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "PausePress",
+                    "type": "Button",
+                    "id": "8b4185f7-8b1c-439e-b908-0369a6a0d4a3",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "PauseRelease",
+                    "type": "Button",
+                    "id": "da0e7d3c-8303-48e9-9346-c71895cec646",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press(behavior=1)",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -544,6 +562,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "RightStick",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e9bae3c3-2925-47bd-991b-ff9043b7b7fb",
+                    "path": "<Gamepad>/start",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "PausePress",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "85fdcdd3-ac49-4147-8490-d4d56bccf2c0",
+                    "path": "<Gamepad>/start",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "PauseRelease",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

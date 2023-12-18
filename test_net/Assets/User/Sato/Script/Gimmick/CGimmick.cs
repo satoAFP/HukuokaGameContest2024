@@ -22,7 +22,8 @@ public class CGimmick : MonoBehaviourPunCallbacks
         C_L_RIGHT, C_L_LEFT, C_L_UP, C_L_DOWN,
         C_R_RIGHT, C_R_LEFT, C_R_UP, C_R_DOWN,
         C_D_RIGHT, C_D_LEFT, C_D_UP, C_D_DOWN,
-        C_R1, C_R2, C_L1, C_L2
+        C_R1, C_R2, C_L1, C_L2,
+        Pause
     }
 
     

@@ -23,6 +23,7 @@ public class PlayerGimmickActionManagement : CGimmick
     private bool firstC_R_Right = true, firstC_R_Left = true, firstC_R_Up = true, firstC_R_Down = true;
     private bool firstC_D_Right = true, firstC_D_Left = true, firstC_D_Up = true, firstC_D_Down = true;
     private bool firstC_R1 = true, firstC_R2 = true, firstC_L1 = true, firstC_L2 = true;
+    private bool firstPause = true;
 
     private void Start()
     {
@@ -48,7 +49,7 @@ public class PlayerGimmickActionManagement : CGimmick
             ShareKey(Input.GetKey(KeyCode.B), (int)KEY_NUMBER.B, ref firstB);
             ShareKey(Input.GetMouseButton(0), (int)KEY_NUMBER.LM, ref firstLM);
 
-            //Debug.Log("A:Owner/" + ManagerAccessor.Instance.dataManager.isOwnerInputKey_C_R_DOWN + ":Client/" + ManagerAccessor.Instance.dataManager.isClientInputKey_C_R_DOWN);
+            Debug.Log("A:Owner/" + ManagerAccessor.Instance.dataManager.isOwnerInputKeyPause + ":Client/" + ManagerAccessor.Instance.dataManager.isClientInputKeyPause);
             //Debug.Log("D:Owner/" + ManagerAccessor.Instance.dataManager.isOwnerInputKey_C_R2 + ":Client/" + ManagerAccessor.Instance.dataManager.isClientInputKey_C_R2);
             //Debug.Log("W:Owner/" + ManagerAccessor.Instance.dataManager.isOwnerInputKey_C_L1 + ":Client/" + ManagerAccessor.Instance.dataManager.isClientInputKey_C_L1);
             //Debug.Log("S:Owner/" + ManagerAccessor.Instance.dataManager.isOwnerInputKey_C_L2 + ":Client/" + ManagerAccessor.Instance.dataManager.isClientInputKey_C_L2);
@@ -150,6 +151,8 @@ public class PlayerGimmickActionManagement : CGimmick
                 ManagerAccessor.Instance.dataManager.isOwnerInputKey_C_L1 = onkey;
             if (key == (int)KEY_NUMBER.C_L2)
                 ManagerAccessor.Instance.dataManager.isOwnerInputKey_C_L2 = onkey;
+            if (key == (int)KEY_NUMBER.Pause)
+                ManagerAccessor.Instance.dataManager.isOwnerInputKeyPause = onkey;
 
         }
         else if (name == "Player2")
@@ -206,6 +209,8 @@ public class PlayerGimmickActionManagement : CGimmick
                 ManagerAccessor.Instance.dataManager.isClientInputKey_C_L1 = onkey;
             if (key == (int)KEY_NUMBER.C_L2)
                 ManagerAccessor.Instance.dataManager.isClientInputKey_C_L2 = onkey;
+            if (key == (int)KEY_NUMBER.Pause)
+                ManagerAccessor.Instance.dataManager.isClientInputKeyPause = onkey;
         }
     }
 
@@ -508,6 +513,28 @@ public class PlayerGimmickActionManagement : CGimmick
             if (!context.performed) return;
 
             ShareKey(false, (int)KEY_NUMBER.C_L2, ref firstC_L2);
+        }
+    }
+
+    //ÉRÉìÉgÉçÅ[ÉâÅ[L2ì¸óÕ
+    public void OnActionPressPause(InputAction.CallbackContext context)
+    {
+        if (photonView.IsMine)
+        {
+            // âüÇ≥ÇÍÇΩèuä‘Ç≈PerformedÇ∆Ç»ÇÈ
+            if (!context.performed) return;
+
+            ShareKey(true, (int)KEY_NUMBER.Pause, ref firstPause);
+        }
+    }
+    public void OnActionReleasePause(InputAction.CallbackContext context)
+    {
+        if (photonView.IsMine)
+        {
+            // ó£Ç≥ÇÍÇΩèuä‘Ç≈PerformedÇ∆Ç»ÇÈ
+            if (!context.performed) return;
+
+            ShareKey(false, (int)KEY_NUMBER.Pause, ref firstPause);
         }
     }
 }

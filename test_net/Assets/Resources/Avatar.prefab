@@ -1469,6 +1469,38 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: c61a7bb8-c30c-4326-9351-9c666c3f6d97
     m_ActionName: Player/RightStick[/XInputControllerWindows/rightStick]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8605329434926695506}
+        m_TargetAssemblyTypeName: PlayerGimmickActionManagement, Assembly-CSharp
+        m_MethodName: OnActionPressPause
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 8b4185f7-8b1c-439e-b908-0369a6a0d4a3
+    m_ActionName: Player/PausePress[/XInputControllerWindows/start]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8605329434926695506}
+        m_TargetAssemblyTypeName: PlayerGimmickActionManagement, Assembly-CSharp
+        m_MethodName: OnActionReleasePause
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: da0e7d3c-8303-48e9-9346-c71895cec646
+    m_ActionName: Player/PauseRelease[/XInputControllerWindows/start]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Gamepad
   m_DefaultActionMap: Player
