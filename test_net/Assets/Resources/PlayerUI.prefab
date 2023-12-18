@@ -196,6 +196,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerUI
       objectReference: {fileID: 0}
+    - target: {fileID: 6287469680690714189, guid: a478b6cf5af5932439456cc3e116a90f, type: 3}
+      propertyPath: m_Color.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6287469680690714189, guid: a478b6cf5af5932439456cc3e116a90f, type: 3}
+      propertyPath: m_Color.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6287469680690714189, guid: a478b6cf5af5932439456cc3e116a90f, type: 3}
+      propertyPath: m_Color.r
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6287469680690714191, guid: a478b6cf5af5932439456cc3e116a90f, type: 3}
+      propertyPath: blinkingtime
+      value: 120
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a478b6cf5af5932439456cc3e116a90f, type: 3}
 --- !u!224 &6044497943498346185 stripped

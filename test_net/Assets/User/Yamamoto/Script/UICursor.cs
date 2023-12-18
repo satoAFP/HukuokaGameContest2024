@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.InputSystem;
 using Photon.Pun;
 
@@ -21,18 +22,22 @@ public class UICursor : MonoBehaviourPunCallbacks
 
     private bool movestart = false;//移動中かを判断する
 
-    //カーソルの色を決める
-    [SerializeField] private Color color_black;
-    [SerializeField] private Color color_red;
-
     private int ColorChangeframe = 0;//色を変更させる時間を計る
 
-    private int Change_Color = 1;
+    private int Change_Color = 1;//数字によって色を変更させる
+
+    [SerializeField, Header("点滅の間隔")] private int blinkingtime;
+
+    //カーソルの色を設定できる
+    [SerializeField, Header("カーソルカラー1")] private Color Type1;
+    [SerializeField, Header("カーソルカラー2")] private Color Type2;
 
     // Start is called before the first frame update
     void Start()
     {
         test_net = new Test_net();//スクリプトを変数に格納
+
+        GetComponent<Image>().color = Type1;//初期カーソルカラー
     }
 
     // Update is called once per frame
@@ -40,26 +45,22 @@ public class UICursor : MonoBehaviourPunCallbacks
     {
         DataManager datamanager = ManagerAccessor.Instance.dataManager;
 
-        ColorChangeframe++;
-
-        if(ColorChangeframe <= 60 && Change_Color==1)
-        {
-            GetComponent<SpriteRenderer>().color = color_red;//一定時間でカーソルを赤にする
-            ColorChangeframe = 0;
-            Change_Color = 2;
-        }
-        else if (ColorChangeframe <= 60 && Change_Color == 2)
-        {
-            GetComponent<SpriteRenderer>().color = color_black;//一定時間でカーソルを黒にする
-            ColorChangeframe = 0;
-            Change_Color = 1;
-        }
 
         if (ManagerAccessor.Instance.dataManager.player1 != null)
         {
             //箱を開けている時カーソル移動をする
             if (!ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().cursorlock)
             {
+                ColorChangeframe++;
+
+               // Debug.Log("ColorChangeframe" + ColorChangeframe);
+
+                //約一秒程度でカーソルの色を変える
+                if(ColorChangeframe >= blinkingtime)
+                {
+                    CursorColorChange();
+                }
+
                 //押されたボタンの左右でカーソルの移動位置を決める
                 if (datamanager.isOwnerInputKey_C_D_RIGHT && !movestart)
                 {
@@ -74,6 +75,10 @@ public class UICursor : MonoBehaviourPunCallbacks
                     movestart = true;
                     LRmove = 2;//左にカーソル移動
                 }
+            }
+            else
+            {
+                ColorChangeframe = 0;//蓋があいてなければカーソルの色を変えない
             }
         }
 
@@ -100,6 +105,26 @@ public class UICursor : MonoBehaviourPunCallbacks
                 }
             }
             
+        }
+    }
+
+
+    //ここでカーソルの色を変える
+    private void CursorColorChange()
+    {
+        if (Change_Color == 1)
+        {
+            //Debug.Log("赤");
+            GetComponent<Image>().color = Type2;//一定時間でカーソルを赤にする
+            ColorChangeframe = 0;//フレーム計算リセット
+            Change_Color = 2;
+        }
+        else if (Change_Color == 2)
+        {
+            //Debug.Log("黒");
+            GetComponent<Image>().color = Type1;//一定時間でカーソルを黒にする
+            ColorChangeframe = 0;//フレーム計算リセット
+            Change_Color = 1;
         }
     }
 }

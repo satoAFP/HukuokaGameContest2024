@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-public class StoneGenerate : MonoBehaviour
+public class StoneGenerate : MonoBehaviourPunCallbacks
 {
     [SerializeField] private GameObject GenelateErea_L;//生成場所左
     [SerializeField] private GameObject GenelateErea_R;//生成場所右
@@ -43,13 +44,19 @@ public class StoneGenerate : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        ////ラグによる移動スピードが変わるのを防ぐためプレイヤー側の移動処理を取得する
+        //if (PhotonNetwork.IsMasterClient)
+        //{
+
+           
+        //}
+
         // オブジェクトを右に移動させる
-        if(!movestop)
+        if (!movestop)
         {
             Debug.Log("移動中");
             transform.Translate(Vector2.right * moveSpeed * Time.deltaTime);
         }
-        
 
         timer += Time.deltaTime;
 
