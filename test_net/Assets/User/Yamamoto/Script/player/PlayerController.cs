@@ -145,7 +145,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
         //死亡時とポーズ時に全ての処理を止める
         if (datamanager.isDeth || ManagerAccessor.Instance.dataManager.isPause)
         {
-
+            //死亡時
             if(datamanager.isDeth)
             {
                 timer += Time.deltaTime;
@@ -171,6 +171,12 @@ public class PlayerController : MonoBehaviourPunCallbacks
                     rigid.constraints = RigidbodyConstraints2D.FreezePositionX;//FreezePositionXをオンにする
                     knockback_finish = true;
                 }
+            }
+
+            //ポーズ時
+            if(ManagerAccessor.Instance.dataManager.isPause)
+            {
+
             }
            
 
@@ -592,7 +598,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
         if (!ManagerAccessor.Instance.dataManager.isUnlockButtonStart && !movelock && !isFly
           &&!islift  && !ManagerAccessor.Instance.dataManager.isDeth
           && !ManagerAccessor.Instance.dataManager.isClear
-          && ManagerAccessor.Instance.dataManager.isPause) 
+          && !ManagerAccessor.Instance.dataManager.isPause) 
         {
             Debug.Log("ジャンプできる");
 
