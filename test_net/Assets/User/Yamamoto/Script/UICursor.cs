@@ -22,13 +22,11 @@ public class UICursor : MonoBehaviourPunCallbacks
 
     private bool movestart = false;//移動中かを判断する
 
-    //カーソルの色を決める
-   // [SerializeField] private Color color_black;
-    //[SerializeField] private Color color_red;
-
     private int ColorChangeframe = 0;//色を変更させる時間を計る
 
     private int Change_Color = 1;//数字によって色を変更させる
+
+    [SerializeField, Header("点滅の間隔")] private int blinkingtime;
 
     // Start is called before the first frame update
     void Start()
@@ -54,7 +52,7 @@ public class UICursor : MonoBehaviourPunCallbacks
                 Debug.Log("ColorChangeframe" + ColorChangeframe);
 
                 //約一秒程度でカーソルの色を変える
-                if(ColorChangeframe >= 60 )
+                if(ColorChangeframe >= blinkingtime)
                 {
                     CursorColorChange();
                 }
