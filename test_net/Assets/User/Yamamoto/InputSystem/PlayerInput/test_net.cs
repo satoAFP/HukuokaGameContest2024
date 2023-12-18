@@ -269,6 +269,24 @@ public partial class @Test_net: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": ""Press(behavior=1)"",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""PausePress"",
+                    ""type"": ""Button"",
+                    ""id"": ""8b4185f7-8b1c-439e-b908-0369a6a0d4a3"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""PauseRelease"",
+                    ""type"": ""Button"",
+                    ""id"": ""da0e7d3c-8303-48e9-9346-c71895cec646"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press(behavior=1)"",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -566,6 +584,28 @@ public partial class @Test_net: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""RightStick"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e9bae3c3-2925-47bd-991b-ff9043b7b7fb"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PausePress"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""85fdcdd3-ac49-4147-8490-d4d56bccf2c0"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PauseRelease"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1180,6 +1220,8 @@ public partial class @Test_net: IInputActionCollection2, IDisposable
         m_Player_R_D_PadRelease = m_Player.FindAction("R_D_PadRelease", throwIfNotFound: true);
         m_Player_L_D_PadPress = m_Player.FindAction("L_D_PadPress", throwIfNotFound: true);
         m_Player_L_D_PadRelease = m_Player.FindAction("L_D_PadRelease", throwIfNotFound: true);
+        m_Player_PausePress = m_Player.FindAction("PausePress", throwIfNotFound: true);
+        m_Player_PauseRelease = m_Player.FindAction("PauseRelease", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1280,6 +1322,8 @@ public partial class @Test_net: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_R_D_PadRelease;
     private readonly InputAction m_Player_L_D_PadPress;
     private readonly InputAction m_Player_L_D_PadRelease;
+    private readonly InputAction m_Player_PausePress;
+    private readonly InputAction m_Player_PauseRelease;
     public struct PlayerActions
     {
         private @Test_net m_Wrapper;
@@ -1311,6 +1355,8 @@ public partial class @Test_net: IInputActionCollection2, IDisposable
         public InputAction @R_D_PadRelease => m_Wrapper.m_Player_R_D_PadRelease;
         public InputAction @L_D_PadPress => m_Wrapper.m_Player_L_D_PadPress;
         public InputAction @L_D_PadRelease => m_Wrapper.m_Player_L_D_PadRelease;
+        public InputAction @PausePress => m_Wrapper.m_Player_PausePress;
+        public InputAction @PauseRelease => m_Wrapper.m_Player_PauseRelease;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1401,6 +1447,12 @@ public partial class @Test_net: IInputActionCollection2, IDisposable
             @L_D_PadRelease.started += instance.OnL_D_PadRelease;
             @L_D_PadRelease.performed += instance.OnL_D_PadRelease;
             @L_D_PadRelease.canceled += instance.OnL_D_PadRelease;
+            @PausePress.started += instance.OnPausePress;
+            @PausePress.performed += instance.OnPausePress;
+            @PausePress.canceled += instance.OnPausePress;
+            @PauseRelease.started += instance.OnPauseRelease;
+            @PauseRelease.performed += instance.OnPauseRelease;
+            @PauseRelease.canceled += instance.OnPauseRelease;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -1486,6 +1538,12 @@ public partial class @Test_net: IInputActionCollection2, IDisposable
             @L_D_PadRelease.started -= instance.OnL_D_PadRelease;
             @L_D_PadRelease.performed -= instance.OnL_D_PadRelease;
             @L_D_PadRelease.canceled -= instance.OnL_D_PadRelease;
+            @PausePress.started -= instance.OnPausePress;
+            @PausePress.performed -= instance.OnPausePress;
+            @PausePress.canceled -= instance.OnPausePress;
+            @PauseRelease.started -= instance.OnPauseRelease;
+            @PauseRelease.performed -= instance.OnPauseRelease;
+            @PauseRelease.canceled -= instance.OnPauseRelease;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -1695,6 +1753,8 @@ public partial class @Test_net: IInputActionCollection2, IDisposable
         void OnR_D_PadRelease(InputAction.CallbackContext context);
         void OnL_D_PadPress(InputAction.CallbackContext context);
         void OnL_D_PadRelease(InputAction.CallbackContext context);
+        void OnPausePress(InputAction.CallbackContext context);
+        void OnPauseRelease(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

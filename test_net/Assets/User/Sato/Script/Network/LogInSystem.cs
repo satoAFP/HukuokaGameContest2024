@@ -19,6 +19,10 @@ public class LogInSystem : MonoBehaviourPunCallbacks
     {
         // プレイヤー自身の名前を"Player"に設定する
         PhotonNetwork.NickName = "Player" + Random.Range(0, 1000);
+
+        //サーバーから切断
+        if (GlobalSceneName.SceneName == "Ending")
+            PhotonNetwork.Disconnect();
     }
 
     private void Update()
