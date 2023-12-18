@@ -80,7 +80,9 @@ public class CopyKey : MonoBehaviourPunCallbacks
         DataManager datamanager = ManagerAccessor.Instance.dataManager;
 
         //プレイヤーがゲームオーバーになっていなければコピーキーの基本操作許可
-        if (!ManagerAccessor.Instance.dataManager.isDeth || !copykey_death)
+        if (!ManagerAccessor.Instance.dataManager.isDeth
+            || !copykey_death
+            || !ManagerAccessor.Instance.dataManager.isPause)
         {
             //カーソルが鍵を選んでいるとき操作可能
             if ( !ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().keymovelock
@@ -217,7 +219,8 @@ public class CopyKey : MonoBehaviourPunCallbacks
 
     private void Move()//移動処理（計算部分）
     {
-        if(!copykey_death)
+        if(!copykey_death
+            ||!ManagerAccessor.Instance.dataManager.isPause)
         {
             //プレイヤーが入力した方向に横方向限定で移動速度分の力を加える
             rigid.velocity = new Vector2(inputDirection.x * moveSpeed, rigid.velocity.y);
@@ -283,9 +286,11 @@ public class CopyKey : MonoBehaviourPunCallbacks
     {
         if (!copykey_death)
         {
+            //カーソルが鍵を選択している時
             if (!ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().keymovelock
            && ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().choicecursor == "CopyKey"
-           && !islift)//カーソルが鍵を選択している時
+           && !islift
+           && !ManagerAccessor.Instance.dataManager.isPause)
             {
                 //1P（箱側）での操作しか受け付けない
                 if (PhotonNetwork.LocalPlayer.IsMasterClient)
