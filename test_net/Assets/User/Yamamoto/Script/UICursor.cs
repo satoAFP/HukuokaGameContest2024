@@ -44,12 +44,14 @@ public class UICursor : MonoBehaviourPunCallbacks
 
         if(ColorChangeframe <= 60 && Change_Color==1)
         {
+            Debug.Log("赤");
             GetComponent<SpriteRenderer>().color = color_red;//一定時間でカーソルを赤にする
             ColorChangeframe = 0;
             Change_Color = 2;
         }
         else if (ColorChangeframe <= 60 && Change_Color == 2)
         {
+            Debug.Log("黒");
             GetComponent<SpriteRenderer>().color = color_black;//一定時間でカーソルを黒にする
             ColorChangeframe = 0;
             Change_Color = 1;
