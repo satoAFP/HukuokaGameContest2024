@@ -14,6 +14,7 @@ public class ButtonControlSystem : MonoBehaviourPunCallbacks
     private bool buttonNum = true;
 
     private bool first = true;
+    private bool firstSceneMove = true;
 
 
     // Update is called once per frame
@@ -67,13 +68,18 @@ public class ButtonControlSystem : MonoBehaviourPunCallbacks
             //ÉVÅ[Éìà⁄ìÆèàóù
             if (ManagerAccessor.Instance.dataManager.isOwnerInputKey_B)
             {
-                if (buttonNum) 
+                if (firstSceneMove)
                 {
-                    ManagerAccessor.Instance.sceneMoveManager.SceneMoveRetry();
-                }
-                else
-                {
-                    ManagerAccessor.Instance.sceneMoveManager.SceneMoveName("StageSelect");
+                    if (buttonNum)
+                    {
+                        ManagerAccessor.Instance.sceneMoveManager.SceneMoveRetry();
+                        firstSceneMove = false;
+                    }
+                    else
+                    {
+                        ManagerAccessor.Instance.sceneMoveManager.SceneMoveName("StageSelect");
+                        firstSceneMove = false;
+                    }
                 }
             }
         }
