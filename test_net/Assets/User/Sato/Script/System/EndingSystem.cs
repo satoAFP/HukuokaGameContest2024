@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using Photon.Pun;
 using UnityEngine.InputSystem;
 
@@ -18,6 +19,16 @@ public class EndingSystem : MonoBehaviourPunCallbacks
         //出すものを変える
         gameObject.transform.GetChild(1).gameObject.SetActive(false);
         gameObject.transform.GetChild(2).gameObject.SetActive(false);
+
+        //出すものを変える
+        if (PhotonNetwork.IsMasterClient)
+        {
+            gameObject.transform.GetChild(1).GetComponent<Text>().text = "タイトルへ";
+        }
+        else
+        {
+            gameObject.transform.GetChild(1).GetComponent<Text>().text = "ロード中...";
+        }
 
     }
 
@@ -49,8 +60,17 @@ public class EndingSystem : MonoBehaviourPunCallbacks
     public void OnAnimationEnd()
     {
         //出すものを変える
-        gameObject.transform.GetChild(1).gameObject.SetActive(true);
-        gameObject.transform.GetChild(2).gameObject.SetActive(true);
+
+        //出すものを変える
+        if (PhotonNetwork.IsMasterClient)
+        {
+            gameObject.transform.GetChild(1).gameObject.SetActive(true);
+            gameObject.transform.GetChild(2).gameObject.SetActive(true);
+        }
+        else
+        {
+            gameObject.transform.GetChild(1).gameObject.SetActive(true);
+        }
 
         //アニメーション終了時の処理
         isAniEnd = true;
