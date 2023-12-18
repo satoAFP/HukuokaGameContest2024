@@ -42,6 +42,8 @@ public class UICursor : MonoBehaviourPunCallbacks
 
         ColorChangeframe++;
 
+        Debug.Log("ColorChangeframe" + ColorChangeframe);
+
         if(ColorChangeframe <= 60 && Change_Color==1)
         {
             Debug.Log("Ô");
