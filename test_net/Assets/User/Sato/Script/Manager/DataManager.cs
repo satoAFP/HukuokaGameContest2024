@@ -102,6 +102,8 @@ public class DataManager : MonoBehaviourPunCallbacks
     [System.NonSerialized] public bool isOwnerInputKey_C_R2 = false;
     [System.NonSerialized] public bool isOwnerInputKey_C_L1 = false;
     [System.NonSerialized] public bool isOwnerInputKey_C_L2 = false;
+    //コントローラーポーズ
+    [System.NonSerialized] public bool isOwnerInputKeyPause = false;
 
     //キー入力情報(クライアント)
     //キーボード入力
@@ -137,6 +139,8 @@ public class DataManager : MonoBehaviourPunCallbacks
     [System.NonSerialized] public bool isClientInputKey_C_R2 = false;
     [System.NonSerialized] public bool isClientInputKey_C_L1 = false;
     [System.NonSerialized] public bool isClientInputKey_C_L2 = false;
+    //コントローラーポーズ
+    [System.NonSerialized] public bool isClientInputKeyPause = false;
 
 
     //それぞれのボタン入力状況
