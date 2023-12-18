@@ -28,12 +28,16 @@ public class UICursor : MonoBehaviourPunCallbacks
 
     [SerializeField, Header("点滅の間隔")] private int blinkingtime;
 
+    //カーソルの色を設定できる
+    [SerializeField, Header("カーソルカラー1")] private Color Type1;
+    [SerializeField, Header("カーソルカラー2")] private Color Type2;
+
     // Start is called before the first frame update
     void Start()
     {
         test_net = new Test_net();//スクリプトを変数に格納
 
-        GetComponent<Image>().color = Color.black;//初期カーソルカラー
+        GetComponent<Image>().color = Type1;//初期カーソルカラー
     }
 
     // Update is called once per frame
@@ -111,14 +115,14 @@ public class UICursor : MonoBehaviourPunCallbacks
         if (Change_Color == 1)
         {
             //Debug.Log("赤");
-            GetComponent<Image>().color = Color.red;//一定時間でカーソルを赤にする
+            GetComponent<Image>().color = Type2;//一定時間でカーソルを赤にする
             ColorChangeframe = 0;//フレーム計算リセット
             Change_Color = 2;
         }
         else if (Change_Color == 2)
         {
             //Debug.Log("黒");
-            GetComponent<Image>().color = Color.black;//一定時間でカーソルを黒にする
+            GetComponent<Image>().color = Type1;//一定時間でカーソルを黒にする
             ColorChangeframe = 0;//フレーム計算リセット
             Change_Color = 1;
         }
