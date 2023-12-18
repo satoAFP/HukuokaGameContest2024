@@ -49,7 +49,7 @@ public class UICursor : MonoBehaviourPunCallbacks
             {
                 ColorChangeframe++;
 
-                Debug.Log("ColorChangeframe" + ColorChangeframe);
+               // Debug.Log("ColorChangeframe" + ColorChangeframe);
 
                 //約一秒程度でカーソルの色を変える
                 if(ColorChangeframe >= blinkingtime)
@@ -71,6 +71,10 @@ public class UICursor : MonoBehaviourPunCallbacks
                     movestart = true;
                     LRmove = 2;//左にカーソル移動
                 }
+            }
+            else
+            {
+                ColorChangeframe = 0;//蓋があいてなければカーソルの色を変えない
             }
         }
 
@@ -101,21 +105,21 @@ public class UICursor : MonoBehaviourPunCallbacks
     }
 
 
-
+    //ここでカーソルの色を変える
     private void CursorColorChange()
     {
         if (Change_Color == 1)
         {
-            Debug.Log("赤");
+            //Debug.Log("赤");
             GetComponent<Image>().color = Color.red;//一定時間でカーソルを赤にする
-            ColorChangeframe = 0;
+            ColorChangeframe = 0;//フレーム計算リセット
             Change_Color = 2;
         }
         else if (Change_Color == 2)
         {
-            Debug.Log("黒");
+            //Debug.Log("黒");
             GetComponent<Image>().color = Color.black;//一定時間でカーソルを黒にする
-            ColorChangeframe = 0;
+            ColorChangeframe = 0;//フレーム計算リセット
             Change_Color = 1;
         }
     }
