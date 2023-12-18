@@ -19,6 +19,8 @@ public class ResultSystem : MonoBehaviourPunCallbacks
     [SerializeField, Header("クリア時のボタン")] private GameObject ClearButton;
     [SerializeField, Header("ゲームオーバー時のボタン")] private GameObject GameOverButton;
 
+    [SerializeField, Header("最終ステージの場合オンにしてください")] private bool isLast;
+
     [SerializeField, Header("出す間隔")] private int intervalFrame;
 
     [SerializeField, Header("noTapArea")] private GameObject noTapArea;
@@ -132,12 +134,24 @@ public class ResultSystem : MonoBehaviourPunCallbacks
 
     public void Retry()
     {
-        photonView.RPC(nameof(RcpShareIsRetry), RpcTarget.All);
+        if (PhotonNetwork.IsMasterClient)
+        {
+            noTapArea.SetActive(true);
+            ManagerAccessor.Instance.sceneMoveManager.SceneMoveRetry();
+        }
     }
 
     public void StageSelect()
     {
-        photonView.RPC(nameof(RcpShareIsStageSelect), RpcTarget.All);
+        if (PhotonNetwork.IsMasterClient)
+        {
+            noTapArea.SetActive(true);
+
+            if (!isLast)
+                ManagerAccessor.Instance.sceneMoveManager.SceneMoveName("StageSelect");
+            else
+                ManagerAccessor.Instance.sceneMoveManager.SceneMoveName("Ending");
+        }
     }
 
     //リザルトの評価描画用
