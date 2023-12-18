@@ -52,7 +52,7 @@ public class StoneGenerate : MonoBehaviourPunCallbacks
         //}
 
         // オブジェクトを右に移動させる
-        if (!movestop)
+        if (!movestop || !ManagerAccessor.Instance.dataManager.isPause)
         {
             Debug.Log("移動中");
             transform.Translate(Vector2.right * moveSpeed * Time.deltaTime);
