@@ -44,19 +44,19 @@ public class StoneGenerate : MonoBehaviourPunCallbacks
     // Update is called once per frame
     void FixedUpdate()
     {
-        //ラグによる移動スピードが変わるのを防ぐためプレイヤー側の移動処理を取得する
-        if (PhotonNetwork.IsMasterClient)
+        ////ラグによる移動スピードが変わるのを防ぐためプレイヤー側の移動処理を取得する
+        //if (PhotonNetwork.IsMasterClient)
+        //{
+
+           
+        //}
+
+        // オブジェクトを右に移動させる
+        if (!movestop)
         {
-
-            // オブジェクトを右に移動させる
-            if (!movestop)
-            {
-                Debug.Log("移動中");
-                transform.Translate(Vector2.right * moveSpeed * Time.deltaTime);
-            }
+            Debug.Log("移動中");
+            transform.Translate(Vector2.right * moveSpeed * Time.deltaTime);
         }
-
-        
 
         timer += Time.deltaTime;
 
