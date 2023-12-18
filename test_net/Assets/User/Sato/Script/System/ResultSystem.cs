@@ -16,6 +16,11 @@ public class ResultSystem : MonoBehaviourPunCallbacks
 
     [SerializeField, Header("評価描画用テキスト")] private Text EvaluationText;
 
+    [SerializeField, Header("クリア時のボタン")] private GameObject ClearButton;
+    [SerializeField, Header("ゲームオーバー時のボタン")] private GameObject GameOverButton;
+
+    [SerializeField, Header("最終ステージの場合オンにしてください")] private bool isLast;
+
     [SerializeField, Header("出す間隔")] private int intervalFrame;
 
     [SerializeField, Header("noTapArea")] private GameObject noTapArea;
@@ -38,6 +43,18 @@ public class ResultSystem : MonoBehaviourPunCallbacks
     void Start()
     {
         fadeanimation = GameObject.Find("Fade").GetComponent<FadeAnimation>();//フェードアニメーションスクリプト取得
+
+        //出すものを変える
+        if (PhotonNetwork.IsMasterClient)
+        {
+            ClearButton.transform.GetChild(0).gameObject.SetActive(true);
+            GameOverButton.transform.GetChild(0).gameObject.SetActive(true);
+        }
+        else
+        {
+            ClearButton.transform.GetChild(1).gameObject.SetActive(true);
+            GameOverButton.transform.GetChild(1).gameObject.SetActive(true);
+        }
     }
 
     // Update is called once per frame
@@ -117,12 +134,24 @@ public class ResultSystem : MonoBehaviourPunCallbacks
 
     public void Retry()
     {
-        photonView.RPC(nameof(RcpShareIsRetry), RpcTarget.All);
+        if (PhotonNetwork.IsMasterClient)
+        {
+            noTapArea.SetActive(true);
+            ManagerAccessor.Instance.sceneMoveManager.SceneMoveRetry();
+        }
     }
 
     public void StageSelect()
     {
-        photonView.RPC(nameof(RcpShareIsStageSelect), RpcTarget.All);
+        if (PhotonNetwork.IsMasterClient)
+        {
+            noTapArea.SetActive(true);
+
+            if (!isLast)
+                ManagerAccessor.Instance.sceneMoveManager.SceneMoveName("StageSelect");
+            else
+                ManagerAccessor.Instance.sceneMoveManager.SceneMoveName("Ending");
+        }
     }
 
     //リザルトの評価描画用
