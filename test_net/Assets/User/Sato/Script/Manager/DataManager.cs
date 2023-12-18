@@ -43,7 +43,7 @@ public class DataManager : MonoBehaviourPunCallbacks
     [System.NonSerialized] public bool isAppearCopyKey = false;
 
     //宝箱を開けれない状態
-    /*[System.NonSerialized]*/ public bool isNotOpenBox = false;
+    [System.NonSerialized] public bool isNotOpenBox = false;
     [System.NonSerialized] public bool isOwnerNotOpenBox = false;
     [System.NonSerialized] public bool isClientNotOpenBox = false;
 
@@ -53,7 +53,11 @@ public class DataManager : MonoBehaviourPunCallbacks
     //死亡フラグ
     [System.NonSerialized] public bool isDeth = false;
 
-    [System.NonSerialized] public string DeathPlayerName = null;//死亡したプレイヤーの名前を取得
+    //ポーズフラグ
+    [System.NonSerialized] public bool isPause = false;
+
+    //死亡したプレイヤーの名前を取得
+    [System.NonSerialized] public string DeathPlayerName = null;
 
     //ミスの回数
     [System.NonSerialized] public int ownerMissCount = 0;

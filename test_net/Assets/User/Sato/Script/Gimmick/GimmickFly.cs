@@ -387,21 +387,21 @@ public class GimmickFly : MonoBehaviourPunCallbacks
             //当たり判定設定
             GetComponent<BoxCollider2D>().isTrigger = true;
 
-            if (dis <= -0.1f || dis >= 0.1f)
+            if (dis <= -0.2f || dis >= 0.2f)
             {
                 GetComponent<Rigidbody2D>().simulated = false;
 
                 if (dis < 0)
-                    dis += 0.1f;
+                    dis += 0.1f * correctionAngle;
                 if (dis > 0)
-                    dis -= 0.1f;
+                    dis -= 0.1f * correctionAngle;
 
 
                 //親の座標を共有する
                 if (PhotonNetwork.LocalPlayer.IsMasterClient)
                 {
                     //角度の代入
-                    transform.eulerAngles = new Vector3(0, 0, dis * correctionAngle);
+                    transform.eulerAngles = new Vector3(0, 0, dis);
                 }
             }
             else
