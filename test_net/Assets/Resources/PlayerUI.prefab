@@ -210,7 +210,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6287469680690714191, guid: a478b6cf5af5932439456cc3e116a90f, type: 3}
       propertyPath: blinkingtime
-      value: 30
+      value: 60
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a478b6cf5af5932439456cc3e116a90f, type: 3}
