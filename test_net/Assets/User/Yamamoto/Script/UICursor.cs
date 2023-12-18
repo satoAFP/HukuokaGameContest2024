@@ -27,7 +27,7 @@ public class UICursor : MonoBehaviourPunCallbacks
 
     private int ColorChangeframe = 0;//色を変更させる時間を計る
 
-    private int Change_Color = 1;
+    private int Change_Color = 1;//数字によって色を変更させる
 
     // Start is called before the first frame update
     void Start()
