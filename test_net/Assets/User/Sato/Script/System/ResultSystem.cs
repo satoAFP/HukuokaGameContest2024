@@ -147,10 +147,10 @@ public class ResultSystem : MonoBehaviourPunCallbacks
         {
             noTapArea.SetActive(true);
 
-            if (!isLast)
-                ManagerAccessor.Instance.sceneMoveManager.SceneMoveName("StageSelect");
-            else
+            if (isLast&&ManagerAccessor.Instance.dataManager.isDeth)
                 ManagerAccessor.Instance.sceneMoveManager.SceneMoveName("Ending");
+            else
+                ManagerAccessor.Instance.sceneMoveManager.SceneMoveName("StageSelect");
         }
     }
 
