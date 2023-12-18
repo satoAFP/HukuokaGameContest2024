@@ -142,32 +142,37 @@ public class PlayerController : MonoBehaviourPunCallbacks
         datamanager = ManagerAccessor.Instance.dataManager;
 
 
-        //死亡時に全ての処理を止める
-        if (datamanager.isDeth)
+        //死亡時とポーズ時に全ての処理を止める
+        if (datamanager.isDeth || ManagerAccessor.Instance.dataManager.isPause)
         {
-            timer += Time.deltaTime;
 
-            //1秒ぐらい経過したら再度RpcDeathKnockBackを呼び出す
-            if (knockbacktime <= timer)
+            if(datamanager.isDeth)
             {
-                knockbackmove = false;
-                firstdeathknockback = true;
+                timer += Time.deltaTime;
+
+                //1秒ぐらい経過したら再度RpcDeathKnockBackを呼び出す
+                if (knockbacktime <= timer)
+                {
+                    knockbackmove = false;
+                    firstdeathknockback = true;
+                }
+
+                if (firstdeathknockback)
+                {
+                    Debug.Log("Rpc返す");
+
+                    photonView.RPC(nameof(RpcDeathKnockBack), RpcTarget.All);//死亡時のノックバック
+
+                    firstdeathknockback = false;
+                }
+
+                if (!knockbackmove)
+                {
+                    rigid.constraints = RigidbodyConstraints2D.FreezePositionX;//FreezePositionXをオンにする
+                    knockback_finish = true;
+                }
             }
-
-            if (firstdeathknockback)
-            {
-                Debug.Log("Rpc返す");
-
-                photonView.RPC(nameof(RpcDeathKnockBack), RpcTarget.All);//死亡時のノックバック
-
-                firstdeathknockback = false;
-            }
-
-            if(!knockbackmove)
-            {
-                rigid.constraints = RigidbodyConstraints2D.FreezePositionX;//FreezePositionXをオンにする
-                knockback_finish = true;
-            }
+           
 
         }
         else
@@ -478,7 +483,9 @@ public class PlayerController : MonoBehaviourPunCallbacks
     {
 
         //ゲームオーバーまたはクリア処理を返すまで移動の計算をする
-        if(!ManagerAccessor.Instance.dataManager.isDeth || !ManagerAccessor.Instance.dataManager.isClear)
+        if(!ManagerAccessor.Instance.dataManager.isDeth 
+            || !ManagerAccessor.Instance.dataManager.isClear
+            || !ManagerAccessor.Instance.dataManager.isPause)
         {
             rigid.velocity = new Vector2(inputDirection.x * moveSpeed, rigid.velocity.y);
         }
@@ -584,7 +591,8 @@ public class PlayerController : MonoBehaviourPunCallbacks
         //アンロックボタン、ロケットが起動中でない時 死亡してない時
         if (!ManagerAccessor.Instance.dataManager.isUnlockButtonStart && !movelock && !isFly
           &&!islift  && !ManagerAccessor.Instance.dataManager.isDeth
-          && !ManagerAccessor.Instance.dataManager.isClear) 
+          && !ManagerAccessor.Instance.dataManager.isClear
+          && ManagerAccessor.Instance.dataManager.isPause) 
         {
             Debug.Log("ジャンプできる");
 
