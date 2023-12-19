@@ -176,13 +176,16 @@ public class PlayerController : MonoBehaviourPunCallbacks
             //ポーズ時
             if(ManagerAccessor.Instance.dataManager.isPause)
             {
-
+                inputDirection.x = 0;
+                rigid.constraints = RigidbodyConstraints2D.FreezePositionX;//移動量を0にする
             }
            
 
         }
         else
         {
+            rigid.constraints = RigidbodyConstraints2D.FreezeRotation;//回転を止める
+
             if (firstLR_1P)
             {
                 //プレイヤーの左右の向きを変える
