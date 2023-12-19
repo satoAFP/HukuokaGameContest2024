@@ -34,7 +34,7 @@ public class ButtonControlSystem : MonoBehaviourPunCallbacks
                 if (inputDirection)
                 {
                     //上下を入力するとカーソルが上下する
-                    if (dataManager.isOwnerInputKey_C_L_UP || dataManager.isOwnerInputKey_C_L_UP)
+                    if (dataManager.isOwnerInputKey_C_L_UP || dataManager.isOwnerInputKey_C_L_DOWN)
                     {
                         if (first)
                         {
@@ -63,16 +63,23 @@ public class ButtonControlSystem : MonoBehaviourPunCallbacks
                 //ボタンにあった座標とサイズに変更
                 if (buttonNum)
                 {
+                    //アンダーバー座標とサイズ変更
                     RectTransform buttonTra = Buttons[0].GetComponent<RectTransform>();
-                    Debug.Log(buttonTra.sizeDelta.y / 2);
                     underber.GetComponent<RectTransform>().position = new Vector2(buttonTra.position.x, buttonTra.position.y - buttonTra.sizeDelta.y / 2);
-                    underber.GetComponent<RectTransform>().sizeDelta = new Vector2(buttonTra.sizeDelta.x, underber.GetComponent<RectTransform>().sizeDelta.y);
+                    underber.GetComponent<RectTransform>().sizeDelta = new Vector2(buttonTra.sizeDelta.x + 100, underber.GetComponent<RectTransform>().sizeDelta.y);
+
+                    underber.transform.GetChild(0).GetComponent<RectTransform>().position = new Vector2(buttonTra.position.x - buttonTra.sizeDelta.x / 2, underber.GetComponent<RectTransform>().position.y + 40);
+                    underber.transform.GetChild(1).GetComponent<RectTransform>().position = new Vector2(buttonTra.position.x + buttonTra.sizeDelta.x / 2, underber.GetComponent<RectTransform>().position.y + 40);
                 }
                 else
                 {
+                    //アンダーバー座標とサイズ変更
                     RectTransform buttonTra = Buttons[1].GetComponent<RectTransform>();
                     underber.GetComponent<RectTransform>().position = new Vector2(buttonTra.position.x, buttonTra.position.y - buttonTra.sizeDelta.y / 2);
-                    underber.GetComponent<RectTransform>().sizeDelta = new Vector2(buttonTra.sizeDelta.x, underber.GetComponent<RectTransform>().sizeDelta.y);
+                    underber.GetComponent<RectTransform>().sizeDelta = new Vector2(buttonTra.sizeDelta.x + 100, underber.GetComponent<RectTransform>().sizeDelta.y);
+
+                    underber.transform.GetChild(0).GetComponent<RectTransform>().position = new Vector2(buttonTra.position.x - buttonTra.sizeDelta.x / 2, underber.GetComponent<RectTransform>().position.y + 40);
+                    underber.transform.GetChild(1).GetComponent<RectTransform>().position = new Vector2(buttonTra.position.x + buttonTra.sizeDelta.x / 2, underber.GetComponent<RectTransform>().position.y + 40);
                 }
 
 
