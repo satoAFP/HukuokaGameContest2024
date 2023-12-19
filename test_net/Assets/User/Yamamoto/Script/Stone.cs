@@ -21,9 +21,17 @@ public class Stone : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        
+        //ポーズ中の時岩の落下を止める
+        if (ManagerAccessor.Instance.dataManager.isPause)
+        {
+            rb.constraints = RigidbodyConstraints2D.FreezePositionY;//FreezePositionXをオンにする
+        }
+        else
+        {
+            rb.constraints = RigidbodyConstraints2D.None;
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
