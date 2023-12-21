@@ -441,7 +441,7 @@ MonoBehaviour:
   - {fileID: 1984880155647787311}
   underber: {fileID: 7352090299661659572}
   inputDirection: 1
-  choseSE: {fileID: 8300000, guid: 2a97e33ecddeb3645ade433d35b6d6f7, type: 3}
+  choseSE: {fileID: 8300000, guid: 53ebdf8de9d68fa41a0ea429dce8ed73, type: 3}
 --- !u!82 &6958777771355284
 AudioSource:
   m_ObjectHideFlags: 0

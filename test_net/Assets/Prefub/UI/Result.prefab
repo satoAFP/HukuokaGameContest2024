@@ -918,7 +918,7 @@ MonoBehaviour:
   - {fileID: 1433348822008664531}
   underber: {fileID: 2649237452018299166}
   inputDirection: 0
-  choseSE: {fileID: 8300000, guid: 2a97e33ecddeb3645ade433d35b6d6f7, type: 3}
+  choseSE: {fileID: 8300000, guid: 53ebdf8de9d68fa41a0ea429dce8ed73, type: 3}
 --- !u!82 &7213278195179960096
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1573,7 +1573,7 @@ MonoBehaviour:
   - {fileID: 5450645839097356938}
   underber: {fileID: 341265278868922720}
   inputDirection: 0
-  choseSE: {fileID: 8300000, guid: 2a97e33ecddeb3645ade433d35b6d6f7, type: 3}
+  choseSE: {fileID: 8300000, guid: 53ebdf8de9d68fa41a0ea429dce8ed73, type: 3}
 --- !u!82 &6253447887456309296
 AudioSource:
   m_ObjectHideFlags: 0
