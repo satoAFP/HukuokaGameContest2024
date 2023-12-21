@@ -23,6 +23,8 @@ public class StoneGenerate : MonoBehaviourPunCallbacks
 
     [SerializeField, Header("移動速度")] private float moveSpeed;
 
+    private float firstspeed = 0;//最初に設定したmoveSpeedを保存する
+
     private bool movestop = false;//DeathEreaの移動を止める
 
     private float timer = 0f;//時間をカウント
@@ -33,12 +35,19 @@ public class StoneGenerate : MonoBehaviourPunCallbacks
 
     private GameObject ChildObj;//生成した岩オブジェクトを子オブジェクトにする
 
+    private Rigidbody2D rb; // Rigidbody2Dを保持する変数
+
     // Start is called before the first frame update
     void Start()
     {
         height = gameObject.GetComponent<Renderer>().bounds.size.y;
 
         ParentObj = Instantiate(StoneParentObject, Vector2.zero, Quaternion.identity);
+
+        firstspeed = moveSpeed;
+
+        // ゲームオブジェクトにアタッチされたRigidbody2Dコンポーネントを取得
+        rb = GetComponent<Rigidbody2D>();
     }
 
     // Update is called once per frame
@@ -51,24 +60,45 @@ public class StoneGenerate : MonoBehaviourPunCallbacks
            
         //}
 
+       
+
         // オブジェクトを右に移動させる
-        if (!movestop)
+        if (!movestop || !ManagerAccessor.Instance.dataManager.isPause)
         {
             Debug.Log("移動中");
             transform.Translate(Vector2.right * moveSpeed * Time.deltaTime);
         }
 
-        timer += Time.deltaTime;
+        
 
-        //ここで岩を生成する時間を計測
-        if (timer >= spawnInterval)
+        if (ManagerAccessor.Instance.dataManager.isPause)
         {
-            for(int i=0;i < spawnstone; i++)
+            moveSpeed = 0;//デスエリアに掛かっている速度を0にする
+            rb.constraints = RigidbodyConstraints2D.FreezeAll;//横方向の移動を止める
+        }
+        else//ポーズ中でなければ岩を生成し続ける
+        {
+            //ポーズした時に止めた移動処理を解除する
+            moveSpeed = firstspeed;
+            //rb.constraints = RigidbodyConstraints2D.FreezePositionY;
+            //rb.constraints = RigidbodyConstraints2D.FreezeRotation;
+
+            rb.constraints =
+　　　　　　RigidbodyConstraints2D.FreezeRotation |
+　　　　　　RigidbodyConstraints2D.FreezePositionY;
+
+            timer += Time.deltaTime;
+
+            //ここで岩を生成する時間を計測
+            if (timer >= spawnInterval)
             {
-                SpawnObject();
+                for (int i = 0; i < spawnstone; i++)
+                {
+                    SpawnObject();
+                }
+
+                timer = 0f;
             }
-           
-            timer = 0f;
         }
 
     }
