@@ -22,6 +22,10 @@ public class GimmickRotateBomb : MonoBehaviourPunCallbacks
 
     [SerializeField, Header("一つの入力にいれるのフレーム")] private int rotateSpeed;
 
+    [SerializeField, Header("カウントSE")] AudioClip countSE;
+
+    private AudioSource audioSource;
+
     //コピーキーのみ取得用
     private GameObject copyKeyObj = null;
     private string hitObjName = null;
@@ -69,6 +73,11 @@ public class GimmickRotateBomb : MonoBehaviourPunCallbacks
     private bool first = true;
     private bool first1 = true;
 
+    private void Start()
+    {
+        audioSource = GetComponent<AudioSource>();
+
+    }
 
     // Update is called once per frame
     void FixedUpdate()
@@ -225,6 +234,9 @@ public class GimmickRotateBomb : MonoBehaviourPunCallbacks
                 {
                     isColorChangeTiming = false;
                     GetComponent<SpriteRenderer>().color = new Color(1, 0, 0, 1);
+
+                    //SE再生
+                    audioSource.PlayOneShot(countSE);
                 }
             }
             else
@@ -233,6 +245,9 @@ public class GimmickRotateBomb : MonoBehaviourPunCallbacks
                 {
                     isColorChangeTiming = true;
                     GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 1);
+
+                    //SE再生
+                    audioSource.PlayOneShot(countSE);
                 }
             }
 

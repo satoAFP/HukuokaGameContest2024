@@ -24,6 +24,10 @@ public class GimmickFly : MonoBehaviourPunCallbacks
     [SerializeField, Header("ゴール後クリア表示までのフレーム")]
     private int GoalTime;
 
+    [SerializeField, Header("乗り込むSE")] AudioClip rideSE;
+    [SerializeField, Header("飛ぶSE")] AudioClip flySE;
+
+    private AudioSource audioSource;
 
     private DataManager dataManager;        //データマネージャー
 
@@ -65,6 +69,7 @@ public class GimmickFly : MonoBehaviourPunCallbacks
 
     private void Start()
     {
+        audioSource = GetComponent<AudioSource>();
         rigidbody = GetComponent<Rigidbody2D>();
         ownerCoolTimeCount = CoolTime;
         clientCoolTimeCount = CoolTime;
@@ -95,6 +100,8 @@ public class GimmickFly : MonoBehaviourPunCallbacks
                         ManagerAccessor.Instance.dataManager.player1.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
                         GameObject.FindWithTag("VirtualCamera").GetComponent<CinemachineVirtualCamera>().Follow = transform;
 
+                        //SE再生
+                        audioSource.PlayOneShot(rideSE);
 
                         startFirst = false;
                     }
@@ -120,6 +127,9 @@ public class GimmickFly : MonoBehaviourPunCallbacks
                         ManagerAccessor.Instance.dataManager.player2.GetComponent<BoxCollider2D>().enabled = false;
                         ManagerAccessor.Instance.dataManager.player2.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
                         GameObject.FindWithTag("VirtualCamera").GetComponent<CinemachineVirtualCamera>().Follow = transform;
+
+                        //SE再生
+                        audioSource.PlayOneShot(rideSE);
 
                         startFirst = false;
                     }
@@ -278,6 +288,9 @@ public class GimmickFly : MonoBehaviourPunCallbacks
                             ownerTapNum += MoveAngle;
                             ownerFirst = false;
                             ownerCoolTimeCount = 0;
+
+                            //SE再生
+                            audioSource.PlayOneShot(flySE);
                         }
                     }
                     else
@@ -292,6 +305,9 @@ public class GimmickFly : MonoBehaviourPunCallbacks
                             clientTapNum += MoveAngle;
                             clientFirst = false;
                             clientCoolTimeCount = 0;
+
+                            //SE再生
+                            audioSource.PlayOneShot(flySE);
                         }
                     }
                     else
