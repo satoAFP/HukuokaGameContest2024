@@ -105,7 +105,7 @@ public class GimmickBlock : CGimmick
                                 }
 
                                 //SEçƒê∂
-                                audioSource.PlayOneShot(failureSE);
+                                //audioSource.PlayOneShot(failureSE);
 
                                 isFailure = true;
                                 count = 0;
@@ -145,7 +145,7 @@ public class GimmickBlock : CGimmick
                         first = false;
 
                         //SEçƒê∂
-                        audioSource.PlayOneShot(liftSE);
+                        //audioSource.PlayOneShot(liftSE);
                     }
 
                     //ÉvÉåÉCÉÑÅ[Ç…í«è]Ç≥ÇπÇÈ
@@ -239,7 +239,7 @@ public class GimmickBlock : CGimmick
                     isStart = false;
 
                     //SEçƒê∂
-                    audioSource.PlayOneShot(liftSE);
+                    //audioSource.PlayOneShot(liftSE);
 
                     if (PhotonNetwork.IsMasterClient)
                     {
