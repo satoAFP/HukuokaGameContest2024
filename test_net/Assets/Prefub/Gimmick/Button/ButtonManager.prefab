@@ -165,7 +165,7 @@ MonoBehaviour:
   door: {fileID: 8479752833145875385}
   gimmickNum: 0
   successSE: {fileID: 8300000, guid: f8cc5c078019c0840956059723a747a1, type: 3}
-  failureSE: {fileID: 8300000, guid: dfefb2a4c94ddb845ad3836b7af77ef5, type: 3}
+  failureSE: {fileID: 8300000, guid: 8e01485e36d0c9c41821bc1ccb8ebae7, type: 3}
 --- !u!82 &8007661267875067032
 AudioSource:
   m_ObjectHideFlags: 0

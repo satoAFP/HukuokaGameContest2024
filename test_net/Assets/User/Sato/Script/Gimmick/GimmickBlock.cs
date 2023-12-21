@@ -6,6 +6,7 @@ using UnityEngine;
 public class GimmickBlock : CGimmick
 {
     [SerializeField, Header("éùÇøè„Ç∞SE")] AudioClip liftSE;
+    [SerializeField, Header("é∏îsSE")] AudioClip failureSE;
 
     private AudioSource audioSource;
 
@@ -97,6 +98,9 @@ public class GimmickBlock : CGimmick
                                     if (dataManager.isClientInputKey_CB)
                                         ManagerAccessor.Instance.dataManager.ownerMissCount++;
                                 }
+
+                                //SEçƒê∂
+                                audioSource.PlayOneShot(failureSE);
 
                                 isFailure = true;
                                 count = 0;

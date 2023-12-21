@@ -131,7 +131,7 @@ MonoBehaviour:
   PosUpData: 60
   DisplayTime: 10
   rotateSpeed: 30
-  countSE: {fileID: 8300000, guid: d922b58e5aa75d8489de5e72ccbc52dc, type: 3}
+  countSE: {fileID: 8300000, guid: 3ef92b2f85c28674aab498eae61dd9de, type: 3}
 --- !u!61 &8608606801078004578
 BoxCollider2D:
   m_ObjectHideFlags: 0

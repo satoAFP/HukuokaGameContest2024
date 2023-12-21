@@ -202,6 +202,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bb781f1960276e44a6c4f11b3191e6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  liftSE: {fileID: 8300000, guid: 1944043161e519f4483d6edc3c8a614e, type: 3}
+  failureSE: {fileID: 8300000, guid: 8e01485e36d0c9c41821bc1ccb8ebae7, type: 3}
 --- !u!82 &3643483144739959141
 AudioSource:
   m_ObjectHideFlags: 0

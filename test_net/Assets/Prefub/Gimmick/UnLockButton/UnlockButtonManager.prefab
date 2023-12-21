@@ -103,7 +103,7 @@ MonoBehaviour:
   vibrationTime: 20
   vibrationPower: {x: 8, y: 8, z: 0}
   successSE: {fileID: 8300000, guid: e89bc96cbb288db488da3029fc2e1893, type: 3}
-  failureSE: {fileID: 8300000, guid: dfefb2a4c94ddb845ad3836b7af77ef5, type: 3}
+  failureSE: {fileID: 8300000, guid: 8e01485e36d0c9c41821bc1ccb8ebae7, type: 3}
   ClearSituation: 
 --- !u!50 &2864375563346277396
 Rigidbody2D:
@@ -366,7 +366,7 @@ MonoBehaviour:
   vibrationTime: 20
   vibrationPower: {x: 8, y: 8, z: 0}
   successSE: {fileID: 8300000, guid: e89bc96cbb288db488da3029fc2e1893, type: 3}
-  failureSE: {fileID: 8300000, guid: dfefb2a4c94ddb845ad3836b7af77ef5, type: 3}
+  failureSE: {fileID: 8300000, guid: 8e01485e36d0c9c41821bc1ccb8ebae7, type: 3}
   ClearSituation: 
 --- !u!50 &2864375564980447826
 Rigidbody2D:
@@ -499,7 +499,7 @@ MonoBehaviour:
   isHideAnswer: 0
   isWhareHideAnswer: 
   successSE: {fileID: 8300000, guid: e88d42aab099df94a90635b9d9f1c62c, type: 3}
-  failureSE: {fileID: 8300000, guid: dfefb2a4c94ddb845ad3836b7af77ef5, type: 3}
+  failureSE: {fileID: 8300000, guid: bbd3db9f15746d442a2bbf56c0e85ac3, type: 3}
 --- !u!82 &4458818732972794982
 AudioSource:
   m_ObjectHideFlags: 0
