@@ -159,6 +159,48 @@ public class GimmickBlock : CGimmick
                     {
                         ManagerAccessor.Instance.dataManager.player2.GetComponent<PlayerController>().islift = true;
                     }
+
+                    if (!((dataManager.isOwnerInputKey_C_L_RIGHT && dataManager.isClientInputKey_C_L_RIGHT) ||
+                       (dataManager.isOwnerInputKey_C_L_LEFT && dataManager.isClientInputKey_C_L_LEFT)))
+                    {
+                        //‚¿ã‚°‚Ä‚¢‚é”»’è
+                        if (PhotonNetwork.IsMasterClient)
+                        {
+                            if (!dataManager.isAppearCopyKey)
+                            {
+                                ManagerAccessor.Instance.dataManager.player1.GetComponent<Rigidbody2D>().simulated = false;
+                            }
+                            else
+                            {
+                                ManagerAccessor.Instance.dataManager.copyKey.GetComponent<Rigidbody2D>().simulated = false;
+                            }
+                        }
+                        else
+                        {
+                            ManagerAccessor.Instance.dataManager.player2.GetComponent<Rigidbody2D>().simulated = false;
+                        }
+                    }
+
+                    if ((dataManager.isOwnerInputKey_C_L_RIGHT && dataManager.isClientInputKey_C_L_RIGHT) ||
+                       (dataManager.isOwnerInputKey_C_L_LEFT && dataManager.isClientInputKey_C_L_LEFT))
+                    {
+                        //‚¿ã‚°‚Ä‚¢‚é”»’è
+                        if (PhotonNetwork.IsMasterClient)
+                        {
+                            if (!dataManager.isAppearCopyKey)
+                            {
+                                ManagerAccessor.Instance.dataManager.player1.GetComponent<Rigidbody2D>().simulated = true;
+                            }
+                            else
+                            {
+                                ManagerAccessor.Instance.dataManager.copyKey.GetComponent<Rigidbody2D>().simulated = true;
+                            }
+                        }
+                        else
+                        {
+                            ManagerAccessor.Instance.dataManager.player2.GetComponent<Rigidbody2D>().simulated = true;
+                        }
+                    }
                 }
             }
 
@@ -183,14 +225,22 @@ public class GimmickBlock : CGimmick
                     if (PhotonNetwork.IsMasterClient)
                     {
                         if (!dataManager.isAppearCopyKey)
+                        {
                             ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().islift = false;
+                            ManagerAccessor.Instance.dataManager.player1.GetComponent<Rigidbody2D>().simulated = true;
+                        }
                         else
+                        {
                             ManagerAccessor.Instance.dataManager.copyKey.GetComponent<CopyKey>().islift = false;
+                            ManagerAccessor.Instance.dataManager.copyKey.GetComponent<Rigidbody2D>().simulated = true;
+                        }
                     }
                     else
                     {
                         ManagerAccessor.Instance.dataManager.player2.GetComponent<PlayerController>().islift = false;
+                        ManagerAccessor.Instance.dataManager.player2.GetComponent<Rigidbody2D>().simulated = true;
                     }
+
                 }
 
                 //“¯Šú‰ğœ
