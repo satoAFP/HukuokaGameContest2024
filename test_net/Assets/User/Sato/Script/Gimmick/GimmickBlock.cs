@@ -39,6 +39,11 @@ public class GimmickBlock : CGimmick
     //˜A‘±‚Å”½‰‚µ‚È‚¢‚½‚ß‚Ìˆ—
     private bool first = true;
 
+    private void Start()
+    {
+        audioSource = GetComponent<AudioSource>();
+    }
+
     private void FixedUpdate()
     {
         dataManager = ManagerAccessor.Instance.dataManager;
