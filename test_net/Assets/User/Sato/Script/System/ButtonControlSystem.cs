@@ -48,8 +48,10 @@ public class ButtonControlSystem : MonoBehaviourPunCallbacks
                         if (first)
                         {
                             buttonNum = !buttonNum;
-                            audioSource.PlayOneShot(choseSE);
                             first = false;
+
+                            //SEçƒê∂
+                            audioSource.PlayOneShot(choseSE);
                         }
                     }
                     else

@@ -5,6 +5,10 @@ using UnityEngine;
 
 public class GimmickBlock : CGimmick
 {
+    [SerializeField, Header("持ち上げSE")] AudioClip liftSE;
+
+    private AudioSource audioSource;
+
     //オブジェクトが持ち上がっているとき
     [System.NonSerialized] public bool liftMode = false;
 
@@ -130,6 +134,9 @@ public class GimmickBlock : CGimmick
                         dis = transform.position - Player.transform.position;
 
                         first = false;
+
+                        //SE再生
+                        audioSource.PlayOneShot(liftSE);
                     }
 
                     //プレイヤーに追従させる
@@ -221,6 +228,9 @@ public class GimmickBlock : CGimmick
                     hitOwner = false;
                     hitClient = false;
                     isStart = false;
+
+                    //SE再生
+                    audioSource.PlayOneShot(liftSE);
 
                     if (PhotonNetwork.IsMasterClient)
                     {

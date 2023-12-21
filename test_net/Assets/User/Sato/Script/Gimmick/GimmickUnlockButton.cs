@@ -20,6 +20,11 @@ public class GimmickUnlockButton : CGimmick
 
     [SerializeField, Header("U“®‚ÌˆÚ“®—Ê")] private Vector3 vibrationPower;
 
+    [SerializeField, Header("¬Œ÷SE")] AudioClip successSE;
+    [SerializeField, Header("¸”sSE")] AudioClip failureSE;
+
+    private AudioSource audioSource;
+
     private DataManager dataManager = null;
 
     //ŒÂl‚Å‚Á‚Ä‚¢‚éG‚ê‚Ä‚¢‚é”»’è
@@ -56,6 +61,7 @@ public class GimmickUnlockButton : CGimmick
 
     private void Start()
     {
+        audioSource = transform.parent.GetComponent<AudioSource>();
         rb2d = GetComponent<Rigidbody2D>();
     }
 
@@ -413,6 +419,9 @@ public class GimmickUnlockButton : CGimmick
         {
             ClearSituation[ansnum] = true;
             transform.parent.gameObject.GetComponent<GimmickUnlockButtonManagement>().clone[ansnum].GetComponent<Image>().color = new Color32(128, 128, 128, 255);
+
+            //SEÄ¶
+            audioSource.PlayOneShot(successSE);
         }
         //¸”s
         else
@@ -429,6 +438,9 @@ public class GimmickUnlockButton : CGimmick
                 ManagerAccessor.Instance.dataManager.ownerMissCount++;
             else
                 transform.parent.gameObject.GetComponent<GimmickUnlockButtonManagement>().CallRpcShareInputMiss();
+
+            //SEÄ¶
+            audioSource.PlayOneShot(failureSE);
         }
     }
 
