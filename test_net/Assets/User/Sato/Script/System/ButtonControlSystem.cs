@@ -11,6 +11,10 @@ public class ButtonControlSystem : MonoBehaviourPunCallbacks
 
     [SerializeField, Header("縦＝true 横＝false")] private bool inputDirection;
 
+    [SerializeField, Header("選択SE")] AudioClip choseSE;
+
+    private AudioSource audioSource;
+
     private DataManager dataManager;        //データマネージャー取得用
 
     private bool buttonNum = true;          //ボタンの数
@@ -20,6 +24,11 @@ public class ButtonControlSystem : MonoBehaviourPunCallbacks
     //連続で入らないよう
     private bool first = true;
     private bool firstSceneMove = true;
+
+    private void Start()
+    {
+        audioSource = GetComponent<AudioSource>();
+    }
 
 
     // Update is called once per frame
@@ -39,6 +48,7 @@ public class ButtonControlSystem : MonoBehaviourPunCallbacks
                         if (first)
                         {
                             buttonNum = !buttonNum;
+                            audioSource.PlayOneShot(choseSE);
                             first = false;
                         }
                     }
@@ -53,6 +63,7 @@ public class ButtonControlSystem : MonoBehaviourPunCallbacks
                         if (first)
                         {
                             buttonNum = !buttonNum;
+                            audioSource.PlayOneShot(choseSE);
                             first = false;
                         }
                     }
