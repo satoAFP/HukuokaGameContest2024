@@ -60,8 +60,6 @@ public class EndingSystem : MonoBehaviourPunCallbacks
     public void OnAnimationEnd()
     {
         //o‚·‚à‚Ì‚ğ•Ï‚¦‚é
-
-        //o‚·‚à‚Ì‚ğ•Ï‚¦‚é
         if (PhotonNetwork.IsMasterClient)
         {
             gameObject.transform.GetChild(1).gameObject.SetActive(true);

@@ -25,6 +25,9 @@ public class ResultSystem : MonoBehaviourPunCallbacks
 
     [SerializeField, Header("noTapArea")] private GameObject noTapArea;
 
+    [SerializeField, Header("クリア時のBGM")] private AudioClip ClearBGM;
+    [SerializeField, Header("ゲームオーバー時のBGM")] private AudioClip LoseBGM;
+
     private int count = 0;      //フレームを数える
     private int objCount = 0;   //オブジェクトを数える
 
@@ -106,6 +109,9 @@ public class ResultSystem : MonoBehaviourPunCallbacks
             //クリア情報セーブ
             ManagerAccessor.Instance.saveDataManager.ClearDataSave(ManagerAccessor.Instance.sceneMoveManager.GetSceneName());
 
+            //BGM変更
+            ManagerAccessor.Instance.dataManager.BGM.GetComponent<AudioSource>().clip = ClearBGM;
+
             //フレームカウント
             count++;
         }
@@ -117,6 +123,9 @@ public class ResultSystem : MonoBehaviourPunCallbacks
             if(fadeanimation.fadeoutfinish)
             {
                 gameObject.transform.GetChild(1).gameObject.SetActive(true);
+
+                //BGM変更
+                ManagerAccessor.Instance.dataManager.BGM.GetComponent<AudioSource>().clip = LoseBGM;
             }
 
         }
