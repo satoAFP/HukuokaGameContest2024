@@ -109,7 +109,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
     [SerializeField, Header("箱プレイヤー専用SE")] private AudioClip[] BoxplayerSE;
     private bool oneSE = true;
     private int walkseframe = 0;//se再生時に測るフレーム
-
+    
     void Start()
     {
 
@@ -658,7 +658,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
             //操作が競合しないための設定
             if (photonView.IsMine)
             {
-                audiosource.PlayOneShot(StandardSE[1]);//ジャンプ効果音
+                photonView.RPC(nameof(RpcPlayJumpSE), RpcTarget.All);//ジャンプの効果音
                 rigid.AddForce(Vector2.up * jumpSpeed, ForceMode2D.Impulse);
                 bjump = true;//一度ジャンプしたら着地するまでジャンプできなくする
             }
@@ -842,4 +842,12 @@ public class PlayerController : MonoBehaviourPunCallbacks
         animplay = false;
         firstanimplay = true;
     }
+
+    [PunRPC]
+    private void RpcPlayJumpSE()
+    {
+        audiosource.PlayOneShot(StandardSE[1]);//ジャンプ効果音
+    }
+
+
 }
