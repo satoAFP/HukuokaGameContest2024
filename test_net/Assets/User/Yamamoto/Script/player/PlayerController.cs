@@ -104,7 +104,11 @@ public class PlayerController : MonoBehaviourPunCallbacks
     [System.NonSerialized] public bool copykeydelete = false;//コピーキーが岩に当たって消えたとき
 
 
-    private string objName;
+    private AudioSource audiosource = null;//オーディオソース
+    [SerializeField, Header("プレイヤー標準SE")]   private AudioClip[] StandardSE;
+    [SerializeField, Header("箱プレイヤー専用SE")] private AudioClip[] BoxplayerSE;
+    private bool oneSE = true;
+    private int walkseframe = 0;//se再生時に測るフレーム
 
     void Start()
     {
@@ -135,6 +139,9 @@ public class PlayerController : MonoBehaviourPunCallbacks
         }
 
         test_net = new Test_net();//スクリプトを変数に格納
+
+        audiosource = GetComponent<AudioSource>();//AudioSourceを取得
+
     }
     void FixedUpdate()
     {
@@ -168,7 +175,8 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
                 if (!knockbackmove)
                 {
-                    rigid.constraints = RigidbodyConstraints2D.FreezePositionX;//FreezePositionXをオンにする
+                    rigid.constraints = RigidbodyConstraints2D.FreezePositionX|
+                                        RigidbodyConstraints2D.FreezeRotation;//FreezePositionXをオンにする
                     knockback_finish = true;
                 }
             }
@@ -177,7 +185,8 @@ public class PlayerController : MonoBehaviourPunCallbacks
             if(ManagerAccessor.Instance.dataManager.isPause)
             {
                 inputDirection.x = 0;
-                rigid.constraints = RigidbodyConstraints2D.FreezePositionX;//移動量を0にする
+                rigid.constraints = RigidbodyConstraints2D.FreezePositionX|
+                                    RigidbodyConstraints2D.FreezeRotation;//移動量を0にする
             }
            
 
@@ -224,7 +233,28 @@ public class PlayerController : MonoBehaviourPunCallbacks
                 }
             }
 
+            //移動アニメーションが再生されているとき効果音を鳴らす
+            if(animplay)
+            {
 
+                if(oneSE)
+                {
+                    audiosource.PlayOneShot(StandardSE[0]);//歩く効果音
+                    oneSE = false;
+                }
+                else
+                {
+                    walkseframe++;//大体の効果音の再生時間を計測する
+
+                    //効果音が鳴りやんだタイミングで再度効果音を鳴らす
+                    if (walkseframe >= 30)
+                    {
+                        oneSE = true;
+                        walkseframe = 0;//ここでフレーム計算をリセット
+                    }
+                }
+              
+            }
 
             //操作が競合しないための設定
             if (photonView.IsMine)
@@ -628,6 +658,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
             //操作が競合しないための設定
             if (photonView.IsMine)
             {
+                audiosource.PlayOneShot(StandardSE[1]);//ジャンプ効果音
                 rigid.AddForce(Vector2.up * jumpSpeed, ForceMode2D.Impulse);
                 bjump = true;//一度ジャンプしたら着地するまでジャンプできなくする
             }
@@ -673,9 +704,13 @@ public class PlayerController : MonoBehaviourPunCallbacks
     [PunRPC]
     private void RpcChangeBoxOpenImage()
     {
+
+        Debug.Log("ake");
         //当たり判定を切る
         GetComponent<BoxCollider2D>().isTrigger = true;
         GetComponent<Rigidbody2D>().simulated = false;
+
+        audiosource.PlayOneShot(BoxplayerSE[0]);//箱を開ける効果音
 
         change_unloadimage = false;//ここでfalseにしないと箱が空くイラストに変わらないので注意
         change_boxopenimage = true;//箱プレイヤーの画像変更
