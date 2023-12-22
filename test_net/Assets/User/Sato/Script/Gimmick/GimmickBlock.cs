@@ -139,12 +139,12 @@ public class GimmickBlock : CGimmick
                         if (PhotonNetwork.IsMasterClient)
                         {
                             if (ManagerAccessor.Instance.dataManager.isAppearCopyKey)
-                                ManagerAccessor.Instance.dataManager.copyKey.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = ManagerAccessor.Instance.spriteManager.ArrowRight;
+                                ManagerAccessor.Instance.dataManager.copyKey.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = ManagerAccessor.Instance.spriteManager.LStickPlus;
                             else
-                                ManagerAccessor.Instance.dataManager.player1.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = ManagerAccessor.Instance.spriteManager.ArrowRight;
+                                ManagerAccessor.Instance.dataManager.player1.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = ManagerAccessor.Instance.spriteManager.LStickPlus;
                         }
                         else
-                            ManagerAccessor.Instance.dataManager.player2.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = ManagerAccessor.Instance.spriteManager.ArrowRight;
+                            ManagerAccessor.Instance.dataManager.player2.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = ManagerAccessor.Instance.spriteManager.LStickPlus;
 
                         //éùÇøè„Ç™Ç¡ÇΩà íuÇ…à⁄ìÆ
                         Vector3 input = gameObject.transform.position;
