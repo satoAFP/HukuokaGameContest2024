@@ -11,6 +11,14 @@ public class GoalSystem : CGimmick
 
     [SerializeField, Header("フェード終了後のシーン切り替え速度")] private int FeedEndSpeed;
 
+    [SerializeField, Header("ゴールSE")] AudioClip goalSE;
+
+    [SerializeField, Header("SEを鳴らす回数")] private int SEPlayNum;
+
+    [SerializeField, Header("SEを鳴らす間隔")] private int SEInterbal;
+
+    private AudioSource audioSource;
+
     //ゴールに触れているかどうか
     private bool isOwnerEnter = false;
     private bool isClientEnter = false;
@@ -20,6 +28,14 @@ public class GoalSystem : CGimmick
     private bool isClientFadeEnd = false;
 
     private int frameCount = 0;
+    private int SECount = 0;
+
+    private bool first = true;
+
+    private void Start()
+    {
+        audioSource = GetComponent<AudioSource>();
+    }
 
     // Update is called once per frame
     void FixedUpdate()
@@ -29,14 +45,22 @@ public class GoalSystem : CGimmick
         {
             if (ManagerAccessor.Instance.dataManager.isOwnerInputKey_C_D_UP)
             {
-                photonView.RPC(nameof(RpcClearCheck), RpcTarget.All, PLAYER1);
+                if (first)
+                {
+                    photonView.RPC(nameof(RpcClearCheck), RpcTarget.All, PLAYER1);
+                    first = false;
+                }
             }
         }
         if (isClientEnter)
         {
             if (ManagerAccessor.Instance.dataManager.isClientInputKey_C_D_UP)
             {
-                photonView.RPC(nameof(RpcClearCheck), RpcTarget.All, PLAYER2);
+                if (first)
+                {
+                    photonView.RPC(nameof(RpcClearCheck), RpcTarget.All, PLAYER2);
+                    first = false;
+                }
             }
         }
 
@@ -50,6 +74,18 @@ public class GoalSystem : CGimmick
                 ManagerAccessor.Instance.dataManager.player1.transform.Find("PlayerImage").GetComponent<SpriteRenderer>().color -= new Color32(0, 0, 0, (byte)FeedSpeed);
             else
                 isOwnerFadeEnd = true;
+
+            if(PhotonNetwork.IsMasterClient)
+            {
+                SECount++;
+                if (SECount <= SECount * SEPlayNum)
+                {
+                    if (SECount % SEInterbal == 0)
+                    {
+                        audioSource.PlayOneShot(goalSE);
+                    }
+                }
+            }
         }
 
         if (ManagerAccessor.Instance.dataManager.GetSetIsClientClear)
@@ -61,6 +97,19 @@ public class GoalSystem : CGimmick
                 ManagerAccessor.Instance.dataManager.player2.transform.Find("PlayerImage").GetComponent<SpriteRenderer>().color -= new Color32(0, 0, 0, (byte)FeedSpeed);
             else
                 isClientFadeEnd = true;
+
+            //SE再生
+            if (!PhotonNetwork.IsMasterClient)
+            {
+                SECount++;
+                if (SECount <= SECount * SEPlayNum)
+                {
+                    if (SECount % SEInterbal == 0)
+                    {
+                        audioSource.PlayOneShot(goalSE);
+                    }
+                }
+            }
         }
 
         //クリアするとリザルト画面表示
