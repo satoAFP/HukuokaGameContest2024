@@ -24,6 +24,9 @@ public class GimmickFly : MonoBehaviourPunCallbacks
     [SerializeField, Header("ゴール後クリア表示までのフレーム")]
     private int GoalTime;
 
+    [SerializeField, Header("ボタンが消えるまでの回数")]
+    private int DestroyCount;
+
     [SerializeField, Header("乗り込むSE")] AudioClip rideSE;
     [SerializeField, Header("飛ぶSE")] AudioClip flySE;
 
@@ -57,6 +60,7 @@ public class GimmickFly : MonoBehaviourPunCallbacks
 
     private int startWaitTimeCount = 0;     //ロケット開始時入力をいったん受け付けない
     private int goalCount = 0;              //ゴール後クリアを表示するまでのカウント
+    private int tapCount = 0;
 
     //連続で反応しない
     private bool startFirst = true;
@@ -205,6 +209,10 @@ public class GimmickFly : MonoBehaviourPunCallbacks
             isStart = true;
             ManagerAccessor.Instance.dataManager.isFlyStart = true;
 
+            //押すべきボタン表示
+            transform.GetChild(4).gameObject.SetActive(true);
+            transform.GetChild(4).gameObject.GetComponent<SpriteRenderer>().sprite = ManagerAccessor.Instance.spriteManager.ArrowRight;
+
             //重力設定
             rigidbody.bodyType = RigidbodyType2D.Dynamic;
             //当たり判定設定
@@ -296,6 +304,19 @@ public class GimmickFly : MonoBehaviourPunCallbacks
                             ownerFirst = false;
                             ownerCoolTimeCount = 0;
 
+                            if (tapCount < DestroyCount) 
+                            {
+                                tapCount++;
+                                transform.GetChild(4).gameObject.GetComponent<SpriteRenderer>().color -= new Color32(0, 0, 0,(byte)(256 / DestroyCount));
+                                transform.GetChild(4).gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().color -= new Color32(0, 0, 0, (byte)(256 / DestroyCount));
+                            }
+                            else
+                            {
+                                transform.GetChild(4).gameObject.GetComponent<SpriteRenderer>().color = new Color32(0, 0, 0, 255);
+                                transform.GetChild(4).gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().color = new Color32(0, 0, 0, 255);
+                                transform.GetChild(4).gameObject.SetActive(false);
+                            }
+
                             //SE再生
                             audioSource.PlayOneShot(flySE);
                         }
@@ -312,6 +333,19 @@ public class GimmickFly : MonoBehaviourPunCallbacks
                             clientTapNum += MoveAngle;
                             clientFirst = false;
                             clientCoolTimeCount = 0;
+
+                            if (tapCount < DestroyCount)
+                            {
+                                tapCount++;
+                                transform.GetChild(4).gameObject.GetComponent<SpriteRenderer>().color -= new Color32(0, 0, 0, (byte)(256 / DestroyCount));
+                                transform.GetChild(4).gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().color -= new Color32(0, 0, 0, (byte)(256 / DestroyCount));
+                            }
+                            else
+                            {
+                                transform.GetChild(4).gameObject.GetComponent<SpriteRenderer>().color = new Color32(0, 0, 0, 255);
+                                transform.GetChild(4).gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().color = new Color32(0, 0, 0, 255);
+                                transform.GetChild(4).gameObject.SetActive(false);
+                            }
 
                             //SE再生
                             audioSource.PlayOneShot(flySE);

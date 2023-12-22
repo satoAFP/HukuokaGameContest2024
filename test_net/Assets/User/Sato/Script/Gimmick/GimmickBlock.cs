@@ -135,6 +135,17 @@ public class GimmickBlock : CGimmick
                 {
                     if (first)
                     {
+                        //‚¿ã‚°‚½Œã‚Ì‰æ‘œ‚É•ÏX
+                        if (PhotonNetwork.IsMasterClient)
+                        {
+                            if (ManagerAccessor.Instance.dataManager.isAppearCopyKey)
+                                ManagerAccessor.Instance.dataManager.copyKey.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = ManagerAccessor.Instance.spriteManager.ArrowRight;
+                            else
+                                ManagerAccessor.Instance.dataManager.player1.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = ManagerAccessor.Instance.spriteManager.ArrowRight;
+                        }
+                        else
+                            ManagerAccessor.Instance.dataManager.player2.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = ManagerAccessor.Instance.spriteManager.ArrowRight;
+
                         //‚¿ã‚ª‚Á‚½ˆÊ’u‚ÉˆÚ“®
                         Vector3 input = gameObject.transform.position;
                         input.y += 1.2f;
