@@ -109,7 +109,7 @@ public class StoneGenerate : MonoBehaviourPunCallbacks
         //ストップエリアに入ると移動を止める
         if (collision.gameObject.tag == "StopErea")
         {
-            //Debug.Log("エリアストップ");
+            Debug.Log("エリアストップ");
             movestop = true;
 
         }
