@@ -97,7 +97,7 @@ public class GimmickFly : MonoBehaviourPunCallbacks
                         ManagerAccessor.Instance.dataManager.player1.transform.Find("PlayerImage").gameObject.SetActive(false);
                         ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().isFly = true;
                         ManagerAccessor.Instance.dataManager.player1.GetComponent<BoxCollider2D>().enabled = false;
-                        ManagerAccessor.Instance.dataManager.player1.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
+                        ManagerAccessor.Instance.dataManager.player1.GetComponent<Rigidbody2D>().simulated = false;
                         GameObject.FindWithTag("VirtualCamera").GetComponent<CinemachineVirtualCamera>().Follow = transform;
 
                         //SEçƒê∂
@@ -125,7 +125,7 @@ public class GimmickFly : MonoBehaviourPunCallbacks
                         ManagerAccessor.Instance.dataManager.player2.transform.Find("PlayerImage").gameObject.SetActive(false);
                         ManagerAccessor.Instance.dataManager.player2.GetComponent<PlayerController>().isFly = true;
                         ManagerAccessor.Instance.dataManager.player2.GetComponent<BoxCollider2D>().enabled = false;
-                        ManagerAccessor.Instance.dataManager.player2.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
+                        ManagerAccessor.Instance.dataManager.player2.GetComponent<Rigidbody2D>().simulated = false;
                         GameObject.FindWithTag("VirtualCamera").GetComponent<CinemachineVirtualCamera>().Follow = transform;
 
                         //SEçƒê∂
@@ -150,7 +150,7 @@ public class GimmickFly : MonoBehaviourPunCallbacks
                     ManagerAccessor.Instance.dataManager.player2.transform.Find("PlayerImage").gameObject.SetActive(false);
                     ManagerAccessor.Instance.dataManager.player2.GetComponent<PlayerController>().isFly = true;
                     ManagerAccessor.Instance.dataManager.player2.GetComponent<BoxCollider2D>().enabled = false;
-                    ManagerAccessor.Instance.dataManager.player2.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
+                    ManagerAccessor.Instance.dataManager.player2.GetComponent<Rigidbody2D>().simulated = false;
 
                     startOtherFirst = false;
                 }
@@ -163,7 +163,7 @@ public class GimmickFly : MonoBehaviourPunCallbacks
                     ManagerAccessor.Instance.dataManager.player2.transform.Find("PlayerImage").gameObject.SetActive(true);
                     ManagerAccessor.Instance.dataManager.player2.GetComponent<PlayerController>().isFly = false;
                     ManagerAccessor.Instance.dataManager.player2.GetComponent<BoxCollider2D>().enabled = true;
-                    ManagerAccessor.Instance.dataManager.player2.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeRotation;
+                    ManagerAccessor.Instance.dataManager.player2.GetComponent<Rigidbody2D>().simulated = true;
 
                     startOtherFirst = true;
                 }
@@ -179,7 +179,7 @@ public class GimmickFly : MonoBehaviourPunCallbacks
                     ManagerAccessor.Instance.dataManager.player1.transform.Find("PlayerImage").gameObject.SetActive(false);
                     ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().isFly = true;
                     ManagerAccessor.Instance.dataManager.player1.GetComponent<BoxCollider2D>().enabled = false;
-                    ManagerAccessor.Instance.dataManager.player1.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
+                    ManagerAccessor.Instance.dataManager.player1.GetComponent<Rigidbody2D>().simulated = false;
 
                     startOtherFirst = false;
                 }
@@ -192,7 +192,7 @@ public class GimmickFly : MonoBehaviourPunCallbacks
                     ManagerAccessor.Instance.dataManager.player1.transform.Find("PlayerImage").gameObject.SetActive(true);
                     ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().isFly = false;
                     ManagerAccessor.Instance.dataManager.player1.GetComponent<BoxCollider2D>().enabled = true;
-                    ManagerAccessor.Instance.dataManager.player1.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeRotation;
+                    ManagerAccessor.Instance.dataManager.player1.GetComponent<Rigidbody2D>().simulated = true;
 
                     startOtherFirst = true;
                 }
@@ -227,7 +227,7 @@ public class GimmickFly : MonoBehaviourPunCallbacks
                             ManagerAccessor.Instance.dataManager.player1.transform.Find("PlayerImage").gameObject.SetActive(true);
                             ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().isFly = false;
                             ManagerAccessor.Instance.dataManager.player1.GetComponent<BoxCollider2D>().enabled = true;
-                            ManagerAccessor.Instance.dataManager.player1.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeRotation;
+                            ManagerAccessor.Instance.dataManager.player1.GetComponent<Rigidbody2D>().simulated = true;
                             GameObject.FindWithTag("VirtualCamera").GetComponent<CinemachineVirtualCamera>().Follow = ManagerAccessor.Instance.dataManager.player1.transform;
 
                             startFirst = false;
@@ -247,7 +247,7 @@ public class GimmickFly : MonoBehaviourPunCallbacks
                             ManagerAccessor.Instance.dataManager.player2.GetComponent<PlayerController>().isFly = false;
                             ManagerAccessor.Instance.dataManager.player2.GetComponent<BoxCollider2D>().enabled = true;
                             ManagerAccessor.Instance.dataManager.player2.GetComponent<SpriteRenderer>().enabled = true;
-                            ManagerAccessor.Instance.dataManager.player2.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeRotation;
+                            ManagerAccessor.Instance.dataManager.player2.GetComponent<Rigidbody2D>().simulated = true;
                             GameObject.FindWithTag("VirtualCamera").GetComponent<CinemachineVirtualCamera>().Follow = ManagerAccessor.Instance.dataManager.player2.transform;
 
                             startFirst = false;
@@ -403,7 +403,7 @@ public class GimmickFly : MonoBehaviourPunCallbacks
             //ìñÇΩÇËîªíËê›íË
             GetComponent<BoxCollider2D>().isTrigger = true;
 
-            if (dis <= -0.2f || dis >= 0.2f)
+            if (dis <= -0.3f || dis >= 0.3f)
             {
                 GetComponent<Rigidbody2D>().simulated = false;
 
