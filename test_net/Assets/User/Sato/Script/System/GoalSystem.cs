@@ -48,7 +48,6 @@ public class GoalSystem : CGimmick
                 if (first)
                 {
                     photonView.RPC(nameof(RpcClearCheck), RpcTarget.All, PLAYER1);
-                    audioSource.PlayOneShot(goalSE);
                     first = false;
                 }
             }
@@ -60,7 +59,6 @@ public class GoalSystem : CGimmick
                 if (first)
                 {
                     photonView.RPC(nameof(RpcClearCheck), RpcTarget.All, PLAYER2);
-                    audioSource.PlayOneShot(goalSE);
                     first = false;
                 }
             }
@@ -77,15 +75,12 @@ public class GoalSystem : CGimmick
             else
                 isOwnerFadeEnd = true;
 
-            if(PhotonNetwork.IsMasterClient)
+            SECount++;
+            if (SECount <= SEInterbal * (SEPlayNum - 1))
             {
-                SECount++;
-                if (SECount <= SEInterbal * (SEPlayNum - 1))
+                if (SECount % SEInterbal == 0 || SECount == 1)
                 {
-                    if (SECount % SEInterbal == 0)
-                    {
-                        audioSource.PlayOneShot(goalSE);
-                    }
+                    audioSource.PlayOneShot(goalSE);
                 }
             }
         }
@@ -101,28 +96,23 @@ public class GoalSystem : CGimmick
                 isClientFadeEnd = true;
 
             //SE再生
-            if (!PhotonNetwork.IsMasterClient)
+            SECount++;
+            if (SECount <= SEInterbal * (SEPlayNum - 1))
             {
-                SECount++;
-                if (SECount <= SEInterbal * (SEPlayNum - 1)) 
+                if (SECount % SEInterbal == 0 || SECount == 1)
                 {
-                    if (SECount % SEInterbal == 0)
-                    {
-                        audioSource.PlayOneShot(goalSE);
-                    }
+                    audioSource.PlayOneShot(goalSE);
                 }
             }
-        }
 
-        //クリアするとリザルト画面表示
-        if (isOwnerFadeEnd && isClientFadeEnd)
-        {
-            frameCount++;
-            if (frameCount == FeedEndSpeed)
-                ManagerAccessor.Instance.dataManager.isClear = true;
+            //クリアするとリザルト画面表示
+            if (isOwnerFadeEnd && isClientFadeEnd)
+            {
+                frameCount++;
+                if (frameCount == FeedEndSpeed)
+                    ManagerAccessor.Instance.dataManager.isClear = true;
+            }
         }
-
-        
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

@@ -11,6 +11,13 @@ public class StageSelect : MonoBehaviourPunCallbacks
 
     [SerializeField, Header("移動するシーン名")] private string sceneName;
 
+    [SerializeField, Header("ステージに入るSE")] AudioClip EnterSE;
+
+    [SerializeField, Header("SEを鳴らす回数")] private int SEPlayNum;
+
+    [SerializeField, Header("SEを鳴らす間隔")] private int SEInterbal;
+
+    private AudioSource audioSource;
 
     private bool isOwnerEnter = false;  //P1が入った時
     private bool isClientEnter = false; //P2が入った時
@@ -19,8 +26,14 @@ public class StageSelect : MonoBehaviourPunCallbacks
     private bool isOwnerFadeStart = false;
     private bool isClientFadeStart = false;
 
+    private int SECount = 0;
+
     private bool first = true;
 
+    private void Start()
+    {
+        audioSource = GetComponent<AudioSource>();
+    }
 
     // Update is called once per frame
     void FixedUpdate()
@@ -31,14 +44,26 @@ public class StageSelect : MonoBehaviourPunCallbacks
         else
             MoveStage(isClientEnter, ManagerAccessor.Instance.dataManager.isClientInputKey_C_D_UP);
 
-        //ゴール後のフェード処理
+        //フェード処理
         if (isOwnerFadeStart)
         {
             //押すべきボタンの画像非表示
             ManagerAccessor.Instance.dataManager.player1.transform.GetChild(0).gameObject.SetActive(false);
-            
+
             if (ManagerAccessor.Instance.dataManager.player1.transform.Find("PlayerImage").GetComponent<SpriteRenderer>().color.a > 0)
+            {
                 ManagerAccessor.Instance.dataManager.player1.transform.Find("PlayerImage").GetComponent<SpriteRenderer>().color -= new Color32(0, 0, 0, (byte)FeedSpeed);
+
+                //SE再生
+                SECount++;
+                if (SECount <= SEInterbal * (SEPlayNum - 1))
+                {
+                    if (SECount % SEInterbal == 0 || SECount == 1)
+                    {
+                        audioSource.PlayOneShot(EnterSE);
+                    }
+                }
+            }
         }
 
         if (isClientFadeStart)
@@ -47,7 +72,18 @@ public class StageSelect : MonoBehaviourPunCallbacks
             ManagerAccessor.Instance.dataManager.player2.transform.GetChild(0).gameObject.SetActive(false);
             
             if (ManagerAccessor.Instance.dataManager.player2.transform.Find("PlayerImage").GetComponent<SpriteRenderer>().color.a > 0)
-                ManagerAccessor.Instance.dataManager.player2.transform.Find("PlayerImage").GetComponent<SpriteRenderer>().color -= new Color32(0, 0, 0, (byte)FeedSpeed);
+            { 
+                ManagerAccessor.Instance.dataManager.player2.transform.Find("PlayerImage").GetComponent<SpriteRenderer>().color -= new Color32(0, 0, 0, (byte)FeedSpeed);//SE再生
+                
+                SECount++;
+                if (SECount <= SEInterbal * (SEPlayNum - 1))
+                {
+                    if (SECount % SEInterbal == 0 || SECount == 1)
+                    {
+                        audioSource.PlayOneShot(EnterSE);
+                    }
+                }
+            }
         }
     }
 
