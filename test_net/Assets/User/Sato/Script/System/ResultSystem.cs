@@ -112,6 +112,9 @@ public class ResultSystem : MonoBehaviourPunCallbacks
             //BGM変更
             ManagerAccessor.Instance.dataManager.BGM.GetComponent<AudioSource>().clip = ClearBGM;
 
+            //再生
+            ManagerAccessor.Instance.dataManager.BGM.GetComponent<AudioSource>().Play();
+
             //フレームカウント
             count++;
         }
@@ -126,6 +129,9 @@ public class ResultSystem : MonoBehaviourPunCallbacks
 
                 //BGM変更
                 ManagerAccessor.Instance.dataManager.BGM.GetComponent<AudioSource>().clip = LoseBGM;
+
+                //再生
+                ManagerAccessor.Instance.dataManager.BGM.GetComponent<AudioSource>().Play();
             }
 
         }
