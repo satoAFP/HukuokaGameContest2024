@@ -1841,6 +1841,8 @@ MonoBehaviour:
   isLast: 0
   intervalFrame: 60
   noTapArea: {fileID: 0}
+  ClearBGM: {fileID: 8300000, guid: 415fcdc74e987f44f9156421d56400ea, type: 3}
+  LoseBGM: {fileID: 8300000, guid: 38376e8ac7073444ca622e3dcf6f0147, type: 3}
 --- !u!1 &5450645839774569188
 GameObject:
   m_ObjectHideFlags: 0
