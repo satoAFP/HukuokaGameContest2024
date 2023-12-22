@@ -64,6 +64,7 @@ public class GimmickFly : MonoBehaviourPunCallbacks
 
     //連続で反応しない
     private bool startFirst = true;
+    private bool startFirst2 = true;
     private bool startOtherFirst = true;
     private bool ownerFirst = true;
     private bool clientFirst = true;
@@ -96,6 +97,10 @@ public class GimmickFly : MonoBehaviourPunCallbacks
                     {
                         if (startFirst)
                         {
+                            //SE再生
+                            if (!isOwnerStart)
+                                audioSource.PlayOneShot(rideSE);
+
                             photonView.RPC(nameof(RpcShareIsOwnerStart), RpcTarget.All, true);
 
                             //プレイヤーのパラメータ変更
@@ -105,8 +110,6 @@ public class GimmickFly : MonoBehaviourPunCallbacks
                             ManagerAccessor.Instance.dataManager.player1.GetComponent<Rigidbody2D>().simulated = false;
                             GameObject.FindWithTag("VirtualCamera").GetComponent<CinemachineVirtualCamera>().Follow = transform;
 
-                            //SE再生
-                            audioSource.PlayOneShot(rideSE);
 
                             startFirst = false;
                         }
@@ -124,6 +127,10 @@ public class GimmickFly : MonoBehaviourPunCallbacks
                     {
                         if (startFirst)
                         {
+                            //SE再生
+                            if (!isClientStart)
+                                audioSource.PlayOneShot(rideSE);
+
                             photonView.RPC(nameof(RpcShareIsClientStart), RpcTarget.All, true);
 
                             //プレイヤーのパラメータ変更
@@ -133,8 +140,6 @@ public class GimmickFly : MonoBehaviourPunCallbacks
                             ManagerAccessor.Instance.dataManager.player2.GetComponent<Rigidbody2D>().simulated = false;
                             GameObject.FindWithTag("VirtualCamera").GetComponent<CinemachineVirtualCamera>().Follow = transform;
 
-                            //SE再生
-                            audioSource.PlayOneShot(rideSE);
 
                             startFirst = false;
                         }
@@ -232,7 +237,7 @@ public class GimmickFly : MonoBehaviourPunCallbacks
                 {
                     if (isHit)
                     {
-                        if (startFirst)
+                        if (startFirst2)
                         {
                             photonView.RPC(nameof(RpcShareIsOwnerStart), RpcTarget.All, false);
 
@@ -243,13 +248,13 @@ public class GimmickFly : MonoBehaviourPunCallbacks
                             ManagerAccessor.Instance.dataManager.player1.GetComponent<Rigidbody2D>().simulated = true;
                             GameObject.FindWithTag("VirtualCamera").GetComponent<CinemachineVirtualCamera>().Follow = ManagerAccessor.Instance.dataManager.player1.transform;
 
-                            startFirst = false;
+                            startFirst2 = false;
                         }
                     }
 
                 }
                 else
-                    startFirst = true;
+                    startFirst2 = true;
             }
             else
             {
@@ -257,7 +262,7 @@ public class GimmickFly : MonoBehaviourPunCallbacks
                 {
                     if (isHit)
                     {
-                        if (startFirst)
+                        if (startFirst2)
                         {
                             photonView.RPC(nameof(RpcShareIsClientStart), RpcTarget.All, false);
 
@@ -269,12 +274,12 @@ public class GimmickFly : MonoBehaviourPunCallbacks
                             ManagerAccessor.Instance.dataManager.player2.GetComponent<Rigidbody2D>().simulated = true;
                             GameObject.FindWithTag("VirtualCamera").GetComponent<CinemachineVirtualCamera>().Follow = ManagerAccessor.Instance.dataManager.player2.transform;
 
-                            startFirst = false;
+                            startFirst2 = false;
                         }
                     }
                 }
                 else
-                    startFirst = true;
+                    startFirst2 = true;
             }
             
         }
