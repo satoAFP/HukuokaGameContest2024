@@ -85,120 +85,122 @@ public class GimmickFly : MonoBehaviourPunCallbacks
         //データマネージャー取得
         dataManager = ManagerAccessor.Instance.dataManager;
 
-
-        if (PhotonNetwork.LocalPlayer.IsMasterClient)
+        if (!isStart)
         {
-            //ロケットに触れている状態でB入力で発射待機状態
-            if (dataManager.isOwnerInputKey_CB)
+            if (PhotonNetwork.LocalPlayer.IsMasterClient)
             {
-                if (isHit)
+                //ロケットに触れている状態でB入力で発射待機状態
+                if (dataManager.isOwnerInputKey_CB)
                 {
-                    if (startFirst)
+                    if (isHit)
                     {
-                        photonView.RPC(nameof(RpcShareIsOwnerStart), RpcTarget.All, true);
+                        if (startFirst)
+                        {
+                            photonView.RPC(nameof(RpcShareIsOwnerStart), RpcTarget.All, true);
 
-                        //プレイヤーのパラメータ変更
-                        ManagerAccessor.Instance.dataManager.player1.transform.Find("PlayerImage").gameObject.SetActive(false);
-                        ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().isFly = true;
-                        ManagerAccessor.Instance.dataManager.player1.GetComponent<BoxCollider2D>().enabled = false;
-                        ManagerAccessor.Instance.dataManager.player1.GetComponent<Rigidbody2D>().simulated = false;
-                        GameObject.FindWithTag("VirtualCamera").GetComponent<CinemachineVirtualCamera>().Follow = transform;
+                            //プレイヤーのパラメータ変更
+                            ManagerAccessor.Instance.dataManager.player1.transform.Find("PlayerImage").gameObject.SetActive(false);
+                            ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().isFly = true;
+                            ManagerAccessor.Instance.dataManager.player1.GetComponent<BoxCollider2D>().enabled = false;
+                            ManagerAccessor.Instance.dataManager.player1.GetComponent<Rigidbody2D>().simulated = false;
+                            GameObject.FindWithTag("VirtualCamera").GetComponent<CinemachineVirtualCamera>().Follow = transform;
 
-                        //SE再生
-                        audioSource.PlayOneShot(rideSE);
+                            //SE再生
+                            audioSource.PlayOneShot(rideSE);
 
-                        startFirst = false;
+                            startFirst = false;
+                        }
                     }
                 }
+                else
+                    startFirst = true;
             }
             else
-                startFirst = true;
-        }
-        else
-        {
-            //ロケットに触れている状態でB入力で発射待機状態
-            if (dataManager.isClientInputKey_CB)
             {
-                if (isHit)
+                //ロケットに触れている状態でB入力で発射待機状態
+                if (dataManager.isClientInputKey_CB)
                 {
-                    if (startFirst)
+                    if (isHit)
                     {
-                        photonView.RPC(nameof(RpcShareIsClientStart), RpcTarget.All, true);
+                        if (startFirst)
+                        {
+                            photonView.RPC(nameof(RpcShareIsClientStart), RpcTarget.All, true);
 
+                            //プレイヤーのパラメータ変更
+                            ManagerAccessor.Instance.dataManager.player2.transform.Find("PlayerImage").gameObject.SetActive(false);
+                            ManagerAccessor.Instance.dataManager.player2.GetComponent<PlayerController>().isFly = true;
+                            ManagerAccessor.Instance.dataManager.player2.GetComponent<BoxCollider2D>().enabled = false;
+                            ManagerAccessor.Instance.dataManager.player2.GetComponent<Rigidbody2D>().simulated = false;
+                            GameObject.FindWithTag("VirtualCamera").GetComponent<CinemachineVirtualCamera>().Follow = transform;
+
+                            //SE再生
+                            audioSource.PlayOneShot(rideSE);
+
+                            startFirst = false;
+                        }
+                    }
+                }
+                else
+                    startFirst = true;
+            }
+
+            //それぞれロケット発射状態の時、別の画面の自身のオブジェクトも非表示にする
+            if (PhotonNetwork.LocalPlayer.IsMasterClient)
+            {
+                if (isClientStart)
+                {
+                    if (startOtherFirst)
+                    {
                         //プレイヤーのパラメータ変更
                         ManagerAccessor.Instance.dataManager.player2.transform.Find("PlayerImage").gameObject.SetActive(false);
                         ManagerAccessor.Instance.dataManager.player2.GetComponent<PlayerController>().isFly = true;
                         ManagerAccessor.Instance.dataManager.player2.GetComponent<BoxCollider2D>().enabled = false;
                         ManagerAccessor.Instance.dataManager.player2.GetComponent<Rigidbody2D>().simulated = false;
-                        GameObject.FindWithTag("VirtualCamera").GetComponent<CinemachineVirtualCamera>().Follow = transform;
 
-                        //SE再生
-                        audioSource.PlayOneShot(rideSE);
+                        startOtherFirst = false;
+                    }
+                }
+                else
+                {
+                    if (!startOtherFirst)
+                    {
+                        //プレイヤーのパラメータ変更
+                        ManagerAccessor.Instance.dataManager.player2.transform.Find("PlayerImage").gameObject.SetActive(true);
+                        ManagerAccessor.Instance.dataManager.player2.GetComponent<PlayerController>().isFly = false;
+                        ManagerAccessor.Instance.dataManager.player2.GetComponent<BoxCollider2D>().enabled = true;
+                        ManagerAccessor.Instance.dataManager.player2.GetComponent<Rigidbody2D>().simulated = true;
 
-                        startFirst = false;
+                        startOtherFirst = true;
                     }
                 }
             }
             else
-                startFirst = true;
-        }
-
-        //それぞれロケット発射状態の時、別の画面の自身のオブジェクトも非表示にする
-        if (PhotonNetwork.LocalPlayer.IsMasterClient)
-        {
-            if (isClientStart)
             {
-                if (startOtherFirst)
+                if (isOwnerStart)
                 {
-                    //プレイヤーのパラメータ変更
-                    ManagerAccessor.Instance.dataManager.player2.transform.Find("PlayerImage").gameObject.SetActive(false);
-                    ManagerAccessor.Instance.dataManager.player2.GetComponent<PlayerController>().isFly = true;
-                    ManagerAccessor.Instance.dataManager.player2.GetComponent<BoxCollider2D>().enabled = false;
-                    ManagerAccessor.Instance.dataManager.player2.GetComponent<Rigidbody2D>().simulated = false;
+                    if (startOtherFirst)
+                    {
+                        //プレイヤーのパラメータ変更
+                        ManagerAccessor.Instance.dataManager.player1.transform.Find("PlayerImage").gameObject.SetActive(false);
+                        ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().isFly = true;
+                        ManagerAccessor.Instance.dataManager.player1.GetComponent<BoxCollider2D>().enabled = false;
+                        ManagerAccessor.Instance.dataManager.player1.GetComponent<Rigidbody2D>().simulated = false;
 
-                    startOtherFirst = false;
+                        startOtherFirst = false;
+                    }
                 }
-            }
-            else
-            {
-                if (!startOtherFirst)
+                else
                 {
-                    //プレイヤーのパラメータ変更
-                    ManagerAccessor.Instance.dataManager.player2.transform.Find("PlayerImage").gameObject.SetActive(true);
-                    ManagerAccessor.Instance.dataManager.player2.GetComponent<PlayerController>().isFly = false;
-                    ManagerAccessor.Instance.dataManager.player2.GetComponent<BoxCollider2D>().enabled = true;
-                    ManagerAccessor.Instance.dataManager.player2.GetComponent<Rigidbody2D>().simulated = true;
+                    if (!startOtherFirst)
+                    {
+                        //プレイヤーのパラメータ変更
+                        ManagerAccessor.Instance.dataManager.player1.transform.Find("PlayerImage").gameObject.SetActive(true);
+                        ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().isFly = false;
+                        ManagerAccessor.Instance.dataManager.player1.GetComponent<BoxCollider2D>().enabled = true;
+                        ManagerAccessor.Instance.dataManager.player1.GetComponent<Rigidbody2D>().simulated = true;
 
-                    startOtherFirst = true;
-                }
-            }
-        }
-        else
-        {
-            if (isOwnerStart)
-            {
-                if (startOtherFirst)
-                {
-                    //プレイヤーのパラメータ変更
-                    ManagerAccessor.Instance.dataManager.player1.transform.Find("PlayerImage").gameObject.SetActive(false);
-                    ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().isFly = true;
-                    ManagerAccessor.Instance.dataManager.player1.GetComponent<BoxCollider2D>().enabled = false;
-                    ManagerAccessor.Instance.dataManager.player1.GetComponent<Rigidbody2D>().simulated = false;
-
-                    startOtherFirst = false;
-                }
-            }
-            else
-            {
-                if (!startOtherFirst)
-                {
-                    //プレイヤーのパラメータ変更
-                    ManagerAccessor.Instance.dataManager.player1.transform.Find("PlayerImage").gameObject.SetActive(true);
-                    ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().isFly = false;
-                    ManagerAccessor.Instance.dataManager.player1.GetComponent<BoxCollider2D>().enabled = true;
-                    ManagerAccessor.Instance.dataManager.player1.GetComponent<Rigidbody2D>().simulated = true;
-
-                    startOtherFirst = true;
+                        startOtherFirst = true;
+                    }
                 }
             }
         }
@@ -206,12 +208,15 @@ public class GimmickFly : MonoBehaviourPunCallbacks
         //二人とも発射状態になるとロケットスタート
         if (isOwnerStart && isClientStart)
         {
+            //押すべきボタン表示
+            if (!isStart)
+            {
+                transform.GetChild(4).gameObject.SetActive(true);
+                transform.GetChild(4).gameObject.GetComponent<SpriteRenderer>().sprite = ManagerAccessor.Instance.spriteManager.ArrowRight;
+            }
+
             isStart = true;
             ManagerAccessor.Instance.dataManager.isFlyStart = true;
-
-            //押すべきボタン表示
-            transform.GetChild(4).gameObject.SetActive(true);
-            transform.GetChild(4).gameObject.GetComponent<SpriteRenderer>().sprite = ManagerAccessor.Instance.spriteManager.ArrowRight;
 
             //重力設定
             rigidbody.bodyType = RigidbodyType2D.Dynamic;
