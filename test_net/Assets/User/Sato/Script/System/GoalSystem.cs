@@ -48,6 +48,7 @@ public class GoalSystem : CGimmick
                 if (first)
                 {
                     photonView.RPC(nameof(RpcClearCheck), RpcTarget.All, PLAYER1);
+                    audioSource.PlayOneShot(goalSE);
                     first = false;
                 }
             }
@@ -59,6 +60,7 @@ public class GoalSystem : CGimmick
                 if (first)
                 {
                     photonView.RPC(nameof(RpcClearCheck), RpcTarget.All, PLAYER2);
+                    audioSource.PlayOneShot(goalSE);
                     first = false;
                 }
             }
@@ -78,7 +80,7 @@ public class GoalSystem : CGimmick
             if(PhotonNetwork.IsMasterClient)
             {
                 SECount++;
-                if (SECount <= SECount * SEPlayNum)
+                if (SECount <= SEInterbal * (SEPlayNum - 1))
                 {
                     if (SECount % SEInterbal == 0)
                     {
@@ -102,7 +104,7 @@ public class GoalSystem : CGimmick
             if (!PhotonNetwork.IsMasterClient)
             {
                 SECount++;
-                if (SECount <= SECount * SEPlayNum)
+                if (SECount <= SEInterbal * (SEPlayNum - 1)) 
                 {
                     if (SECount % SEInterbal == 0)
                     {

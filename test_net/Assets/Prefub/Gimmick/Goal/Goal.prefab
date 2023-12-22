@@ -128,9 +128,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   FeedSpeed: 10
   FeedEndSpeed: 20
-  goalSE: {fileID: 8300000, guid: d213fc9dc15429c479efa713a638704c, type: 3}
-  SEPlayNum: 4
-  SEInterbal: 20
+  goalSE: {fileID: 8300000, guid: dc0eab6133e22fe4b99664be794b09b2, type: 3}
+  SEPlayNum: 2
+  SEInterbal: 30
 --- !u!114 &1469050261785031271
 MonoBehaviour:
   m_ObjectHideFlags: 0
