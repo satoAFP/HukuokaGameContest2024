@@ -184,12 +184,10 @@ public class GimmickUnlockButton : CGimmick
                 vibrationCount++;
                 if (vibrationCount % 2 == 0)
                 {
-                    Debug.Log("0");
                     transform.parent.gameObject.GetComponent<GimmickUnlockButtonManagement>().clone[vibrationNum].transform.position += vibrationPower;
                 }
                 else
                 {
-                    Debug.Log("1");
                     transform.parent.gameObject.GetComponent<GimmickUnlockButtonManagement>().clone[vibrationNum].transform.position -= vibrationPower;
                 }
             }
