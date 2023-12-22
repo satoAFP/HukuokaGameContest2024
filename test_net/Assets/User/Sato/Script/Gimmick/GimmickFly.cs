@@ -213,9 +213,9 @@ public class GimmickFly : MonoBehaviourPunCallbacks
         else
         {
             //ï–ï˚ÇæÇØî≠éÀèÛë‘ÇÃéûÇÕç~ÇËÇÈÇ±Ç∆Ç‡èoóàÇÈ
-            if (dataManager.isOwnerInputKey_CA)
+            if (PhotonNetwork.LocalPlayer.IsMasterClient)
             {
-                if (PhotonNetwork.LocalPlayer.IsMasterClient)
+                if (dataManager.isOwnerInputKey_CA)
                 {
                     if (isHit)
                     {
@@ -233,8 +233,14 @@ public class GimmickFly : MonoBehaviourPunCallbacks
                             startFirst = false;
                         }
                     }
+
                 }
                 else
+                    startFirst = true;
+            }
+            else
+            {
+                if (dataManager.isClientInputKey_CA)
                 {
                     if (isHit)
                     {
@@ -254,9 +260,10 @@ public class GimmickFly : MonoBehaviourPunCallbacks
                         }
                     }
                 }
+                else
+                    startFirst = true;
             }
-            else
-                startFirst = true;
+            
         }
 
 
@@ -377,7 +384,7 @@ public class GimmickFly : MonoBehaviourPunCallbacks
                 //à⁄ìÆó â¡éZ
                 if (!(isOwnerCoolTime && isClientCoolTime))
                 {
-                    rigidbody.velocity = new Vector2(power.x, power.y);
+                    rigidbody.velocity = new Vector2(power.x * MovePower, power.y * MovePower);
                 }
 
                 if (isOwnerCoolTime)
