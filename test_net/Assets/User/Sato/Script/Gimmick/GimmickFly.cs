@@ -24,6 +24,13 @@ public class GimmickFly : MonoBehaviourPunCallbacks
     [SerializeField, Header("ゴール後クリア表示までのフレーム")]
     private int GoalTime;
 
+    [SerializeField, Header("ボタンが消えるまでの回数")]
+    private int DestroyCount;
+
+    [SerializeField, Header("乗り込むSE")] AudioClip rideSE;
+    [SerializeField, Header("飛ぶSE")] AudioClip flySE;
+
+    private AudioSource audioSource;
 
     private DataManager dataManager;        //データマネージャー
 
@@ -53,9 +60,11 @@ public class GimmickFly : MonoBehaviourPunCallbacks
 
     private int startWaitTimeCount = 0;     //ロケット開始時入力をいったん受け付けない
     private int goalCount = 0;              //ゴール後クリアを表示するまでのカウント
+    private int tapCount = 0;
 
     //連続で反応しない
     private bool startFirst = true;
+    private bool startFirst2 = true;
     private bool startOtherFirst = true;
     private bool ownerFirst = true;
     private bool clientFirst = true;
@@ -65,6 +74,7 @@ public class GimmickFly : MonoBehaviourPunCallbacks
 
     private void Start()
     {
+        audioSource = GetComponent<AudioSource>();
         rigidbody = GetComponent<Rigidbody2D>();
         ownerCoolTimeCount = CoolTime;
         clientCoolTimeCount = CoolTime;
@@ -76,115 +86,126 @@ public class GimmickFly : MonoBehaviourPunCallbacks
         //データマネージャー取得
         dataManager = ManagerAccessor.Instance.dataManager;
 
-
-        if (PhotonNetwork.LocalPlayer.IsMasterClient)
+        if (!isStart)
         {
-            //ロケットに触れている状態でB入力で発射待機状態
-            if (dataManager.isOwnerInputKey_CB)
+            if (PhotonNetwork.LocalPlayer.IsMasterClient)
             {
-                if (isHit)
+                //ロケットに触れている状態でB入力で発射待機状態
+                if (dataManager.isOwnerInputKey_CB)
                 {
-                    if (startFirst)
+                    if (isHit)
                     {
-                        photonView.RPC(nameof(RpcShareIsOwnerStart), RpcTarget.All, true);
+                        if (startFirst)
+                        {
+                            //SE再生
+                            if (!isOwnerStart)
+                                audioSource.PlayOneShot(rideSE);
 
-                        //プレイヤーのパラメータ変更
-                        ManagerAccessor.Instance.dataManager.player1.transform.Find("PlayerImage").gameObject.SetActive(false);
-                        ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().isFly = true;
-                        ManagerAccessor.Instance.dataManager.player1.GetComponent<BoxCollider2D>().enabled = false;
-                        ManagerAccessor.Instance.dataManager.player1.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
-                        GameObject.FindWithTag("VirtualCamera").GetComponent<CinemachineVirtualCamera>().Follow = transform;
+                            photonView.RPC(nameof(RpcShareIsOwnerStart), RpcTarget.All, true);
+
+                            //プレイヤーのパラメータ変更
+                            ManagerAccessor.Instance.dataManager.player1.transform.Find("PlayerImage").gameObject.SetActive(false);
+                            ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().isFly = true;
+                            ManagerAccessor.Instance.dataManager.player1.GetComponent<BoxCollider2D>().enabled = false;
+                            ManagerAccessor.Instance.dataManager.player1.GetComponent<Rigidbody2D>().simulated = false;
+                            GameObject.FindWithTag("VirtualCamera").GetComponent<CinemachineVirtualCamera>().Follow = transform;
 
 
-                        startFirst = false;
+                            startFirst = false;
+                        }
                     }
                 }
+                else
+                    startFirst = true;
             }
             else
-                startFirst = true;
-        }
-        else
-        {
-            //ロケットに触れている状態でB入力で発射待機状態
-            if (dataManager.isClientInputKey_CB)
             {
-                if (isHit)
+                //ロケットに触れている状態でB入力で発射待機状態
+                if (dataManager.isClientInputKey_CB)
                 {
-                    if (startFirst)
+                    if (isHit)
                     {
-                        photonView.RPC(nameof(RpcShareIsClientStart), RpcTarget.All, true);
+                        if (startFirst)
+                        {
+                            //SE再生
+                            if (!isClientStart)
+                                audioSource.PlayOneShot(rideSE);
 
+                            photonView.RPC(nameof(RpcShareIsClientStart), RpcTarget.All, true);
+
+                            //プレイヤーのパラメータ変更
+                            ManagerAccessor.Instance.dataManager.player2.transform.Find("PlayerImage").gameObject.SetActive(false);
+                            ManagerAccessor.Instance.dataManager.player2.GetComponent<PlayerController>().isFly = true;
+                            ManagerAccessor.Instance.dataManager.player2.GetComponent<BoxCollider2D>().enabled = false;
+                            ManagerAccessor.Instance.dataManager.player2.GetComponent<Rigidbody2D>().simulated = false;
+                            GameObject.FindWithTag("VirtualCamera").GetComponent<CinemachineVirtualCamera>().Follow = transform;
+
+
+                            startFirst = false;
+                        }
+                    }
+                }
+                else
+                    startFirst = true;
+            }
+
+            //それぞれロケット発射状態の時、別の画面の自身のオブジェクトも非表示にする
+            if (PhotonNetwork.LocalPlayer.IsMasterClient)
+            {
+                if (isClientStart)
+                {
+                    if (startOtherFirst)
+                    {
                         //プレイヤーのパラメータ変更
                         ManagerAccessor.Instance.dataManager.player2.transform.Find("PlayerImage").gameObject.SetActive(false);
                         ManagerAccessor.Instance.dataManager.player2.GetComponent<PlayerController>().isFly = true;
                         ManagerAccessor.Instance.dataManager.player2.GetComponent<BoxCollider2D>().enabled = false;
-                        ManagerAccessor.Instance.dataManager.player2.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
-                        GameObject.FindWithTag("VirtualCamera").GetComponent<CinemachineVirtualCamera>().Follow = transform;
+                        ManagerAccessor.Instance.dataManager.player2.GetComponent<Rigidbody2D>().simulated = false;
 
-                        startFirst = false;
+                        startOtherFirst = false;
+                    }
+                }
+                else
+                {
+                    if (!startOtherFirst)
+                    {
+                        //プレイヤーのパラメータ変更
+                        ManagerAccessor.Instance.dataManager.player2.transform.Find("PlayerImage").gameObject.SetActive(true);
+                        ManagerAccessor.Instance.dataManager.player2.GetComponent<PlayerController>().isFly = false;
+                        ManagerAccessor.Instance.dataManager.player2.GetComponent<BoxCollider2D>().enabled = true;
+                        ManagerAccessor.Instance.dataManager.player2.GetComponent<Rigidbody2D>().simulated = true;
+
+                        startOtherFirst = true;
                     }
                 }
             }
             else
-                startFirst = true;
-        }
-
-        //それぞれロケット発射状態の時、別の画面の自身のオブジェクトも非表示にする
-        if (PhotonNetwork.LocalPlayer.IsMasterClient)
-        {
-            if (isClientStart)
             {
-                if (startOtherFirst)
+                if (isOwnerStart)
                 {
-                    //プレイヤーのパラメータ変更
-                    ManagerAccessor.Instance.dataManager.player2.transform.Find("PlayerImage").gameObject.SetActive(false);
-                    ManagerAccessor.Instance.dataManager.player2.GetComponent<PlayerController>().isFly = true;
-                    ManagerAccessor.Instance.dataManager.player2.GetComponent<BoxCollider2D>().enabled = false;
-                    ManagerAccessor.Instance.dataManager.player2.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
+                    if (startOtherFirst)
+                    {
+                        //プレイヤーのパラメータ変更
+                        ManagerAccessor.Instance.dataManager.player1.transform.Find("PlayerImage").gameObject.SetActive(false);
+                        ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().isFly = true;
+                        ManagerAccessor.Instance.dataManager.player1.GetComponent<BoxCollider2D>().enabled = false;
+                        ManagerAccessor.Instance.dataManager.player1.GetComponent<Rigidbody2D>().simulated = false;
 
-                    startOtherFirst = false;
+                        startOtherFirst = false;
+                    }
                 }
-            }
-            else
-            {
-                if (!startOtherFirst)
+                else
                 {
-                    //プレイヤーのパラメータ変更
-                    ManagerAccessor.Instance.dataManager.player2.transform.Find("PlayerImage").gameObject.SetActive(true);
-                    ManagerAccessor.Instance.dataManager.player2.GetComponent<PlayerController>().isFly = false;
-                    ManagerAccessor.Instance.dataManager.player2.GetComponent<BoxCollider2D>().enabled = true;
-                    ManagerAccessor.Instance.dataManager.player2.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeRotation;
+                    if (!startOtherFirst)
+                    {
+                        //プレイヤーのパラメータ変更
+                        ManagerAccessor.Instance.dataManager.player1.transform.Find("PlayerImage").gameObject.SetActive(true);
+                        ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().isFly = false;
+                        ManagerAccessor.Instance.dataManager.player1.GetComponent<BoxCollider2D>().enabled = true;
+                        ManagerAccessor.Instance.dataManager.player1.GetComponent<Rigidbody2D>().simulated = true;
 
-                    startOtherFirst = true;
-                }
-            }
-        }
-        else
-        {
-            if (isOwnerStart)
-            {
-                if (startOtherFirst)
-                {
-                    //プレイヤーのパラメータ変更
-                    ManagerAccessor.Instance.dataManager.player1.transform.Find("PlayerImage").gameObject.SetActive(false);
-                    ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().isFly = true;
-                    ManagerAccessor.Instance.dataManager.player1.GetComponent<BoxCollider2D>().enabled = false;
-                    ManagerAccessor.Instance.dataManager.player1.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
-
-                    startOtherFirst = false;
-                }
-            }
-            else
-            {
-                if (!startOtherFirst)
-                {
-                    //プレイヤーのパラメータ変更
-                    ManagerAccessor.Instance.dataManager.player1.transform.Find("PlayerImage").gameObject.SetActive(true);
-                    ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().isFly = false;
-                    ManagerAccessor.Instance.dataManager.player1.GetComponent<BoxCollider2D>().enabled = true;
-                    ManagerAccessor.Instance.dataManager.player1.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeRotation;
-
-                    startOtherFirst = true;
+                        startOtherFirst = true;
+                    }
                 }
             }
         }
@@ -192,6 +213,13 @@ public class GimmickFly : MonoBehaviourPunCallbacks
         //二人とも発射状態になるとロケットスタート
         if (isOwnerStart && isClientStart)
         {
+            //押すべきボタン表示
+            if (!isStart)
+            {
+                transform.GetChild(4).gameObject.SetActive(true);
+                transform.GetChild(4).gameObject.GetComponent<SpriteRenderer>().sprite = ManagerAccessor.Instance.spriteManager.ArrowRight;
+            }
+
             isStart = true;
             ManagerAccessor.Instance.dataManager.isFlyStart = true;
 
@@ -203,13 +231,13 @@ public class GimmickFly : MonoBehaviourPunCallbacks
         else
         {
             //片方だけ発射状態の時は降りることも出来る
-            if (dataManager.isOwnerInputKey_CA)
+            if (PhotonNetwork.LocalPlayer.IsMasterClient)
             {
-                if (PhotonNetwork.LocalPlayer.IsMasterClient)
+                if (dataManager.isOwnerInputKey_CA)
                 {
                     if (isHit)
                     {
-                        if (startFirst)
+                        if (startFirst2)
                         {
                             photonView.RPC(nameof(RpcShareIsOwnerStart), RpcTarget.All, false);
 
@@ -217,18 +245,24 @@ public class GimmickFly : MonoBehaviourPunCallbacks
                             ManagerAccessor.Instance.dataManager.player1.transform.Find("PlayerImage").gameObject.SetActive(true);
                             ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().isFly = false;
                             ManagerAccessor.Instance.dataManager.player1.GetComponent<BoxCollider2D>().enabled = true;
-                            ManagerAccessor.Instance.dataManager.player1.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeRotation;
+                            ManagerAccessor.Instance.dataManager.player1.GetComponent<Rigidbody2D>().simulated = true;
                             GameObject.FindWithTag("VirtualCamera").GetComponent<CinemachineVirtualCamera>().Follow = ManagerAccessor.Instance.dataManager.player1.transform;
 
-                            startFirst = false;
+                            startFirst2 = false;
                         }
                     }
+
                 }
                 else
+                    startFirst2 = true;
+            }
+            else
+            {
+                if (dataManager.isClientInputKey_CA)
                 {
                     if (isHit)
                     {
-                        if (startFirst)
+                        if (startFirst2)
                         {
                             photonView.RPC(nameof(RpcShareIsClientStart), RpcTarget.All, false);
 
@@ -237,16 +271,17 @@ public class GimmickFly : MonoBehaviourPunCallbacks
                             ManagerAccessor.Instance.dataManager.player2.GetComponent<PlayerController>().isFly = false;
                             ManagerAccessor.Instance.dataManager.player2.GetComponent<BoxCollider2D>().enabled = true;
                             ManagerAccessor.Instance.dataManager.player2.GetComponent<SpriteRenderer>().enabled = true;
-                            ManagerAccessor.Instance.dataManager.player2.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeRotation;
+                            ManagerAccessor.Instance.dataManager.player2.GetComponent<Rigidbody2D>().simulated = true;
                             GameObject.FindWithTag("VirtualCamera").GetComponent<CinemachineVirtualCamera>().Follow = ManagerAccessor.Instance.dataManager.player2.transform;
 
-                            startFirst = false;
+                            startFirst2 = false;
                         }
                     }
                 }
+                else
+                    startFirst2 = true;
             }
-            else
-                startFirst = true;
+            
         }
 
 
@@ -278,6 +313,22 @@ public class GimmickFly : MonoBehaviourPunCallbacks
                             ownerTapNum += MoveAngle;
                             ownerFirst = false;
                             ownerCoolTimeCount = 0;
+
+                            if (tapCount < DestroyCount) 
+                            {
+                                tapCount++;
+                                transform.GetChild(4).gameObject.GetComponent<SpriteRenderer>().color -= new Color32(0, 0, 0,(byte)(256 / DestroyCount));
+                                transform.GetChild(4).gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().color -= new Color32(0, 0, 0, (byte)(256 / DestroyCount));
+                            }
+                            else
+                            {
+                                transform.GetChild(4).gameObject.GetComponent<SpriteRenderer>().color = new Color32(0, 0, 0, 255);
+                                transform.GetChild(4).gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().color = new Color32(0, 0, 0, 255);
+                                transform.GetChild(4).gameObject.SetActive(false);
+                            }
+
+                            //SE再生
+                            audioSource.PlayOneShot(flySE);
                         }
                     }
                     else
@@ -292,6 +343,22 @@ public class GimmickFly : MonoBehaviourPunCallbacks
                             clientTapNum += MoveAngle;
                             clientFirst = false;
                             clientCoolTimeCount = 0;
+
+                            if (tapCount < DestroyCount)
+                            {
+                                tapCount++;
+                                transform.GetChild(4).gameObject.GetComponent<SpriteRenderer>().color -= new Color32(0, 0, 0, (byte)(256 / DestroyCount));
+                                transform.GetChild(4).gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().color -= new Color32(0, 0, 0, (byte)(256 / DestroyCount));
+                            }
+                            else
+                            {
+                                transform.GetChild(4).gameObject.GetComponent<SpriteRenderer>().color = new Color32(0, 0, 0, 255);
+                                transform.GetChild(4).gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().color = new Color32(0, 0, 0, 255);
+                                transform.GetChild(4).gameObject.SetActive(false);
+                            }
+
+                            //SE再生
+                            audioSource.PlayOneShot(flySE);
                         }
                     }
                     else
@@ -361,7 +428,7 @@ public class GimmickFly : MonoBehaviourPunCallbacks
                 //移動量加算
                 if (!(isOwnerCoolTime && isClientCoolTime))
                 {
-                    rigidbody.velocity = new Vector2(power.x, power.y);
+                    rigidbody.velocity = new Vector2(power.x * MovePower, power.y * MovePower);
                 }
 
                 if (isOwnerCoolTime)
@@ -387,7 +454,7 @@ public class GimmickFly : MonoBehaviourPunCallbacks
             //当たり判定設定
             GetComponent<BoxCollider2D>().isTrigger = true;
 
-            if (dis <= -0.2f || dis >= 0.2f)
+            if (dis <= -0.3f || dis >= 0.3f)
             {
                 GetComponent<Rigidbody2D>().simulated = false;
 

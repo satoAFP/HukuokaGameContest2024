@@ -5,6 +5,11 @@ using UnityEngine;
 
 public class GimmickBlock : CGimmick
 {
+    [SerializeField, Header("持ち上げSE")] AudioClip liftSE;
+    [SerializeField, Header("失敗SE")] AudioClip failureSE;
+
+    private AudioSource audioSource;
+
     //オブジェクトが持ち上がっているとき
     [System.NonSerialized] public bool liftMode = false;
 
@@ -33,6 +38,11 @@ public class GimmickBlock : CGimmick
 
     //連続で反応しないための処理
     private bool first = true;
+
+    private void Start()
+    {
+        audioSource = GetComponent<AudioSource>();
+    }
 
     private void FixedUpdate()
     {
@@ -94,6 +104,9 @@ public class GimmickBlock : CGimmick
                                         ManagerAccessor.Instance.dataManager.ownerMissCount++;
                                 }
 
+                                //SE再生
+                                audioSource.PlayOneShot(failureSE);
+
                                 isFailure = true;
                                 count = 0;
                             }
@@ -122,6 +135,17 @@ public class GimmickBlock : CGimmick
                 {
                     if (first)
                     {
+                        //持ち上げた後の画像に変更
+                        if (PhotonNetwork.IsMasterClient)
+                        {
+                            if (ManagerAccessor.Instance.dataManager.isAppearCopyKey)
+                                ManagerAccessor.Instance.dataManager.copyKey.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = ManagerAccessor.Instance.spriteManager.LStickPlus;
+                            else
+                                ManagerAccessor.Instance.dataManager.player1.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = ManagerAccessor.Instance.spriteManager.LStickPlus;
+                        }
+                        else
+                            ManagerAccessor.Instance.dataManager.player2.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = ManagerAccessor.Instance.spriteManager.LStickPlus;
+
                         //持ち上がった位置に移動
                         Vector3 input = gameObject.transform.position;
                         input.y += 1.2f;
@@ -130,6 +154,9 @@ public class GimmickBlock : CGimmick
                         dis = transform.position - Player.transform.position;
 
                         first = false;
+
+                        //SE再生
+                        audioSource.PlayOneShot(liftSE);
                     }
 
                     //プレイヤーに追従させる
@@ -160,26 +187,6 @@ public class GimmickBlock : CGimmick
                         ManagerAccessor.Instance.dataManager.player2.GetComponent<PlayerController>().islift = true;
                     }
 
-                    if (!((dataManager.isOwnerInputKey_C_L_RIGHT && dataManager.isClientInputKey_C_L_RIGHT) ||
-                       (dataManager.isOwnerInputKey_C_L_LEFT && dataManager.isClientInputKey_C_L_LEFT)))
-                    {
-                        //持ち上げている判定
-                        if (PhotonNetwork.IsMasterClient)
-                        {
-                            if (!dataManager.isAppearCopyKey)
-                            {
-                                ManagerAccessor.Instance.dataManager.player1.GetComponent<Rigidbody2D>().simulated = false;
-                            }
-                            else
-                            {
-                                ManagerAccessor.Instance.dataManager.copyKey.GetComponent<Rigidbody2D>().simulated = false;
-                            }
-                        }
-                        else
-                        {
-                            ManagerAccessor.Instance.dataManager.player2.GetComponent<Rigidbody2D>().simulated = false;
-                        }
-                    }
 
                     if ((dataManager.isOwnerInputKey_C_L_RIGHT && dataManager.isClientInputKey_C_L_RIGHT) ||
                        (dataManager.isOwnerInputKey_C_L_LEFT && dataManager.isClientInputKey_C_L_LEFT))
@@ -200,6 +207,27 @@ public class GimmickBlock : CGimmick
                         {
                             ManagerAccessor.Instance.dataManager.player2.GetComponent<Rigidbody2D>().simulated = true;
                         }
+                        Debug.Log("aaa");
+                    }
+                    else
+                    {
+                        //持ち上げている判定
+                        if (PhotonNetwork.IsMasterClient)
+                        {
+                            if (!dataManager.isAppearCopyKey)
+                            {
+                                ManagerAccessor.Instance.dataManager.player1.GetComponent<Rigidbody2D>().simulated = false;
+                            }
+                            else
+                            {
+                                ManagerAccessor.Instance.dataManager.copyKey.GetComponent<Rigidbody2D>().simulated = false;
+                            }
+                        }
+                        else
+                        {
+                            ManagerAccessor.Instance.dataManager.player2.GetComponent<Rigidbody2D>().simulated = false;
+                        }
+                        Debug.Log("bbb");
                     }
                 }
             }
@@ -221,6 +249,9 @@ public class GimmickBlock : CGimmick
                     hitOwner = false;
                     hitClient = false;
                     isStart = false;
+
+                    //SE再生
+                    audioSource.PlayOneShot(liftSE);
 
                     if (PhotonNetwork.IsMasterClient)
                     {

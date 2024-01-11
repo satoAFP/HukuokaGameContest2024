@@ -10,6 +10,8 @@ public class DataManager : MonoBehaviourPunCallbacks
 
     [Header("ミスまでのフレーム")] public int MissFrame;
 
+    [Header("BGM")] public GameObject BGM;
+
     //それぞれのクリア状況
     [System.NonSerialized] public bool isOwnerClear = false;
     [System.NonSerialized] public bool isClientClear = false;

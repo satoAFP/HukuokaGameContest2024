@@ -15,6 +15,11 @@ public class GimmickButtonManagement : MonoBehaviourPunCallbacks
     [Header("0:オブジェクト消失 / 1:オブジェクト出現")]
     private int gimmickNum;
 
+    [SerializeField, Header("成功SE")] AudioClip successSE;
+    [SerializeField, Header("失敗SE")] AudioClip failureSE;
+
+    private AudioSource audioSource;
+
     //成功判定
     private bool isSuccess = false;
     //失敗判定
@@ -25,6 +30,8 @@ public class GimmickButtonManagement : MonoBehaviourPunCallbacks
 
     private void Start()
     {
+        audioSource = GetComponent<AudioSource>();
+
         //Gimmickによって扉の開閉を決める
         if (gimmickNum == 0)
             door.SetActive(true);
@@ -57,6 +64,9 @@ public class GimmickButtonManagement : MonoBehaviourPunCallbacks
                                 gimmickButton[1].GetComponent<GimmickButton>().isButton)
                             {
                                 isSuccess = true;
+
+                                //SE再生
+                                audioSource.PlayOneShot(successSE);
                             }
                         }
                         else
@@ -83,6 +93,9 @@ public class GimmickButtonManagement : MonoBehaviourPunCallbacks
                             //制限時間内にできなければ失敗
                             isFailure = true;
                             count = 0;
+
+                            //SE再生
+                            audioSource.PlayOneShot(failureSE);
                         }
                     }
                 }

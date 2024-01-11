@@ -37,6 +37,10 @@ public class GimmickUnlockButtonManagement : CGimmick
     [SerializeField, Header("隠す場合どこを隠すか(チェック入れるとPlayer1の答えが隠される)")]
     private List<bool> isWhareHideAnswer;
 
+    [SerializeField, Header("成功SE")] AudioClip successSE;
+    [SerializeField, Header("失敗SE")] AudioClip failureSE;
+
+
     //どちらのプレイヤーが触れているか
     [System.NonSerialized] public bool isHitPlayer1 = false;
     [System.NonSerialized] public bool isHitPlayer2 = false;
@@ -63,6 +67,8 @@ public class GimmickUnlockButtonManagement : CGimmick
     private int frameCount = 0;
 
 
+    private AudioSource audioSource;
+
     //回答データ生成を1度しかしない用
     private bool isAnswerFirst = true;
     //アンロックボタン起動状態を連続で動かなない用
@@ -80,6 +86,7 @@ public class GimmickUnlockButtonManagement : CGimmick
 
     private void Start()
     {
+        audioSource = GetComponent<AudioSource>();
         timeLimitSlider.GetComponent<Slider>().value = 1;
 
         //Gimmickによって扉の開閉を決める
@@ -159,6 +166,7 @@ public class GimmickUnlockButtonManagement : CGimmick
                 }
 
                 frameCount++;
+                //制限時間
                 if (frameCount == timeLimit * 60)
                 {
                     //入力状況初期化
@@ -174,6 +182,9 @@ public class GimmickUnlockButtonManagement : CGimmick
                     //クリア状況初期化
                     isOwnerClear = false;
                     isClientClear = false;
+
+                    //SE再生
+                    audioSource.PlayOneShot(failureSE);
 
                     //二つ分初期化
                     for (int i = 0; i < gimmickButton.Count; i++)
@@ -197,8 +208,6 @@ public class GimmickUnlockButtonManagement : CGimmick
                     isStartCountFisrt = true;
                 }
             }
-
-
 
             //Player1のクリア情報送信
             if (PhotonNetwork.LocalPlayer.IsMasterClient)
@@ -245,6 +254,9 @@ public class GimmickUnlockButtonManagement : CGimmick
             if (isOwnerClear && isClientClear)
             {
                 isAllClear = true;
+
+                //SE再生
+                audioSource.PlayOneShot(successSE);
             }
 
 

@@ -26,8 +26,9 @@ public class SpriteManager : MonoBehaviour
     public Sprite RStickLeft;
     public Sprite RStickUp;
     public Sprite RStickDown;
-    //Rスティック
+    //Lスティック
     public Sprite LStick;
+    public Sprite LStickPlus;
     public Sprite LStickRight;
     public Sprite LStickLeft;
     public Sprite LStickUp;

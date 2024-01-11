@@ -25,15 +25,19 @@ public class ResultSystem : MonoBehaviourPunCallbacks
 
     [SerializeField, Header("noTapArea")] private GameObject noTapArea;
 
+    [SerializeField, Header("クリア時のBGM")] private AudioClip ClearBGM;
+    [SerializeField, Header("ゲームオーバー時のBGM")] private AudioClip LoseBGM;
+
     private int count = 0;      //フレームを数える
     private int objCount = 0;   //オブジェクトを数える
 
     private bool isRetry = false;       //リトライ選択したとき
     private bool isStageSelect = false; //ステージセレクト選択したとき
 
-
     private int ownerMemCount = 0;
     private int clientMemCount = 0;
+
+    private bool first = true;
 
     private FadeAnimation fadeanimation;//フェードアニメーションスクリプトを代入する変数
    
@@ -101,10 +105,21 @@ public class ResultSystem : MonoBehaviourPunCallbacks
         //クリア画面
         if (ManagerAccessor.Instance.dataManager.isClear)
         {
-            //クリアパネル表示
-            gameObject.transform.GetChild(0).gameObject.SetActive(true);
-            //クリア情報セーブ
-            ManagerAccessor.Instance.saveDataManager.ClearDataSave(ManagerAccessor.Instance.sceneMoveManager.GetSceneName());
+            if (first)
+            {
+                //クリアパネル表示
+                gameObject.transform.GetChild(0).gameObject.SetActive(true);
+                //クリア情報セーブ
+                ManagerAccessor.Instance.saveDataManager.ClearDataSave(ManagerAccessor.Instance.sceneMoveManager.GetSceneName());
+
+                //BGM変更
+                ManagerAccessor.Instance.dataManager.BGM.GetComponent<AudioSource>().clip = ClearBGM;
+
+                //再生
+                ManagerAccessor.Instance.dataManager.BGM.GetComponent<AudioSource>().Play();
+
+                first = false;
+            }
 
             //フレームカウント
             count++;
@@ -116,7 +131,18 @@ public class ResultSystem : MonoBehaviourPunCallbacks
         {
             if(fadeanimation.fadeoutfinish)
             {
-                gameObject.transform.GetChild(1).gameObject.SetActive(true);
+                if (first)
+                {
+                    gameObject.transform.GetChild(1).gameObject.SetActive(true);
+
+                    //BGM変更
+                    ManagerAccessor.Instance.dataManager.BGM.GetComponent<AudioSource>().clip = LoseBGM;
+
+                    //再生
+                    ManagerAccessor.Instance.dataManager.BGM.GetComponent<AudioSource>().Play();
+
+                    first = false;
+                }
             }
 
         }
