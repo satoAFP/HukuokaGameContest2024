@@ -14,10 +14,13 @@ public class SprashSystem : MonoBehaviour
     [SerializeField, Header("宝箱が開く音")]
     private AudioClip OpeneSE;
 
+    [SerializeField, Header("新しい場合")]
+    private bool NewSystem = true;
 
     private AudioSource audioSource;
 
-    private bool isInputB = false;
+    [System.NonSerialized]
+    public bool isInputB = false;
 
     private void Start()
     {
@@ -27,8 +30,9 @@ public class SprashSystem : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (isInputB)
-            splashMenu.SetActive(false);
+        if (!NewSystem)
+            if (isInputB)
+                splashMenu.SetActive(false);
     }
 
     //コントローラーB入力
