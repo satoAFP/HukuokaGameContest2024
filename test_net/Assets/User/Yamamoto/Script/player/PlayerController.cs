@@ -488,6 +488,8 @@ public class PlayerController : MonoBehaviourPunCallbacks
                     {
                         if (firstchange_boximage)
                         {
+                            Debug.Log("ソルジャー1st");
+                            audiosource.PlayOneShot(BoxplayerSE[0]);//箱を開ける効果音
                             photonView.RPC(nameof(RpcChangeBoxOpenImage), RpcTarget.All);//箱を空けるイラスト変更フラグを送信
                             firstchange_boximage = false;
                         }
@@ -711,7 +713,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
         GetComponent<BoxCollider2D>().isTrigger = true;
         GetComponent<Rigidbody2D>().simulated = false;
 
-        audiosource.PlayOneShot(BoxplayerSE[0]);//箱を開ける効果音
+       
 
         change_unloadimage = false;//ここでfalseにしないと箱が空くイラストに変わらないので注意
         change_boxopenimage = true;//箱プレイヤーの画像変更
