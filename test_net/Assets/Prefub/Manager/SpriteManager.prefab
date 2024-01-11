@@ -67,5 +67,6 @@ MonoBehaviour:
   LStickLeft: {fileID: 21300000, guid: 0496a9f313cf0954e90b03e39fb3dbff, type: 3}
   LStickUp: {fileID: 21300000, guid: 1391bfd0a9d27aa44b4a3ff7c1821855, type: 3}
   LStickDown: {fileID: 21300000, guid: b4c2d39e586cb4b458a2b375169c556e, type: 3}
+  Arrow: {fileID: 21300000, guid: 1055f3122da0fa64687eb67c5b52b73b, type: 3}
   RStickRotateR: {fileID: 9100000, guid: 247ac7ba935bd2942be02d25643f8407, type: 2}
   RStickRotateL: {fileID: 9100000, guid: 7a6bd240395947b428aca40d03292339, type: 2}
