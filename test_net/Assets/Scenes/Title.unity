@@ -2272,6 +2272,7 @@ MonoBehaviour:
   splashMenu: {fileID: 1266419230}
   BGMObj: {fileID: 554497684}
   OpeneSE: {fileID: 8300000, guid: 4138704c63843df47a1e4899c5093129, type: 3}
+  NewSystem: 0
 --- !u!114 &1050541937
 MonoBehaviour:
   m_ObjectHideFlags: 0
