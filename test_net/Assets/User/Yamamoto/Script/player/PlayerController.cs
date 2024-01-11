@@ -109,7 +109,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
     [SerializeField, Header("箱プレイヤー専用SE")] private AudioClip[] BoxplayerSE;
     private bool oneSE = true;//各処理一度だけ歩行SEを鳴らす
     private int walkseframe = 0;//se再生時に測るフレーム
-    private bool oneDeathSE = true;//
+    private bool oneDeathSE = true;//各処理一度だけ死亡SEを鳴らす
     //private bool oneboxopenSE = true;//一度だけ箱をあけるSE
     
     void Start()
