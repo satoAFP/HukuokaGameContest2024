@@ -19,6 +19,9 @@ public class ResultSystem : MonoBehaviourPunCallbacks
     [SerializeField, Header("クリア時のボタン")] private GameObject ClearButton;
     [SerializeField, Header("ゲームオーバー時のボタン")] private GameObject GameOverButton;
 
+    [SerializeField, Header("P1の死亡画像")] private GameObject P1DethImg;
+    [SerializeField, Header("P2の死亡画像")] private GameObject P2DethImg;
+
     [SerializeField, Header("最終ステージの場合オンにしてください")] private bool isLast;
 
     [SerializeField, Header("出す間隔")] private int intervalFrame;
@@ -140,6 +143,12 @@ public class ResultSystem : MonoBehaviourPunCallbacks
 
                     //再生
                     ManagerAccessor.Instance.dataManager.BGM.GetComponent<AudioSource>().Play();
+
+                    //死亡時の画像変更
+                    if (ManagerAccessor.Instance.dataManager.DeathPlayerName == "Player1")
+                        P1DethImg.SetActive(true);
+                    if (ManagerAccessor.Instance.dataManager.DeathPlayerName == "Player2")
+                        P2DethImg.SetActive(true);
 
                     first = false;
                 }
