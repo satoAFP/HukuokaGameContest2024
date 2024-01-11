@@ -367,6 +367,7 @@ public class GimmickUnlockButtonManagement : CGimmick
                 arraw.gameObject.transform.parent = answerArea.transform;
                 arraw.GetComponent<Image>().sprite = spriteManager.Arrow;
                 arraw.GetComponent<RectTransform>().eulerAngles = new Vector3(0, 0, -90);
+                arraw.GetComponent<RectTransform>().sizeDelta = new Vector2(100, 100);
             }
         }
     }
