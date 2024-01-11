@@ -359,6 +359,15 @@ public class GimmickUnlockButtonManagement : CGimmick
                     clone[i].GetComponent<Image>().sprite = spriteManager.L2;
                     break;
             }
+
+            //‰Ÿ‚·‚×‚«ƒ{ƒ^ƒ“‚Ì•\¦‚ÌŠÔ‚É–îˆó¶¬
+            if (i < answer.Count - 1)
+            {
+                GameObject arraw = Instantiate(initAnswer);
+                arraw.gameObject.transform.parent = answerArea.transform;
+                arraw.GetComponent<Image>().sprite = spriteManager.Arrow;
+                arraw.GetComponent<RectTransform>().eulerAngles = new Vector3(0, 0, -90);
+            }
         }
     }
 

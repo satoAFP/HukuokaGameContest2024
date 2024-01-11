@@ -34,6 +34,9 @@ public class SpriteManager : MonoBehaviour
     public Sprite LStickUp;
     public Sprite LStickDown;
 
+    //矢印
+    public Sprite Arrow;
+
     //アニメーション
     public RuntimeAnimatorController RStickRotateR;
     public RuntimeAnimatorController RStickRotateL;
