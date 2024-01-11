@@ -107,8 +107,9 @@ public class PlayerController : MonoBehaviourPunCallbacks
     private AudioSource audiosource = null;//オーディオソース
     [SerializeField, Header("プレイヤー標準SE")]   private AudioClip[] StandardSE;
     [SerializeField, Header("箱プレイヤー専用SE")] private AudioClip[] BoxplayerSE;
-    private bool oneSE = true;
+    private bool oneSE = true;//各処理一度だけ歩行SEを鳴らす
     private int walkseframe = 0;//se再生時に測るフレーム
+    private bool oneDeathSE = true;//
     //private bool oneboxopenSE = true;//一度だけ箱をあけるSE
     
     void Start()
@@ -157,6 +158,12 @@ public class PlayerController : MonoBehaviourPunCallbacks
             if(datamanager.isDeth)
             {
                 timer += Time.deltaTime;
+
+                if(oneDeathSE)
+                {
+                    audiosource.PlayOneShot(StandardSE[2]);//死亡時のSEを鳴らす
+                    oneDeathSE = false;
+                }
 
                 //1秒ぐらい経過したら再度RpcDeathKnockBackを呼び出す
                 if (knockbacktime <= timer)

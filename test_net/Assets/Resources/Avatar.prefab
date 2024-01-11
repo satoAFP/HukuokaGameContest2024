@@ -976,6 +976,7 @@ MonoBehaviour:
   StandardSE:
   - {fileID: 8300000, guid: 29ebb5e7f44fbd444b330b897c1d92d0, type: 3}
   - {fileID: 8300000, guid: 9ebb460024a7e1047b39ff81902f2bd3, type: 3}
+  - {fileID: 8300000, guid: 6d77659412830764ea82463f000decc5, type: 3}
   BoxplayerSE:
   - {fileID: 8300000, guid: 4138704c63843df47a1e4899c5093129, type: 3}
 --- !u!114 &5643572740733532904
