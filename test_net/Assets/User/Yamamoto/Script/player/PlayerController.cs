@@ -109,7 +109,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
     [SerializeField, Header("箱プレイヤー専用SE")] private AudioClip[] BoxplayerSE;
     private bool oneSE = true;
     private int walkseframe = 0;//se再生時に測るフレーム
-    private bool oneboxopenSE = true;//一度だけ箱をあけるSE
+    //private bool oneboxopenSE = true;//一度だけ箱をあけるSE
     
     void Start()
     {
@@ -488,7 +488,6 @@ public class PlayerController : MonoBehaviourPunCallbacks
                     {
                         if (firstchange_boximage)
                         {
-                            Debug.Log("ソルジャー1st");
                             audiosource.PlayOneShot(BoxplayerSE[0]);//箱を開ける効果音
                             photonView.RPC(nameof(RpcChangeBoxOpenImage), RpcTarget.All);//箱を空けるイラスト変更フラグを送信
                             firstchange_boximage = false;
@@ -707,13 +706,9 @@ public class PlayerController : MonoBehaviourPunCallbacks
     [PunRPC]
     private void RpcChangeBoxOpenImage()
     {
-
-        Debug.Log("ake");
         //当たり判定を切る
         GetComponent<BoxCollider2D>().isTrigger = true;
         GetComponent<Rigidbody2D>().simulated = false;
-
-       
 
         change_unloadimage = false;//ここでfalseにしないと箱が空くイラストに変わらないので注意
         change_boxopenimage = true;//箱プレイヤーの画像変更

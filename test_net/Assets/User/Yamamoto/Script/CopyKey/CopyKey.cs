@@ -54,7 +54,12 @@ public class CopyKey : MonoBehaviourPunCallbacks
 
     [System.NonSerialized] public bool animplay = false;//アニメーションを再生
     private bool firstanimplay = true;//複数アニメ起動をさせないフラグ
-    
+
+    private AudioSource audiosource = null;//オーディオソース
+    [SerializeField, Header("コピーキー標準SE")] private AudioClip[] StandardSE;
+    private bool oneSE = true;
+    private int walkseframe = 0;//se再生時に測るフレーム
+
     // Start is called before the first frame update
     void Start()
     {
@@ -72,6 +77,8 @@ public class CopyKey : MonoBehaviourPunCallbacks
         test_net = new Test_net();//スクリプトを変数に格納
 
         holdtime = collecttime;//長押しカウント時間を初期化
+
+        audiosource = GetComponent<AudioSource>();//AudioSourceを取得
     }
 
     // Update is called once per frame
@@ -108,7 +115,30 @@ public class CopyKey : MonoBehaviourPunCallbacks
                     }
                 }
 
-              
+
+                //移動アニメーションが再生されているとき効果音を鳴らす
+                if (animplay)
+                {
+
+                    if (oneSE)
+                    {
+                        audiosource.PlayOneShot(StandardSE[0]);//歩く効果音
+                        oneSE = false;
+                    }
+                    else
+                    {
+                        walkseframe++;//大体の効果音の再生時間を計測する
+
+                        //効果音が鳴りやんだタイミングで再度効果音を鳴らす
+                        if (walkseframe >= 30)
+                        {
+                            oneSE = true;
+                            walkseframe = 0;//ここでフレーム計算をリセット
+                        }
+                    }
+
+                }
+
                 //操作が競合しないための設定
                 if (photonView.IsMine)
                 {
@@ -309,6 +339,7 @@ public class CopyKey : MonoBehaviourPunCallbacks
                         }
                         else
                         {
+                            photonView.RPC(nameof(RpcPlayJumpSE), RpcTarget.All);//ジャンプの効果音
                             rigid.AddForce(Vector2.up * jumpSpeed, ForceMode2D.Impulse);
                             bjump = true;//一度ジャンプしたら着地するまでジャンプできなくする
                         }
@@ -384,6 +415,12 @@ public class CopyKey : MonoBehaviourPunCallbacks
         Debug.Log("コピーキーアニメstop");
         animplay = false;
         firstanimplay = true;
+    }
+
+    [PunRPC]
+    private void RpcPlayJumpSE()
+    {
+        audiosource.PlayOneShot(StandardSE[1]);//ジャンプ効果音
     }
 
 }
