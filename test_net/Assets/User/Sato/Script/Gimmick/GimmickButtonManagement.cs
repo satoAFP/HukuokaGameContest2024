@@ -28,6 +28,9 @@ public class GimmickButtonManagement : MonoBehaviourPunCallbacks
     //フレームカウント用
     private int count = 0;
 
+    //一回しか入らない
+    private bool first = true;
+
     private void Start()
     {
         audioSource = GetComponent<AudioSource>();
@@ -111,13 +114,22 @@ public class GimmickButtonManagement : MonoBehaviourPunCallbacks
         //同時押しが成功すると、扉が開く
         if (isSuccess) 
         {
-            if (gimmickNum == 0)
-                door.SetActive(false);
-            if (gimmickNum == 1)
-                door.SetActive(true);
+            if (first)
+            {
+                if (gimmickNum == 0)
+                    door.SetActive(false);
+                if (gimmickNum == 1)
+                    door.SetActive(true);
 
-            gameObject.transform.Find("Button1").transform.localScale = new Vector2(-1, 1);
-            gameObject.transform.Find("Button2").transform.localScale = new Vector2(-1, 1);
+                gameObject.transform.Find("Button1").transform.localScale = new Vector2(-1, 1);
+                gameObject.transform.Find("Button2").transform.localScale = new Vector2(-1, 1);
+
+                //エフェクト生成
+                Instantiate(ManagerAccessor.Instance.dataManager.StarEffect, gameObject.transform.Find("Button1"));
+                Instantiate(ManagerAccessor.Instance.dataManager.StarEffect, gameObject.transform.Find("Button2"));
+
+                first = false;
+            }
         }
 
     }

@@ -157,6 +157,9 @@ public class GimmickBlock : CGimmick
 
                         //SE再生
                         audioSource.PlayOneShot(liftSE);
+                        //エフェクト生成
+                        GameObject clone = Instantiate(ManagerAccessor.Instance.dataManager.StarEffect);
+                        clone.transform.position = transform.position;
                     }
 
                     //プレイヤーに追従させる

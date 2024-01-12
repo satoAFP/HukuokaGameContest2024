@@ -71,8 +71,11 @@ public class GimmickUnlockButtonManagement : CGimmick
 
     //回答データ生成を1度しかしない用
     private bool isAnswerFirst = true;
+    private bool first = true;
+
     //アンロックボタン起動状態を連続で動かなない用
     private bool isUnlockButtonStartFirst = true;
+
     //クリア状況共有を連続で動かない用
     private bool isOwnerClearFirst = true;
     private bool isClientClearFirst = true;
@@ -263,14 +266,22 @@ public class GimmickUnlockButtonManagement : CGimmick
         }
         else
         {
-            //解除成功
-            if (gimmickNum == 0)
-                door.SetActive(false);
-            if (gimmickNum == 1)
-                door.SetActive(true);
+            if (first)
+            {
+                //解除成功
+                if (gimmickNum == 0)
+                    door.SetActive(false);
+                if (gimmickNum == 1)
+                    door.SetActive(true);
 
-            answerArea.SetActive(false);
-            timeLimitSlider.SetActive(false);
+                answerArea.SetActive(false);
+                timeLimitSlider.SetActive(false);
+
+                Instantiate(ManagerAccessor.Instance.dataManager.StarEffect, gameObject.transform.Find("UnlockButton"));
+                Instantiate(ManagerAccessor.Instance.dataManager.StarEffect, gameObject.transform.Find("UnlockButton1"));
+
+                first = false;
+            }
         }
 
     }

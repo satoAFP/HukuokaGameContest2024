@@ -45,5 +45,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   star: {fileID: 2566653773804063167, guid: d51bec416d26e29419404b26be88b646, type: 3}
-  initNum: 4
+  initNum: 10
   killTime: 30

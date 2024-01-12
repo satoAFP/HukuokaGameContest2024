@@ -12,6 +12,8 @@ public class DataManager : MonoBehaviourPunCallbacks
 
     [Header("BGM")] public GameObject BGM;
 
+    [Header("星生成エフェクト")] public GameObject StarEffect;
+
     //それぞれのクリア状況
     [System.NonSerialized] public bool isOwnerClear = false;
     [System.NonSerialized] public bool isClientClear = false;
@@ -181,6 +183,11 @@ public class DataManager : MonoBehaviourPunCallbacks
             else
                 ManagerAccessor.Instance.dataManager.isNotOpenBox = false;
         }
+
+        //if(Input.GetMouseButton(0))
+        //{
+        //    Instantiate(ManagerAccessor.Instance.dataManager.StarEffect);
+        //}
     }
 
 
