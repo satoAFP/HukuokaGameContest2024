@@ -57,8 +57,9 @@ public class CopyKey : MonoBehaviourPunCallbacks
 
     private AudioSource audiosource = null;//オーディオソース
     [SerializeField, Header("コピーキー標準SE")] private AudioClip[] StandardSE;
-    private bool oneSE = true;
+    private bool oneSE = true;//各処理一度だけ歩行SEを鳴らす
     private int walkseframe = 0;//se再生時に測るフレーム
+    private bool oneDeathSE = true;//各処理一度だけ死亡SEを鳴らす
 
     // Start is called before the first frame update
     void Start()
@@ -214,6 +215,12 @@ public class CopyKey : MonoBehaviourPunCallbacks
         {
             // 画像を切り替えます
             //GetComponent<SpriteRenderer>().sprite = DeathImage;
+
+            if (oneDeathSE)
+            {
+                audiosource.PlayOneShot(StandardSE[2]);//死亡時のSEを鳴らす
+                oneDeathSE = false;
+            }
 
             timer += Time.deltaTime;//時間計測
 
