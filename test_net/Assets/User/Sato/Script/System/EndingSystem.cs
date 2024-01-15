@@ -27,7 +27,7 @@ public class EndingSystem : MonoBehaviourPunCallbacks
         }
         else
         {
-            gameObject.transform.GetChild(1).GetComponent<Text>().text = "ƒ[ƒh’†...";
+            gameObject.transform.GetChild(1).GetComponent<Text>().text = "1P‘€ì‘Ò‚¿";
         }
 
     }

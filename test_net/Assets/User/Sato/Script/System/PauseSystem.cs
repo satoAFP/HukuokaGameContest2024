@@ -32,7 +32,9 @@ public class PauseSystem : MonoBehaviourPunCallbacks
         //クライアントのボタン入力処理
         else
         {
-            if (ManagerAccessor.Instance.dataManager.isClientInputKeyPause)
+            if (ManagerAccessor.Instance.dataManager.isClientInputKeyPause ||
+                ManagerAccessor.Instance.dataManager.isClear &&
+                ManagerAccessor.Instance.dataManager.isDeth) 
             {
                 if (first)
                 {
@@ -60,6 +62,10 @@ public class PauseSystem : MonoBehaviourPunCallbacks
     [PunRPC]
     private void RpcShareIsMenuOpen(bool data)
     {
-        isMenuOpen = data;
+        if (!ManagerAccessor.Instance.dataManager.isClear &&
+            !ManagerAccessor.Instance.dataManager.isDeth)
+            isMenuOpen = data;
+        else
+            isMenuOpen = false;
     }
 }

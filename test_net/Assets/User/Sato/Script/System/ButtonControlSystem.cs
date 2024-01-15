@@ -11,6 +11,8 @@ public class ButtonControlSystem : MonoBehaviourPunCallbacks
 
     [SerializeField, Header("縦＝true 横＝false")] private bool inputDirection;
 
+    [SerializeField, Header("最後のステージの場合true")] private bool isLast;
+
     [SerializeField, Header("選択SE")] AudioClip choseSE;
 
     private AudioSource audioSource;
@@ -112,7 +114,10 @@ public class ButtonControlSystem : MonoBehaviourPunCallbacks
                             }
                             else
                             {
-                                ManagerAccessor.Instance.sceneMoveManager.SceneMoveName("StageSelect");
+                                if (!isLast)
+                                    ManagerAccessor.Instance.sceneMoveManager.SceneMoveName("StageSelect");
+                                else
+                                    ManagerAccessor.Instance.sceneMoveManager.SceneMoveName("Ending");
                                 isSelect = true;
                                 firstSceneMove = false;
                             }

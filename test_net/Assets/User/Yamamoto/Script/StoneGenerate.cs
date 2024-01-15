@@ -71,7 +71,9 @@ public class StoneGenerate : MonoBehaviourPunCallbacks
 
         
 
-        if (ManagerAccessor.Instance.dataManager.isPause)
+        if (ManagerAccessor.Instance.dataManager.isPause ||
+            ManagerAccessor.Instance.dataManager.isClear ||
+            ManagerAccessor.Instance.dataManager.isDeth)
         {
             moveSpeed = 0;//デスエリアに掛かっている速度を0にする
             rb.constraints = RigidbodyConstraints2D.FreezeAll;//横方向の移動を止める

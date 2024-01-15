@@ -181,11 +181,14 @@ public class ResultSystem : MonoBehaviourPunCallbacks
         if (PhotonNetwork.IsMasterClient)
         {
             noTapArea.SetActive(true);
+                Debug.Log(isLast);
 
-            if (isLast) 
+            if (isLast)
+            {
                 ManagerAccessor.Instance.sceneMoveManager.SceneMoveName("Ending");
+            }
             else
-                ManagerAccessor.Instance.sceneMoveManager.SceneMoveName("StageSelect");
+                ManagerAccessor.Instance.sceneMoveManager.SceneMoveName("Ending");
         }
     }
 
