@@ -277,8 +277,11 @@ public class GimmickUnlockButtonManagement : CGimmick
                 answerArea.SetActive(false);
                 timeLimitSlider.SetActive(false);
 
-                Instantiate(ManagerAccessor.Instance.dataManager.StarEffect, gameObject.transform.Find("UnlockButton"));
-                Instantiate(ManagerAccessor.Instance.dataManager.StarEffect, gameObject.transform.Find("UnlockButton1"));
+                GameObject clone = null;
+                clone = Instantiate(ManagerAccessor.Instance.dataManager.StarEffect, gameObject.transform.Find("UnlockButton"));
+                clone.transform.localPosition = new Vector3(0,0,0);
+                clone = Instantiate(ManagerAccessor.Instance.dataManager.StarEffect, gameObject.transform.Find("UnlockButton1"));
+                clone.transform.localPosition = new Vector3(0, 0, 0);
 
                 first = false;
             }

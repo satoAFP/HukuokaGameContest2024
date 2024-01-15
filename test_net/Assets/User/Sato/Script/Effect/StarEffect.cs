@@ -19,6 +19,7 @@ public class StarEffect : MonoBehaviour
         {
             GameObject clone = Instantiate(star);
             clone.transform.parent = gameObject.transform;
+            clone.transform.localPosition = new Vector3(0, 0, 0);
         }
     }
 

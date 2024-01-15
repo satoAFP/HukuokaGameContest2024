@@ -160,6 +160,7 @@ public class GimmickBlock : CGimmick
                         //エフェクト生成
                         GameObject clone = Instantiate(ManagerAccessor.Instance.dataManager.StarEffect);
                         clone.transform.position = transform.position;
+                        clone.transform.localPosition = transform.position;
                     }
 
                     //プレイヤーに追従させる
@@ -210,7 +211,6 @@ public class GimmickBlock : CGimmick
                         {
                             ManagerAccessor.Instance.dataManager.player2.GetComponent<Rigidbody2D>().simulated = true;
                         }
-                        Debug.Log("aaa");
                     }
                     else
                     {
@@ -230,7 +230,6 @@ public class GimmickBlock : CGimmick
                         {
                             ManagerAccessor.Instance.dataManager.player2.GetComponent<Rigidbody2D>().simulated = false;
                         }
-                        Debug.Log("bbb");
                     }
                 }
             }
