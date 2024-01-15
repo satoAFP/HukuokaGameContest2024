@@ -718,7 +718,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
     {
         //当たり判定を切る
         GetComponent<BoxCollider2D>().isTrigger = true;
-        GetComponent<Rigidbody2D>().simulated = false;
+        //GetComponent<Rigidbody2D>().simulated = false;
 
         change_unloadimage = false;//ここでfalseにしないと箱が空くイラストに変わらないので注意
         change_boxopenimage = true;//箱プレイヤーの画像変更
