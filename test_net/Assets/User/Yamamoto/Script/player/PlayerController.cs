@@ -577,6 +577,9 @@ public class PlayerController : MonoBehaviourPunCallbacks
         if (collision.gameObject.tag == "DeathField")
         {
             //Debug.Log("si");
+
+            datamanager.DeathPlayerName = this.gameObject.name;
+
             datamanager.isDeth = true;
         }
     }
