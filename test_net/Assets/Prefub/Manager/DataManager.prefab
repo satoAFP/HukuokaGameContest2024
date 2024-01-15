@@ -47,8 +47,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   StageNum: 8
   MissFrame: 40
-  ownerMissCount: 0
-  clientMissCount: 0
+  BGM: {fileID: 0}
+  StarEffect: {fileID: 8247187840347389312, guid: 3be1b7c10520b31409c5723d0e6d4f91, type: 3}
   text: {fileID: 0}
   chat: {fileID: 0}
   clear: {fileID: 0}
