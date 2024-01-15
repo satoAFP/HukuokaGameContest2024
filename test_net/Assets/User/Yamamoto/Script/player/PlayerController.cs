@@ -717,7 +717,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
     private void RpcChangeBoxOpenImage()
     {
         //“–‚½‚è”»’è‚ğØ‚é
-        GetComponent<BoxCollider2D>().isTrigger = true;
+        //GetComponent<BoxCollider2D>().isTrigger = true;
         //GetComponent<Rigidbody2D>().simulated = false;
 
         change_unloadimage = false;//‚±‚±‚Åfalse‚É‚µ‚È‚¢‚Æ” ‚ª‹ó‚­ƒCƒ‰ƒXƒg‚É•Ï‚í‚ç‚È‚¢‚Ì‚Å’ˆÓ
