@@ -8,6 +8,9 @@ public class SprashSystem : MonoBehaviour
     [SerializeField, Header("スプラッシュ画面")]
     private GameObject splashMenu;
 
+    [SerializeField, Header("ロード中のオブジェクト")]
+    private GameObject loadingObj;
+
     [SerializeField, Header("BGM再生用オブジェクト")]
     private GameObject BGMObj;
 
@@ -31,8 +34,19 @@ public class SprashSystem : MonoBehaviour
     void Update()
     {
         if (!NewSystem)
+        {
             if (isInputB)
+            {
                 splashMenu.SetActive(false);
+            }
+        }
+        else
+        {
+            if (isInputB)
+            {
+                loadingObj.SetActive(true);
+            }
+        }
     }
 
     //コントローラーB入力
