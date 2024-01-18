@@ -40,7 +40,12 @@ public class StoneGenerate : MonoBehaviourPunCallbacks
     // Start is called before the first frame update
     void Start()
     {
-        height = gameObject.GetComponent<Renderer>().bounds.size.y;
+        // height = gameObject.GetComponent<Renderer>().bounds.size.y;
+
+        height = transform.position.y + transform.localScale.y / 2;
+
+       // Debug.Log(gameObject.GetComponent<Renderer>().bounds.size.y);
+       // Debug.Log(height);
 
         ParentObj = Instantiate(StoneParentObject, Vector2.zero, Quaternion.identity);
 
