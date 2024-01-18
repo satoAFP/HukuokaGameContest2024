@@ -6,23 +6,14 @@ using Photon.Pun;
 public class DangerMark : MonoBehaviourPunCallbacks
 {
     [SerializeField, Header("落石")] private Transform stoneGenelate;
-    [SerializeField, Header("カメラ")] private Transform cameraGenelate;
 
-    [SerializeField, Header("落石の前後どの座標に生成するか")] private float genelatePosX;
-    [SerializeField, Header("プレイヤーの上下どの座標に生成するか")] private float genelatePosY;
+    [SerializeField, Header("表示する距離")] private float displayPos;
 
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        Vector3 pos = Vector3.zero;
-
-        //表示する座標の設定
-        pos = new Vector3(stoneGenelate.position.x + genelatePosX, cameraGenelate.position.y + genelatePosY);
-
-        //座標変更
-        transform.position = pos;
-
-
+        
     }
+
 }
