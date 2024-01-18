@@ -226,13 +226,13 @@ public class ResultSystem : MonoBehaviourPunCallbacks
     //ミスの回数をリザルト表示用のスコアに変更
     private int ResultScoreChange(int miss)
     {
-        if (0 <= miss && miss < 3)
+        if (0 == miss)
             return 3;
-        else if (3 <= miss && miss < 6)
+        else if (1 <= miss && miss < 4)
             return 2;
-        else if (6 <= miss && miss < 9)
+        else if (4 <= miss && miss < 7)
             return 1;
-        else if (9 <= miss)
+        else if (7 <= miss)
             return 0;
 
         return 0;
