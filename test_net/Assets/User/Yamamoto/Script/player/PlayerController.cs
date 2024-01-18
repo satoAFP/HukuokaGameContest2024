@@ -727,9 +727,11 @@ public class PlayerController : MonoBehaviourPunCallbacks
     [PunRPC]
     private void RpcChangeBoxOpenImage()
     {
-        //当たり判定を切る
-        //GetComponent<BoxCollider2D>().isTrigger = true;
-        //GetComponent<Rigidbody2D>().simulated = false;
+        
+        //エフェクト生成
+        GameObject clone;
+        clone = Instantiate(ManagerAccessor.Instance.dataManager.StarEffect,gameObject.transform);
+        clone.transform.localPosition = transform.position;
 
         change_unloadimage = false;//ここでfalseにしないと箱が空くイラストに変わらないので注意
         change_boxopenimage = true;//箱プレイヤーの画像変更
