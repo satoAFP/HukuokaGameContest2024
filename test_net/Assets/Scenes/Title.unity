@@ -2270,6 +2270,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   splashMenu: {fileID: 1266419230}
+  loadingObj: {fileID: 0}
   BGMObj: {fileID: 554497684}
   OpeneSE: {fileID: 8300000, guid: 4138704c63843df47a1e4899c5093129, type: 3}
   NewSystem: 0
@@ -3284,6 +3285,7 @@ MonoBehaviour:
   StageNum: 0
   MissFrame: 0
   BGM: {fileID: 0}
+  StarEffect: {fileID: 0}
   text: {fileID: 1265428159}
   chat: {fileID: 0}
   clear: {fileID: 0}
