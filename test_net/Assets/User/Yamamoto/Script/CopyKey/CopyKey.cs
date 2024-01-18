@@ -143,6 +143,11 @@ public class CopyKey : MonoBehaviourPunCallbacks
                 //操作が競合しないための設定
                 if (photonView.IsMine)
                 {
+
+                    //コピーキーを選択しているとき十字キー下の吹き出し表示
+                    ManagerAccessor.Instance.dataManager.player1.transform.GetChild(0).gameObject.SetActive(true);
+                    ManagerAccessor.Instance.dataManager.player1.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = ManagerAccessor.Instance.spriteManager.CrossDown;
+
                     //持ち上げていないときは普通に移動させる
                     if (!islift)
                     {

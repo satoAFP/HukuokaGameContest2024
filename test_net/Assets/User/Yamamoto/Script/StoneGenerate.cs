@@ -5,10 +5,7 @@ using Photon.Pun;
 
 public class StoneGenerate : MonoBehaviourPunCallbacks
 {
-    [SerializeField] private GameObject GenelateErea_L;//生成場所左
-    [SerializeField] private GameObject GenelateErea_R;//生成場所右
-
-
+   
     [SerializeField] private GameObject[] Stones = new GameObject[3];//大きい岩
 
     [SerializeField] private GameObject StoneParentObject;//生成した岩の親オブジェクト
@@ -40,7 +37,11 @@ public class StoneGenerate : MonoBehaviourPunCallbacks
     // Start is called before the first frame update
     void Start()
     {
-        height = gameObject.GetComponent<Renderer>().bounds.size.y;
+        // height = gameObject.GetComponent<Renderer>().bounds.size.y;
+
+        height = transform.position.y + transform.localScale.y / 2;
+
+       
 
         ParentObj = Instantiate(StoneParentObject, Vector2.zero, Quaternion.identity);
 
@@ -124,19 +125,16 @@ public class StoneGenerate : MonoBehaviourPunCallbacks
 
         stonetype = Random.Range(1, 3);//岩の種類をランダム選出
 
-        float randomX = Random.Range(GenelateErea_L.transform.localPosition.x, GenelateErea_R.transform.localPosition.x);//ランダムなX座標
+        float randomX = Random.Range(transform.position.x - transform.localScale.x / 2, transform.position.x + transform.localScale.x / 2);//ランダムなX座標
+
+        Debug.Log(randomX);
 
         spawnPosition = new Vector2(randomX, height);//生成位置を設定
 
-        var worldPoint = transform.TransformPoint(spawnPosition);//ワールド座標に変換
-
-        worldPoint.y = height;//高さをワールド座標にするとずれるのでローカルに戻す
-
-
-
-        ChildObj = Instantiate(Stones[stonetype], worldPoint, Quaternion.identity);
+        ChildObj = Instantiate(Stones[stonetype]);
 
         ChildObj.transform.parent = ParentObj.transform; // 生成した岩をParentObjの子オブジェクトにする
+        ChildObj.transform.position = spawnPosition;
     }
 
 

@@ -337,6 +337,11 @@ public class PlayerController : MonoBehaviourPunCallbacks
                                 // Debug.Log("firstboxopenが入ってる");
                                 photonView.RPC(nameof(RpcShareBoxOpen), RpcTarget.All, true);
                                 firstboxopen = false;
+
+                                //箱が空いているときにオブジェクトがない場合、十字キー下の吹き出し表示
+                                transform.GetChild(0).gameObject.SetActive(true);
+                                transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = ManagerAccessor.Instance.spriteManager.CrossDown;
+
                             }
 
                         }
@@ -368,6 +373,8 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
                                 if (!firstmovelock)
                                 {
+                                   
+                                    transform.GetChild(0).gameObject.SetActive(false); //吹き出しを非表示
                                     photonView.RPC(nameof(RpcShareMoveLock), RpcTarget.All, false);//箱の移動の制限解除
                                     firstmovelock = true;
                                 }
@@ -390,6 +397,10 @@ public class PlayerController : MonoBehaviourPunCallbacks
                                     currentBoardObject = PhotonNetwork.Instantiate("Board", new Vector2(p1pos.x, p1pos.y + 1.0f), Quaternion.identity);
                                     // movelock = true;
                                     //Debug.Log("板だす");
+
+                                    //板を出したとき、ボタン右の吹き出し表示
+                                    transform.GetChild(0).gameObject.SetActive(true);
+                                    transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = ManagerAccessor.Instance.spriteManager.ArrowRight;
 
                                     //先に鍵が生成されていた場合
                                     if (currentCopyKeyObject != null)

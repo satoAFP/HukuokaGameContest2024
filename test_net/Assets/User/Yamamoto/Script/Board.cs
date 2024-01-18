@@ -85,6 +85,8 @@ public class Board : MonoBehaviourPunCallbacks
                 //プレイヤー1側（箱）でしか操作できない
                 if (PhotonNetwork.LocalPlayer.IsMasterClient)
                 {
+
+                  
                     // 2軸入力読み込み
                     var inputValue = _moveAction.action.ReadValue<Vector2>();
 
@@ -117,6 +119,12 @@ public class Board : MonoBehaviourPunCallbacks
                     {
                         Debug.Log("Set");
                         photonView.RPC(nameof(Rpc_SetBoard), RpcTarget.All);
+
+                        //板を設置した時に下ボタンの吹き出し表示
+                        ManagerAccessor.Instance.dataManager.player1.transform.GetChild(0).gameObject.SetActive(true);
+                        ManagerAccessor.Instance.dataManager.player1.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = ManagerAccessor.Instance.spriteManager.ArrowDown;
+
+
                     }
 
 
@@ -127,6 +135,10 @@ public class Board : MonoBehaviourPunCallbacks
                 if (datamanager.isOwnerInputKey_CA)
                 {
                     //holdtime--;//長押しカウントダウン
+
+                    //板を置きなおしたとき右ボタンの吹き出し表示
+                    ManagerAccessor.Instance.dataManager.player1.transform.GetChild(0).gameObject.SetActive(true);
+                    ManagerAccessor.Instance.dataManager.player1.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = ManagerAccessor.Instance.spriteManager.ArrowRight;
 
                     //画像を半透明にする
                     GetComponent<SpriteRenderer>().color = new Color32(255, 255, 255, 128);
