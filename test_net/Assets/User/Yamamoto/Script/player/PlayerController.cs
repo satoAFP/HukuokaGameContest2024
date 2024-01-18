@@ -394,6 +394,9 @@ public class PlayerController : MonoBehaviourPunCallbacks
                             {
                                 if (currentBoardObject == null)
                                 {
+                                    //エフェクト生成
+                                    Instantiate(ManagerAccessor.Instance.dataManager.StarEffect, gameObject.transform);
+
                                     currentBoardObject = PhotonNetwork.Instantiate("Board", new Vector2(p1pos.x, p1pos.y + 1.0f), Quaternion.identity);
                                     // movelock = true;
                                     //Debug.Log("板だす");
@@ -430,6 +433,9 @@ public class PlayerController : MonoBehaviourPunCallbacks
                             {
                                 if (currentCopyKeyObject == null)
                                 {
+                                    //エフェクト生成
+                                    Instantiate(ManagerAccessor.Instance.dataManager.StarEffect, gameObject.transform);
+
                                     currentCopyKeyObject = PhotonNetwork.Instantiate("CopyKey", new Vector2(p1pos.x, p1pos.y + 1.0f), Quaternion.identity);
                                     //movelock = true;
 
@@ -727,10 +733,10 @@ public class PlayerController : MonoBehaviourPunCallbacks
     [PunRPC]
     private void RpcChangeBoxOpenImage()
     {
-        //当たり判定を切る
-        //GetComponent<BoxCollider2D>().isTrigger = true;
-        //GetComponent<Rigidbody2D>().simulated = false;
-
+        
+        //エフェクト生成
+        Instantiate(ManagerAccessor.Instance.dataManager.StarEffect,gameObject.transform);
+       
         change_unloadimage = false;//ここでfalseにしないと箱が空くイラストに変わらないので注意
         change_boxopenimage = true;//箱プレイヤーの画像変更
     }
