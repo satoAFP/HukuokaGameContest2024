@@ -16242,9 +16242,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: NewDeathErea
       objectReference: {fileID: 0}
+    - target: {fileID: 6771165422549457737, guid: 22e8121194061174da16f4db3d5be913, type: 3}
+      propertyPath: m_Size.x
+      value: 0.93683267
+      objectReference: {fileID: 0}
+    - target: {fileID: 6771165422549457737, guid: 22e8121194061174da16f4db3d5be913, type: 3}
+      propertyPath: m_Offset.x
+      value: -0.031583667
+      objectReference: {fileID: 0}
     - target: {fileID: 6771165422549457739, guid: 22e8121194061174da16f4db3d5be913, type: 3}
       propertyPath: m_RootOrder
       value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 6771165422549457739, guid: 22e8121194061174da16f4db3d5be913, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 21.717743
       objectReference: {fileID: 0}
     - target: {fileID: 6771165422549457739, guid: 22e8121194061174da16f4db3d5be913, type: 3}
       propertyPath: m_LocalScale.y
@@ -16252,7 +16264,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6771165422549457739, guid: 22e8121194061174da16f4db3d5be913, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -17.52
+      value: -24.1041
       objectReference: {fileID: 0}
     - target: {fileID: 6771165422549457739, guid: 22e8121194061174da16f4db3d5be913, type: 3}
       propertyPath: m_LocalPosition.y
