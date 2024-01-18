@@ -7375,11 +7375,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6771165422549457737, guid: 22e8121194061174da16f4db3d5be913, type: 3}
       propertyPath: m_Size.x
-      value: 0.90837157
+      value: 0.8883674
       objectReference: {fileID: 0}
     - target: {fileID: 6771165422549457737, guid: 22e8121194061174da16f4db3d5be913, type: 3}
       propertyPath: m_Offset.x
-      value: -0.04581423
+      value: -0.055816278
       objectReference: {fileID: 0}
     - target: {fileID: 6771165422549457739, guid: 22e8121194061174da16f4db3d5be913, type: 3}
       propertyPath: m_RootOrder
