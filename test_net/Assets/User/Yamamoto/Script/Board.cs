@@ -33,6 +33,8 @@ public class Board : MonoBehaviourPunCallbacks
     [SerializeField]
     private int holdtime;//設定したアイテム回収時間を代入する
 
+    private bool firstcorsor = true;//カーソルを移動させるたびにボタンの表示を変える
+
     private void OnDestroy()
     {
         _moveAction.action.Dispose();
@@ -85,7 +87,14 @@ public class Board : MonoBehaviourPunCallbacks
                 //プレイヤー1側（箱）でしか操作できない
                 if (PhotonNetwork.LocalPlayer.IsMasterClient)
                 {
+                    if(firstcorsor)
+                    {
+                        //板を設置した時に下ボタンの吹き出し表示
+                        ManagerAccessor.Instance.dataManager.player1.transform.GetChild(0).gameObject.SetActive(true);
+                        ManagerAccessor.Instance.dataManager.player1.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = ManagerAccessor.Instance.spriteManager.ArrowDown;
 
+                        firstcorsor = false;
+                    }
                   
                     // 2軸入力読み込み
                     var inputValue = _moveAction.action.ReadValue<Vector2>();
@@ -153,6 +162,10 @@ public class Board : MonoBehaviourPunCallbacks
                 }
 
 
+            }
+            else
+            {
+                firstcorsor = true;
             }
 
             //十字キー下でアイテム回収
