@@ -33,7 +33,7 @@ public class Board : MonoBehaviourPunCallbacks
     [SerializeField]
     private int holdtime;//設定したアイテム回収時間を代入する
 
-    private bool firstcorsor = true;//カーソルを移動させるたびにボタンの表示を変える
+    private bool firstcorsor = false;//カーソルを移動させるたびにボタンの表示を変える
 
     private void OnDestroy()
     {
@@ -87,7 +87,7 @@ public class Board : MonoBehaviourPunCallbacks
                 //プレイヤー1側（箱）でしか操作できない
                 if (PhotonNetwork.LocalPlayer.IsMasterClient)
                 {
-                    if(firstcorsor)
+                    if (firstcorsor)
                     {
                         //板を設置した時に下ボタンの吹き出し表示
                         ManagerAccessor.Instance.dataManager.player1.transform.GetChild(0).gameObject.SetActive(true);
@@ -95,7 +95,7 @@ public class Board : MonoBehaviourPunCallbacks
 
                         firstcorsor = false;
                     }
-                  
+
                     // 2軸入力読み込み
                     var inputValue = _moveAction.action.ReadValue<Vector2>();
 
@@ -145,9 +145,13 @@ public class Board : MonoBehaviourPunCallbacks
                 {
                     //holdtime--;//長押しカウントダウン
 
-                    //板を置きなおしたとき右ボタンの吹き出し表示
-                    ManagerAccessor.Instance.dataManager.player1.transform.GetChild(0).gameObject.SetActive(true);
-                    ManagerAccessor.Instance.dataManager.player1.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = ManagerAccessor.Instance.spriteManager.ArrowRight;
+                    //箱側でしか吹き出しを表示させない
+                    if (PhotonNetwork.LocalPlayer.IsMasterClient)
+                    {
+                        //板を置きなおしたとき右ボタンの吹き出し表示
+                        ManagerAccessor.Instance.dataManager.player1.transform.GetChild(0).gameObject.SetActive(true);
+                        ManagerAccessor.Instance.dataManager.player1.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = ManagerAccessor.Instance.spriteManager.ArrowRight;
+                    }
 
                     //画像を半透明にする
                     GetComponent<SpriteRenderer>().color = new Color32(255, 255, 255, 128);
