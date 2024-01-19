@@ -248,15 +248,15 @@ public class CopyKey : MonoBehaviourPunCallbacks
             }
             else if (timer >= 2.0f)
             {
-                Destroy(gameObject);//念のためにコピーキーを削除
 
-                if(firsteffect)
+                if (firsteffect)
                 {
                     //エフェクト生成
                     Instantiate(ManagerAccessor.Instance.dataManager.StarEffect, gameObject.transform);
                     firsteffect = false;
                 }
-               
+
+                Destroy(gameObject);//念のためにコピーキーを削除
 
                 //コピー鍵出現中フラグ
                 ManagerAccessor.Instance.dataManager.isAppearCopyKey = false;

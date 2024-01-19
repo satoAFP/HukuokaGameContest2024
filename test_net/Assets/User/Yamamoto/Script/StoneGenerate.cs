@@ -125,7 +125,7 @@ public class StoneGenerate : MonoBehaviourPunCallbacks
 
         float randomX = Random.Range(transform.position.x - transform.localScale.x / 2, transform.position.x + transform.localScale.x / 2);//ƒ‰ƒ“ƒ_ƒ€‚ÈXÀ•W
 
-        Debug.Log(randomX);
+        //Debug.Log(randomX);
 
         spawnPosition = new Vector2(randomX, height);//¶¬ˆÊ’u‚ğİ’è
 
