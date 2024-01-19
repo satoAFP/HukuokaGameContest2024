@@ -251,12 +251,13 @@ public class CopyKey : MonoBehaviourPunCallbacks
 
                 if (firsteffect)
                 {
+                    Debug.Log("出てる");
                     //エフェクト生成
                     Instantiate(ManagerAccessor.Instance.dataManager.StarEffect, gameObject.transform);
                     firsteffect = false;
                 }
 
-                Destroy(gameObject);//念のためにコピーキーを削除
+                //Destroy(gameObject);//念のためにコピーキーを削除
 
                 //コピー鍵出現中フラグ
                 ManagerAccessor.Instance.dataManager.isAppearCopyKey = false;
