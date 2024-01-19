@@ -35,6 +35,7 @@ public class CopyKey : MonoBehaviourPunCallbacks
     private bool firstdeathjump = true;//死亡時のノックバックジャンプを一回だけさせる
     private float knockbacktime = 1.0f;//ノックバックするときのＸ座標も移動
     private float timer = 0f;//時間をカウント
+    private float effecttime = 0f;//エフェクト再生時間を計測
 
     //ブロック持ち上げに使う変数
     [System.NonSerialized] public bool islift = false;//持ち上げフラグ
@@ -256,8 +257,18 @@ public class CopyKey : MonoBehaviourPunCallbacks
                     Instantiate(ManagerAccessor.Instance.dataManager.StarEffect, gameObject.transform);
                     firsteffect = false;
                 }
+                else
+                {
+                    effecttime += Time.deltaTime;//時間計測
+                }
 
-                //Destroy(gameObject);//念のためにコピーキーを削除
+            }
+
+            //エフェクトの再生が終了したらコピーキー削除処理
+            if(effecttime >= 1.0f)
+            {
+
+                Destroy(gameObject);//念のためにコピーキーを削除
 
                 //コピー鍵出現中フラグ
                 ManagerAccessor.Instance.dataManager.isAppearCopyKey = false;
