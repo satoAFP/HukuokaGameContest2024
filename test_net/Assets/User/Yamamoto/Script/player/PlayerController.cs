@@ -454,6 +454,13 @@ public class PlayerController : MonoBehaviourPunCallbacks
                         {
                             CK_instantiatefirst = true;
                         }
+
+
+                        if(copykeydelete)
+                        {
+
+                        }
+
                     }
 
                 }
