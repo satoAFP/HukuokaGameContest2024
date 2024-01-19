@@ -61,6 +61,8 @@ public class CopyKey : MonoBehaviourPunCallbacks
     private int walkseframe = 0;//se再生時に測るフレーム
     private bool oneDeathSE = true;//各処理一度だけ死亡SEを鳴らす
 
+    private bool firsteffect = true;//一度だけエフェクトを出す
+
     // Start is called before the first frame update
     void Start()
     {
@@ -247,6 +249,14 @@ public class CopyKey : MonoBehaviourPunCallbacks
             else if (timer >= 2.0f)
             {
                 Destroy(gameObject);//念のためにコピーキーを削除
+
+                if(firsteffect)
+                {
+                    //エフェクト生成
+                    Instantiate(ManagerAccessor.Instance.dataManager.StarEffect, gameObject.transform);
+                    firsteffect = false;
+                }
+               
 
                 //コピー鍵出現中フラグ
                 ManagerAccessor.Instance.dataManager.isAppearCopyKey = false;
