@@ -395,7 +395,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
                                 if (currentBoardObject == null)
                                 {
                                     //エフェクト生成
-                                    Instantiate(ManagerAccessor.Instance.dataManager.StarEffect, gameObject.transform);
+                                    photonView.RPC(nameof(RpcEffectPlay), RpcTarget.All);
 
                                     currentBoardObject = PhotonNetwork.Instantiate("Board", new Vector2(p1pos.x, p1pos.y + 1.0f), Quaternion.identity);
                                     // movelock = true;
@@ -434,7 +434,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
                                 if (currentCopyKeyObject == null)
                                 {
                                     //エフェクト生成
-                                    Instantiate(ManagerAccessor.Instance.dataManager.StarEffect, gameObject.transform);
+                                    photonView.RPC(nameof(RpcEffectPlay), RpcTarget.All);
 
                                     currentCopyKeyObject = PhotonNetwork.Instantiate("CopyKey", new Vector2(p1pos.x, p1pos.y + 1.0f), Quaternion.identity);
                                     //movelock = true;
@@ -874,5 +874,10 @@ public class PlayerController : MonoBehaviourPunCallbacks
         audiosource.PlayOneShot(StandardSE[1]);//ジャンプ効果音
     }
 
-
+    [PunRPC]
+    private void RpcEffectPlay()
+    {
+        //エフェクト生成
+        Instantiate(ManagerAccessor.Instance.dataManager.StarEffect, gameObject.transform);
+    }
 }
