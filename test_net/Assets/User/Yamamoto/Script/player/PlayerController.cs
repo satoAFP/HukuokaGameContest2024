@@ -242,7 +242,11 @@ public class PlayerController : MonoBehaviourPunCallbacks
             }
 
             //移動アニメーションが再生されているとき効果音を鳴らす
-            if(animplay && !datamanager.isClear)
+            //ゲームオーバーやポーズなどの時は音を鳴らさない
+            if(animplay 
+                 && !datamanager.isEnterGoal
+                 && !ManagerAccessor.Instance.dataManager.isPause
+                 && !ManagerAccessor.Instance.dataManager.isDeth)
             {
 
                 if(oneSE)
@@ -553,11 +557,13 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
     private void Move()//移動処理（計算部分）
     {
+        Debug.Log(datamanager.isEnterGoal);
 
         //ゲームオーバーまたはクリア処理を返すまで移動の計算をする
         if(!ManagerAccessor.Instance.dataManager.isDeth 
-            || !ManagerAccessor.Instance.dataManager.isClear
-            || !ManagerAccessor.Instance.dataManager.isPause)
+            && !ManagerAccessor.Instance.dataManager.isClear
+            && !ManagerAccessor.Instance.dataManager.isPause
+            && !datamanager.isEnterGoal)
         {
             rigid.velocity = new Vector2(inputDirection.x * moveSpeed, rigid.velocity.y);
         }

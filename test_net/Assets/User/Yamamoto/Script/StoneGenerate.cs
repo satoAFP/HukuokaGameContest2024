@@ -62,8 +62,7 @@ public class StoneGenerate : MonoBehaviourPunCallbacks
         //ŠëŒ¯•\Ž¦”ñ•\Ž¦
         if (PhotonNetwork.IsMasterClient)
         {
-            Debug.Log(ManagerAccessor.Instance.dataManager.player1.transform.position.x - transform.position.x);
-
+           
             if (ManagerAccessor.Instance.dataManager.player1.transform.position.x - transform.position.x < DisplayDir)
                 DangerMark.SetActive(true);
             else
