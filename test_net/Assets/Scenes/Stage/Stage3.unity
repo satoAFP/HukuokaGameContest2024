@@ -6266,6 +6266,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 961943917}
     - target: {fileID: 6771165422549457748, guid: 22e8121194061174da16f4db3d5be913, type: 3}
+      propertyPath: DisplayDir
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 6771165422549457748, guid: 22e8121194061174da16f4db3d5be913, type: 3}
+      propertyPath: genelatePosX
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6771165422549457748, guid: 22e8121194061174da16f4db3d5be913, type: 3}
       propertyPath: cameraGenelate
       value: 
       objectReference: {fileID: 296287956}
