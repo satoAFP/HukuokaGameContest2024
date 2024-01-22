@@ -129,7 +129,7 @@ public class GimmickButtonManagement : MonoBehaviourPunCallbacks
                 clone = Instantiate(ManagerAccessor.Instance.dataManager.StarEffect);
                 clone.transform.localPosition = gameObject.transform.Find("Button1").transform.position;
                 clone = Instantiate(ManagerAccessor.Instance.dataManager.StarEffect);
-                clone.transform.localPosition = gameObject.transform.Find("Button1").transform.position;
+                clone.transform.localPosition = gameObject.transform.Find("Button2").transform.position;
 
                 first = false;
             }

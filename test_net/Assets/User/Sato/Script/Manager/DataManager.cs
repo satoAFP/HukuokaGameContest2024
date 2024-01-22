@@ -54,6 +54,9 @@ public class DataManager : MonoBehaviourPunCallbacks
     //クリアフラグ
     [System.NonSerialized] public bool isClear = false;
 
+    //クリアフラグ
+    [System.NonSerialized] public bool isEnterGoal = false;
+
     //死亡フラグ
     [System.NonSerialized] public bool isDeth = false;
 

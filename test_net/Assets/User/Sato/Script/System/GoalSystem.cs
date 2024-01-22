@@ -48,6 +48,7 @@ public class GoalSystem : CGimmick
                 if (first)
                 {
                     photonView.RPC(nameof(RpcClearCheck), RpcTarget.All, PLAYER1);
+                    ManagerAccessor.Instance.dataManager.isEnterGoal = true;
                     first = false;
                 }
             }
@@ -59,6 +60,7 @@ public class GoalSystem : CGimmick
                 if (first)
                 {
                     photonView.RPC(nameof(RpcClearCheck), RpcTarget.All, PLAYER2);
+                    ManagerAccessor.Instance.dataManager.isEnterGoal = true;
                     first = false;
                 }
             }
