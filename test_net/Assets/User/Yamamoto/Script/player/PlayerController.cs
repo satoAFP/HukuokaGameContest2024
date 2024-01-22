@@ -70,6 +70,8 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
     //入力された方向を入れる変数
     private Vector2 inputDirection;
+    //入力された方向を入れる変数(記憶用)
+    private Vector2 memInputDirection;
 
     //各プレイヤーの座標
     private Vector2 p1pos;
@@ -111,6 +113,8 @@ public class PlayerController : MonoBehaviourPunCallbacks
     private int walkseframe = 0;//se再生時に測るフレーム
     private bool oneDeathSE = true;//各処理一度だけ死亡SEを鳴らす
     //private bool oneboxopenSE = true;//一度だけ箱をあけるSE
+
+    private bool first = true;
     
     void Start()
     {
@@ -284,15 +288,35 @@ public class PlayerController : MonoBehaviourPunCallbacks
                     if (!change_boxopenimage && !movelock)
                     {
                         // Debug.Log("ashidaka");
-                        photonView.RPC(nameof(RpcChangeUnloadImage), RpcTarget.All);
+                        if (!first)
+                        {
+                            photonView.RPC(nameof(RpcChangeUnloadImage), RpcTarget.All);
+                            first = true;
+                        }
                     }
 
                     distanceFirst = true;
                 }
                 else
                 {
+
+                    if (islift &&
+                        !((datamanager.isOwnerInputKey_C_L_RIGHT && datamanager.isClientInputKey_C_L_RIGHT) ||
+                        (datamanager.isOwnerInputKey_C_L_LEFT && datamanager.isClientInputKey_C_L_LEFT)))
+                    {
+                        inputDirection.x = 0;
+                    }
+                    else
+                    {
+                        inputDirection.x = memInputDirection.x;
+                    }
+
                     //各プレイヤーを持ち上げイラストに変更
-                    photonView.RPC(nameof(RpcChangeLiftImage), RpcTarget.All);
+                    if (first)
+                    {
+                        photonView.RPC(nameof(RpcChangeLiftImage), RpcTarget.All);
+                        first = false;
+                    }
 
                     //持ち上げている時は2プレイヤーが同じ移動方向を入力時移動
                     if ((datamanager.isOwnerInputKey_C_L_RIGHT && datamanager.isClientInputKey_C_L_RIGHT) ||
@@ -647,18 +671,11 @@ public class PlayerController : MonoBehaviourPunCallbacks
                     photonView.RPC(nameof(RpcMoveAnimPlay), RpcTarget.All);
                     firstanimplay = false;
                 }
-
+                Debug.Log("aaa");
                 //Debug.Log("スティック動かして移動している");
                 //移動方向の入力情報がInputdirectionの中に入るようになる
-                if (islift &&
-                    !((datamanager.isOwnerInputKey_C_L_RIGHT && datamanager.isClientInputKey_C_L_RIGHT) ||
-                    (datamanager.isOwnerInputKey_C_L_LEFT && datamanager.isClientInputKey_C_L_LEFT)))
-                {
-
-                    inputDirection.x = 0;
-                }
-                else
-                    inputDirection = context.ReadValue<Vector2>();
+                inputDirection = context.ReadValue<Vector2>();
+                memInputDirection = context.ReadValue<Vector2>();
             }
 
         }
