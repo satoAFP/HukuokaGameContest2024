@@ -581,8 +581,6 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
     private void Move()//移動処理（計算部分）
     {
-        Debug.Log(datamanager.isEnterGoal);
-
         //ゲームオーバーまたはクリア処理を返すまで移動の計算をする
         if(!ManagerAccessor.Instance.dataManager.isDeth 
             && !ManagerAccessor.Instance.dataManager.isClear
@@ -671,7 +669,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
                     photonView.RPC(nameof(RpcMoveAnimPlay), RpcTarget.All);
                     firstanimplay = false;
                 }
-                Debug.Log("aaa");
+                
                 //Debug.Log("スティック動かして移動している");
                 //移動方向の入力情報がInputdirectionの中に入るようになる
                 inputDirection = context.ReadValue<Vector2>();
@@ -694,7 +692,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
         {
             bjump = !ManagerAccessor.Instance.dataManager.isClientHitDown;
         }
-
+        
         //アンロックボタン、ロケットが起動中でない時 死亡してない時
         if (!ManagerAccessor.Instance.dataManager.isUnlockButtonStart && !movelock && !isFly
           &&!islift  && !ManagerAccessor.Instance.dataManager.isDeth
@@ -702,7 +700,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
           && !ManagerAccessor.Instance.dataManager.isPause
           && !bjump) 
         {
-            Debug.Log("ジャンプできる");
+            
 
             photonView.RPC(nameof(RpcMoveAnimStop), RpcTarget.All);//ジャンプしている時は移動アニメーションを止める
 

@@ -22,8 +22,11 @@ public class PlayerGetHitObjTag : MonoBehaviourPunCallbacks
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        //触れたオブジェクトのタグ記憶
-        HitTags.Add(collision.tag);
+        if (collision.tag == "Floor" || collision.tag == "Gimmick")
+        {
+            //触れたオブジェクトのタグ記憶
+            HitTags.Add(collision.tag);
+        }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
