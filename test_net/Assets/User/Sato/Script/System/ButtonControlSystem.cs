@@ -26,6 +26,7 @@ public class ButtonControlSystem : MonoBehaviourPunCallbacks
     //˜A‘±‚Å“ü‚ç‚È‚¢‚æ‚¤
     private bool first = true;
     private bool firstSceneMove = true;
+    private bool firstClear = true;
 
     private void Start()
     {
@@ -36,6 +37,15 @@ public class ButtonControlSystem : MonoBehaviourPunCallbacks
     // Update is called once per frame
     void Update()
     {
+        if(ManagerAccessor.Instance.dataManager.isClear)
+        {
+            if(firstClear)
+            {
+                buttonNum = false;
+                firstClear = false;
+            }
+        }
+
         if (PhotonNetwork.IsMasterClient)
         {
             if (!isSelect)
