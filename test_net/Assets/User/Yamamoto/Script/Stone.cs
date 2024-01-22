@@ -8,6 +8,8 @@ public class Stone : MonoBehaviour
 
     private float gravity = 0;//重力をランダムに設定
 
+    private float a = 0;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -23,14 +25,19 @@ public class Stone : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+
         //ポーズ中の時岩の落下を止める
         if (ManagerAccessor.Instance.dataManager.isPause)
         {
-            rb.constraints = RigidbodyConstraints2D.FreezePositionY;//FreezePositionXをオンにする
+            rb.constraints = RigidbodyConstraints2D.FreezePositionY;//FreezePositionYをオンにする
+          //  a = rb.gravityScale;
+            rb.gravityScale = 0;
         }
         else
         {
             rb.constraints = RigidbodyConstraints2D.None;
+            //重力スケールを変更する
+            rb.gravityScale = a;
         }
     }
 
