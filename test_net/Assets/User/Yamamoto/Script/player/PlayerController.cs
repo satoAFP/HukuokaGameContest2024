@@ -592,10 +592,10 @@ public class PlayerController : MonoBehaviourPunCallbacks
         DataManager datamanager = ManagerAccessor.Instance.dataManager;
 
         //プレイヤーが床または着地出来るものに乗っている時、再ジャンプ可能にする
-        if (collision.gameObject.tag == "Floor")
-        {
-            bjump = false;
-        }
+        //if (collision.gameObject.tag == "Floor")
+        //{
+        //    bjump = false;
+        //}
 
         //プレイヤーが落下した時、ゲームオーバーの処理をする
         if (collision.gameObject.tag == "DeathField")
@@ -662,6 +662,15 @@ public class PlayerController : MonoBehaviourPunCallbacks
     public void Onjump(InputAction.CallbackContext context)
     {
         DataManager datamanager = ManagerAccessor.Instance.dataManager;
+
+        if (PhotonNetwork.IsMasterClient)
+        {
+            bjump = !ManagerAccessor.Instance.dataManager.isOwnerHitDown;
+        }
+        else
+        {
+            bjump = !ManagerAccessor.Instance.dataManager.isClientHitDown;
+        }
 
         //アンロックボタン、ロケットが起動中でない時 死亡してない時
         if (!ManagerAccessor.Instance.dataManager.isUnlockButtonStart && !movelock && !isFly
