@@ -10,15 +10,6 @@ public class StoneGenerate : MonoBehaviourPunCallbacks
 
     [SerializeField] private GameObject StoneParentObject;//生成した岩の親オブジェクト
 
-    [SerializeField, Header("危険表示")] private GameObject DangerMark;
-
-    [SerializeField, Header("カメラ")] private Transform cameraGenelate;
-
-    [SerializeField, Header("落石の前後どの座標に生成するか")] private float genelatePosX;
-    [SerializeField, Header("プレイヤーの上下どの座標に生成するか")] private float genelatePosY;
-
-    [SerializeField, Header("表示する距離")] private float DisplayDir;//表示するときの距離
-
     private int stonetype = 0;//生成する岩の種類をランダムに決める
 
     private float height;
@@ -46,7 +37,11 @@ public class StoneGenerate : MonoBehaviourPunCallbacks
     // Start is called before the first frame update
     void Start()
     {
+        // height = gameObject.GetComponent<Renderer>().bounds.size.y;
+
         height = transform.position.y + transform.localScale.y / 2;
+
+       
 
         ParentObj = Instantiate(StoneParentObject, Vector2.zero, Quaternion.identity);
 
@@ -59,36 +54,25 @@ public class StoneGenerate : MonoBehaviourPunCallbacks
     // Update is called once per frame
     void FixedUpdate()
     {
-        //危険表示非表示
-        if (PhotonNetwork.IsMasterClient)
-        {
-            Debug.Log(ManagerAccessor.Instance.dataManager.player1.transform.position.x - transform.position.x);
+        ////ラグによる移動スピードが変わるのを防ぐためプレイヤー側の移動処理を取得する
+        //if (PhotonNetwork.IsMasterClient)
+        //{
 
-            if (ManagerAccessor.Instance.dataManager.player1.transform.position.x - transform.position.x < DisplayDir)
-                DangerMark.SetActive(true);
-            else
-                DangerMark.SetActive(false);
-        }
-        else
-        {
-            if (ManagerAccessor.Instance.dataManager.player2.transform.position.x - transform.position.x < DisplayDir)
-                DangerMark.SetActive(true);
-            else
-                DangerMark.SetActive(false);
-        }
+           
+        //}
 
-        //危険表示の座標変更
-        DangerMark.transform.position = new Vector3(transform.position.x + genelatePosX, cameraGenelate.position.y + genelatePosY);
+       
 
         // オブジェクトを右に移動させる
         if (!movestop && !ManagerAccessor.Instance.dataManager.isPause)
         {
+            Debug.Log("移動中");
             transform.Translate(Vector2.right * moveSpeed * Time.deltaTime);
         }
 
-        if (ManagerAccessor.Instance.dataManager.isPause ||
-            ManagerAccessor.Instance.dataManager.isClear ||
-            ManagerAccessor.Instance.dataManager.isDeth)
+        
+
+        if (ManagerAccessor.Instance.dataManager.isPause)
         {
             moveSpeed = 0;//デスエリアに掛かっている速度を0にする
             rb.constraints = RigidbodyConstraints2D.FreezeAll;//横方向の移動を止める
@@ -97,6 +81,8 @@ public class StoneGenerate : MonoBehaviourPunCallbacks
         {
             //ポーズした時に止めた移動処理を解除する
             moveSpeed = firstspeed;
+            //rb.constraints = RigidbodyConstraints2D.FreezePositionY;
+            //rb.constraints = RigidbodyConstraints2D.FreezeRotation;
 
             rb.constraints =
 　　　　　　RigidbodyConstraints2D.FreezeRotation |
@@ -124,8 +110,11 @@ public class StoneGenerate : MonoBehaviourPunCallbacks
         //ストップエリアに入ると移動を止める
         if (collision.gameObject.tag == "StopErea")
         {
+            Debug.Log("エリアストップ");
             movestop = true;
+
         }
+
     }
 
 
@@ -136,6 +125,7 @@ public class StoneGenerate : MonoBehaviourPunCallbacks
 
         float randomX = Random.Range(transform.position.x - transform.localScale.x / 2, transform.position.x + transform.localScale.x / 2);//ランダムなX座標
 
+        //Debug.Log(randomX);
 
         spawnPosition = new Vector2(randomX, height);//生成位置を設定
 

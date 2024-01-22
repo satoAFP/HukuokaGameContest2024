@@ -394,6 +394,9 @@ public class PlayerController : MonoBehaviourPunCallbacks
                             {
                                 if (currentBoardObject == null)
                                 {
+                                    //エフェクト生成
+                                    photonView.RPC(nameof(RpcEffectPlay), RpcTarget.All);
+
                                     currentBoardObject = PhotonNetwork.Instantiate("Board", new Vector2(p1pos.x, p1pos.y + 1.0f), Quaternion.identity);
                                     // movelock = true;
                                     //Debug.Log("板だす");
@@ -430,6 +433,9 @@ public class PlayerController : MonoBehaviourPunCallbacks
                             {
                                 if (currentCopyKeyObject == null)
                                 {
+                                    //エフェクト生成
+                                    photonView.RPC(nameof(RpcEffectPlay), RpcTarget.All);
+
                                     currentCopyKeyObject = PhotonNetwork.Instantiate("CopyKey", new Vector2(p1pos.x, p1pos.y + 1.0f), Quaternion.identity);
                                     //movelock = true;
 
@@ -448,6 +454,13 @@ public class PlayerController : MonoBehaviourPunCallbacks
                         {
                             CK_instantiatefirst = true;
                         }
+
+
+                        if(copykeydelete)
+                        {
+
+                        }
+
                     }
 
                 }
@@ -729,10 +742,8 @@ public class PlayerController : MonoBehaviourPunCallbacks
     {
         
         //エフェクト生成
-        GameObject clone;
-        clone = Instantiate(ManagerAccessor.Instance.dataManager.StarEffect,gameObject.transform);
-        clone.transform.localPosition = transform.position;
-
+        Instantiate(ManagerAccessor.Instance.dataManager.StarEffect,gameObject.transform);
+       
         change_unloadimage = false;//ここでfalseにしないと箱が空くイラストに変わらないので注意
         change_boxopenimage = true;//箱プレイヤーの画像変更
     }
@@ -870,5 +881,10 @@ public class PlayerController : MonoBehaviourPunCallbacks
         audiosource.PlayOneShot(StandardSE[1]);//ジャンプ効果音
     }
 
-
+    [PunRPC]
+    private void RpcEffectPlay()
+    {
+        //エフェクト生成
+        Instantiate(ManagerAccessor.Instance.dataManager.StarEffect, gameObject.transform);
+    }
 }
