@@ -161,7 +161,7 @@ MonoBehaviour:
   CoolTime: 20
   GoalTime: 180
   DestroyCount: 3
-  rideSE: {fileID: 8300000, guid: 132abdb191024804ca1e72af1b581dc6, type: 3}
+  rideSE: {fileID: 8300000, guid: f9df13671c38911449f05e1473f54143, type: 3}
   flySE: {fileID: 8300000, guid: 68e7b846284e0a4489887c6289fda752, type: 3}
 --- !u!114 &106794444274010251
 MonoBehaviour:
