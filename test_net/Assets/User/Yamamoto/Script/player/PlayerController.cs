@@ -242,7 +242,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
             }
 
             //移動アニメーションが再生されているとき効果音を鳴らす
-            if(animplay)
+            if(animplay && !datamanager.isClear)
             {
 
                 if(oneSE)
@@ -592,10 +592,10 @@ public class PlayerController : MonoBehaviourPunCallbacks
         DataManager datamanager = ManagerAccessor.Instance.dataManager;
 
         //プレイヤーが床または着地出来るものに乗っている時、再ジャンプ可能にする
-        if (collision.gameObject.tag == "Floor")
-        {
-            bjump = false;
-        }
+        //if (collision.gameObject.tag == "Floor")
+        //{
+        //    bjump = false;
+        //}
 
         //プレイヤーが落下した時、ゲームオーバーの処理をする
         if (collision.gameObject.tag == "DeathField")
@@ -663,11 +663,21 @@ public class PlayerController : MonoBehaviourPunCallbacks
     {
         DataManager datamanager = ManagerAccessor.Instance.dataManager;
 
+        if (PhotonNetwork.IsMasterClient)
+        {
+            bjump = !ManagerAccessor.Instance.dataManager.isOwnerHitDown;
+        }
+        else
+        {
+            bjump = !ManagerAccessor.Instance.dataManager.isClientHitDown;
+        }
+
         //アンロックボタン、ロケットが起動中でない時 死亡してない時
         if (!ManagerAccessor.Instance.dataManager.isUnlockButtonStart && !movelock && !isFly
           &&!islift  && !ManagerAccessor.Instance.dataManager.isDeth
           && !ManagerAccessor.Instance.dataManager.isClear
-          && !ManagerAccessor.Instance.dataManager.isPause) 
+          && !ManagerAccessor.Instance.dataManager.isPause
+          && !bjump) 
         {
             Debug.Log("ジャンプできる");
 
