@@ -134,7 +134,7 @@ MonoBehaviour:
   cameraGenelate: {fileID: 0}
   genelatePosX: 9
   genelatePosY: 3
-  DisplayDir: 12
+  DisplayDir: 14
   spawnInterval: 0.3
   spawnstone: 30
   moveSpeed: 2
