@@ -12378,7 +12378,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5388703138231628418, guid: b5c03709b274cda4bbbbcb4b3031e4db, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 44.1
+      value: 47.1
       objectReference: {fileID: 0}
     - target: {fileID: 5388703138231628418, guid: b5c03709b274cda4bbbbcb4b3031e4db, type: 3}
       propertyPath: m_LocalPosition.z
@@ -16393,6 +16393,10 @@ PrefabInstance:
       propertyPath: DangerMark
       value: 
       objectReference: {fileID: 1464727144}
+    - target: {fileID: 6771165422549457748, guid: 22e8121194061174da16f4db3d5be913, type: 3}
+      propertyPath: DisplayDir
+      value: 14
+      objectReference: {fileID: 0}
     - target: {fileID: 6771165422549457748, guid: 22e8121194061174da16f4db3d5be913, type: 3}
       propertyPath: cameraGenelate
       value: 

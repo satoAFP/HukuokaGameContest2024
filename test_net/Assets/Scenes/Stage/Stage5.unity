@@ -5687,6 +5687,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1058951178}
     - target: {fileID: 6771165422549457748, guid: 22e8121194061174da16f4db3d5be913, type: 3}
+      propertyPath: DisplayDir
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 6771165422549457748, guid: 22e8121194061174da16f4db3d5be913, type: 3}
       propertyPath: cameraGenelate
       value: 
       objectReference: {fileID: 1405459581}
@@ -11704,7 +11708,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5388703138231628418, guid: b5c03709b274cda4bbbbcb4b3031e4db, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 28
+      value: 29.2
       objectReference: {fileID: 0}
     - target: {fileID: 5388703138231628418, guid: b5c03709b274cda4bbbbcb4b3031e4db, type: 3}
       propertyPath: m_LocalPosition.z
