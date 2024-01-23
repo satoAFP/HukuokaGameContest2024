@@ -11,21 +11,19 @@ public class PlayerGetHitObjTag : MonoBehaviourPunCallbacks
 
     private void Update()
     {
-        //データマネージャー取得
-        DataManager dataManager = ManagerAccessor.Instance.dataManager;
-
         //座標を親オブジェクトに合わせる
         transform.position = transform.parent.transform.position + localPos;
-
-
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.tag == "Floor" || collision.tag == "Gimmick")
         {
-            //触れたオブジェクトのタグ記憶
-            HitTags.Add(collision.tag);
+            if (!collision.GetComponent<BoxCollider2D>().isTrigger)
+            {
+                //触れたオブジェクトのタグ記憶
+                HitTags.Add(collision.tag);
+            }
         }
     }
 

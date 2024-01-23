@@ -16,6 +16,8 @@ public class GimmickRotateBomb : MonoBehaviourPunCallbacks
 
     [SerializeField, Header("移動量")] private float MovePower;
 
+    [SerializeField, Header("回転量")] private float RotatoPower;
+
     [SerializeField, Header("座標更新タイミング")] private int PosUpData;
 
     [SerializeField, Header("ボタン表示終了までのフレーム")] private int DisplayTime;
@@ -204,6 +206,7 @@ public class GimmickRotateBomb : MonoBehaviourPunCallbacks
         {
             isTimeLimitStart = true;
             transform.position += movePower;
+            transform.eulerAngles += new Vector3(0, 0, movePower.x * -RotatoPower);
             frameCount++;
         }
 

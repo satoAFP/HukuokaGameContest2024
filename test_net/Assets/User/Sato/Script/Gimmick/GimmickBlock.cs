@@ -33,6 +33,13 @@ public class GimmickBlock : CGimmick
     //失敗判定
     private bool isFailure = false;
 
+    //player1が右にブロックを触れている判定
+    private bool isOwnerRightHit = false;
+
+    //player1の当たり判定記憶用
+    private Vector2 memColSize = Vector2.zero;
+    private Vector2 memColOffset = Vector2.zero;
+
     //フレームカウント用
     private int count = 0;
 
@@ -42,6 +49,10 @@ public class GimmickBlock : CGimmick
     private void Start()
     {
         audioSource = GetComponent<AudioSource>();
+
+        //Player1の当たり判定記憶
+        memColSize = ManagerAccessor.Instance.dataManager.player1.GetComponent<BoxCollider2D>().size;
+        memColOffset = ManagerAccessor.Instance.dataManager.player1.GetComponent<BoxCollider2D>().offset;
     }
 
     private void FixedUpdate()
@@ -128,6 +139,11 @@ public class GimmickBlock : CGimmick
                     (hitOwner && hitClient && dataManager.isOwnerHitLeft && dataManager.isClientHitRight))
                 {
                     isStart = true;
+
+                    if (dataManager.isOwnerHitRight && dataManager.isClientHitLeft)
+                        isOwnerRightHit = true;
+                    if (dataManager.isOwnerHitLeft && dataManager.isClientHitRight)
+                        isOwnerRightHit = false;
                 }
 
                 //持ち上げ開始
@@ -152,6 +168,22 @@ public class GimmickBlock : CGimmick
                         gameObject.transform.localPosition = input;
 
                         dis = transform.position - Player.transform.position;
+
+                        //当たり判定変更
+                        if(PhotonNetwork.IsMasterClient)
+                        {
+                            Vector2 size = ManagerAccessor.Instance.dataManager.player1.GetComponent<BoxCollider2D>().size;
+                            size.x = size.x * 2 + 1;
+
+                            Vector2 offset = ManagerAccessor.Instance.dataManager.player1.GetComponent<BoxCollider2D>().offset;
+                            if (isOwnerRightHit)
+                                offset.x += size.x / 2;
+                            else
+                                offset.x -= size.x / 2;
+
+                            ManagerAccessor.Instance.dataManager.player1.GetComponent<BoxCollider2D>().size = size;
+                            ManagerAccessor.Instance.dataManager.player1.GetComponent<BoxCollider2D>().offset = offset;
+                        }
 
                         first = false;
 
@@ -246,6 +278,13 @@ public class GimmickBlock : CGimmick
                     gameObject.transform.localPosition = input;
 
                     dis = new Vector3(gameObject.transform.position.x - Player.transform.position.x, gameObject.transform.position.y - Player.transform.position.y, 0);
+
+                    //当たり判定を元に戻す
+                    if (PhotonNetwork.IsMasterClient)
+                    {
+                        ManagerAccessor.Instance.dataManager.player1.GetComponent<BoxCollider2D>().size = memColSize;
+                        ManagerAccessor.Instance.dataManager.player1.GetComponent<BoxCollider2D>().offset = memColOffset;
+                    }
 
                     first = true;
                     hitOwner = false;
