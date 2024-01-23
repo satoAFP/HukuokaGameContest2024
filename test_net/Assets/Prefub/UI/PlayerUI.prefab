@@ -1134,6 +1134,7 @@ MonoBehaviour:
   moveSpeed: 50000
   BoardIcon: {fileID: 6287469681934766328}
   CopyKeyIcon: {fileID: 6287469679875995973}
+  ButtonIcon: {fileID: 3970369002963808838}
   blinkingtime: 30
   Type1: {r: 0.2, g: 0.2, b: 0.2, a: 1}
   Type2: {r: 1, g: 0.5882353, b: 0, a: 1}
