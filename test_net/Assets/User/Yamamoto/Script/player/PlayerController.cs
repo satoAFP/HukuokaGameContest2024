@@ -111,7 +111,9 @@ public class PlayerController : MonoBehaviourPunCallbacks
     private int walkseframe = 0;//se再生時に測るフレーム
     private bool oneDeathSE = true;//各処理一度だけ死亡SEを鳴らす
     //private bool oneboxopenSE = true;//一度だけ箱をあけるSE
-    
+
+    private bool firstshare_cursorlock = true; //cursorlockを共有する
+
     void Start()
     {
 
@@ -150,6 +152,27 @@ public class PlayerController : MonoBehaviourPunCallbacks
         //データマネージャー取得
         datamanager = ManagerAccessor.Instance.dataManager;
 
+        if(PhotonNetwork.IsMasterClient)
+        {
+            if (cursorlock)
+            {
+                if (firstshare_cursorlock)
+                {
+                    photonView.RPC(nameof(RpcShareCursorLock), RpcTarget.Others, true);//プレイヤー2側にもcursorlockを共有する
+                    firstshare_cursorlock = false;
+                }
+            }
+            else
+            {
+                if (!firstshare_cursorlock)
+                {
+                    photonView.RPC(nameof(RpcShareCursorLock), RpcTarget.Others, false);//プレイヤー2側にもcursorlockを共有する
+                    firstshare_cursorlock = true;
+                }
+            }
+        }
+
+       
 
         //死亡時とポーズ時に全ての処理を止める
         if (datamanager.isDeth || ManagerAccessor.Instance.dataManager.isPause)
@@ -730,6 +753,13 @@ public class PlayerController : MonoBehaviourPunCallbacks
     private void RpcShareMoveLock(bool data)
     {
         movelock = data;
+    }
+
+    [PunRPC]
+    //cursorlock変数を共有
+    private void RpcShareCursorLock(bool data)
+    {
+        cursorlock = data;
     }
 
     [PunRPC]
