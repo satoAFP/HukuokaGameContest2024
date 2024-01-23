@@ -18,6 +18,9 @@ public class UICursor : MonoBehaviourPunCallbacks
     [SerializeField, Header("コピーキーのアイコン")]
     private GameObject CopyKeyIcon;
 
+    [SerializeField, Header("ボタンのアイコン")]
+    private GameObject ButtonIcon;
+
     private int LRmove = 0;//1:右　2:左
 
     private bool movestart = false;//移動中かを判断する
@@ -52,8 +55,8 @@ public class UICursor : MonoBehaviourPunCallbacks
         }
         else
         {
-            BoardIcon.GetComponent<Image>().color = new Color32(0, 0, 0, 192);
-            CopyKeyIcon.GetComponent<Image>().color = new Color32(0, 0, 0, 192);
+            //各プレイヤーのアイコンを黒いカラーに変更
+            photonView.RPC(nameof(RpcIconColorChange), RpcTarget.All);
         }
            
 
@@ -137,5 +140,13 @@ public class UICursor : MonoBehaviourPunCallbacks
             ColorChangeframe = 0;//フレーム計算リセット
             Change_Color = 1;
         }
+    }
+
+    [PunRPC]
+    private void RpcIconColorChange()//アイコンの色を変える
+    {
+        BoardIcon.GetComponent<Image>().color = new Color32(0, 0, 0, 192);
+        CopyKeyIcon.GetComponent<Image>().color = new Color32(0, 0, 0, 192);
+        ButtonIcon.GetComponent<Image>().color = new Color32(0, 0, 0, 192);
     }
 }
