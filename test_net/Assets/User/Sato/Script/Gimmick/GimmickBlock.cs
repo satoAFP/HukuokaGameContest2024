@@ -179,9 +179,9 @@ public class GimmickBlock : CGimmick
 
                             Vector2 offset = ManagerAccessor.Instance.dataManager.player1.GetComponent<BoxCollider2D>().offset;
                             if (isOwnerRightHit)
-                                offset.x += size.x / 2;
+                                offset.x += size.x / 2 - 0.4f;
                             else
-                                offset.x -= size.x / 2;
+                                offset.x -= size.x / 2 - 0.4f;
 
                             ManagerAccessor.Instance.dataManager.player1.GetComponent<BoxCollider2D>().size = size;
                             ManagerAccessor.Instance.dataManager.player1.GetComponent<BoxCollider2D>().offset = offset;
