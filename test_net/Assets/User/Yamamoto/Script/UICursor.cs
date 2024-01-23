@@ -45,6 +45,8 @@ public class UICursor : MonoBehaviourPunCallbacks
     {
         DataManager datamanager = ManagerAccessor.Instance.dataManager;
 
+        BoardIcon.GetComponent< SpriteRenderer >().color = new Color32(255, 255, 255, 128);
+        CopyKeyIcon.GetComponent<SpriteRenderer>().color = new Color32(255, 255, 255, 128);
 
         if (ManagerAccessor.Instance.dataManager.player1 != null)
         {
