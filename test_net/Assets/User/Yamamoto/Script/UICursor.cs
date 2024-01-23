@@ -31,6 +31,9 @@ public class UICursor : MonoBehaviourPunCallbacks
 
     [SerializeField, Header("点滅の間隔")] private int blinkingtime;
 
+    private bool firstcolor_change = true;//アイコンの色を黒に変える
+    private bool firstdefaultcolor_change = true;//アイコンの色を元に戻す
+
     //カーソルの色を設定できる
     [SerializeField, Header("カーソルカラー1")] private Color Type1;
     [SerializeField, Header("カーソルカラー2")] private Color Type2;
@@ -48,15 +51,26 @@ public class UICursor : MonoBehaviourPunCallbacks
     {
         DataManager datamanager = ManagerAccessor.Instance.dataManager;
 
-        if (!ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().cursorlock)
+        if (ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().cursorlock)
         {
-            BoardIcon.GetComponent<Image>().color   = new Color32(255, 255, 255, 255);
-            CopyKeyIcon.GetComponent<Image>().color = new Color32(255, 255, 255, 255);
+            if(firstdefaultcolor_change)
+            {
+                //各プレイヤーのアイコンを元の色に戻す
+                photonView.RPC(nameof(RpcIconColorChangeDefault), RpcTarget.All);
+                firstdefaultcolor_change = false;
+                firstcolor_change = true;//また黒い色に出来るようにする
+            }
         }
         else
         {
-            //各プレイヤーのアイコンを黒いカラーに変更
-            photonView.RPC(nameof(RpcIconColorChange), RpcTarget.All);
+            if(firstcolor_change)
+            {
+                //各プレイヤーのアイコンを黒いカラーに変更
+                photonView.RPC(nameof(RpcIconColorChange), RpcTarget.All);
+                firstcolor_change = false;
+                firstdefaultcolor_change = true;//また色をもどせるようにする
+            }
+          
         }
            
 
@@ -140,6 +154,14 @@ public class UICursor : MonoBehaviourPunCallbacks
             ColorChangeframe = 0;//フレーム計算リセット
             Change_Color = 1;
         }
+    }
+
+    [PunRPC]
+    private void RpcIconColorChangeDefault()//アイコンの色を変える
+    {
+        BoardIcon.GetComponent<Image>().color   = new Color32(255, 255, 255, 255);
+        CopyKeyIcon.GetComponent<Image>().color = new Color32(255, 255, 255, 255);
+        ButtonIcon.GetComponent<Image>().color  = new Color32(255, 255, 255, 255);
     }
 
     [PunRPC]
