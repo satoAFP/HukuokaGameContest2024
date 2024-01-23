@@ -51,29 +51,6 @@ public class UICursor : MonoBehaviourPunCallbacks
     {
         DataManager datamanager = ManagerAccessor.Instance.dataManager;
 
-        if (ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().cursorlock)
-        {
-            if(firstdefaultcolor_change)
-            {
-                //各プレイヤーのアイコンを元の色に戻す
-                photonView.RPC(nameof(RpcIconColorChangeDefault), RpcTarget.All);
-                firstdefaultcolor_change = false;
-                firstcolor_change = true;//また黒い色に出来るようにする
-            }
-        }
-        else
-        {
-            if(firstcolor_change)
-            {
-                //各プレイヤーのアイコンを黒いカラーに変更
-                photonView.RPC(nameof(RpcIconColorChange), RpcTarget.All);
-                firstcolor_change = false;
-                firstdefaultcolor_change = true;//また色をもどせるようにする
-            }
-          
-        }
-           
-
         if (ManagerAccessor.Instance.dataManager.player1 != null)
         {
             //箱を開けている時カーソル移動をする
@@ -81,10 +58,18 @@ public class UICursor : MonoBehaviourPunCallbacks
             {
                 ColorChangeframe++;
 
-               // Debug.Log("ColorChangeframe" + ColorChangeframe);
+                // Debug.Log("ColorChangeframe" + ColorChangeframe);
+
+                if (firstdefaultcolor_change)
+                {
+                    //各プレイヤーのアイコンを元の色に戻す
+                    photonView.RPC(nameof(RpcIconColorChangeDefault), RpcTarget.All);
+                    firstdefaultcolor_change = false;
+                    firstcolor_change = true;//また黒い色に出来るようにする
+                }
 
                 //約一秒程度でカーソルの色を変える
-                if(ColorChangeframe >= blinkingtime)
+                if (ColorChangeframe >= blinkingtime)
                 {
                     CursorColorChange();
                 }
@@ -107,6 +92,14 @@ public class UICursor : MonoBehaviourPunCallbacks
             else
             {
                 ColorChangeframe = 0;//蓋があいてなければカーソルの色を変えない
+
+                if (firstcolor_change)
+                {
+                    //各プレイヤーのアイコンを黒いカラーに変更
+                    photonView.RPC(nameof(RpcIconColorChange), RpcTarget.All);
+                    firstcolor_change = false;
+                    firstdefaultcolor_change = true;//また色をもどせるようにする
+                }
             }
         }
 
