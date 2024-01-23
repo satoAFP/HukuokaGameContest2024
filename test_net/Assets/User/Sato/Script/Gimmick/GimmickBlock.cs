@@ -50,9 +50,7 @@ public class GimmickBlock : CGimmick
     {
         audioSource = GetComponent<AudioSource>();
 
-        //Player1‚Ì“–‚½‚è”»’è‹L‰¯
-        memColSize = ManagerAccessor.Instance.dataManager.player1.GetComponent<BoxCollider2D>().size;
-        memColOffset = ManagerAccessor.Instance.dataManager.player1.GetComponent<BoxCollider2D>().offset;
+        
     }
 
     private void FixedUpdate()
@@ -172,6 +170,10 @@ public class GimmickBlock : CGimmick
                         //“–‚½‚è”»’è•ÏX
                         if(PhotonNetwork.IsMasterClient)
                         {
+                            //Player1‚Ì“–‚½‚è”»’è‹L‰¯
+                            memColSize = ManagerAccessor.Instance.dataManager.player1.GetComponent<BoxCollider2D>().size;
+                            memColOffset = ManagerAccessor.Instance.dataManager.player1.GetComponent<BoxCollider2D>().offset;
+
                             Vector2 size = ManagerAccessor.Instance.dataManager.player1.GetComponent<BoxCollider2D>().size;
                             size.x = size.x * 2 + 1;
 
