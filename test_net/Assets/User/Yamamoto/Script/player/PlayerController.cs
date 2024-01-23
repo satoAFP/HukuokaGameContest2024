@@ -70,8 +70,6 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
     //入力された方向を入れる変数
     private Vector2 inputDirection;
-    //入力された方向を入れる変数(記憶用)
-    private Vector2 memInputDirection;
 
     //各プレイヤーの座標
     private Vector2 p1pos;
@@ -114,8 +112,8 @@ public class PlayerController : MonoBehaviourPunCallbacks
     private bool oneDeathSE = true;//各処理一度だけ死亡SEを鳴らす
     //private bool oneboxopenSE = true;//一度だけ箱をあけるSE
 
-    private bool first = true;
-    
+    private bool firstshare_cursorlock = true; //cursorlockを共有する
+
     void Start()
     {
 
@@ -154,6 +152,27 @@ public class PlayerController : MonoBehaviourPunCallbacks
         //データマネージャー取得
         datamanager = ManagerAccessor.Instance.dataManager;
 
+        if(PhotonNetwork.IsMasterClient)
+        {
+            if (cursorlock)
+            {
+                if (firstshare_cursorlock)
+                {
+                    photonView.RPC(nameof(RpcShareCursorLock), RpcTarget.Others, true);//プレイヤー2側にもcursorlockを共有する
+                    firstshare_cursorlock = false;
+                }
+            }
+            else
+            {
+                if (!firstshare_cursorlock)
+                {
+                    photonView.RPC(nameof(RpcShareCursorLock), RpcTarget.Others, false);//プレイヤー2側にもcursorlockを共有する
+                    firstshare_cursorlock = true;
+                }
+            }
+        }
+
+       
 
         //死亡時とポーズ時に全ての処理を止める
         if (datamanager.isDeth || ManagerAccessor.Instance.dataManager.isPause)
@@ -288,35 +307,15 @@ public class PlayerController : MonoBehaviourPunCallbacks
                     if (!change_boxopenimage && !movelock)
                     {
                         // Debug.Log("ashidaka");
-                        if (!first)
-                        {
-                            photonView.RPC(nameof(RpcChangeUnloadImage), RpcTarget.All);
-                            first = true;
-                        }
+                        photonView.RPC(nameof(RpcChangeUnloadImage), RpcTarget.All);
                     }
 
                     distanceFirst = true;
                 }
                 else
                 {
-
-                    if (islift &&
-                        !((datamanager.isOwnerInputKey_C_L_RIGHT && datamanager.isClientInputKey_C_L_RIGHT) ||
-                        (datamanager.isOwnerInputKey_C_L_LEFT && datamanager.isClientInputKey_C_L_LEFT)))
-                    {
-                        inputDirection.x = 0;
-                    }
-                    else
-                    {
-                        inputDirection.x = memInputDirection.x;
-                    }
-
                     //各プレイヤーを持ち上げイラストに変更
-                    if (first)
-                    {
-                        photonView.RPC(nameof(RpcChangeLiftImage), RpcTarget.All);
-                        first = false;
-                    }
+                    photonView.RPC(nameof(RpcChangeLiftImage), RpcTarget.All);
 
                     //持ち上げている時は2プレイヤーが同じ移動方向を入力時移動
                     if ((datamanager.isOwnerInputKey_C_L_RIGHT && datamanager.isClientInputKey_C_L_RIGHT) ||
@@ -581,6 +580,8 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
     private void Move()//移動処理（計算部分）
     {
+        Debug.Log(datamanager.isEnterGoal);
+
         //ゲームオーバーまたはクリア処理を返すまで移動の計算をする
         if(!ManagerAccessor.Instance.dataManager.isDeth 
             && !ManagerAccessor.Instance.dataManager.isClear
@@ -669,11 +670,18 @@ public class PlayerController : MonoBehaviourPunCallbacks
                     photonView.RPC(nameof(RpcMoveAnimPlay), RpcTarget.All);
                     firstanimplay = false;
                 }
-                
+
                 //Debug.Log("スティック動かして移動している");
                 //移動方向の入力情報がInputdirectionの中に入るようになる
-                inputDirection = context.ReadValue<Vector2>();
-                memInputDirection = context.ReadValue<Vector2>();
+                if (islift &&
+                    !((datamanager.isOwnerInputKey_C_L_RIGHT && datamanager.isClientInputKey_C_L_RIGHT) ||
+                    (datamanager.isOwnerInputKey_C_L_LEFT && datamanager.isClientInputKey_C_L_LEFT)))
+                {
+
+                    inputDirection.x = 0;
+                }
+                else
+                    inputDirection = context.ReadValue<Vector2>();
             }
 
         }
@@ -692,7 +700,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
         {
             bjump = !ManagerAccessor.Instance.dataManager.isClientHitDown;
         }
-        
+
         //アンロックボタン、ロケットが起動中でない時 死亡してない時
         if (!ManagerAccessor.Instance.dataManager.isUnlockButtonStart && !movelock && !isFly
           &&!islift  && !ManagerAccessor.Instance.dataManager.isDeth
@@ -700,7 +708,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
           && !ManagerAccessor.Instance.dataManager.isPause
           && !bjump) 
         {
-            
+            Debug.Log("ジャンプできる");
 
             photonView.RPC(nameof(RpcMoveAnimStop), RpcTarget.All);//ジャンプしている時は移動アニメーションを止める
 
@@ -745,6 +753,13 @@ public class PlayerController : MonoBehaviourPunCallbacks
     private void RpcShareMoveLock(bool data)
     {
         movelock = data;
+    }
+
+    [PunRPC]
+    //cursorlock変数を共有
+    private void RpcShareCursorLock(bool data)
+    {
+        cursorlock = data;
     }
 
     [PunRPC]

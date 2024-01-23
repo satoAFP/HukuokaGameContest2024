@@ -18,8 +18,8 @@ public class UICursor : MonoBehaviourPunCallbacks
     [SerializeField, Header("コピーキーのアイコン")]
     private GameObject CopyKeyIcon;
 
-    [SerializeField, Header("ボタンのアイコン")]
-    private GameObject ButtonIcon;
+    [SerializeField, Header("色を変えたいオブジェクト")]
+    private GameObject[] ColorChangeObjects;
 
     private int LRmove = 0;//1:右　2:左
 
@@ -59,10 +59,11 @@ public class UICursor : MonoBehaviourPunCallbacks
                 // Debug.Log("ColorChangeframe" + ColorChangeframe);
 
                 //各プレイヤーのアイコンを元の色に戻す
-                BoardIcon.GetComponent<Image>().color = new Color32(255, 255, 255, 255);
-                CopyKeyIcon.GetComponent<Image>().color = new Color32(255, 255, 255, 255);
-                ButtonIcon.GetComponent<Image>().color = new Color32(255, 255, 255, 255);
-
+                for(int i=0;i < ColorChangeObjects.Length;i++)
+                {
+                    ColorChangeObjects[i].GetComponent<Image>().color = new Color32(255, 255, 255, 255);
+                }
+              
                 //約一秒程度でカーソルの色を変える
                 if (ColorChangeframe >= blinkingtime)
                 {
@@ -89,9 +90,12 @@ public class UICursor : MonoBehaviourPunCallbacks
                 ColorChangeframe = 0;//蓋があいてなければカーソルの色を変えない
 
                 //各プレイヤーのアイコンを黒いカラーに変更
-                BoardIcon.GetComponent<Image>().color = new Color32(0, 0, 0, 192);
-                CopyKeyIcon.GetComponent<Image>().color = new Color32(0, 0, 0, 192);
-                ButtonIcon.GetComponent<Image>().color = new Color32(0, 0, 0, 192);
+
+                for (int i = 0; i < ColorChangeObjects.Length; i++)
+                {
+                    ColorChangeObjects[i].GetComponent<Image>().color = new Color32(0, 0, 0, 192);
+                }
+                   
             }
         }
 
