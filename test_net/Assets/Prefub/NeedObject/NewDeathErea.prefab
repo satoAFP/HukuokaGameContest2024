@@ -132,9 +132,9 @@ MonoBehaviour:
   StoneParentObject: {fileID: 1894421765493975623, guid: 6c956e84d46b06c4b9dfbae960e19ced, type: 3}
   DangerMark: {fileID: 0}
   cameraGenelate: {fileID: 0}
-  genelatePosX: 8
-  genelatePosY: 2
-  DisplayDir: 12
+  genelatePosX: 9
+  genelatePosY: 3
+  DisplayDir: 14
   spawnInterval: 0.3
   spawnstone: 30
   moveSpeed: 2
