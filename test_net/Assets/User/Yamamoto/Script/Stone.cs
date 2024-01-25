@@ -10,12 +10,21 @@ public class Stone : MonoBehaviour
 
     private float acc = 0;//加速度
 
+    [SerializeField, Header("ランダムに決める速度の最低値")]
+    private float randspeed_low = 0;
+    [SerializeField, Header("ランダムに決める速度の最大値")]
+    private float randspeed_max = 0;
+    [SerializeField, Header("ランダムに決める加速度の最低値")]
+    private float randacc_low = 0;
+    [SerializeField, Header("ランダムに決める加速度の最大値")]
+    private float randacc_max = 0;
+
     // Start is called before the first frame update
     void Start()
     {
         //ここで落石の速度と加速度を一定の値からランダムで選ぶ
-        acc = Random.Range(0.2f, 1.0f);
-        speed = Random.Range(2.0f, 5.0f);
+        acc 　= Random.Range(randacc_low, randacc_max);
+        speed = Random.Range(randspeed_low, randspeed_max);
 
         // ゲームオブジェクトにアタッチされたRigidbody2Dコンポーネントを取得
         rb = GetComponent<Rigidbody2D>();
@@ -24,7 +33,7 @@ public class Stone : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-
+        
         //ポーズ中の時岩の落下を止める
         if (ManagerAccessor.Instance.dataManager.isPause)
         {
@@ -32,9 +41,10 @@ public class Stone : MonoBehaviour
         }
         else
         {
+            acc += 0.05f;//加速度+
             rb.constraints = RigidbodyConstraints2D.None;//FreezePositionを解除する
 
-            transform.Translate(Vector3.down * (speed + acc * Time.time) * Time.deltaTime);//落石の移動処理
+            transform.Translate(Vector3.down * (speed + acc) * Time.deltaTime);//落石の移動処理
         }
     }
 
