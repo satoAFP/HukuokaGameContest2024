@@ -994,6 +994,7 @@ MonoBehaviour:
   - {fileID: 1433348822008664531}
   underber: {fileID: 2649237452018299166}
   inputDirection: 0
+  isLast: 0
   choseSE: {fileID: 8300000, guid: 53ebdf8de9d68fa41a0ea429dce8ed73, type: 3}
 --- !u!82 &7213278195179960096
 AudioSource:
@@ -1725,6 +1726,7 @@ MonoBehaviour:
   - {fileID: 5450645839097356938}
   underber: {fileID: 341265278868922720}
   inputDirection: 0
+  isLast: 0
   choseSE: {fileID: 8300000, guid: 53ebdf8de9d68fa41a0ea429dce8ed73, type: 3}
 --- !u!82 &6253447887456309296
 AudioSource:
@@ -1995,8 +1997,8 @@ MonoBehaviour:
   isLast: 0
   intervalFrame: 60
   noTapArea: {fileID: 0}
-  ClearBGM: {fileID: 8300000, guid: 415fcdc74e987f44f9156421d56400ea, type: 3}
-  LoseBGM: {fileID: 8300000, guid: 38376e8ac7073444ca622e3dcf6f0147, type: 3}
+  ClearBGM: {fileID: 8300000, guid: 9ec5a5e9fa1062049b1ffcd74536be0c, type: 3}
+  LoseBGM: {fileID: 8300000, guid: 2196e9981efa2714fb1bf0335cde208d, type: 3}
 --- !u!1 &5450645839774569188
 GameObject:
   m_ObjectHideFlags: 0
