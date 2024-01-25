@@ -31,13 +31,13 @@ public class Stone : MonoBehaviour
         {
             rb.constraints = RigidbodyConstraints2D.FreezePositionY;//FreezePositionYをオンにする
           //  a = rb.gravityScale;
-            rb.gravityScale = 0;
+          //  rb.gravityScale = 0;
         }
         else
         {
             rb.constraints = RigidbodyConstraints2D.None;
             //重力スケールを変更する
-            rb.gravityScale = a;
+          //  rb.gravityScale = a;
         }
     }
 
