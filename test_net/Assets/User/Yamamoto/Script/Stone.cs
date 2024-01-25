@@ -6,20 +6,19 @@ public class Stone : MonoBehaviour
 {
     private Rigidbody2D rb; // Rigidbody2Dを保持する変数
 
-    private float gravity = 0;//重力をランダムに設定
+    private float speed = 0;//落石の速度
 
-    private float a = 0;
+    private float acc = 0;//加速度
 
     // Start is called before the first frame update
     void Start()
     {
-        gravity = Random.Range(0.1f, 1.0f);
+        //ここで落石の速度と加速度を一定の値からランダムで選ぶ
+        acc = Random.Range(0.2f, 1.0f);
+        speed = Random.Range(2.0f, 5.0f);
 
         // ゲームオブジェクトにアタッチされたRigidbody2Dコンポーネントを取得
         rb = GetComponent<Rigidbody2D>();
-
-        //重力スケールを変更する
-        rb.gravityScale = gravity;
     }
 
     // Update is called once per frame
@@ -30,14 +29,12 @@ public class Stone : MonoBehaviour
         if (ManagerAccessor.Instance.dataManager.isPause)
         {
             rb.constraints = RigidbodyConstraints2D.FreezePositionY;//FreezePositionYをオンにする
-          //  a = rb.gravityScale;
-          //  rb.gravityScale = 0;
         }
         else
         {
-            rb.constraints = RigidbodyConstraints2D.None;
-            //重力スケールを変更する
-          //  rb.gravityScale = a;
+            rb.constraints = RigidbodyConstraints2D.None;//FreezePositionを解除する
+
+            transform.Translate(Vector3.down * (speed + acc * Time.time) * Time.deltaTime);//落石の移動処理
         }
     }
 
