@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pauseMenu: {fileID: 0}
-  pouseSE: {fileID: 8300000, guid: ddaf9c781c0dc594c969e0087ace2a5d, type: 3}
+  pouseSE: {fileID: 8300000, guid: 1bc052b8bb5ff1e40b1b1f3d26676838, type: 3}
 --- !u!114 &9200554545436645400
 MonoBehaviour:
   m_ObjectHideFlags: 0
