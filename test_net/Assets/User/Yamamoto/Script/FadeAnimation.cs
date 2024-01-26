@@ -60,7 +60,7 @@ public class FadeAnimation : MonoBehaviourPunCallbacks
             Debug.Log("EndFadeOutAnimation");
             anim.SetBool("FadeOut", false);//フェードアウトアニメーション終了
             firstendfadeout = false;
-            fadeoutfinish = true;
+            fadeoutfinish = true; 
         }
        
     }
