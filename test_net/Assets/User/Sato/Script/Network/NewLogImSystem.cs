@@ -9,9 +9,13 @@ public class NewLogImSystem : MonoBehaviourPunCallbacks
 {
     [SerializeField] private SprashSystem sprashSystem;
 
+    [SerializeField, Header("決定SE")] AudioClip enterSE;
+
     private int roomNumber = 0;         //ルーム番号
     private int roomMember = 2;         //ルーム内の最大人数
     private bool logInSuccess = false;  //ログイン成功時
+
+    AudioSource audioSource;
 
     private bool first = true;
 
@@ -19,6 +23,8 @@ public class NewLogImSystem : MonoBehaviourPunCallbacks
     {
         // プレイヤー自身の名前を"Player"に設定する
         PhotonNetwork.NickName = "Player" + Random.Range(0, 1000);
+
+        audioSource = GetComponent<AudioSource>();
 
         //サーバーから切断
         if (GlobalSceneName.SceneName == "Ending")
@@ -48,6 +54,8 @@ public class NewLogImSystem : MonoBehaviourPunCallbacks
 
                 // PhotonServerSettingsの設定内容を使ってマスターサーバーへ接続する
                 PhotonNetwork.ConnectUsingSettings();
+
+                audioSource.PlayOneShot(enterSE);
 
                 first = false;
             }

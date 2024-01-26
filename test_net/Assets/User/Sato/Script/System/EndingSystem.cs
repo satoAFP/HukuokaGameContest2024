@@ -7,12 +7,13 @@ using UnityEngine.InputSystem;
 
 public class EndingSystem : MonoBehaviourPunCallbacks
 {
-
     private bool isAniEnd = false;  //アニメーション終了判定
 
     private bool first = true;
 
+    [SerializeField, Header("決定SE")] AudioClip enterSE;
 
+    AudioSource audioSource;
 
     private void Start()
     {
@@ -30,6 +31,7 @@ public class EndingSystem : MonoBehaviourPunCallbacks
             gameObject.transform.GetChild(1).GetComponent<Text>().text = "1P操作待ち";
         }
 
+        audioSource = GetComponent<AudioSource>();
     }
 
     //コントローラーB入力
@@ -44,7 +46,9 @@ public class EndingSystem : MonoBehaviourPunCallbacks
             {
                 //シーン名取得
                 GlobalSceneName.SceneName = ManagerAccessor.Instance.sceneMoveManager.GetSceneName();
-                ManagerAccessor.Instance.sceneMoveManager.SceneMoveName("Title");
+                ManagerAccessor.Instance.sceneMoveManager.SceneMoveName("NewTitle");
+
+                audioSource.PlayOneShot(enterSE);
 
                 first = false;
             }

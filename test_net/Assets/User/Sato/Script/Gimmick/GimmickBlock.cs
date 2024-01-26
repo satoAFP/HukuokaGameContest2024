@@ -81,28 +81,22 @@ public class GimmickBlock : CGimmick
             //どちらかが持ち上げようとした場合
             if (dataManager.isOwnerInputKey_CB || dataManager.isClientInputKey_CB)
             {
-                Debug.Log("fff");
                 if (!isSuccess)
                 {
-                    Debug.Log(hitOwner+":"+ hitClient + ":" + dataManager.isOwnerHitRight + ":" + dataManager.isClientHitLeft + ":" + dataManager.isOwnerHitLeft + ":" + dataManager.isClientHitRight);
                     //両方触れている場合又は、持ち上げが開始した場合
                     if ((hitOwner && hitClient && dataManager.isOwnerHitRight && dataManager.isClientHitLeft) ||
                         (hitOwner && hitClient && dataManager.isOwnerHitLeft && dataManager.isClientHitRight) ||
                         isStart)
                     {
-                        Debug.Log("hhh");
                         if (!isFailure)
                         {
-                            Debug.Log("iii");
                             //失敗までのフレームまで
                             if (count <= ManagerAccessor.Instance.dataManager.MissFrame)
                             {
-                                Debug.Log("jjj");
                                 count++;
                                 //1P、2Pが触れているかつ、アクションしているとき持ち上がる
                                 if (dataManager.isOwnerInputKey_CB && dataManager.isClientInputKey_CB)
                                 {
-                                    Debug.Log("kkk");
                                     //成功
                                     isSuccess = true;
                                 }
@@ -149,11 +143,9 @@ public class GimmickBlock : CGimmick
                     if (dataManager.isOwnerHitLeft && dataManager.isClientHitRight)
                         isOwnerRightHit = false;
                 }
-                Debug.Log("ddd");
                 //持ち上げ開始
                 if (isStart)
                 {
-                    Debug.Log("eee");
                     if (first)
                     {
                         //持ち上げた後の画像に変更
@@ -230,7 +222,6 @@ public class GimmickBlock : CGimmick
                     else
                     {
                         ManagerAccessor.Instance.dataManager.player2.GetComponent<PlayerController>().islift = true;
-                        Debug.Log("bbb");
                     }
 
 
