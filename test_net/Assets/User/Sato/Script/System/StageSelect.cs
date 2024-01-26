@@ -158,6 +158,9 @@ public class StageSelect : MonoBehaviourPunCallbacks
                 //一回しか入らない
                 if (first)
                 {
+                    //ステージ移動中フラグ
+                    ManagerAccessor.Instance.dataManager.isStageMove = true;
+
                     //シーン移動開始
                     photonView.RPC(nameof(RpcShareStart), RpcTarget.All);
 

@@ -31,7 +31,6 @@ public class PauseSystem : MonoBehaviourPunCallbacks
             {
                 if (first)
                 {
-                    audioSource.PlayOneShot(pouseSE);
                     photonView.RPC(nameof(RpcShareIsMenuOpen), RpcTarget.All, !isMenuOpen);
                     first = false;
                 }
@@ -74,7 +73,10 @@ public class PauseSystem : MonoBehaviourPunCallbacks
     {
         if (!ManagerAccessor.Instance.dataManager.isClear &&
             !ManagerAccessor.Instance.dataManager.isDeth)
+        {
             isMenuOpen = data;
+            audioSource.PlayOneShot(pouseSE);
+        }
         else
             isMenuOpen = false;
     }
