@@ -15,6 +15,8 @@ public class ButtonControlSystem : MonoBehaviourPunCallbacks
 
     [SerializeField, Header("選択SE")] AudioClip choseSE;
 
+    [SerializeField, Header("決定SE")] AudioClip enterSE;
+
     private AudioSource audioSource;
 
     private DataManager dataManager;        //データマネージャー取得用
@@ -116,6 +118,8 @@ public class ButtonControlSystem : MonoBehaviourPunCallbacks
                     {
                         if (firstSceneMove)
                         {
+                            audioSource.PlayOneShot(enterSE);
+
                             if (buttonNum)
                             {
                                 ManagerAccessor.Instance.sceneMoveManager.SceneMoveRetry();

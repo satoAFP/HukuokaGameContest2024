@@ -996,6 +996,7 @@ MonoBehaviour:
   inputDirection: 0
   isLast: 0
   choseSE: {fileID: 8300000, guid: 53ebdf8de9d68fa41a0ea429dce8ed73, type: 3}
+  enterSE: {fileID: 8300000, guid: ddaf9c781c0dc594c969e0087ace2a5d, type: 3}
 --- !u!82 &7213278195179960096
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1728,6 +1729,7 @@ MonoBehaviour:
   inputDirection: 0
   isLast: 0
   choseSE: {fileID: 8300000, guid: 53ebdf8de9d68fa41a0ea429dce8ed73, type: 3}
+  enterSE: {fileID: 8300000, guid: ddaf9c781c0dc594c969e0087ace2a5d, type: 3}
 --- !u!82 &6253447887456309296
 AudioSource:
   m_ObjectHideFlags: 0
