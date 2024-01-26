@@ -114,6 +114,8 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
     private bool firstshare_cursorlock = true; //cursorlockを共有する
 
+    private bool knockbackflag = false;//死亡時にノックバックをするかどうかを判断
+
     void Start()
     {
 
@@ -406,7 +408,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
                                     firstmovelock = true;
                                 }
                                 //movelock = false;
-                                GetComponent<PlayerGetHitObjTagManagement>().isMotion = true;//箱の周りの判定をとるのを再開
+                               
                                 copykeydelete = false;//コピーキー削除済みフラグリセット
                                 firstboxopen = true;//boxopenフラグ共有再会
                             }
@@ -629,8 +631,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
         //プレイヤーが落下した時、ゲームオーバーの処理をする
         if (collision.gameObject.tag == "DeathField")
         {
-            //Debug.Log("si");
-
+            
             datamanager.DeathPlayerName = this.gameObject.name;
 
             datamanager.isDeth = true;
@@ -753,6 +754,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
     private void RpcShareMoveLock(bool data)
     {
         movelock = data;
+        GetComponent<PlayerGetHitObjTagManagement>().isMotion = !data;//箱の周りの判定をとるのを再開
     }
 
     [PunRPC]
@@ -873,11 +875,6 @@ public class PlayerController : MonoBehaviourPunCallbacks
                 {
                     rigid.velocity = new Vector2(0.5f * moveSpeed, rigid.velocity.y);
                 }
-                //else
-                //{
-                //    rigid.constraints = RigidbodyConstraints2D.FreezePositionX;//FreezePositionXをオンにする
-                //    knockback_finish = true;
-                //}
             }
         }
         else if (ManagerAccessor.Instance.dataManager.DeathPlayerName == "Player2")
@@ -897,11 +894,6 @@ public class PlayerController : MonoBehaviourPunCallbacks
                 {
                     rigid.velocity = new Vector2(0.5f * moveSpeed, rigid.velocity.y);
                 }
-                //else
-                //{
-                //    rigid.constraints = RigidbodyConstraints2D.FreezePositionX;//FreezePositionXをオンにする
-                //    knockback_finish = true;
-                //}
             }
         }
     }
