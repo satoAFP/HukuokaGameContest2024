@@ -179,8 +179,8 @@ public class PlayerController : MonoBehaviourPunCallbacks
         //死亡時とポーズ時に全ての処理を止める
         if (datamanager.isDeth || ManagerAccessor.Instance.dataManager.isPause)
         {
-            //死亡時
-            if(datamanager.isDeth)
+            //死亡時(岩に当たった時）
+            if(datamanager.isDeth && knockbackflag)
             {
                 timer += Time.deltaTime;
 
@@ -645,7 +645,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
         //落石エリアに入るとゲームオーバーのシーン
         if (collision.gameObject.tag == "DeathErea")
         {
-             
+            knockbackflag = true;//ノックバック処理をいれる
 
             datamanager.DeathPlayerName = this.gameObject.name;
 
