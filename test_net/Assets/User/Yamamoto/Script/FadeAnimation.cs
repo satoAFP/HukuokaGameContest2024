@@ -42,7 +42,7 @@ public class FadeAnimation : MonoBehaviourPunCallbacks
                 else if (datamanager.player1.GetComponent<PlayerController>().falling_death
                 || datamanager.player2.GetComponent<PlayerController>().falling_death)
                 {
-                    Debug.Log("フェードアウト一回");
+                    Debug.Log("フェードアウト落下");
                     anim.SetBool("FadeOut", true);//フェードアウトアニメーション開始
                     firstfadeout = false;
                 }
