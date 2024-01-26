@@ -30,7 +30,7 @@ public class FadeAnimation : MonoBehaviourPunCallbacks
             //死亡時のフェードアウト
             if (datamanager.isDeth)
             {
-                //死亡時のノックバックが終了したらフェードアウト開始
+                //死亡時のノックバックが終了したらフェードアウト開始(岩に当たった時）
                 if(datamanager.player1.GetComponent<PlayerController>().knockback_finish
                 || datamanager.player2.GetComponent<PlayerController>().knockback_finish)
                 {
@@ -38,6 +38,14 @@ public class FadeAnimation : MonoBehaviourPunCallbacks
                     anim.SetBool("FadeOut", true);//フェードアウトアニメーション開始
                     firstfadeout = false;
                 }
+                //落下時のフェード処理
+                else if (datamanager.player1.GetComponent<PlayerController>().falling_death
+                || datamanager.player2.GetComponent<PlayerController>().falling_death)
+                {
+                    anim.SetBool("FadeOut", true);//フェードアウトアニメーション開始
+                    firstfadeout = false;
+                }
+
             }
         }
 
