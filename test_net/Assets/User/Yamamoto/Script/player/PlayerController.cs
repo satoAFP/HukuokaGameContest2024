@@ -100,6 +100,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
     private bool knockbackmove = true;
 
     [System.NonSerialized] public bool knockback_finish = false;//ノックバック終了
+    [System.NonSerialized] public bool falling_death = false;//落下死した時
 
     [System.NonSerialized] public bool copykeydelete = false;//コピーキーが岩に当たって消えたとき
 
@@ -179,39 +180,44 @@ public class PlayerController : MonoBehaviourPunCallbacks
         //死亡時とポーズ時に全ての処理を止める
         if (datamanager.isDeth || ManagerAccessor.Instance.dataManager.isPause)
         {
-            //死亡時(岩に当たった時）
-            if(datamanager.isDeth && knockbackflag)
+            //死亡時
+            if(datamanager.isDeth)
             {
-                timer += Time.deltaTime;
-
-                if(oneDeathSE)
+                //(岩に当たった時）
+                if (knockbackflag)
                 {
-                    audiosource.PlayOneShot(StandardSE[2]);//死亡時のSEを鳴らす
-                    oneDeathSE = false;
+                    timer += Time.deltaTime;
+
+                    if (oneDeathSE)
+                    {
+                        audiosource.PlayOneShot(StandardSE[2]);//死亡時のSEを鳴らす
+                        oneDeathSE = false;
+                    }
+
+                    //1秒ぐらい経過したら再度RpcDeathKnockBackを呼び出す
+                    if (knockbacktime <= timer)
+                    {
+                        knockbackmove = false;
+                        firstdeathknockback = true;
+                    }
+
+                    if (firstdeathknockback)
+                    {
+                        Debug.Log("Rpc返す");
+
+                        photonView.RPC(nameof(RpcDeathKnockBack), RpcTarget.All);//死亡時のノックバック
+
+                        firstdeathknockback = false;
+                    }
+
+                    if (!knockbackmove)
+                    {
+                        rigid.constraints = RigidbodyConstraints2D.FreezePositionX |
+                                            RigidbodyConstraints2D.FreezeRotation;//FreezePositionXをオンにする
+                        knockback_finish = true;
+                    }
                 }
-
-                //1秒ぐらい経過したら再度RpcDeathKnockBackを呼び出す
-                if (knockbacktime <= timer)
-                {
-                    knockbackmove = false;
-                    firstdeathknockback = true;
-                }
-
-                if (firstdeathknockback)
-                {
-                    Debug.Log("Rpc返す");
-
-                    photonView.RPC(nameof(RpcDeathKnockBack), RpcTarget.All);//死亡時のノックバック
-
-                    firstdeathknockback = false;
-                }
-
-                if (!knockbackmove)
-                {
-                    rigid.constraints = RigidbodyConstraints2D.FreezePositionX|
-                                        RigidbodyConstraints2D.FreezeRotation;//FreezePositionXをオンにする
-                    knockback_finish = true;
-                }
+               
             }
 
             //ポーズ時
@@ -635,6 +641,8 @@ public class PlayerController : MonoBehaviourPunCallbacks
             datamanager.DeathPlayerName = this.gameObject.name;
 
             datamanager.isDeth = true;
+
+            falling_death = true;//落下死用の死亡処理を入れる
         }
     }
 
