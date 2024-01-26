@@ -15,7 +15,6 @@ public class PlayerGetHitObjTagManagement : MonoBehaviourPunCallbacks
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(ManagerAccessor.Instance.dataManager.isOwnerHitDown);
         if (isMotion)
         {
             //‰E‚É“–‚½‚Á‚Ä‚¢‚é”»’è
@@ -76,7 +75,6 @@ public class PlayerGetHitObjTagManagement : MonoBehaviourPunCallbacks
                 if (downJudge.HitTags.Count == 0)
                 {
                     ManagerAccessor.Instance.dataManager.isOwnerHitDown = false;
-                    Debug.Log("aaa");
                 }
             }
             else
