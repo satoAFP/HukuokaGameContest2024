@@ -7,9 +7,18 @@ public class PauseSystem : MonoBehaviourPunCallbacks
 {
     [SerializeField, Header("ポーズメニュー")] private GameObject pauseMenu;
 
+    [SerializeField, Header("決定SE")] AudioClip pouseSE;
+
     private bool isMenuOpen = false;    //メニューが開いているかどうか
 
+    AudioSource audioSource;
+
     private bool first = true;
+
+    private void Start()
+    {
+        audioSource = GetComponent<AudioSource>();
+    }
 
 
     // Update is called once per frame
@@ -64,7 +73,10 @@ public class PauseSystem : MonoBehaviourPunCallbacks
     {
         if (!ManagerAccessor.Instance.dataManager.isClear &&
             !ManagerAccessor.Instance.dataManager.isDeth)
+        {
             isMenuOpen = data;
+            audioSource.PlayOneShot(pouseSE);
+        }
         else
             isMenuOpen = false;
     }

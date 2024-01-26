@@ -277,7 +277,8 @@ public class PlayerController : MonoBehaviourPunCallbacks
             if(animplay 
                  && !datamanager.isEnterGoal
                  && !ManagerAccessor.Instance.dataManager.isPause
-                 && !ManagerAccessor.Instance.dataManager.isDeth)
+                 && !ManagerAccessor.Instance.dataManager.isDeth
+                 && !ManagerAccessor.Instance.dataManager.isStageMove)
             {
 
                 if(oneSE)
@@ -594,6 +595,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
         if(!ManagerAccessor.Instance.dataManager.isDeth 
             && !ManagerAccessor.Instance.dataManager.isClear
             && !ManagerAccessor.Instance.dataManager.isPause
+            && !ManagerAccessor.Instance.dataManager.isStageMove
             && !datamanager.isEnterGoal)
         {
             rigid.velocity = new Vector2(inputDirection.x * moveSpeed, rigid.velocity.y);
@@ -715,6 +717,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
           &&!islift  && !ManagerAccessor.Instance.dataManager.isDeth
           && !ManagerAccessor.Instance.dataManager.isClear
           && !ManagerAccessor.Instance.dataManager.isPause
+          && !ManagerAccessor.Instance.dataManager.isStageMove
           && !bjump) 
         {
             Debug.Log("ƒWƒƒƒ“ƒv‚Å‚«‚é");

@@ -51,6 +51,9 @@ public class DataManager : MonoBehaviourPunCallbacks
     [System.NonSerialized] public bool isOwnerNotOpenBox = false;
     [System.NonSerialized] public bool isClientNotOpenBox = false;
 
+    //ステージ移動中フラグ
+    [System.NonSerialized] public bool isStageMove = false;
+
     //クリアフラグ
     [System.NonSerialized] public bool isClear = false;
 

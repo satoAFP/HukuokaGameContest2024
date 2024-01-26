@@ -59,62 +59,64 @@ public class StoneGenerate : MonoBehaviourPunCallbacks
     // Update is called once per frame
     void FixedUpdate()
     {
-        //危険表示非表示
-        if (PhotonNetwork.IsMasterClient)
+        if (ManagerAccessor.Instance.dataManager.player1 != null && ManagerAccessor.Instance.dataManager.player2 != null)
         {
-           
-            if (ManagerAccessor.Instance.dataManager.player1.transform.position.x - transform.position.x < DisplayDir)
-                DangerMark.SetActive(true);
-            else
-                DangerMark.SetActive(false);
-        }
-        else
-        {
-            if (ManagerAccessor.Instance.dataManager.player2.transform.position.x - transform.position.x < DisplayDir)
-                DangerMark.SetActive(true);
-            else
-                DangerMark.SetActive(false);
-        }
-
-        //危険表示の座標変更
-        DangerMark.transform.position = new Vector3(transform.position.x + genelatePosX, cameraGenelate.position.y + genelatePosY);
-
-        // オブジェクトを右に移動させる
-        if (!movestop && !ManagerAccessor.Instance.dataManager.isPause)
-        {
-            transform.Translate(Vector2.right * moveSpeed * Time.deltaTime);
-        }
-
-        if (ManagerAccessor.Instance.dataManager.isPause ||
-            ManagerAccessor.Instance.dataManager.isClear ||
-            ManagerAccessor.Instance.dataManager.isDeth)
-        {
-            moveSpeed = 0;//デスエリアに掛かっている速度を0にする
-            rb.constraints = RigidbodyConstraints2D.FreezeAll;//横方向の移動を止める
-        }
-        else//ポーズ中でなければ岩を生成し続ける
-        {
-            //ポーズした時に止めた移動処理を解除する
-            moveSpeed = firstspeed;
-
-            rb.constraints =
-RigidbodyConstraints2D.FreezeRotation |
-RigidbodyConstraints2D.FreezePositionY;
-
-            timer += Time.deltaTime;
-
-            //ここで岩を生成する時間を計測
-            if (timer >= spawnInterval)
+            //危険表示非表示
+            if (PhotonNetwork.IsMasterClient)
             {
-                for (int i = 0; i < spawnstone; i++)
-                {
-                    SpawnObject();
-                }
 
-                timer = 0f;
+                if (ManagerAccessor.Instance.dataManager.player1.transform.position.x - transform.position.x < DisplayDir)
+                    DangerMark.SetActive(true);
+                else
+                    DangerMark.SetActive(false);
+            }
+            else
+            {
+                if (ManagerAccessor.Instance.dataManager.player2.transform.position.x - transform.position.x < DisplayDir)
+                    DangerMark.SetActive(true);
+                else
+                    DangerMark.SetActive(false);
+            }
+
+            //危険表示の座標変更
+            DangerMark.transform.position = new Vector3(transform.position.x + genelatePosX, cameraGenelate.position.y + genelatePosY);
+
+            // オブジェクトを右に移動させる
+            if (!movestop && !ManagerAccessor.Instance.dataManager.isPause)
+            {
+                transform.Translate(Vector2.right * moveSpeed * Time.deltaTime);
+            }
+
+            if (ManagerAccessor.Instance.dataManager.isPause ||
+                ManagerAccessor.Instance.dataManager.isClear ||
+                ManagerAccessor.Instance.dataManager.isDeth)
+            {
+                moveSpeed = 0;//デスエリアに掛かっている速度を0にする
+                rb.constraints = RigidbodyConstraints2D.FreezeAll;//横方向の移動を止める
+            }
+            else//ポーズ中でなければ岩を生成し続ける
+            {
+                //ポーズした時に止めた移動処理を解除する
+                moveSpeed = firstspeed;
+
+                rb.constraints =
+    RigidbodyConstraints2D.FreezeRotation |
+    RigidbodyConstraints2D.FreezePositionY;
+
+                timer += Time.deltaTime;
+
+                //ここで岩を生成する時間を計測
+                if (timer >= spawnInterval)
+                {
+                    for (int i = 0; i < spawnstone; i++)
+                    {
+                        SpawnObject();
+                    }
+
+                    timer = 0f;
+                }
             }
         }
-
     }
 
 

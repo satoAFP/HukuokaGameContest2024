@@ -2934,84 +2934,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!1001 &338948820
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 699635113}
-    m_Modifications:
-    - target: {fileID: 5388703138231628416, guid: b5c03709b274cda4bbbbcb4b3031e4db, type: 3}
-      propertyPath: m_Size.x
-      value: 0.076530546
-      objectReference: {fileID: 0}
-    - target: {fileID: 5388703138231628416, guid: b5c03709b274cda4bbbbcb4b3031e4db, type: 3}
-      propertyPath: m_Size.y
-      value: 3.3464293
-      objectReference: {fileID: 0}
-    - target: {fileID: 5388703138231628416, guid: b5c03709b274cda4bbbbcb4b3031e4db, type: 3}
-      propertyPath: m_Offset.x
-      value: -0.092039004
-      objectReference: {fileID: 0}
-    - target: {fileID: 5388703138231628416, guid: b5c03709b274cda4bbbbcb4b3031e4db, type: 3}
-      propertyPath: m_Offset.y
-      value: -3.6100037
-      objectReference: {fileID: 0}
-    - target: {fileID: 5388703138231628417, guid: b5c03709b274cda4bbbbcb4b3031e4db, type: 3}
-      propertyPath: m_Name
-      value: DeathField (4)
-      objectReference: {fileID: 0}
-    - target: {fileID: 5388703138231628418, guid: b5c03709b274cda4bbbbcb4b3031e4db, type: 3}
-      propertyPath: m_RootOrder
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 5388703138231628418, guid: b5c03709b274cda4bbbbcb4b3031e4db, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 93.35
-      objectReference: {fileID: 0}
-    - target: {fileID: 5388703138231628418, guid: b5c03709b274cda4bbbbcb4b3031e4db, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 1.68
-      objectReference: {fileID: 0}
-    - target: {fileID: 5388703138231628418, guid: b5c03709b274cda4bbbbcb4b3031e4db, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -13.926521
-      objectReference: {fileID: 0}
-    - target: {fileID: 5388703138231628418, guid: b5c03709b274cda4bbbbcb4b3031e4db, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5388703138231628418, guid: b5c03709b274cda4bbbbcb4b3031e4db, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5388703138231628418, guid: b5c03709b274cda4bbbbcb4b3031e4db, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5388703138231628418, guid: b5c03709b274cda4bbbbcb4b3031e4db, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5388703138231628418, guid: b5c03709b274cda4bbbbcb4b3031e4db, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5388703138231628418, guid: b5c03709b274cda4bbbbcb4b3031e4db, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5388703138231628418, guid: b5c03709b274cda4bbbbcb4b3031e4db, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: b5c03709b274cda4bbbbcb4b3031e4db, type: 3}
---- !u!4 &338948821 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 5388703138231628418, guid: b5c03709b274cda4bbbbcb4b3031e4db, type: 3}
-  m_PrefabInstance: {fileID: 338948820}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &367023802
 GameObject:
   m_ObjectHideFlags: 0
@@ -6055,7 +5977,6 @@ Transform:
   - {fileID: 1108016687}
   - {fileID: 919726906}
   - {fileID: 2028147360}
-  - {fileID: 338948821}
   m_Father: {fileID: 0}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -7333,11 +7254,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1687265162997295878, guid: 9b9594201e196ff44add90a906cae030, type: 3}
       propertyPath: m_Points.m_Paths.Array.data[0].Array.data[2].x
-      value: 5
+      value: -10
       objectReference: {fileID: 0}
     - target: {fileID: 1687265162997295878, guid: 9b9594201e196ff44add90a906cae030, type: 3}
       propertyPath: m_Points.m_Paths.Array.data[0].Array.data[2].y
-      value: 2.5
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 1687265162997295878, guid: 9b9594201e196ff44add90a906cae030, type: 3}
       propertyPath: m_Points.m_Paths.Array.data[0].Array.data[3].x

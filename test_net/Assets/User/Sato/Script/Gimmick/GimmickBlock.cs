@@ -143,7 +143,6 @@ public class GimmickBlock : CGimmick
                     if (dataManager.isOwnerHitLeft && dataManager.isClientHitRight)
                         isOwnerRightHit = false;
                 }
-
                 //éùÇøè„Ç∞äJén
                 if (isStart)
                 {
@@ -313,6 +312,7 @@ public class GimmickBlock : CGimmick
                     {
                         ManagerAccessor.Instance.dataManager.player2.GetComponent<PlayerController>().islift = false;
                         ManagerAccessor.Instance.dataManager.player2.GetComponent<Rigidbody2D>().simulated = true;
+                        Debug.Log("ccc");
                     }
 
                 }

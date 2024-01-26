@@ -9,6 +9,10 @@ public class OpeningSystem : MonoBehaviourPunCallbacks
 {
     [SerializeField, Header("入力用テキスト")] GameObject InputText;
 
+    [SerializeField, Header("決定SE")] AudioClip enterSE;
+
+    AudioSource audioSource;
+
     private bool first = true;
 
     private void Start()
@@ -23,6 +27,8 @@ public class OpeningSystem : MonoBehaviourPunCallbacks
             InputText.transform.GetChild(0).GetComponent<Text>().text = "ロード中...";
             InputText.transform.GetChild(1).gameObject.SetActive(false);
         }
+
+        audioSource = GetComponent<AudioSource>();
     }
 
     [PunRPC]
@@ -31,6 +37,8 @@ public class OpeningSystem : MonoBehaviourPunCallbacks
         //オーナーの時
         if (PhotonNetwork.IsMasterClient)
         {
+            audioSource.PlayOneShot(enterSE);
+
             ManagerAccessor.Instance.sceneMoveManager.SceneMoveName("StageSelect");
         }
 
