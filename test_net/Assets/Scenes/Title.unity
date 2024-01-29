@@ -2272,6 +2272,7 @@ MonoBehaviour:
   splashMenu: {fileID: 1266419230}
   loadingObj: {fileID: 0}
   BGMObj: {fileID: 554497684}
+  Animator2: {fileID: 1915624064}
   OpeneSE: {fileID: 8300000, guid: 4138704c63843df47a1e4899c5093129, type: 3}
   NewSystem: 0
 --- !u!114 &1050541937
@@ -3704,6 +3705,7 @@ GameObject:
   - component: {fileID: 1915624065}
   - component: {fileID: 1915624067}
   - component: {fileID: 1915624066}
+  - component: {fileID: 1915624068}
   m_Layer: 5
   m_Name: Back
   m_TagString: Untagged
@@ -3775,6 +3777,26 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1915624064}
   m_CullTransparentMesh: 1
+--- !u!95 &1915624068
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1915624064}
+  m_Enabled: 0
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: eb2dbceb835523a41ad0497dba808dd5, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
 --- !u!1 &1919939878
 GameObject:
   m_ObjectHideFlags: 0
