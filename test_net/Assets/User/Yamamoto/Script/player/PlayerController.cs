@@ -601,20 +601,9 @@ public class PlayerController : MonoBehaviourPunCallbacks
         }
         else
         {
-            inputDirection.x = 0;
+            rigid.velocity = new Vector2(0,0);//元のベクトルを0にする
         }
        
-
-        ////一定の移動量が無いと進まないようにする
-        //if (Mathf.Abs(inputDirection.x) > 0.08f
-        //    && firststickprocess)
-        //{
-        //    Debug.Log("あの丘");
-        //    //プレイヤーが入力した方向に横方向限定で移動速度分の力を加える
-            
-        //    firststickprocess = false;//スティックが再入力されなければ処理を行わない
-        //}
-
 
         if (inputDirection.x == 0)
         {
@@ -676,7 +665,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
         if (photonView.IsMine)
         {
             //移動ロックがかかっていなければ移動
-            if (!movelock && !datamanager.isStageMove)
+            if (!movelock && !ManagerAccessor.Instance.dataManager.isStageMove)
             {
                 Debug.Log("うあ");
                 if (firstanimplay)

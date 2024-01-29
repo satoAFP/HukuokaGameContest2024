@@ -43,6 +43,8 @@ public class CopyKey : MonoBehaviourPunCallbacks
     private Vector3 dis = Vector3.zero;
 
     private bool firstDeathEreaHit = true;//一度だけゲームオーバーエリアに当たった処理をする
+    private bool fallingdeath = false;//落下死したときの処理
+    private bool firstfallingdeath = true;//一度だけ落下死の処理を行う
 
     private bool firstLR = true;//左右移動一度だけ処理を行う
     private bool left = false;//コピーキーが左に向いているとき
@@ -86,6 +88,11 @@ public class CopyKey : MonoBehaviourPunCallbacks
     void FixedUpdate()
     {
         DataManager datamanager = ManagerAccessor.Instance.dataManager;
+
+        if (ManagerAccessor.Instance.dataManager.isDeth)
+        {
+            Destroy(gameObject);//プレイヤーが死亡したときコピーキー削除
+        }
 
         //プレイヤーがゲームオーバーになっていなければコピーキーの基本操作許可
         if (!ManagerAccessor.Instance.dataManager.isDeth
@@ -221,31 +228,9 @@ public class CopyKey : MonoBehaviourPunCallbacks
             // 画像を切り替えます
             //GetComponent<SpriteRenderer>().sprite = DeathImage;
 
-            if (oneDeathSE)
+            if (fallingdeath)
             {
-                audiosource.PlayOneShot(StandardSE[2]);//死亡時のSEを鳴らす
-                oneDeathSE = false;
-            }
-
-            timer += Time.deltaTime;//時間計測
-
-            //ノックバック処理
-            //ここはノックバックしたとき一度跳ねる処理
-            if (firstdeathjump)
-            {
-                Debug.Log("copykey_deathjump");
-                rigid.AddForce(Vector2.up * jumpSpeed, ForceMode2D.Impulse);
-                firstdeathjump = false;
-            }
-
-            //ここは1秒ぐらい横に移動する処理
-            if (timer <= knockbacktime)
-            {
-                Debug.Log("copykey_deathmove");
-                rigid.velocity = new Vector2(0.5f * moveSpeed, rigid.velocity.y);
-            }
-            else if (timer >= 2.0f)
-            {
+                Debug.Log("コピーキー落下");
                 //コピー鍵出現中フラグ
                 ManagerAccessor.Instance.dataManager.isAppearCopyKey = false;
                 ManagerAccessor.Instance.dataManager.copyKey = null;
@@ -253,13 +238,54 @@ public class CopyKey : MonoBehaviourPunCallbacks
                 //コピーキーが消えたことをプレイヤー側に返す
                 ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().copykeydelete = true;
 
-                //エフェクト生成
-                GameObject clone = Instantiate(ManagerAccessor.Instance.dataManager.StarEffect);
-                clone.transform.position = transform.position;
-
                 Destroy(gameObject);//念のためにコピーキーを削除
             }
+            else
+            {
+                Debug.Log("コピーキー落下ではない");
+                if (oneDeathSE)
+                {
+                    audiosource.PlayOneShot(StandardSE[2]);//死亡時のSEを鳴らす
+                    oneDeathSE = false;
+                }
+
+                timer += Time.deltaTime;//時間計測
+
+                //ノックバック処理
+                //ここはノックバックしたとき一度跳ねる処理
+                if (firstdeathjump)
+                {
+                    Debug.Log("copykey_deathjump");
+                    rigid.AddForce(Vector2.up * jumpSpeed, ForceMode2D.Impulse);
+                    firstdeathjump = false;
+                }
+
+                //ここは1秒ぐらい横に移動する処理
+                if (timer <= knockbacktime)
+                {
+                    Debug.Log("copykey_deathmove");
+                    rigid.velocity = new Vector2(0.5f * moveSpeed, rigid.velocity.y);
+                }
+                else if (timer >= 2.0f)
+                {
+                    //コピー鍵出現中フラグ
+                    ManagerAccessor.Instance.dataManager.isAppearCopyKey = false;
+                    ManagerAccessor.Instance.dataManager.copyKey = null;
+
+                    //コピーキーが消えたことをプレイヤー側に返す
+                    ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().copykeydelete = true;
+
+                    //エフェクト生成
+                    GameObject clone = Instantiate(ManagerAccessor.Instance.dataManager.StarEffect);
+                    clone.transform.position = transform.position;
+
+                    Destroy(gameObject);//念のためにコピーキーを削除
+                }
+            }
+
+           
         }
+       
     }
 
 
@@ -298,13 +324,25 @@ public class CopyKey : MonoBehaviourPunCallbacks
     {
         DataManager datamanager = ManagerAccessor.Instance.dataManager;
 
+        //プレイヤーが落下した時、ゲームオーバーの処理をする
+        if (collision.gameObject.tag == "DeathField")
+        {
+            if (firstfallingdeath)
+            {
+                photonView.RPC(nameof(RpcCopyKeyDeath), RpcTarget.All, true);//コピーキー死亡処理
+
+                fallingdeath = true;//落下死用の死亡処理を入れる
+                firstfallingdeath = false;
+            }
+        }
+
         //落石エリアに入るとコピーキー死亡の処理
         if (collision.gameObject.tag == "DeathErea")
         {
             if(firstDeathEreaHit)
             {
                 Debug.Log("コピーキー当たる");
-                photonView.RPC(nameof(RpcCopyKeyDeath), RpcTarget.All, true);
+                photonView.RPC(nameof(RpcCopyKeyDeath), RpcTarget.All, true);//コピーキー死亡処理
                 firstDeathEreaHit = false;
             }
            
