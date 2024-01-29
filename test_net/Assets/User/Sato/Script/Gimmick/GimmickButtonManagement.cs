@@ -45,96 +45,101 @@ public class GimmickButtonManagement : MonoBehaviourPunCallbacks
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (!isSuccess)
+
+        if (!ManagerAccessor.Instance.dataManager.isClear ||
+            !ManagerAccessor.Instance.dataManager.isDeth ||
+            !ManagerAccessor.Instance.dataManager.isPause)
         {
-            //どちらか片方が入力開始でカウント開始
-            if (gimmickButton[0].GetComponent<GimmickButton>().isButton ||
-                gimmickButton[1].GetComponent<GimmickButton>().isButton)
+            if (!isSuccess)
             {
-                //両方触れている場合
-                if ((gimmickButton[0].GetComponent<GimmickButton>().isOwnerHit && gimmickButton[1].GetComponent<GimmickButton>().isClientHit) ||
-                    (gimmickButton[1].GetComponent<GimmickButton>().isOwnerHit && gimmickButton[0].GetComponent<GimmickButton>().isClientHit))
+                //どちらか片方が入力開始でカウント開始
+                if (gimmickButton[0].GetComponent<GimmickButton>().isButton ||
+                    gimmickButton[1].GetComponent<GimmickButton>().isButton)
                 {
-                    //失敗した時はいれない
-                    if (!isFailure)
+                    //両方触れている場合
+                    if ((gimmickButton[0].GetComponent<GimmickButton>().isOwnerHit && gimmickButton[1].GetComponent<GimmickButton>().isClientHit) ||
+                        (gimmickButton[1].GetComponent<GimmickButton>().isOwnerHit && gimmickButton[0].GetComponent<GimmickButton>().isClientHit))
                     {
-                        count++;
-                        //失敗までのフレームまで
-                        if (count <= ManagerAccessor.Instance.dataManager.MissFrame)
+                        //失敗した時はいれない
+                        if (!isFailure)
                         {
-                            //同時入力成功でGimmick起動
-                            if (gimmickButton[0].GetComponent<GimmickButton>().isButton &&
-                                gimmickButton[1].GetComponent<GimmickButton>().isButton)
+                            count++;
+                            //失敗までのフレームまで
+                            if (count <= ManagerAccessor.Instance.dataManager.MissFrame)
                             {
-                                isSuccess = true;
+                                //同時入力成功でGimmick起動
+                                if (gimmickButton[0].GetComponent<GimmickButton>().isButton &&
+                                    gimmickButton[1].GetComponent<GimmickButton>().isButton)
+                                {
+                                    isSuccess = true;
+
+                                    //SE再生
+                                    audioSource.PlayOneShot(successSE);
+                                }
+                            }
+                            else
+                            {
+                                //失敗情報送信
+                                if (PhotonNetwork.IsMasterClient)
+                                {
+                                    if (gimmickButton[0].GetComponent<GimmickButton>().isButton)
+                                    {
+                                        if (gimmickButton[0].GetComponent<GimmickButton>().isOwnerOnButton)
+                                            ManagerAccessor.Instance.dataManager.clientMissCount++;
+                                        if (gimmickButton[0].GetComponent<GimmickButton>().isClientOnButton)
+                                            ManagerAccessor.Instance.dataManager.ownerMissCount++;
+                                    }
+                                    if (gimmickButton[1].GetComponent<GimmickButton>().isButton)
+                                    {
+                                        if (gimmickButton[1].GetComponent<GimmickButton>().isOwnerOnButton)
+                                            ManagerAccessor.Instance.dataManager.clientMissCount++;
+                                        if (gimmickButton[1].GetComponent<GimmickButton>().isClientOnButton)
+                                            ManagerAccessor.Instance.dataManager.ownerMissCount++;
+                                    }
+                                }
+
+                                //制限時間内にできなければ失敗
+                                isFailure = true;
+                                count = 0;
 
                                 //SE再生
-                                audioSource.PlayOneShot(successSE);
+                                audioSource.PlayOneShot(failureSE);
                             }
-                        }
-                        else
-                        {
-                            //失敗情報送信
-                            if (PhotonNetwork.IsMasterClient)
-                            {
-                                if (gimmickButton[0].GetComponent<GimmickButton>().isButton)
-                                {
-                                    if (gimmickButton[0].GetComponent<GimmickButton>().isOwnerOnButton)
-                                        ManagerAccessor.Instance.dataManager.clientMissCount++;
-                                    if (gimmickButton[0].GetComponent<GimmickButton>().isClientOnButton)
-                                        ManagerAccessor.Instance.dataManager.ownerMissCount++;
-                                }
-                                if (gimmickButton[1].GetComponent<GimmickButton>().isButton)
-                                {
-                                    if (gimmickButton[1].GetComponent<GimmickButton>().isOwnerOnButton)
-                                        ManagerAccessor.Instance.dataManager.clientMissCount++;
-                                    if (gimmickButton[1].GetComponent<GimmickButton>().isClientOnButton)
-                                        ManagerAccessor.Instance.dataManager.ownerMissCount++;
-                                }
-                            }
-
-                            //制限時間内にできなければ失敗
-                            isFailure = true;
-                            count = 0;
-
-                            //SE再生
-                            audioSource.PlayOneShot(failureSE);
                         }
                     }
                 }
+                else
+                {
+                    //両方の入力解除で再度入力受付
+                    isFailure = false;
+                }
             }
-            else
+
+
+            //同時押しが成功すると、扉が開く
+            if (isSuccess)
             {
-                //両方の入力解除で再度入力受付
-                isFailure = false;
+                if (first)
+                {
+                    if (gimmickNum == 0)
+                        door.SetActive(false);
+                    if (gimmickNum == 1)
+                        door.SetActive(true);
+
+                    gameObject.transform.Find("Button1").transform.localScale = new Vector2(-1, 1);
+                    gameObject.transform.Find("Button2").transform.localScale = new Vector2(-1, 1);
+
+                    //エフェクト生成
+                    GameObject clone;
+                    clone = Instantiate(ManagerAccessor.Instance.dataManager.StarEffect);
+                    clone.transform.localPosition = gameObject.transform.Find("Button1").transform.position;
+                    clone = Instantiate(ManagerAccessor.Instance.dataManager.StarEffect);
+                    clone.transform.localPosition = gameObject.transform.Find("Button2").transform.position;
+
+                    first = false;
+                }
             }
         }
-
-
-        //同時押しが成功すると、扉が開く
-        if (isSuccess) 
-        {
-            if (first)
-            {
-                if (gimmickNum == 0)
-                    door.SetActive(false);
-                if (gimmickNum == 1)
-                    door.SetActive(true);
-
-                gameObject.transform.Find("Button1").transform.localScale = new Vector2(-1, 1);
-                gameObject.transform.Find("Button2").transform.localScale = new Vector2(-1, 1);
-
-                //エフェクト生成
-                GameObject clone;
-                clone = Instantiate(ManagerAccessor.Instance.dataManager.StarEffect);
-                clone.transform.localPosition = gameObject.transform.Find("Button1").transform.position;
-                clone = Instantiate(ManagerAccessor.Instance.dataManager.StarEffect);
-                clone.transform.localPosition = gameObject.transform.Find("Button2").transform.position;
-
-                first = false;
-            }
-        }
-
     }
 
 

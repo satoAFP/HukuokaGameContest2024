@@ -33,62 +33,67 @@ public class GimmickButton : MonoBehaviourPunCallbacks
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.gameObject.name == "Player1" || collision.gameObject.name == "CopyKey")
+        if (!ManagerAccessor.Instance.dataManager.isClear ||
+            !ManagerAccessor.Instance.dataManager.isDeth ||
+            !ManagerAccessor.Instance.dataManager.isPause)
         {
-            //押すべきボタンの画像表示
-            if (PhotonNetwork.IsMasterClient)
+            if (collision.gameObject.name == "Player1" || collision.gameObject.name == "CopyKey")
             {
-                collision.transform.GetChild(0).gameObject.SetActive(true);
-                collision.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = ManagerAccessor.Instance.spriteManager.ArrowRight;
-            }
-
-            //自身のオブジェクトが当たっている時しか反応させない
-            if (ManagerAccessor.Instance.dataManager.isOwnerInputKey_CB)
-            {
-                if (firstPushP1)
+                //押すべきボタンの画像表示
+                if (PhotonNetwork.IsMasterClient)
                 {
-                    //ボタン押している判定
-                    photonView.RPC(nameof(RpcButtonCheck), RpcTarget.All, true, true, true);
-                    firstPushP1 = false;
+                    collision.transform.GetChild(0).gameObject.SetActive(true);
+                    collision.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = ManagerAccessor.Instance.spriteManager.ArrowRight;
+                }
+
+                //自身のオブジェクトが当たっている時しか反応させない
+                if (ManagerAccessor.Instance.dataManager.isOwnerInputKey_CB)
+                {
+                    if (firstPushP1)
+                    {
+                        //ボタン押している判定
+                        photonView.RPC(nameof(RpcButtonCheck), RpcTarget.All, true, true, true);
+                        firstPushP1 = false;
+                    }
+                }
+                else
+                {
+                    if (!firstPushP1)
+                    {
+                        //ボタン離した判定
+                        photonView.RPC(nameof(RpcButtonCheck), RpcTarget.All, false, true, false);
+                        firstPushP1 = true;
+                    }
                 }
             }
-            else
-            {
-                if (!firstPushP1)
-                {
-                    //ボタン離した判定
-                    photonView.RPC(nameof(RpcButtonCheck), RpcTarget.All, false, true, false);
-                    firstPushP1 = true;
-                }
-            }
-        }
 
-        if (collision.gameObject.name == "Player2")
-        {
-            //押すべきボタンの画像表示
-            if (!PhotonNetwork.IsMasterClient)
+            if (collision.gameObject.name == "Player2")
             {
-                collision.transform.GetChild(0).gameObject.SetActive(true);
-                collision.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = ManagerAccessor.Instance.spriteManager.ArrowRight;
-            }
-
-            //自身のオブジェクトが当たっている時しか反応させない
-            if (ManagerAccessor.Instance.dataManager.isClientInputKey_CB)
-            {
-                if (firstPushP2)
+                //押すべきボタンの画像表示
+                if (!PhotonNetwork.IsMasterClient)
                 {
-                    //ボタン押している判定
-                    photonView.RPC(nameof(RpcButtonCheck), RpcTarget.All, true, false, true);
-                    firstPushP2 = false;
+                    collision.transform.GetChild(0).gameObject.SetActive(true);
+                    collision.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = ManagerAccessor.Instance.spriteManager.ArrowRight;
                 }
-            }
-            else
-            {
-                if (!firstPushP2)
+
+                //自身のオブジェクトが当たっている時しか反応させない
+                if (ManagerAccessor.Instance.dataManager.isClientInputKey_CB)
                 {
-                    //ボタン離した判定
-                    photonView.RPC(nameof(RpcButtonCheck), RpcTarget.All, false, false, false);
-                    firstPushP2 = true;
+                    if (firstPushP2)
+                    {
+                        //ボタン押している判定
+                        photonView.RPC(nameof(RpcButtonCheck), RpcTarget.All, true, false, true);
+                        firstPushP2 = false;
+                    }
+                }
+                else
+                {
+                    if (!firstPushP2)
+                    {
+                        //ボタン離した判定
+                        photonView.RPC(nameof(RpcButtonCheck), RpcTarget.All, false, false, false);
+                        firstPushP2 = true;
+                    }
                 }
             }
         }
