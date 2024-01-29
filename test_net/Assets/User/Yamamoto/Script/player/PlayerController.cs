@@ -182,6 +182,8 @@ public class PlayerController : MonoBehaviourPunCallbacks
             //死亡時
             if(datamanager.isDeth)
             {
+                rigid.velocity = new Vector2(0, 0);//元のベクトルを0にする
+
                 //(岩に当たった時）
                 if (knockbackflag)
                 {
@@ -489,13 +491,6 @@ public class PlayerController : MonoBehaviourPunCallbacks
                         {
                             CK_instantiatefirst = true;
                         }
-
-
-                        if(copykeydelete)
-                        {
-
-                        }
-
                     }
 
                 }
@@ -591,7 +586,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
         Debug.Log(datamanager.isEnterGoal);
 
         //ゲームオーバーまたはクリア処理を返すまで移動の計算をする
-        if(!ManagerAccessor.Instance.dataManager.isDeth 
+        if(   !ManagerAccessor.Instance.dataManager.isDeth 
             && !ManagerAccessor.Instance.dataManager.isClear
             && !ManagerAccessor.Instance.dataManager.isPause
             && !ManagerAccessor.Instance.dataManager.isStageMove
