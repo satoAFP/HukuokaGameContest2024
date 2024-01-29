@@ -87,6 +87,11 @@ public class CopyKey : MonoBehaviourPunCallbacks
     {
         DataManager datamanager = ManagerAccessor.Instance.dataManager;
 
+        if (ManagerAccessor.Instance.dataManager.isDeth)
+        {
+            Destroy(gameObject);//プレイヤーが死亡したときコピーキー削除
+        }
+
         //プレイヤーがゲームオーバーになっていなければコピーキーの基本操作許可
         if (!ManagerAccessor.Instance.dataManager.isDeth
             || !copykey_death
