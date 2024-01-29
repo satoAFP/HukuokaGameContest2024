@@ -155,6 +155,8 @@ public class PlayerController : MonoBehaviourPunCallbacks
         //データマネージャー取得
         datamanager = ManagerAccessor.Instance.dataManager;
 
+        Debug.Log("cursorlock" + cursorlock);
+
         if(PhotonNetwork.IsMasterClient)
         {
             if (cursorlock)

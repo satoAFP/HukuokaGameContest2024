@@ -255,7 +255,7 @@ public class CopyKey : MonoBehaviourPunCallbacks
                 //ここはノックバックしたとき一度跳ねる処理
                 if (firstdeathjump)
                 {
-                    Debug.Log("copykey_deathjump");
+                    //Debug.Log("copykey_deathjump");
                     rigid.AddForce(Vector2.up * jumpSpeed, ForceMode2D.Impulse);
                     firstdeathjump = false;
                 }
@@ -263,7 +263,7 @@ public class CopyKey : MonoBehaviourPunCallbacks
                 //ここは1秒ぐらい横に移動する処理
                 if (timer <= knockbacktime)
                 {
-                    Debug.Log("copykey_deathmove");
+                    //Debug.Log("copykey_deathmove");
                     rigid.velocity = new Vector2(0.5f * moveSpeed, rigid.velocity.y);
                 }
                 else if (timer >= 2.0f)
@@ -342,7 +342,7 @@ public class CopyKey : MonoBehaviourPunCallbacks
         {
             if(firstDeathEreaHit)
             {
-                Debug.Log("コピーキー当たる");
+                //Debug.Log("コピーキー当たる");
                 photonView.RPC(nameof(RpcCopyKeyDeath), RpcTarget.All, true);//コピーキー死亡処理
                 firstDeathEreaHit = false;
             }
@@ -357,7 +357,7 @@ public class CopyKey : MonoBehaviourPunCallbacks
 
         if (firstanimplay)
         {
-            Debug.Log("アニメ送信");
+            //Debug.Log("アニメ送信");
             photonView.RPC(nameof(RpcMoveAnimPlay), RpcTarget.All);
             firstanimplay = false;
         }
@@ -383,7 +383,7 @@ public class CopyKey : MonoBehaviourPunCallbacks
                     //アンロックボタンが起動中
                     if (!ManagerAccessor.Instance.dataManager.isUnlockButtonStart)
                     {
-                        Debug.Log("コピーキージャンプ");
+                        //Debug.Log("コピーキージャンプ");
 
                         photonView.RPC(nameof(RpcMoveAnimStop), RpcTarget.All);//ジャンプしている時は移動アニメーションを止める
 
