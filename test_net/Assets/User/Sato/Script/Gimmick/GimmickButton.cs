@@ -33,8 +33,8 @@ public class GimmickButton : MonoBehaviourPunCallbacks
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (!ManagerAccessor.Instance.dataManager.isClear ||
-            !ManagerAccessor.Instance.dataManager.isDeth ||
+        if (!ManagerAccessor.Instance.dataManager.isClear &&
+            !ManagerAccessor.Instance.dataManager.isDeth &&
             !ManagerAccessor.Instance.dataManager.isPause)
         {
             if (collision.gameObject.name == "Player1" || collision.gameObject.name == "CopyKey")

@@ -84,8 +84,8 @@ public class GimmickRotateBomb : MonoBehaviourPunCallbacks
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (!ManagerAccessor.Instance.dataManager.isClear ||
-            !ManagerAccessor.Instance.dataManager.isDeth ||
+        if (!ManagerAccessor.Instance.dataManager.isClear &&
+            !ManagerAccessor.Instance.dataManager.isDeth &&
             !ManagerAccessor.Instance.dataManager.isPause)
         {
             //データマネージャー取得
