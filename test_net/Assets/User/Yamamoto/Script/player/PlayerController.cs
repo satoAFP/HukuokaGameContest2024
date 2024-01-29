@@ -175,8 +175,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
             }
         }
 
-       
-
+      
         //死亡時とポーズ時に全ての処理を止める
         if (datamanager.isDeth || ManagerAccessor.Instance.dataManager.isPause)
         {
@@ -600,7 +599,11 @@ public class PlayerController : MonoBehaviourPunCallbacks
         {
             rigid.velocity = new Vector2(inputDirection.x * moveSpeed, rigid.velocity.y);
         }
-
+        else
+        {
+            inputDirection.x = 0;
+        }
+       
 
         ////一定の移動量が無いと進まないようにする
         //if (Mathf.Abs(inputDirection.x) > 0.08f
@@ -673,11 +676,12 @@ public class PlayerController : MonoBehaviourPunCallbacks
         if (photonView.IsMine)
         {
             //移動ロックがかかっていなければ移動
-            if(!movelock)
+            if (!movelock && !datamanager.isStageMove)
             {
+                Debug.Log("うあ");
                 if (firstanimplay)
                 {
-                   // Debug.Log("アニメ送信");
+                    // Debug.Log("アニメ送信");
                     photonView.RPC(nameof(RpcMoveAnimPlay), RpcTarget.All);
                     firstanimplay = false;
                 }
@@ -693,6 +697,10 @@ public class PlayerController : MonoBehaviourPunCallbacks
                 }
                 else
                     inputDirection = context.ReadValue<Vector2>();
+            }
+            else
+            {
+                inputDirection.x = 0;
             }
 
         }

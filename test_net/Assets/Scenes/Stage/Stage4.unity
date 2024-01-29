@@ -7477,8 +7477,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 875695820}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 29.5308, y: -0.5, z: 0}
-  m_LocalScale: {x: 37.0629, y: 1, z: 1}
+  m_LocalPosition: {x: 29.5308, y: -0.7156, z: 0}
+  m_LocalScale: {x: 37.0629, y: 1.4311476, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 24843217}
@@ -13538,7 +13538,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2864375565067719241, guid: 700a978ca785573469ada89ba712339d, type: 3}
       propertyPath: timeLimit
-      value: 15
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 2864375565067719241, guid: 700a978ca785573469ada89ba712339d, type: 3}
       propertyPath: answerArea
@@ -14371,7 +14371,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2864375565067719241, guid: 700a978ca785573469ada89ba712339d, type: 3}
       propertyPath: timeLimit
-      value: 15
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 2864375565067719241, guid: 700a978ca785573469ada89ba712339d, type: 3}
       propertyPath: answerArea

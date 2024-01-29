@@ -31,6 +31,8 @@ public class ResultSystem : MonoBehaviourPunCallbacks
     [SerializeField, Header("クリア時のBGM")] private AudioClip ClearBGM;
     [SerializeField, Header("ゲームオーバー時のBGM")] private AudioClip LoseBGM;
 
+    private GameObject FadeAnimation;
+
     private int count = 0;      //フレームを数える
     private int objCount = 0;   //オブジェクトを数える
 
@@ -42,15 +44,13 @@ public class ResultSystem : MonoBehaviourPunCallbacks
 
     private bool first = true;
 
-    private FadeAnimation fadeanimation;//フェードアニメーションスクリプトを代入する変数
-   
     //クリア処理に一回しか入らない処理
     private bool clearFirst;
 
     void Start()
     {
-        fadeanimation = GameObject.Find("Fade").GetComponent<FadeAnimation>();//フェードアニメーションスクリプト取得
-
+        FadeAnimation = GameObject.Find("Fade");
+      
         //出すものを変える
         if (PhotonNetwork.IsMasterClient)
         {
@@ -132,11 +132,13 @@ public class ResultSystem : MonoBehaviourPunCallbacks
         if (!ManagerAccessor.Instance.dataManager.isClear
             &&ManagerAccessor.Instance.dataManager.isDeth)
         {
-            if(fadeanimation.fadeoutfinish)
+            if(FadeAnimation.GetComponent<FadeAnimation>().fadeoutfinish)
             {
                 if (first)
                 {
                     gameObject.transform.GetChild(1).gameObject.SetActive(true);
+
+                    FadeAnimation.SetActive(false);
 
                     //BGM変更
                     ManagerAccessor.Instance.dataManager.BGM.GetComponent<AudioSource>().clip = LoseBGM;
