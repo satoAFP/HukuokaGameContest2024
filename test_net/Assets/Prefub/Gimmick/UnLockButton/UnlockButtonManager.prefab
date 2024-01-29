@@ -495,7 +495,7 @@ MonoBehaviour:
   timeLimitSlider: {fileID: 0}
   initAnswer: {fileID: 5860324809959214315, guid: 9b3d740786234914186ce479d06c9b74, type: 3}
   inputKey: 5
-  timeLimit: 75
+  timeLimit: 8
   isHideAnswer: 0
   isWhareHideAnswer: 
   successSE: {fileID: 8300000, guid: e88d42aab099df94a90635b9d9f1c62c, type: 3}

@@ -7670,7 +7670,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2864375565067719241, guid: 700a978ca785573469ada89ba712339d, type: 3}
       propertyPath: timeLimit
-      value: 10
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 2864375565067719241, guid: 700a978ca785573469ada89ba712339d, type: 3}
       propertyPath: answerArea
@@ -13590,7 +13590,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2864375565067719241, guid: 700a978ca785573469ada89ba712339d, type: 3}
       propertyPath: timeLimit
-      value: 15
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 2864375565067719241, guid: 700a978ca785573469ada89ba712339d, type: 3}
       propertyPath: answerArea
