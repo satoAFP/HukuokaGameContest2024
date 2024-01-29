@@ -103,190 +103,197 @@ public class GimmickUnlockButtonManagement : CGimmick
     // Update is called once per frame
     void FixedUpdate()
     {
-        //マスターの時答えを設定してデータを渡す
-        if (PhotonNetwork.LocalPlayer.IsMasterClient)
+        if (!ManagerAccessor.Instance.dataManager.isClear ||
+            !ManagerAccessor.Instance.dataManager.isDeth ||
+            !ManagerAccessor.Instance.dataManager.isPause)
         {
-            //2Pがいない時は作らない
-            if (ManagerAccessor.Instance.dataManager.player2 != null)
+            //マスターの時答えを設定してデータを渡す
+            if (PhotonNetwork.LocalPlayer.IsMasterClient)
             {
-                //最初の一回だけ
-                if (isAnswerFirst)
+                //2Pがいない時は作らない
+                if (ManagerAccessor.Instance.dataManager.player2 != null)
                 {
-                    //答えの生成とデータの受け渡し
-                    for (int i = 0; i < inputKey; i++)
+                    //最初の一回だけ
+                    if (isAnswerFirst)
                     {
-                        answer.Add(Random.Range(0, 12));
-                        //連続で同じ数字にならないための処理
-                        while (true)
+                        //答えの生成とデータの受け渡し
+                        for (int i = 0; i < inputKey; i++)
                         {
-                            if (i != 0)
+                            answer.Add(Random.Range(0, 12));
+                            //連続で同じ数字にならないための処理
+                            while (true)
                             {
-                                if (answer[i] == answer[i - 1])
-                                    answer[i] = Random.Range(0, 12);
+                                if (i != 0)
+                                {
+                                    if (answer[i] == answer[i - 1])
+                                        answer[i] = Random.Range(0, 12);
+                                    else
+                                        break;
+                                }
                                 else
                                     break;
                             }
-                            else
-                                break;
+
+                            photonView.RPC(nameof(RpcShareAnswer), RpcTarget.Others, answer[i]);
                         }
 
-                        photonView.RPC(nameof(RpcShareAnswer), RpcTarget.Others, answer[i]);
+                        //答え設定
+                        AnswerSet();
+
+                        isAnswerFirst = false;
+                    }
+                }
+            }
+            //マスターでない時、答えデータを受け取るまで待機
+            else
+            {
+                if (answer.Count != 0)
+                {
+                    //最初の一回だけ
+                    if (isAnswerFirst)
+                    {
+                        //答え設定
+                        AnswerSet();
+
+                        isAnswerFirst = false;
+                    }
+                }
+            }
+
+            //クリアしていないとき
+            if (!isAllClear)
+            {
+                //入力開始時の時間計算
+                if (isStartCount)
+                {
+                    if (isStartCountFisrt)
+                    {
+                        photonView.RPC(nameof(RpcShareIsStartCount), RpcTarget.Others, isStartCount);
+                        isStartCountFisrt = false;
                     }
 
-                    //答え設定
-                    AnswerSet();
+                    frameCount++;
+                    //制限時間
+                    if (frameCount == timeLimit * 60)
+                    {
+                        //入力状況初期化
+                        isStartCount = false;
+                        frameCount = 0;
 
-                    isAnswerFirst = false;
+                        //ミス情報カウント
+                        if (!isOwnerClear)
+                            ManagerAccessor.Instance.dataManager.ownerMissCount++;
+                        if (!isClientClear)
+                            CallRpcShareInputMiss();
+
+                        //クリア状況初期化
+                        isOwnerClear = false;
+                        isClientClear = false;
+
+                        //SE再生
+                        audioSource.PlayOneShot(failureSE);
+
+                        //二つ分初期化
+                        for (int i = 0; i < gimmickButton.Count; i++)
+                        {
+                            //クリア状況初期化
+                            for (int j = 0; j < answer.Count; j++)
+                            {
+                                gimmickButton[i].GetComponent<GimmickUnlockButton>().ClearSituation[j] = false;
+
+                                //クリア状況把握用画像の初期化
+                                gameObject.GetComponent<GimmickUnlockButtonManagement>().clone[j].GetComponent<Image>().color = new Color32(255, 255, 255, 255);
+                            }
+                        }
+                    }
+
+                    //残り時間表示
+                    timeLimitSlider.GetComponent<Slider>().value = 1 - (float)frameCount / (float)(timeLimit * 60);
                 }
-            }
-        }
-        //マスターでない時、答えデータを受け取るまで待機
-        else
-        {
-            if (answer.Count != 0)
-            {
-                //最初の一回だけ
-                if (isAnswerFirst)
+                else
                 {
-                    //答え設定
-                    AnswerSet();
-
-                    isAnswerFirst = false;
-                }
-            }
-        }
-
-        //クリアしていないとき
-        if (!isAllClear)
-        {
-            //入力開始時の時間計算
-            if (isStartCount)
-            {
-                if (isStartCountFisrt)
-                {
-                    photonView.RPC(nameof(RpcShareIsStartCount), RpcTarget.Others, isStartCount);
-                    isStartCountFisrt = false;
+                    if (!isStartCountFisrt)
+                    {
+                        photonView.RPC(nameof(RpcShareIsStartCount), RpcTarget.Others, isStartCount);
+                        isStartCountFisrt = true;
+                    }
                 }
 
-                frameCount++;
-                //制限時間
-                if (frameCount == timeLimit * 60)
+                //Player1のクリア情報送信
+                if (PhotonNetwork.LocalPlayer.IsMasterClient)
                 {
-                    //入力状況初期化
-                    isStartCount = false;
-                    frameCount = 0;
+                    if (isOwnerClear)
+                    {
+                        if (isOwnerClearFirst)
+                        {
+                            photonView.RPC(nameof(RpcShareIsClear), RpcTarget.Others, true);
+                            isOwnerClearFirst = false;
+                        }
+                    }
+                    else
+                    {
+                        if (!isOwnerClearFirst)
+                        {
+                            photonView.RPC(nameof(RpcShareIsClear), RpcTarget.Others, false);
+                            isOwnerClearFirst = true;
+                        }
+                    }
+                }
+                //Player2のクリア情報送信
+                else
+                {
+                    if (isClientClear)
+                    {
+                        if (isClientClearFirst)
+                        {
+                            photonView.RPC(nameof(RpcShareIsClear), RpcTarget.Others, true);
+                            isClientClearFirst = false;
+                        }
+                    }
+                    else
+                    {
+                        if (!isClientClearFirst)
+                        {
+                            photonView.RPC(nameof(RpcShareIsClear), RpcTarget.Others, false);
+                            isClientClearFirst = true;
+                        }
+                    }
+                }
 
-                    //ミス情報カウント
-                    if (!isOwnerClear)
-                        ManagerAccessor.Instance.dataManager.ownerMissCount++;
-                    if (!isClientClear)
-                        CallRpcShareInputMiss();
-
-                    //クリア状況初期化
-                    isOwnerClear = false;
-                    isClientClear = false;
+                //両方クリアしたらこの処理を抜ける
+                if (isOwnerClear && isClientClear)
+                {
+                    isAllClear = true;
 
                     //SE再生
-                    audioSource.PlayOneShot(failureSE);
-
-                    //二つ分初期化
-                    for (int i = 0; i < gimmickButton.Count; i++)
-                    {
-                        //クリア状況初期化
-                        for (int j = 0; j < answer.Count; j++)
-                        {
-                            gimmickButton[i].GetComponent<GimmickUnlockButton>().ClearSituation[j] = false;
-                        }
-                    }
+                    audioSource.PlayOneShot(successSE);
                 }
 
-                //残り時間表示
-                timeLimitSlider.GetComponent<Slider>().value = 1 - (float)frameCount / (float)(timeLimit * 60);
+
             }
             else
             {
-                if (!isStartCountFisrt)
+                if (first)
                 {
-                    photonView.RPC(nameof(RpcShareIsStartCount), RpcTarget.Others, isStartCount);
-                    isStartCountFisrt = true;
+                    //解除成功
+                    if (gimmickNum == 0)
+                        door.SetActive(false);
+                    if (gimmickNum == 1)
+                        door.SetActive(true);
+
+                    answerArea.SetActive(false);
+                    timeLimitSlider.SetActive(false);
+
+                    GameObject clone = null;
+                    clone = Instantiate(ManagerAccessor.Instance.dataManager.StarEffect, gameObject.transform.Find("UnlockButton"));
+                    clone.transform.localPosition = new Vector3(0, 0, 0);
+                    clone = Instantiate(ManagerAccessor.Instance.dataManager.StarEffect, gameObject.transform.Find("UnlockButton1"));
+                    clone.transform.localPosition = new Vector3(0, 0, 0);
+
+                    first = false;
                 }
-            }
-
-            //Player1のクリア情報送信
-            if (PhotonNetwork.LocalPlayer.IsMasterClient)
-            {
-                if (isOwnerClear)
-                {
-                    if (isOwnerClearFirst)
-                    {
-                        photonView.RPC(nameof(RpcShareIsClear), RpcTarget.Others, true);
-                        isOwnerClearFirst = false;
-                    }
-                }
-                else
-                {
-                    if (!isOwnerClearFirst)
-                    {
-                        photonView.RPC(nameof(RpcShareIsClear), RpcTarget.Others, false);
-                        isOwnerClearFirst = true;
-                    }
-                }
-            }
-            //Player2のクリア情報送信
-            else
-            {
-                if (isClientClear)
-                {
-                    if (isClientClearFirst)
-                    {
-                        photonView.RPC(nameof(RpcShareIsClear), RpcTarget.Others, true);
-                        isClientClearFirst = false;
-                    }
-                }
-                else
-                {
-                    if (!isClientClearFirst)
-                    {
-                        photonView.RPC(nameof(RpcShareIsClear), RpcTarget.Others, false);
-                        isClientClearFirst = true;
-                    }
-                }
-            }
-
-            //両方クリアしたらこの処理を抜ける
-            if (isOwnerClear && isClientClear)
-            {
-                isAllClear = true;
-
-                //SE再生
-                audioSource.PlayOneShot(successSE);
-            }
-
-
-        }
-        else
-        {
-            if (first)
-            {
-                //解除成功
-                if (gimmickNum == 0)
-                    door.SetActive(false);
-                if (gimmickNum == 1)
-                    door.SetActive(true);
-
-                answerArea.SetActive(false);
-                timeLimitSlider.SetActive(false);
-
-                GameObject clone = null;
-                clone = Instantiate(ManagerAccessor.Instance.dataManager.StarEffect, gameObject.transform.Find("UnlockButton"));
-                clone.transform.localPosition = new Vector3(0,0,0);
-                clone = Instantiate(ManagerAccessor.Instance.dataManager.StarEffect, gameObject.transform.Find("UnlockButton1"));
-                clone.transform.localPosition = new Vector3(0, 0, 0);
-
-                first = false;
             }
         }
-
     }
 
 
