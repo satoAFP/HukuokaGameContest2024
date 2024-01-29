@@ -318,23 +318,24 @@ public class CopyKey : MonoBehaviourPunCallbacks
         {
             bjump = false;
         }
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        DataManager datamanager = ManagerAccessor.Instance.dataManager;
 
         //プレイヤーが落下した時、ゲームオーバーの処理をする
         if (collision.gameObject.tag == "DeathField")
         {
             if (firstfallingdeath)
             {
+              
                 photonView.RPC(nameof(RpcCopyKeyDeath), RpcTarget.All, true);//コピーキー死亡処理
 
                 fallingdeath = true;//落下死用の死亡処理を入れる
                 firstfallingdeath = false;
             }
         }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        DataManager datamanager = ManagerAccessor.Instance.dataManager;
 
         //落石エリアに入るとコピーキー死亡の処理
         if (collision.gameObject.tag == "DeathErea")
