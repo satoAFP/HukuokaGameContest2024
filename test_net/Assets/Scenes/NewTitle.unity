@@ -1882,7 +1882,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sprashSystem: {fileID: 1767250531}
-  enterSE: {fileID: 8300000, guid: ddaf9c781c0dc594c969e0087ace2a5d, type: 3}
+  enterSE: {fileID: 8300000, guid: a522dc0bd27812d439edca680f461517, type: 3}
 --- !u!4 &782516545
 Transform:
   m_ObjectHideFlags: 0
@@ -2407,7 +2407,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 205665036c910e7409557548a4b94415, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.5
   m_Pitch: 1
   Loop: 1
   Mute: 0
