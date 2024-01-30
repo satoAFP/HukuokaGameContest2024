@@ -90,7 +90,7 @@ public class GimmickUnlockButtonManagement : CGimmick
     private void Start()
     {
         audioSource = GetComponent<AudioSource>();
-        timeLimitSlider.GetComponent<Slider>().value = 1;
+        timeLimitSlider.GetComponent<Image>().fillAmount = 1;
 
         //Gimmick‚É‚æ‚Á‚Ä”à‚ÌŠJ•Â‚ðŒˆ‚ß‚é
         if (gimmickNum == 0)
@@ -208,7 +208,7 @@ public class GimmickUnlockButtonManagement : CGimmick
                     }
 
                     //Žc‚èŽžŠÔ•\Ž¦
-                    timeLimitSlider.GetComponent<Slider>().value = 1 - (float)frameCount / (float)(timeLimit * 60);
+                    timeLimitSlider.GetComponent<Image>().fillAmount = 1 - (float)frameCount / (float)(timeLimit * 60);
                 }
                 else
                 {
