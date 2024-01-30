@@ -35,6 +35,7 @@ public class DataManager : MonoBehaviourPunCallbacks
     [System.NonSerialized] public GameObject player1 = null;
     [System.NonSerialized] public GameObject player2 = null;
     [System.NonSerialized] public GameObject copyKey = null;
+    [System.NonSerialized] public GameObject board = null;
 
     //アンロックボタン操作中かどうか
     [System.NonSerialized] public bool isUnlockButtonStart = false;

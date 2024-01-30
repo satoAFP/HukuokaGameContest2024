@@ -27,7 +27,7 @@ public class CopyKey : MonoBehaviourPunCallbacks
     private int collecttime;
 
     [SerializeField]
-    private int holdtime;//設定したアイテム回収時間を代入する
+    public int holdtime;//設定したアイテム回収時間を代入する
 
     private Test_net test_net;//inputsystemをスクリプトで呼び出す
 

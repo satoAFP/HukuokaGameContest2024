@@ -14,6 +14,9 @@ public class SprashSystem : MonoBehaviour
     [SerializeField, Header("BGM再生用オブジェクト")]
     private GameObject BGMObj;
 
+    [SerializeField, Header("アニメーター2")]
+    private GameObject Animator2;
+
     [SerializeField, Header("宝箱が開く音")]
     private AudioClip OpeneSE;
 
@@ -75,5 +78,6 @@ public class SprashSystem : MonoBehaviour
     {
         //BGM再生
         BGMObj.SetActive(true);
+        Animator2.GetComponent<Animator>().enabled = true;
     }
 }
