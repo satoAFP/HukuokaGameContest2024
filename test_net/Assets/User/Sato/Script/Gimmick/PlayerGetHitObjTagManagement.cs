@@ -60,7 +60,6 @@ public class PlayerGetHitObjTagManagement : MonoBehaviourPunCallbacks
                     }
                     else
                     {
-                        Debug.Log("”ò‚×‚é‚‚" + ManagerAccessor.Instance.dataManager.isOwnerHitDown);
                         ManagerAccessor.Instance.dataManager.isClientHitDown = true;
                     }
                 }
@@ -86,7 +85,6 @@ public class PlayerGetHitObjTagManagement : MonoBehaviourPunCallbacks
                     ManagerAccessor.Instance.dataManager.isClientHitLeft = false;
                 if (downJudge.HitTags.Count == 0)
                 {
-                    Debug.Log("”ò‚×‚È‚¢‚‚" + ManagerAccessor.Instance.dataManager.isOwnerHitDown);
                     ManagerAccessor.Instance.dataManager.isClientHitDown = false;
                 }
                     

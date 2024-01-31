@@ -460,14 +460,12 @@ public class CopyKey : MonoBehaviourPunCallbacks
     [PunRPC]
     private void RpcMoveAnimPlay()
     {
-         Debug.Log("コピーキーアニメ再生");
         animplay = true;
     }
 
     [PunRPC]
     private void RpcMoveAnimStop()
     {
-        Debug.Log("コピーキーアニメstop");
         animplay = false;
         firstanimplay = true;
     }

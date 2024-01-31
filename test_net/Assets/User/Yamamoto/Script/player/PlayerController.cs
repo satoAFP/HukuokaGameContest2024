@@ -157,7 +157,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
         //データマネージャー取得
         datamanager = ManagerAccessor.Instance.dataManager;
 
-        Debug.Log("cursorlock" + cursorlock);
+        //Debug.Log("cursorlock" + cursorlock);
 
         if(PhotonNetwork.IsMasterClient)
         {
@@ -179,7 +179,18 @@ public class PlayerController : MonoBehaviourPunCallbacks
             }
         }
 
-      
+        //プレイヤーが床に着いているかを判断する変数を共有
+        if (PhotonNetwork.IsMasterClient)
+        {
+            bjump = !ManagerAccessor.Instance.dataManager.isOwnerHitDown;
+        }
+        else
+        {
+            bjump = !ManagerAccessor.Instance.dataManager.isClientHitDown;
+        }
+
+
+
         //死亡時とポーズ時に全ての処理を止める
         if (datamanager.isDeth || ManagerAccessor.Instance.dataManager.isPause)
         {
@@ -592,7 +603,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
     private void Move()//移動処理（計算部分）
     {
-        Debug.Log(datamanager.isEnterGoal);
+       // Debug.Log(datamanager.isEnterGoal);
 
         //ゲームオーバーまたはクリア処理を返すまで移動の計算をする
         if(   !ManagerAccessor.Instance.dataManager.isDeth 
@@ -708,15 +719,6 @@ public class PlayerController : MonoBehaviourPunCallbacks
     public void Onjump(InputAction.CallbackContext context)
     {
         DataManager datamanager = ManagerAccessor.Instance.dataManager;
-
-        if (PhotonNetwork.IsMasterClient)
-        {
-            bjump = !ManagerAccessor.Instance.dataManager.isOwnerHitDown;
-        }
-        else
-        {
-            bjump = !ManagerAccessor.Instance.dataManager.isClientHitDown;
-        }
 
         //アンロックボタン、ロケットが起動中でない時 死亡してない時
         if (!ManagerAccessor.Instance.dataManager.isUnlockButtonStart && !movelock && !isFly

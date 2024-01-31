@@ -56,8 +56,6 @@ public class UICursor : MonoBehaviourPunCallbacks
             {
                 ColorChangeframe++;
 
-                // Debug.Log("ColorChangeframe" + ColorChangeframe);
-
                 //各プレイヤーのアイコンを元の色に戻す
                 for(int i=0;i < ColorChangeObjects.Length;i++)
                 {
