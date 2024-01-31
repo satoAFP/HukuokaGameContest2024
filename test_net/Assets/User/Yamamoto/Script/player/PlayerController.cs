@@ -117,6 +117,8 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
     private bool knockbackflag = false;//死亡時にノックバックをするかどうかを判断
 
+    private bool veczero = true;//一フレームだけベクトルを0にする処理を行う
+
     void Start()
     {
 
@@ -184,7 +186,12 @@ public class PlayerController : MonoBehaviourPunCallbacks
             //死亡時
             if(datamanager.isDeth)
             {
-                rigid.velocity = new Vector2(0, 0);//元のベクトルを0にする
+                if (veczero)
+                {
+                    rigid.velocity = new Vector2(0, 0);//元のベクトルを0にする
+                    veczero = false;
+                }
+              
 
                 //(岩に当たった時）
                 if (knockbackflag)
@@ -598,7 +605,12 @@ public class PlayerController : MonoBehaviourPunCallbacks
         }
         else
         {
-            rigid.velocity = new Vector2(0,0);//元のベクトルを0にする
+            if (veczero)
+            {
+                rigid.velocity = new Vector2(0, 0);//元のベクトルを0にする
+                veczero = false;
+            }
+           
         }
        
 
@@ -664,7 +676,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
             //移動ロックがかかっていなければ移動
             if (!movelock && !ManagerAccessor.Instance.dataManager.isStageMove)
             {
-                Debug.Log("うあ");
+               
                 if (firstanimplay)
                 {
                     // Debug.Log("アニメ送信");
