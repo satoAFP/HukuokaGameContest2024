@@ -66,6 +66,8 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
     private bool firstanimplay = true;//複数アニメ起動をさせないフラグ
 
+    private bool firstlanding = true;//一度だけ床に着地した時の処理を通す
+
     private bool firststickprocess = true;//スティックを動かしたときの移動処理を一回ずつ行う
 
     //入力された方向を入れる変数
@@ -189,8 +191,51 @@ public class PlayerController : MonoBehaviourPunCallbacks
             bjump = !ManagerAccessor.Instance.dataManager.isClientHitDown;
         }
 
-
-
+        //一度だけ着地した処理を通す
+        if(photonView.IsMine)
+        {
+            if (inputDirection.x != 0)
+            {
+                if (PhotonNetwork.IsMasterClient)
+                {
+                    if (datamanager.isOwnerHitDown)
+                    {
+                        if (firstlanding)
+                        {
+                            Debug.Log("着地");
+                            photonView.RPC(nameof(RpcMoveAnimPlay), RpcTarget.All);
+                            firstlanding = false;
+                        }
+                    }
+                    else
+                    {
+                        if (!firstlanding)
+                        {
+                            firstlanding = true;
+                        }
+                    }
+                }
+                else
+                {
+                    if (datamanager.isClientHitDown)
+                    {
+                        if (firstlanding)
+                        {
+                            photonView.RPC(nameof(RpcMoveAnimPlay), RpcTarget.All);
+                            firstlanding = false;
+                        }
+                    }
+                    else
+                    {
+                        if (!firstlanding)
+                        {
+                            firstlanding = true;
+                        }
+                    }
+                }
+            }
+        }
+       
         //死亡時とポーズ時に全ての処理を止める
         if (datamanager.isDeth || ManagerAccessor.Instance.dataManager.isPause)
         {
@@ -605,6 +650,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
     {
        // Debug.Log(datamanager.isEnterGoal);
 
+
         //ゲームオーバーまたはクリア処理を返すまで移動の計算をする
         if(   !ManagerAccessor.Instance.dataManager.isDeth 
             && !ManagerAccessor.Instance.dataManager.isClear
@@ -687,10 +733,12 @@ public class PlayerController : MonoBehaviourPunCallbacks
             //移動ロックがかかっていなければ移動
             if (!movelock && !ManagerAccessor.Instance.dataManager.isStageMove)
             {
-               
+                
+
+                Debug.Log(firstanimplay);
+
                 if (firstanimplay)
                 {
-                    // Debug.Log("アニメ送信");
                     photonView.RPC(nameof(RpcMoveAnimPlay), RpcTarget.All);
                     firstanimplay = false;
                 }
