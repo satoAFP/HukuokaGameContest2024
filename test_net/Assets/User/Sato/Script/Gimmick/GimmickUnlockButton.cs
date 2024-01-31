@@ -68,152 +68,157 @@ public class GimmickUnlockButton : CGimmick
 
     private void FixedUpdate()
     {
-        dataManager = ManagerAccessor.Instance.dataManager;
-
-        //クリアすると動かさない
-        if (!transform.parent.GetComponent<GimmickUnlockButtonManagement>().isAllClear)
+        if (!ManagerAccessor.Instance.dataManager.isClear &&
+            !ManagerAccessor.Instance.dataManager.isDeth &&
+            !ManagerAccessor.Instance.dataManager.isPause)
         {
-            //アンロックボタン開始
-            if (islocalUnlockButtonStart)
-            {
-                if (InputCheck())
-                {
-                    if (firstInput)
-                    {
-                        firstInput = false;
+            dataManager = ManagerAccessor.Instance.dataManager;
 
-                        //答えの数
-                        for (int i = 0; i < answer.Count; i++)
+            //クリアすると動かさない
+            if (!transform.parent.GetComponent<GimmickUnlockButtonManagement>().isAllClear)
+            {
+                //アンロックボタン開始
+                if (islocalUnlockButtonStart)
+                {
+                    if (InputCheck())
+                    {
+                        if (firstInput)
                         {
-                            //クリアしている入力は飛ばされる
-                            if (ClearSituation[i])
+                            firstInput = false;
+
+                            //答えの数
+                            for (int i = 0; i < answer.Count; i++)
                             {
-                                continue;
-                            }
-                            else
-                            {
-                                //入力情報と一致するかチェック
-                                InputAnswer(i);
-                                break;
+                                //クリアしている入力は飛ばされる
+                                if (ClearSituation[i])
+                                {
+                                    continue;
+                                }
+                                else
+                                {
+                                    //入力情報と一致するかチェック
+                                    InputAnswer(i);
+                                    break;
+                                }
                             }
                         }
                     }
+                    else
+                    {
+                        firstInput = true;
+                    }
+
+                    //最初の入力が正解の時、カウント開始
+                    if (ClearSituation[0])
+                    {
+                        transform.parent.GetComponent<GimmickUnlockButtonManagement>().isStartCount = true;
+                    }
+
+                    //最後の入力が終わったときクリア情報を送る
+                    if (ClearSituation[ClearSituation.Count - 1])
+                    {
+                        //マスターかどうか
+                        if (PhotonNetwork.LocalPlayer.IsMasterClient)
+                        {
+                            transform.parent.GetComponent<GimmickUnlockButtonManagement>().isOwnerClear = true;
+                        }
+                        else
+                        {
+                            transform.parent.GetComponent<GimmickUnlockButtonManagement>().isClientClear = true;
+                        }
+                    }
                 }
+
+                if (transform.parent.GetComponent<GimmickUnlockButtonManagement>().isStartCount)
+                {
+                    if (firstSet)
+                    {
+                        if (HitNames.Count != 0)
+                        {
+                            //入力開始前に１回アンロックボタンの担当を設定
+                            if (HitNames[0] == "Player1")
+                                transform.parent.GetComponent<GimmickUnlockButtonManagement>().CallRpcShareHitPlayerName(0, ObjNum);
+                            else if (HitNames[0] == "Player2")
+                                transform.parent.GetComponent<GimmickUnlockButtonManagement>().CallRpcShareHitPlayerName(1, ObjNum);
+                            else if (HitNames[0] == "CopyKey")
+                                transform.parent.GetComponent<GimmickUnlockButtonManagement>().CallRpcShareHitPlayerName(2, ObjNum);
+
+                            firstSet = false;
+                        }
+                    }
+                }
+                //入力時間終了時、担当のプレイヤーが外される
                 else
                 {
-                    firstInput = true;
-                }
+                    managementPlayerName = "";
 
-                //最初の入力が正解の時、カウント開始
-                if (ClearSituation[0])
-                {
-                    transform.parent.GetComponent<GimmickUnlockButtonManagement>().isStartCount = true;
-                }
-
-                //最後の入力が終わったときクリア情報を送る
-                if (ClearSituation[ClearSituation.Count - 1])
-                {
-                    //マスターかどうか
-                    if (PhotonNetwork.LocalPlayer.IsMasterClient)
+                    if (!transform.parent.gameObject.GetComponent<GimmickUnlockButtonManagement>().isHitUnlockButton1 ||
+                        !transform.parent.gameObject.GetComponent<GimmickUnlockButtonManagement>().isHitUnlockButton2)
                     {
-                        transform.parent.GetComponent<GimmickUnlockButtonManagement>().isOwnerClear = true;
+                        //タイムリミットと回答データ描画終了
+                        transform.parent.GetComponent<GimmickUnlockButtonManagement>().answerArea.SetActive(false);
+                        transform.parent.GetComponent<GimmickUnlockButtonManagement>().timeLimitSlider.SetActive(false);
+                        ManagerAccessor.Instance.dataManager.isUnlockButtonStart = false;
+                        islocalUnlockButtonStart = false;
+                    }
+
+                    firstSet = true;
+                }
+
+                //OnCollisionStay2Dを常に動かす処理
+                rb2d.WakeUp();
+            }
+
+            //入力失敗時、入力情報リセット
+            if (isAnswerReset)
+            {
+                for (int i = 0; i < ClearSituation.Count; i++)
+                {
+                    ClearSituation[i] = false;
+                    transform.parent.gameObject.GetComponent<GimmickUnlockButtonManagement>().clone[i].GetComponent<Image>().color = new Color32(255, 255, 255, 255);
+                }
+
+                isAnswerReset = false;
+            }
+
+            if (isVibration)
+            {
+                if (vibrationCount < vibrationTime)
+                {
+                    vibrationCount++;
+                    if (vibrationCount % 2 == 0)
+                    {
+                        transform.parent.gameObject.GetComponent<GimmickUnlockButtonManagement>().clone[vibrationNum].transform.position += vibrationPower;
                     }
                     else
                     {
-                        transform.parent.GetComponent<GimmickUnlockButtonManagement>().isClientClear = true;
+                        transform.parent.gameObject.GetComponent<GimmickUnlockButtonManagement>().clone[vibrationNum].transform.position -= vibrationPower;
                     }
-                }
-            }
-
-            if(transform.parent.GetComponent<GimmickUnlockButtonManagement>().isStartCount)
-            {
-                if (firstSet)
-                {
-                    if (HitNames.Count != 0)
-                    {
-                        //入力開始前に１回アンロックボタンの担当を設定
-                        if (HitNames[0] == "Player1")
-                            transform.parent.GetComponent<GimmickUnlockButtonManagement>().CallRpcShareHitPlayerName(0, ObjNum);
-                        else if (HitNames[0] == "Player2")
-                            transform.parent.GetComponent<GimmickUnlockButtonManagement>().CallRpcShareHitPlayerName(1, ObjNum);
-                        else if (HitNames[0] == "CopyKey")
-                            transform.parent.GetComponent<GimmickUnlockButtonManagement>().CallRpcShareHitPlayerName(2, ObjNum);
-
-                        firstSet = false;
-                    }
-                }
-            }
-            //入力時間終了時、担当のプレイヤーが外される
-            else
-            {
-                managementPlayerName = "";
-
-                if (!transform.parent.gameObject.GetComponent<GimmickUnlockButtonManagement>().isHitUnlockButton1 ||
-                    !transform.parent.gameObject.GetComponent<GimmickUnlockButtonManagement>().isHitUnlockButton2) 
-                {
-                    //タイムリミットと回答データ描画終了
-                    transform.parent.GetComponent<GimmickUnlockButtonManagement>().answerArea.SetActive(false);
-                    transform.parent.GetComponent<GimmickUnlockButtonManagement>().timeLimitSlider.SetActive(false);
-                    ManagerAccessor.Instance.dataManager.isUnlockButtonStart = false;
-                    islocalUnlockButtonStart = false;
-                }
-
-                firstSet = true;
-            }
-
-            //OnCollisionStay2Dを常に動かす処理
-            rb2d.WakeUp();
-        }
-
-        //入力失敗時、入力情報リセット
-        if(isAnswerReset)
-        {
-            for (int i = 0; i < ClearSituation.Count; i++) 
-            {
-                ClearSituation[i] = false;
-                transform.parent.gameObject.GetComponent<GimmickUnlockButtonManagement>().clone[i].GetComponent<Image>().color = new Color32(255, 255, 255, 255);
-            }
-
-            isAnswerReset = false;
-        }
-
-        if(isVibration)
-        {
-            if (vibrationCount < vibrationTime)
-            {
-                vibrationCount++;
-                if (vibrationCount % 2 == 0)
-                {
-                    transform.parent.gameObject.GetComponent<GimmickUnlockButtonManagement>().clone[vibrationNum].transform.position += vibrationPower;
                 }
                 else
                 {
-                    transform.parent.gameObject.GetComponent<GimmickUnlockButtonManagement>().clone[vibrationNum].transform.position -= vibrationPower;
+                    isVibration = false;
+                    vibrationCount = 0;
+                }
+            }
+
+
+            //ボタンに誰も触れていないときマネージャーに当たっていない判定を送る
+            if (HitNames.Count == 0)
+            {
+                if (first1)
+                {
+                    if (ObjNum == 0)
+                        transform.parent.gameObject.GetComponent<GimmickUnlockButtonManagement>().CallRpcShareHitUnlockButton(true, false);
+                    else if (ObjNum == 1)
+                        transform.parent.gameObject.GetComponent<GimmickUnlockButtonManagement>().CallRpcShareHitUnlockButton(false, false);
+                    first1 = false;
                 }
             }
             else
             {
-                isVibration = false;
-                vibrationCount = 0;
+                first1 = true;
             }
-        }
-
-
-        //ボタンに誰も触れていないときマネージャーに当たっていない判定を送る
-        if (HitNames.Count == 0) 
-        {
-            if (first1)
-            {
-                if (ObjNum == 0)
-                    transform.parent.gameObject.GetComponent<GimmickUnlockButtonManagement>().CallRpcShareHitUnlockButton(true, false);
-                else if (ObjNum == 1)
-                    transform.parent.gameObject.GetComponent<GimmickUnlockButtonManagement>().CallRpcShareHitUnlockButton(false, false);
-                first1 = false;
-            }
-        }
-        else
-        {
-            first1 = true;
         }
     }
 

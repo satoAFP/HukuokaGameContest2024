@@ -84,260 +84,264 @@ public class GimmickRotateBomb : MonoBehaviourPunCallbacks
     // Update is called once per frame
     void FixedUpdate()
     {
-        //データマネージャー取得
-        dataManager = ManagerAccessor.Instance.dataManager;
-
-
-        //入力されていない時全てを初期化する
-        if (!dataManager.isOwnerInputKey_C_R_RIGHT && !dataManager.isOwnerInputKey_C_R_LEFT &&
-            !dataManager.isOwnerInputKey_C_R_UP && !dataManager.isOwnerInputKey_C_R_DOWN)
+        if (!ManagerAccessor.Instance.dataManager.isClear &&
+            !ManagerAccessor.Instance.dataManager.isDeth &&
+            !ManagerAccessor.Instance.dataManager.isPause)
         {
-            if (first1)
+            //データマネージャー取得
+            dataManager = ManagerAccessor.Instance.dataManager;
+
+
+            //入力されていない時全てを初期化する
+            if (!dataManager.isOwnerInputKey_C_R_RIGHT && !dataManager.isOwnerInputKey_C_R_LEFT &&
+                !dataManager.isOwnerInputKey_C_R_UP && !dataManager.isOwnerInputKey_C_R_DOWN)
+            {
+                if (first1)
+                {
+                    if (PhotonNetwork.IsMasterClient)
+                        photonView.RPC(nameof(RpcShareIsMoveStart), RpcTarget.All, true, false);
+                    else
+                        photonView.RPC(nameof(RpcShareIsMoveStart), RpcTarget.All, false, false);
+                    first1 = false;
+                }
+
+                count = 0;
+                rotateSpeedCount = 0;
+                isStop = true;
+                first = true;
+
+                isRight = false;
+                isLeft = false;
+                isUp = false;
+                isDown = false;
+            }
+            else
+            {
+                first1 = true;
+            }
+
+            //入力されていないとき、最初に入力された方向から回転が始まる
+            if (isStop)
+            {
+                if (dataManager.isOwnerInputKey_C_R_RIGHT)
+                {
+                    if (first)
+                    {
+                        isRight = true;
+                        isStop = false;
+                        first = false;
+                    }
+                }
+
+                if (dataManager.isOwnerInputKey_C_R_LEFT)
+                {
+                    if (first)
+                    {
+                        isLeft = true;
+                        isStop = false;
+                        first = false;
+                    }
+                }
+
+                if (dataManager.isOwnerInputKey_C_R_UP)
+                {
+                    if (first)
+                    {
+                        isUp = true;
+                        isStop = false;
+                        first = false;
+                    }
+                }
+
+                if (dataManager.isOwnerInputKey_C_R_DOWN)
+                {
+                    if (first)
+                    {
+                        isDown = true;
+                        isStop = false;
+                        first = false;
+                    }
+                }
+            }
+
+            //前フレームのcount記憶用
+            int memCount = count;
+
+            //回転入力情報取得処理
+            if (hitOwner && hitClient && dataManager.isOwnerHitRight && dataManager.isClientHitRight && dataManager.isOwnerInputKey_C_L_RIGHT && dataManager.isClientInputKey_C_L_RIGHT)
+            {
+                RightRotate();
+                movePower.x = MovePower;
+            }
+            else if (hitOwner && hitClient && dataManager.isOwnerHitLeft && dataManager.isClientHitLeft && dataManager.isOwnerInputKey_C_L_LEFT && dataManager.isClientInputKey_C_L_LEFT)
+            {
+                LeftRotate();
+                movePower.x = -MovePower;
+            }
+
+            //想定の反対方向に回転した時リセット用
+            if (count - memCount == 2)
             {
                 if (PhotonNetwork.IsMasterClient)
                     photonView.RPC(nameof(RpcShareIsMoveStart), RpcTarget.All, true, false);
                 else
                     photonView.RPC(nameof(RpcShareIsMoveStart), RpcTarget.All, false, false);
-                first1 = false;
+
+                count = 0;
             }
 
-            count = 0;
-            rotateSpeedCount = 0;
-            isStop = true;
-            first = true;
 
-            isRight = false;
-            isLeft = false;
-            isUp = false;
-            isDown = false;
-        }
-        else
-        {
-            first1 = true;
-        }
-
-        //入力されていないとき、最初に入力された方向から回転が始まる
-        if (isStop)
-        {
-            if (dataManager.isOwnerInputKey_C_R_RIGHT)
+            //正しく回転した時
+            if (count >= 4)
             {
-                if (first)
+                if (PhotonNetwork.IsMasterClient)
                 {
-                    isRight = true;
-                    isStop = false;
-                    first = false;
+                    photonView.RPC(nameof(RpcShareIsMoveStart), RpcTarget.All, true, true);
                 }
-            }
-
-            if (dataManager.isOwnerInputKey_C_R_LEFT)
-            {
-                if (first)
+                else
                 {
-                    isLeft = true;
-                    isStop = false;
-                    first = false;
+                    photonView.RPC(nameof(RpcShareIsMoveStart), RpcTarget.All, false, true);
                 }
+                count = 0;
             }
 
-            if (dataManager.isOwnerInputKey_C_R_UP)
+            //移動開始
+            if (isOwnerMoveStart && isClientMoveStart)
             {
-                if (first)
+                isTimeLimitStart = true;
+                transform.position += movePower;
+                transform.eulerAngles += new Vector3(0, 0, movePower.x * -RotatoPower);
+                frameCount++;
+            }
+
+            //制限時間開始
+            if (isTimeLimitStart)
+            {
+                //フレームカウント
+                timeLimitCount++;
+
+                //何フレーム毎に色が変わるか
+                int changeTiming = 20;
+
+                //徐々に色が変わる頻度が上がる
+                if (LimitTime * 60 - timeLimitCount < 300)
+                    changeTiming = 15;
+                if (LimitTime * 60 - timeLimitCount < 240)
+                    changeTiming = 12;
+                if (LimitTime * 60 - timeLimitCount < 180)
+                    changeTiming = 10;
+                if (LimitTime * 60 - timeLimitCount < 120)
+                    changeTiming = 6;
+
+
+                //色変更処理
+                if (isColorChangeTiming)
                 {
-                    isUp = true;
-                    isStop = false;
-                    first = false;
-                }
-            }
-
-            if (dataManager.isOwnerInputKey_C_R_DOWN)
-            {
-                if (first)
-                {
-                    isDown = true;
-                    isStop = false;
-                    first = false;
-                }
-            }
-        }
-
-        //前フレームのcount記憶用
-        int memCount = count;
-
-        //回転入力情報取得処理
-        if (hitOwner && hitClient && dataManager.isOwnerHitRight && dataManager.isClientHitRight && dataManager.isOwnerInputKey_C_L_RIGHT && dataManager.isClientInputKey_C_L_RIGHT)
-        {
-            RightRotate();
-            movePower.x = MovePower;
-        }
-        else if (hitOwner && hitClient && dataManager.isOwnerHitLeft && dataManager.isClientHitLeft && dataManager.isOwnerInputKey_C_L_LEFT && dataManager.isClientInputKey_C_L_LEFT)
-        {
-            LeftRotate();
-            movePower.x = -MovePower;
-        }
-
-        //想定の反対方向に回転した時リセット用
-        if (count - memCount == 2)
-        {
-            if (PhotonNetwork.IsMasterClient)
-                photonView.RPC(nameof(RpcShareIsMoveStart), RpcTarget.All, true, false);
-            else
-                photonView.RPC(nameof(RpcShareIsMoveStart), RpcTarget.All, false, false);
-
-            count = 0;
-        }
-
-
-        //正しく回転した時
-        if (count >= 4)
-        {
-            if (PhotonNetwork.IsMasterClient)
-            {
-                photonView.RPC(nameof(RpcShareIsMoveStart), RpcTarget.All, true, true);
-            }
-            else
-            {
-                photonView.RPC(nameof(RpcShareIsMoveStart), RpcTarget.All, false, true);
-            }
-            count = 0;
-        }
-
-        //移動開始
-        if (isOwnerMoveStart && isClientMoveStart) 
-        {
-            isTimeLimitStart = true;
-            transform.position += movePower;
-            transform.eulerAngles += new Vector3(0, 0, movePower.x * -RotatoPower);
-            frameCount++;
-        }
-
-        //制限時間開始
-        if(isTimeLimitStart)
-        {
-            //フレームカウント
-            timeLimitCount++;
-
-            //何フレーム毎に色が変わるか
-            int changeTiming = 20;
-
-            //徐々に色が変わる頻度が上がる
-            if (LimitTime * 60 - timeLimitCount < 300)
-                changeTiming = 15;
-            if (LimitTime * 60 - timeLimitCount < 240)
-                changeTiming = 12;
-            if (LimitTime * 60 - timeLimitCount < 180)
-                changeTiming = 10;
-            if (LimitTime * 60 - timeLimitCount < 120)
-                changeTiming = 6;
-
-
-            //色変更処理
-            if (isColorChangeTiming)
-            {
-                if (timeLimitCount % changeTiming == 0) 
-                {
-                    isColorChangeTiming = false;
-                    GetComponent<SpriteRenderer>().color = new Color(1, 0, 0, 1);
-
-                    //SE再生
-                    audioSource.PlayOneShot(countSE);
-                }
-            }
-            else
-            {
-                if (timeLimitCount % changeTiming == 0)
-                {
-                    isColorChangeTiming = true;
-                    GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 1);
-
-                    //SE再生
-                    audioSource.PlayOneShot(countSE);
-                }
-            }
-
-
-            //爆発開始
-            if (LimitTime * 60 == timeLimitCount)
-            {
-                GameObject[] obstacles = GameObject.FindGameObjectsWithTag("Obstacle");
-
-                for (int i = 0; i < obstacles.Length; i++)
-                {
-                    //自身と破壊できるオブジェクトの二転換距離を取得
-                    Vector2 obsPos = obstacles[i].transform.position;
-                    float dis = Mathf.Sqrt(Mathf.Pow(obsPos.x - transform.position.x, 2) + Mathf.Pow(obsPos.y - transform.position.y, 2));
-
-                    //破壊できるオブジェクトが爆発範囲内にいるとき破壊
-                    if (dis < ExplosionRange)
+                    if (timeLimitCount % changeTiming == 0)
                     {
-                        obstacles[i].GetComponent<GimmickDestroyBlock>().DestroyStart = true;
+                        isColorChangeTiming = false;
+                        GetComponent<SpriteRenderer>().color = new Color(1, 0, 0, 1);
+
+                        //SE再生
+                        audioSource.PlayOneShot(countSE);
+                    }
+                }
+                else
+                {
+                    if (timeLimitCount % changeTiming == 0)
+                    {
+                        isColorChangeTiming = true;
+                        GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 1);
+
+                        //SE再生
+                        audioSource.PlayOneShot(countSE);
                     }
                 }
 
-                //爆発時入力内容を非表示
-                if (hitObjName == "Player1")
-                    ManagerAccessor.Instance.dataManager.player1.transform.GetChild(1).gameObject.SetActive(false);
-                if (hitObjName == "Player2")
-                    ManagerAccessor.Instance.dataManager.player2.transform.GetChild(1).gameObject.SetActive(false);
-                if (hitObjName == "CopyKey")
-                    copyKeyObj.transform.GetChild(1).gameObject.SetActive(false);
 
-                //エフェクト生成
-                GameObject clone = Instantiate(BombEffect);
-                clone.transform.position = transform.position;
-                clone.transform.localScale = new Vector3(ExplosionRange, ExplosionRange, 1);
-
-                //すべて破壊し終えると自身も消滅
-                Destroy(gameObject);
-            }
-        }
-
-        
-        if (PhotonNetwork.LocalPlayer.IsMasterClient)
-        {
-            //座標同期
-            if (frameCount == PosUpData)
-            {
-                photonView.RPC(nameof(RpcSharePos), RpcTarget.Others, transform.position.x, transform.position.y);
-                frameCount = 0;
-            }
-
-            //画像の非表示のラグを発生させる
-            if(!hitOwner)
-            {
-                displayTimeCount++;
-                if (displayTimeCount == DisplayTime)
+                //爆発開始
+                if (LimitTime * 60 == timeLimitCount)
                 {
-                    if (PhotonNetwork.IsMasterClient)
-                        photonView.RPC(nameof(RpcShareIsMoveStart), RpcTarget.All, true, false);
-                    else
-                        photonView.RPC(nameof(RpcShareIsMoveStart), RpcTarget.All, false, false);
+                    GameObject[] obstacles = GameObject.FindGameObjectsWithTag("Obstacle");
 
+                    for (int i = 0; i < obstacles.Length; i++)
+                    {
+                        //自身と破壊できるオブジェクトの二転換距離を取得
+                        Vector2 obsPos = obstacles[i].transform.position;
+                        float dis = Mathf.Sqrt(Mathf.Pow(obsPos.x - transform.position.x, 2) + Mathf.Pow(obsPos.y - transform.position.y, 2));
+
+                        //破壊できるオブジェクトが爆発範囲内にいるとき破壊
+                        if (dis < ExplosionRange)
+                        {
+                            obstacles[i].GetComponent<GimmickDestroyBlock>().DestroyStart = true;
+                        }
+                    }
+
+                    //爆発時入力内容を非表示
                     if (hitObjName == "Player1")
                         ManagerAccessor.Instance.dataManager.player1.transform.GetChild(1).gameObject.SetActive(false);
+                    if (hitObjName == "Player2")
+                        ManagerAccessor.Instance.dataManager.player2.transform.GetChild(1).gameObject.SetActive(false);
                     if (hitObjName == "CopyKey")
                         copyKeyObj.transform.GetChild(1).gameObject.SetActive(false);
+
+                    //エフェクト生成
+                    GameObject clone = Instantiate(BombEffect);
+                    clone.transform.position = transform.position;
+                    clone.transform.localScale = new Vector3(ExplosionRange, ExplosionRange, 1);
+
+                    //すべて破壊し終えると自身も消滅
+                    Destroy(gameObject);
                 }
             }
-        }
-        else
-        {
-            //画像の非表示のラグを発生させる
-            if (!hitClient)
+
+
+            if (PhotonNetwork.LocalPlayer.IsMasterClient)
             {
-                displayTimeCount++;
-                if (displayTimeCount == DisplayTime)
+                //座標同期
+                if (frameCount == PosUpData)
                 {
-                    if (PhotonNetwork.IsMasterClient)
-                        photonView.RPC(nameof(RpcShareIsMoveStart), RpcTarget.All, true, false);
-                    else
-                        photonView.RPC(nameof(RpcShareIsMoveStart), RpcTarget.All, false, false);
+                    photonView.RPC(nameof(RpcSharePos), RpcTarget.Others, transform.position.x, transform.position.y);
+                    frameCount = 0;
+                }
 
-                    ManagerAccessor.Instance.dataManager.player2.transform.GetChild(1).gameObject.SetActive(false);
+                //画像の非表示のラグを発生させる
+                if (!hitOwner)
+                {
+                    displayTimeCount++;
+                    if (displayTimeCount == DisplayTime)
+                    {
+                        if (PhotonNetwork.IsMasterClient)
+                            photonView.RPC(nameof(RpcShareIsMoveStart), RpcTarget.All, true, false);
+                        else
+                            photonView.RPC(nameof(RpcShareIsMoveStart), RpcTarget.All, false, false);
+
+                        if (hitObjName == "Player1")
+                            ManagerAccessor.Instance.dataManager.player1.transform.GetChild(1).gameObject.SetActive(false);
+                        if (hitObjName == "CopyKey")
+                            copyKeyObj.transform.GetChild(1).gameObject.SetActive(false);
+                    }
                 }
             }
-        }
+            else
+            {
+                //画像の非表示のラグを発生させる
+                if (!hitClient)
+                {
+                    displayTimeCount++;
+                    if (displayTimeCount == DisplayTime)
+                    {
+                        if (PhotonNetwork.IsMasterClient)
+                            photonView.RPC(nameof(RpcShareIsMoveStart), RpcTarget.All, true, false);
+                        else
+                            photonView.RPC(nameof(RpcShareIsMoveStart), RpcTarget.All, false, false);
 
-        
+                        ManagerAccessor.Instance.dataManager.player2.transform.GetChild(1).gameObject.SetActive(false);
+                    }
+                }
+            }
+
+        }
 
     }
 

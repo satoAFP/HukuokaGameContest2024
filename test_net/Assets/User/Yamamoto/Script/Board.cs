@@ -31,7 +31,7 @@ public class Board : MonoBehaviourPunCallbacks
     private int collecttime;
 
     [SerializeField]
-    private int holdtime;//設定したアイテム回収時間を代入する
+    public int holdtime;//設定したアイテム回収時間を代入する
 
     private bool firstcorsor = false;//カーソルを移動させるたびにボタンの表示を変える
 
@@ -64,6 +64,9 @@ public class Board : MonoBehaviourPunCallbacks
         collider.isTrigger = true;//コライダーのトリガー化
 
         holdtime = collecttime;//長押しカウント時間を初期化
+
+        //全体からコピー鍵取得
+        ManagerAccessor.Instance.dataManager.board = gameObject;
 
         ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().cursorlock = true;//カーソル移動ロック
 
