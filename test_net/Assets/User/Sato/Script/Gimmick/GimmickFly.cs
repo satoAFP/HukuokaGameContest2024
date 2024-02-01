@@ -86,10 +86,13 @@ public class GimmickFly : MonoBehaviourPunCallbacks
         //データマネージャー取得
         dataManager = ManagerAccessor.Instance.dataManager;
 
+        //ポーズ中は止まる
         if (!ManagerAccessor.Instance.dataManager.isClear &&
             !ManagerAccessor.Instance.dataManager.isDeth &&
             !ManagerAccessor.Instance.dataManager.isPause)
         {
+            rigidbody.simulated = true;
+
             if (!isStart)
             {
                 if (PhotonNetwork.LocalPlayer.IsMasterClient)
@@ -500,6 +503,7 @@ public class GimmickFly : MonoBehaviourPunCallbacks
         else
         {
             rigidbody.velocity = new Vector2(0, 0);
+            rigidbody.simulated = false;
         }
     }
 
