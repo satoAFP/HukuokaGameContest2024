@@ -159,7 +159,8 @@ public class CopyKey : MonoBehaviourPunCallbacks
 
 
                 //移動アニメーションが再生されているとき効果音を鳴らす
-                if (animplay)
+                if (animplay
+                 && !ManagerAccessor.Instance.dataManager.isPause)
                 {
 
                     if (oneSE)
@@ -235,25 +236,7 @@ public class CopyKey : MonoBehaviourPunCallbacks
 
             }
 
-            //ゲームパッド下ボタンで置きなおし
-            //if (datamanager.isOwnerInputKey_C_D_DOWN)
-            //{
-            //    holdtime--;//長押しカウントダウン
-
-            //    //ゲームパッド下ボタン長押しで回収
-            //    if (holdtime <= 0)//回収カウントが0になると回収
-            //    {
-            //        Destroy(gameObject);
-
-            //        //コピー鍵出現中フラグ
-            //        ManagerAccessor.Instance.dataManager.isAppearCopyKey = false;
-            //        ManagerAccessor.Instance.dataManager.copyKey = null;
-            //    }
-            //}
-            //else
-            //{
-            //    holdtime = collecttime;//長押しカウントリセット
-            //}
+          
         }
       
           
