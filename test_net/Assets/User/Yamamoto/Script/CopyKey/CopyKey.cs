@@ -23,6 +23,8 @@ public class CopyKey : MonoBehaviourPunCallbacks
 
     [System.NonSerialized] public bool bjump;//連続でジャンプさせないフラグ
 
+    private bool firstlanding = true;//一度だけ床に着地した時の処理を通す
+
     [SerializeField, Header("鍵回収時間（大体60で１秒）")]
     private int collecttime;
 
@@ -92,6 +94,38 @@ public class CopyKey : MonoBehaviourPunCallbacks
         if (ManagerAccessor.Instance.dataManager.isDeth)
         {
             Destroy(gameObject);//プレイヤーが死亡したときコピーキー削除
+        }
+
+        //プレイヤーが床に着いているかを判断する変数を共有
+        if (PhotonNetwork.IsMasterClient)
+        {
+            bjump = !ManagerAccessor.Instance.dataManager.isOwnerHitDown;
+        }
+
+        //一度だけ着地した処理を通す
+        if (photonView.IsMine)
+        {
+            if (inputDirection.x != 0)//移動中のみ処理を通す
+            {
+                if (PhotonNetwork.IsMasterClient)
+                {
+                    if (datamanager.isOwnerHitDown)
+                    {
+                        if (firstlanding)
+                        {
+                            photonView.RPC(nameof(RpcMoveAnimPlay), RpcTarget.All);
+                            firstlanding = false;
+                        }
+                    }
+                    else
+                    {
+                        if (!firstlanding)
+                        {
+                            firstlanding = true;
+                        }
+                    }
+                }
+            }
         }
 
         //プレイヤーがゲームオーバーになっていなければコピーキーの基本操作許可
@@ -313,12 +347,7 @@ public class CopyKey : MonoBehaviourPunCallbacks
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        //プレイヤーが床または着地出来るものに乗っている時、再ジャンプ可能にする
-        if (collision.gameObject.tag == "Floor")
-        {
-            bjump = false;
-        }
-
+        
         //プレイヤーが落下した時、ゲームオーバーの処理をする
         if (collision.gameObject.tag == "DeathField")
         {

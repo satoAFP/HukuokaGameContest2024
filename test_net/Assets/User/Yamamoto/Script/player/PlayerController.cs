@@ -242,6 +242,11 @@ public class PlayerController : MonoBehaviourPunCallbacks
                 }
             }
         }
+
+        if(isFly)
+        {
+            VecZero();//飛んでいる時にベクトルを0にする
+        }
        
         //死亡時とポーズ時に全ての処理を止める
         if (datamanager.isDeth || ManagerAccessor.Instance.dataManager.isPause)
@@ -251,7 +256,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
             {
                 if (veczero)
                 {
-                    rigid.velocity = new Vector2(0, 0);//元のベクトルを0にする
+                    VecZero();//元のベクトルを0にする
                     veczero = false;
                 }
               
@@ -731,7 +736,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
         {
             if (veczero)
             {
-                rigid.velocity = new Vector2(0, 0);//元のベクトルを0にする
+                VecZero();//元のベクトルを0にする
                 veczero = false;
             }
            
@@ -875,6 +880,11 @@ public class PlayerController : MonoBehaviourPunCallbacks
         }
     }
 
+    //ベクトルを0にする関数
+    private void VecZero()
+    {
+        rigid.velocity = new Vector2(0, 0);//元のベクトルを0にする
+    }
 
     [PunRPC]
     //boxopen変数を共有する
