@@ -144,7 +144,7 @@ Library: lib_burst_generated
 --compilation-defines=CINEMACHINE_UNITY_IMGUI
 --compilation-defines=TIMELINE_FRAMEACCURATE
 --compilation-defines=ENABLE_SPRITESHAPE_BURST
---linker-options=PdbAltPath="test_net_Data/Plugins/x86_64"
+--linker-options=PdbAltPath="コラプスダンジョン_Data/Plugins/x86_64"
 --generate-link-xml=Temp\burst.link.xml
 --output=C:\Users\GA4\Desktop\新しいフォルダー\test_net\Temp\StagingArea\Data\Plugins\x86_64\lib_burst_generated
 --root-assembly=C:\Users\GA4\Desktop\新しいフォルダー\test_net\Temp\StagingArea\Data\Managed\UnityEngine.UI.dll
@@ -322,7 +322,7 @@ Library: lib_burst_generated
 --compilation-defines=CINEMACHINE_UNITY_IMGUI
 --compilation-defines=TIMELINE_FRAMEACCURATE
 --compilation-defines=ENABLE_SPRITESHAPE_BURST
---linker-options=PdbAltPath="test_net_Data/Plugins/x86_64"
+--linker-options=PdbAltPath="コラプスダンジョン_Data/Plugins/x86_64"
 --generate-link-xml=Temp\burst.link.xml
 --output=C:\Users\GA4\Desktop\新しいフォルダー\test_net\Temp\StagingArea\Data\Plugins\x86_64\lib_burst_generated
 --root-assembly=C:\Users\GA4\Desktop\新しいフォルダー\test_net\Temp\StagingArea\Data\Managed\UnityEngine.UI.dll
