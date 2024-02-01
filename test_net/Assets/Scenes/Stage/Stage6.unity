@@ -1750,7 +1750,7 @@ GameObject:
   - component: {fileID: 218261704}
   - component: {fileID: 218261703}
   m_Layer: 0
-  m_Name: Ground (7)
+  m_Name: Ground (11)
   m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8899,7 +8899,7 @@ GameObject:
   - component: {fileID: 1035042174}
   - component: {fileID: 1035042173}
   m_Layer: 0
-  m_Name: Ground (8)
+  m_Name: Ground (12)
   m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
