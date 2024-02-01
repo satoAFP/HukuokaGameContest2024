@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5137591158627176382}
   - component: {fileID: 8374471084891326870}
   - component: {fileID: 5822563961305454154}
+  - component: {fileID: 4431044694277362654}
   m_Layer: 0
   m_Name: GimmickStone
   m_TagString: Untagged
@@ -97,3 +98,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 149d0be1645e08e4fb32f32f3565c55d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &4431044694277362654
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3540324080980890713}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
