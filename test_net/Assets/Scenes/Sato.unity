@@ -2739,6 +2739,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: GimmickStone
       objectReference: {fileID: 0}
+    - target: {fileID: 4431044694277362654, guid: 8eb782aaf72fa6444a9128f4d1289cc8, type: 3}
+      propertyPath: sceneViewId
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 5137591158627176382, guid: 8eb782aaf72fa6444a9128f4d1289cc8, type: 3}
       propertyPath: m_RootOrder
       value: 22

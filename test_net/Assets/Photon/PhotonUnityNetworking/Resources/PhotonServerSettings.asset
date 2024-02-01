@@ -99,6 +99,7 @@ MonoBehaviour:
   - RpcIconColorChange
   - RpcIconColorChangeDefault
   - RpcShareCursorLock
+  - RpcShareHitStone
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
