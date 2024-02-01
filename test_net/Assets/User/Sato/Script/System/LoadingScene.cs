@@ -5,16 +5,16 @@ using Photon.Pun;
 
 public class LoadingScene : MonoBehaviourPunCallbacks
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        if (PhotonNetwork.IsMasterClient)
-            ManagerAccessor.Instance.sceneMoveManager.SceneMoveName(GlobalSceneName.SceneName);
-    }
+    private bool first = true;
 
     // Update is called once per frame
     void Update()
     {
-        
+        if(first)
+        {
+            if (PhotonNetwork.IsMasterClient)
+                ManagerAccessor.Instance.sceneMoveManager.SceneMoveName(GlobalSceneName.SceneName);
+            first = false;
+        }
     }
 }
