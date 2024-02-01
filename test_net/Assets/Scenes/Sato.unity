@@ -1287,6 +1287,7 @@ GameObject:
   - component: {fileID: 1956281511}
   - component: {fileID: 1956281510}
   - component: {fileID: 1956281509}
+  - component: {fileID: 1956281512}
   m_Layer: 0
   m_Name: GimmickFallStoneManagement
   m_TagString: Untagged
@@ -1375,6 +1376,28 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 23
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1956281512
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1956281508}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 9
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!224 &1993352962 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4185889048378788936, guid: d8567279ab45fd347b51764709bc0225, type: 3}
