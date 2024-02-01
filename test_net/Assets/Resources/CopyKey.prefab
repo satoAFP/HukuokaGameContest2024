@@ -1098,6 +1098,14 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: c61a7bb8-c30c-4326-9351-9c666c3f6d97
     m_ActionName: Player/RightStick
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 8b4185f7-8b1c-439e-b908-0369a6a0d4a3
+    m_ActionName: Player/PausePress[/XInputControllerWindows/start]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: da0e7d3c-8303-48e9-9346-c71895cec646
+    m_ActionName: Player/PauseRelease[/XInputControllerWindows/start]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player

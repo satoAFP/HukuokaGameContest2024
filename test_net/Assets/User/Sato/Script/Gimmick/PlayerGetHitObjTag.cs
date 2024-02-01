@@ -19,6 +19,7 @@ public class PlayerGetHitObjTag : MonoBehaviourPunCallbacks
     {
         if (collision.tag == "Floor" || collision.tag == "Gimmick")
         {
+            //当たり判定がないときは動作しない
             if (!collision.GetComponent<BoxCollider2D>().isTrigger)
             {
                 //触れたオブジェクトのタグ記憶
@@ -29,12 +30,16 @@ public class PlayerGetHitObjTag : MonoBehaviourPunCallbacks
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        //出たオブジェクトのタグを消去
-        for (int i = 0; i < HitTags.Count; i++)
+        //当たり判定がないときは動作しない
+        if (!collision.GetComponent<BoxCollider2D>().isTrigger)
         {
-            if (HitTags[i] == collision.tag)
+            //出たオブジェクトのタグを消去
+            for (int i = 0; i < HitTags.Count; i++)
             {
-                HitTags.RemoveAt(i);
+                if (HitTags[i] == collision.tag)
+                {
+                    HitTags.RemoveAt(i);
+                }
             }
         }
     }
