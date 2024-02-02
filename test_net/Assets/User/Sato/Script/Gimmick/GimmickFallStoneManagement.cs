@@ -16,14 +16,18 @@ public class GimmickFallStoneManagement : MonoBehaviourPunCallbacks
 
     private void Start()
     {
-        for (int i = 0; i < AddCreateNum; i++) 
+        //マスターのみ生成
+        if (PhotonNetwork.IsMasterClient)
         {
-            //範囲内のランダムな座標
-            Vector2 pos = new Vector2(Random.Range(transform.position.x - transform.localScale.x / 2, transform.position.x + transform.localScale.x / 2),
-                transform.position.y - stone.GetComponent<GimmickFallStone>().Speed.y * CreateFrame * i);
+            for (int i = 0; i < AddCreateNum; i++)
+            {
+                //範囲内のランダムな座標
+                Vector2 pos = new Vector2(Random.Range(transform.position.x - transform.localScale.x / 2, transform.position.x + transform.localScale.x / 2),
+                    transform.position.y - stone.GetComponent<GimmickFallStone>().Speed.y * CreateFrame * i);
 
-            //初期生成落石
-            PhotonNetwork.Instantiate("GimmickStone", pos, Quaternion.identity);
+                //初期生成落石
+                PhotonNetwork.Instantiate("GimmickStone", pos, Quaternion.identity);
+            }
         }
     }
 
