@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 732d651766182f442b44a6fe49847738, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StageNum: 8
+  StageNum: 9
   MissFrame: 40
   BGM: {fileID: 0}
   StarEffect: {fileID: 8247187840347389312, guid: 3be1b7c10520b31409c5723d0e6d4f91, type: 3}

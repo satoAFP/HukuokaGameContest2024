@@ -13582,7 +13582,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3640050777005745421, guid: 30141d95ffc039a438524da9584e6ea7, type: 3}
       propertyPath: isLast
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5450645839097356936, guid: 30141d95ffc039a438524da9584e6ea7, type: 3}
       propertyPath: m_Text
