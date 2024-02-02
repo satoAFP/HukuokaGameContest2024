@@ -19,6 +19,7 @@ public class GimmickFallStone : MonoBehaviour
             transform.position -= Speed;
 
             //ˆê’èŠÔ‚ÅÁ‚¦‚é
+            frameCount++;
             if (frameCount == DeleteTime) 
             {
                 Destroy(gameObject);
@@ -26,8 +27,8 @@ public class GimmickFallStone : MonoBehaviour
         }
 
         //ƒNƒŠƒA‚à‚µ‚­‚Í€–SÁ‚¦‚é
-        if (!ManagerAccessor.Instance.dataManager.isClear &&
-            !ManagerAccessor.Instance.dataManager.isDeth)
+        if (ManagerAccessor.Instance.dataManager.isClear &&
+            ManagerAccessor.Instance.dataManager.isDeth)
         {
             Destroy(gameObject);
         }
