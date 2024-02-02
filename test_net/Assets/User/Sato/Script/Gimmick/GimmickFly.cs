@@ -558,8 +558,11 @@ public class GimmickFly : MonoBehaviourPunCallbacks
 
             if (collision.gameObject.tag == "FallStone")
             {
-                photonView.RPC(nameof(RpcShareHitStone), RpcTarget.All, collision.transform.position.x, collision.transform.position.y);
-                Destroy(collision.gameObject);
+                if (PhotonNetwork.IsMasterClient)
+                {
+                    photonView.RPC(nameof(RpcShareHitStone), RpcTarget.All, collision.transform.position.x, collision.transform.position.y);
+                    Destroy(collision.gameObject);
+                }
             }
         }
         else
@@ -575,7 +578,10 @@ public class GimmickFly : MonoBehaviourPunCallbacks
 
             if (collision.gameObject.tag == "FallStone")
             {
-                Destroy(collision.gameObject);
+                if (PhotonNetwork.IsMasterClient)
+                {
+                    Destroy(collision.gameObject);
+                }
             }
         }
 

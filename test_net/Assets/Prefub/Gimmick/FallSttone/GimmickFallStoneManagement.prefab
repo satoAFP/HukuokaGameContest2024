@@ -100,6 +100,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stone: {fileID: 3540324080980890713, guid: 8eb782aaf72fa6444a9128f4d1289cc8, type: 3}
   CreateFrame: 60
+  AddCreateNum: 5
 --- !u!114 &5197877022304042227
 MonoBehaviour:
   m_ObjectHideFlags: 0

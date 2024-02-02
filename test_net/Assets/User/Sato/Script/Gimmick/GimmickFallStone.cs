@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GimmickFallStone : MonoBehaviour
 {
-    [SerializeField, Header("落下速度")] private Vector3 Speed;
+    [SerializeField, Header("落下速度")] public Vector3 Speed;
 
     [SerializeField, Header("消えるまでのフレーム")] private int DeleteTime;
 
