@@ -523,16 +523,13 @@ public class GimmickFly : MonoBehaviourPunCallbacks
             gameObject.transform.GetChild(2).GetComponent<SpriteRenderer>().color = new Color(0, 0, 0, 0);
             gameObject.transform.GetChild(3).GetComponent<SpriteRenderer>().color = new Color(0, 0, 0, 0);
 
-            if (gameObject.GetComponent<SpriteRenderer>().color.a != 0) 
+            if (gameObject.GetComponent<SpriteRenderer>().color.a <= 0) 
             {
                 gameObject.GetComponent<SpriteRenderer>().color -= new Color(0, 0, 0, 0.01f);
                 gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().color -= new Color(0, 0, 0, 0.01f);
                 gameObject.transform.GetChild(1).GetComponent<SpriteRenderer>().color -= new Color(0, 0, 0, 0.01f);
             }
-
             //óéêŒÇ≈ÇÃéuñ]èàóù
-            //hitStoneDethTimeCount++;
-            //if (hitStoneDethTimeCount == HitStoneDethTime)
             else
             {
                 if (PhotonNetwork.IsMasterClient)

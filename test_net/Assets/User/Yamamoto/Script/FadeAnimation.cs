@@ -52,8 +52,9 @@ public class FadeAnimation : MonoBehaviourPunCallbacks
                 {
                     anim.SetBool("FadeOut", true);//フェードアウトアニメーション開始
                     firstfadeout = false;
+                    Debug.Log("aaa");
                 }
-
+                Debug.Log("bbb");
             }
         }
 
