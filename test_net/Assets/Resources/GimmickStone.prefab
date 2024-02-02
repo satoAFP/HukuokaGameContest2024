@@ -10,11 +10,12 @@ GameObject:
   m_Component:
   - component: {fileID: 5137591158627176382}
   - component: {fileID: 8374471084891326870}
+  - component: {fileID: 2509920442707054796}
   - component: {fileID: 5822563961305454154}
   - component: {fileID: 4431044694277362654}
   m_Layer: 0
   m_Name: GimmickStone
-  m_TagString: Untagged
+  m_TagString: FallStone
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -74,7 +75,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 10
   m_Sprite: {fileID: 21300000, guid: acf7ec7b082d1d844915fabbfa3767c5, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -86,6 +87,32 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!61 &2509920442707054796
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3540324080980890713}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1, y: 1}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
 --- !u!114 &5822563961305454154
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -98,6 +125,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 149d0be1645e08e4fb32f32f3565c55d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  speed: {x: 0, y: 0.05, z: 0}
 --- !u!114 &4431044694277362654
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -4,15 +4,17 @@ using UnityEngine;
 
 public class GimmickFallStone : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField, Header("落下速度")] private Vector3 speed;
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        
+        //ポーズ中は止まる
+        if (!ManagerAccessor.Instance.dataManager.isClear &&
+            !ManagerAccessor.Instance.dataManager.isDeth &&
+            !ManagerAccessor.Instance.dataManager.isPause)
+        {
+            transform.position -= speed;
+        }
     }
 }
