@@ -98,7 +98,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce2e672bcf553aa40971c9479eecbc24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stone: {fileID: 0}
+  stone: {fileID: 3540324080980890713, guid: 8eb782aaf72fa6444a9128f4d1289cc8, type: 3}
   CreateFrame: 60
 --- !u!114 &5197877022304042227
 MonoBehaviour:
