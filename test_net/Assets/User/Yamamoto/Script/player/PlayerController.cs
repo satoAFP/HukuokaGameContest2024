@@ -243,7 +243,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
             }
         }
 
-        if(isFly)
+        if(ManagerAccessor.Instance.dataManager.isFlyStart)
         {
             VecZero();//”ò‚ñ‚Å‚¢‚éŽž‚ÉƒxƒNƒgƒ‹‚ð0‚É‚·‚é
         }
