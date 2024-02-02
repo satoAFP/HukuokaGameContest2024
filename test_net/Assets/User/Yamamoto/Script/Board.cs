@@ -175,26 +175,26 @@ public class Board : MonoBehaviourPunCallbacks
                 firstcorsor = true;
             }
 
-            //十字キー下でアイテム回収
-            if (datamanager.isOwnerInputKey_C_D_DOWN)
-            {
-                holdtime--;//長押しカウントダウン
+            ////十字キー下でアイテム回収
+            //if (datamanager.isOwnerInputKey_C_D_DOWN)
+            //{
+            //    holdtime--;//長押しカウントダウン
 
-                ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().generatestop = true;//鍵の生成を止める
-                ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().cursorlock = true;//カーソル移動を止める
-                ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().keymovelock = true;//鍵の移動させない
+            //    ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().generatestop = true;//鍵の生成を止める
+            //    ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().cursorlock = true;//カーソル移動を止める
+            //    ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().keymovelock = true;//鍵の移動させない
 
-                //ゲームパッド下ボタン長押しで回収
-                if (holdtime <= 0)//回収カウントが0になると回収
-                {
-                    DeleteBoard();
-                }
+            //    //ゲームパッド下ボタン長押しで回収
+            //    if (holdtime <= 0)//回収カウントが0になると回収
+            //    {
+            //        DeleteBoard();
+            //    }
 
-            }
-            else
-            {
-                holdtime = collecttime;//長押しカウントリセット
-            }
+            //}
+            //else
+            //{
+            //    holdtime = collecttime;//長押しカウントリセット
+            //}
         }
         else
         {

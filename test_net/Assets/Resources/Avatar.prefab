@@ -979,6 +979,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: e47e89d2683621f46be2cf967aee4909, type: 3}
   BoxplayerSE:
   - {fileID: 8300000, guid: 4138704c63843df47a1e4899c5093129, type: 3}
+  collecttime: 30
+  holdtime: 0
 --- !u!114 &5643572740733532904
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -121,6 +121,12 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
     private bool veczero = true;//一フレームだけベクトルを0にする処理を行う
 
+    [SerializeField, Header("鍵回収時間（大体60で１秒）")]
+    private int collecttime;
+
+    [SerializeField]
+    public int holdtime;//設定したアイテム回収時間を代入する
+
     void Start()
     {
 
@@ -131,6 +137,8 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
         //名前とIDを設定
         gameObject.name = "Player" + photonView.OwnerActorNr;
+
+        holdtime = collecttime;//長押しカウント時間を初期化
 
         //プレイヤーによってイラストを変える＆データマネージャー設定
         if (gameObject.name == "Player1")
@@ -194,7 +202,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
         //一度だけ着地した処理を通す
         if(photonView.IsMine)
         {
-            if (inputDirection.x != 0)
+            if (inputDirection.x != 0)//移動中のみ処理を通す
             {
                 if (PhotonNetwork.IsMasterClient)
                 {
@@ -202,7 +210,6 @@ public class PlayerController : MonoBehaviourPunCallbacks
                     {
                         if (firstlanding)
                         {
-                            Debug.Log("着地");
                             photonView.RPC(nameof(RpcMoveAnimPlay), RpcTarget.All);
                             firstlanding = false;
                         }
@@ -235,6 +242,11 @@ public class PlayerController : MonoBehaviourPunCallbacks
                 }
             }
         }
+
+        if(isFly)
+        {
+            VecZero();//飛んでいる時にベクトルを0にする
+        }
        
         //死亡時とポーズ時に全ての処理を止める
         if (datamanager.isDeth || ManagerAccessor.Instance.dataManager.isPause)
@@ -244,7 +256,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
             {
                 if (veczero)
                 {
-                    rigid.velocity = new Vector2(0, 0);//元のベクトルを0にする
+                    VecZero();//元のベクトルを0にする
                     veczero = false;
                 }
               
@@ -460,31 +472,91 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
                         //コントローラーの下ボタンを押したとき箱を閉じる・またはコピーキーが死んだとき板を出していなければ閉じる
                         if (datamanager.isOwnerInputKey_C_D_DOWN
-                             && !ManagerAccessor.Instance.dataManager.isUnlockButtonStart
-                             || copykeydelete)
+                             && !ManagerAccessor.Instance.dataManager.isUnlockButtonStart)
                         {
+                            
                             //箱を閉じて移動ロックを解除
-                            if (gameObject.name == "Player1" && boxopen)
+                            if (gameObject.name == "Player1")
                             {
-                                change_boxopenimage = false;//箱を閉じた画像にする
-                                cursorlock = true;//カーソル移動を止める
-
-                                //当たり判定を戻す
-                                GetComponent<BoxCollider2D>().isTrigger = false;
-                                GetComponent<Rigidbody2D>().simulated = true;
-
-                                if (!firstmovelock)
+                                if (copykeydelete)//コピーキーが削除されたとき
                                 {
-                                   
-                                    transform.GetChild(0).gameObject.SetActive(false); //吹き出しを非表示
-                                    photonView.RPC(nameof(RpcShareMoveLock), RpcTarget.All, false);//箱の移動の制限解除
-                                    firstmovelock = true;
+                                    //板を出していなければ箱を閉じる処理をする
+                                    if (ManagerAccessor.Instance.dataManager.board == null)
+                                    {
+                                        //コピー鍵出現中フラグ
+                                        ManagerAccessor.Instance.dataManager.isAppearCopyKey = false;
+                                        ManagerAccessor.Instance.dataManager.copyKey = null;
+
+                                        change_boxopenimage = false;//箱を閉じた画像にする
+                                        cursorlock = true;//カーソル移動を止める
+
+                                        //当たり判定を戻す
+                                        GetComponent<BoxCollider2D>().isTrigger = false;
+                                        GetComponent<Rigidbody2D>().simulated = true;
+
+                                        holdtime = collecttime;//長押しカウントリセット
+
+                                        if (!firstmovelock)
+                                        {
+                                            transform.GetChild(0).gameObject.SetActive(false); //吹き出しを非表示
+                                            photonView.RPC(nameof(RpcShareMoveLock), RpcTarget.All, false);//箱の移動の制限解除
+                                            firstmovelock = true;
+                                        }
+
+                                        copykeydelete = false;//コピーキー削除済みフラグリセット
+                                        firstboxopen = true;//boxopenフラグ共有再会
+                                    }
+                                    else
+                                    {
+                                        copykeydelete = false;//コピーキー削除済みフラグリセット
+                                    }
                                 }
-                                //movelock = false;
-                               
-                                copykeydelete = false;//コピーキー削除済みフラグリセット
-                                firstboxopen = true;//boxopenフラグ共有再会
+                                else
+                                {
+                                    holdtime--;//長押しカウントダウン
+
+                                    //ゲームパッド下ボタン長押しで回収
+                                    if (holdtime <= 0)//回収カウントが0になると回収
+                                    {
+                                        if (ManagerAccessor.Instance.dataManager.copyKey != null)
+                                        {
+                                            Destroy(ManagerAccessor.Instance.dataManager.copyKey);
+                                        }
+                                        if (ManagerAccessor.Instance.dataManager.board != null)
+                                        {
+                                            Destroy(ManagerAccessor.Instance.dataManager.board);
+                                        }
+
+                                        //コピー鍵出現中フラグ
+                                        ManagerAccessor.Instance.dataManager.isAppearCopyKey = false;
+                                        ManagerAccessor.Instance.dataManager.copyKey = null;
+
+                                        change_boxopenimage = false;//箱を閉じた画像にする
+                                        cursorlock = true;//カーソル移動を止める
+
+                                        //当たり判定を戻す
+                                        GetComponent<BoxCollider2D>().isTrigger = false;
+                                        GetComponent<Rigidbody2D>().simulated = true;
+
+                                        holdtime = collecttime;//長押しカウントリセット
+
+                                        if (!firstmovelock)
+                                        {
+                                            transform.GetChild(0).gameObject.SetActive(false); //吹き出しを非表示
+                                            photonView.RPC(nameof(RpcShareMoveLock), RpcTarget.All, false);//箱の移動の制限解除
+                                            firstmovelock = true;
+                                        }
+
+                                        copykeydelete = false;//コピーキー削除済みフラグリセット
+                                        firstboxopen = true;//boxopenフラグ共有再会
+                                    }
+                                }
                             }
+                          
+                        }
+                        else
+                        {
+                            holdtime = collecttime;//長押しカウントリセット
                         }
 
                         //ゲームパッド右ボタンでアイテム生成
@@ -652,7 +724,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
 
         //ゲームオーバーまたはクリア処理を返すまで移動の計算をする
-        if(   !ManagerAccessor.Instance.dataManager.isDeth 
+        if(  　!ManagerAccessor.Instance.dataManager.isDeth 
             && !ManagerAccessor.Instance.dataManager.isClear
             && !ManagerAccessor.Instance.dataManager.isPause
             && !ManagerAccessor.Instance.dataManager.isStageMove
@@ -664,7 +736,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
         {
             if (veczero)
             {
-                rigid.velocity = new Vector2(0, 0);//元のベクトルを0にする
+                VecZero();//元のベクトルを0にする
                 veczero = false;
             }
            
@@ -808,6 +880,11 @@ public class PlayerController : MonoBehaviourPunCallbacks
         }
     }
 
+    //ベクトルを0にする関数
+    private void VecZero()
+    {
+        rigid.velocity = new Vector2(0, 0);//元のベクトルを0にする
+    }
 
     [PunRPC]
     //boxopen変数を共有する
