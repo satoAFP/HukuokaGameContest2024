@@ -517,12 +517,27 @@ public class GimmickFly : MonoBehaviourPunCallbacks
         }
         else
         {
-            //óéêŒÇ≈ÇÃéuñ]èàóù
-            hitStoneDethTimeCount++;
-            if (hitStoneDethTimeCount == HitStoneDethTime)
+            rigidbody.velocity = new Vector2(0, 0);
+            rigidbody.simulated = false;
+
+            if (gameObject.GetComponent<SpriteRenderer>().color.a != 0) 
             {
+                gameObject.GetComponent<SpriteRenderer>().color -= new Color(0, 0, 0, 1);
+                gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().color -= new Color(0, 0, 0, 1);
+                gameObject.transform.GetChild(1).GetComponent<SpriteRenderer>().color -= new Color(0, 0, 0, 1);
+            }
+
+            //óéêŒÇ≈ÇÃéuñ]èàóù
+            //hitStoneDethTimeCount++;
+            //if (hitStoneDethTimeCount == HitStoneDethTime)
+            else
+            {
+                if (PhotonNetwork.IsMasterClient)
+                    ManagerAccessor.Instance.dataManager.DeathPlayerName = "Player1";
+                else
+                    ManagerAccessor.Instance.dataManager.DeathPlayerName = "Player2";
+
                 ManagerAccessor.Instance.dataManager.isDeth = true;
-                Debug.Log("aaa");
             }
         }
     }
