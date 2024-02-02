@@ -520,6 +520,9 @@ public class GimmickFly : MonoBehaviourPunCallbacks
             rigidbody.velocity = new Vector2(0, 0);
             rigidbody.simulated = false;
 
+            gameObject.transform.GetChild(2).GetComponent<SpriteRenderer>().color = new Color(0, 0, 0, 0);
+            gameObject.transform.GetChild(3).GetComponent<SpriteRenderer>().color = new Color(0, 0, 0, 0);
+
             if (gameObject.GetComponent<SpriteRenderer>().color.a != 0) 
             {
                 gameObject.GetComponent<SpriteRenderer>().color -= new Color(0, 0, 0, 1);
