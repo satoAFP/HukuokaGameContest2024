@@ -789,6 +789,7 @@ GameObject:
   - component: {fileID: 707478907}
   - component: {fileID: 707478906}
   - component: {fileID: 707478909}
+  - component: {fileID: 707478910}
   m_Layer: 0
   m_Name: RotateObj
   m_TagString: Untagged
@@ -832,6 +833,7 @@ MonoBehaviour:
   observableSearch: 2
   ObservedComponents:
   - {fileID: 707478906}
+  - {fileID: 707478910}
   sceneViewId: 10
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -865,6 +867,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RotateSpeed: 0.1
   RotateDir: 0
+--- !u!114 &707478910
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 707478905}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27d3bdc39b52cc34b86e903e50a39f1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &862616141
 GameObject:
   m_ObjectHideFlags: 0
