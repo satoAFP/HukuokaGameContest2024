@@ -525,9 +525,9 @@ public class GimmickFly : MonoBehaviourPunCallbacks
 
             if (gameObject.GetComponent<SpriteRenderer>().color.a != 0) 
             {
-                gameObject.GetComponent<SpriteRenderer>().color -= new Color(0, 0, 0, 1);
-                gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().color -= new Color(0, 0, 0, 1);
-                gameObject.transform.GetChild(1).GetComponent<SpriteRenderer>().color -= new Color(0, 0, 0, 1);
+                gameObject.GetComponent<SpriteRenderer>().color -= new Color(0, 0, 0, 0.01f);
+                gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().color -= new Color(0, 0, 0, 0.01f);
+                gameObject.transform.GetChild(1).GetComponent<SpriteRenderer>().color -= new Color(0, 0, 0, 0.01f);
             }
 
             //óéêŒÇ≈ÇÃéuñ]èàóù
