@@ -717,7 +717,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5197877022304042238, guid: 01c8f1b4e96207a459c20697c8b8e6cf, type: 3}
       propertyPath: CreateFrame
-      value: 160
+      value: 180
       objectReference: {fileID: 0}
     - target: {fileID: 5197877022304042239, guid: 01c8f1b4e96207a459c20697c8b8e6cf, type: 3}
       propertyPath: m_Name
