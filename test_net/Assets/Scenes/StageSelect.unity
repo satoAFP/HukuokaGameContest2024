@@ -3854,7 +3854,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   FeedSpeed: 10
-  sceneName: Stage9
+  sceneName: Stage1
   EnterSE: {fileID: 8300000, guid: dc0eab6133e22fe4b99664be794b09b2, type: 3}
   SEPlayNum: 2
   SEInterbal: 30
