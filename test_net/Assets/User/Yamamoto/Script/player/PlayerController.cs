@@ -246,7 +246,6 @@ public class PlayerController : MonoBehaviourPunCallbacks
         if(ManagerAccessor.Instance.dataManager.isFlyStart)
         {
             VecZero();//飛んでいる時にベクトルを0にする
-            photonView.RPC(nameof(RpcMoveAnimStop), RpcTarget.All);//ジャンプしている時は移動アニメーションを止める
         }
        
         //死亡時とポーズ時に全ての処理を止める
@@ -357,7 +356,8 @@ public class PlayerController : MonoBehaviourPunCallbacks
                  && !datamanager.isEnterGoal
                  && !ManagerAccessor.Instance.dataManager.isPause
                  && !ManagerAccessor.Instance.dataManager.isDeth
-                 && !ManagerAccessor.Instance.dataManager.isStageMove)
+                 && !ManagerAccessor.Instance.dataManager.isStageMove
+                 && !ManagerAccessor.Instance.dataManager.isFlyStart)
             {
 
                 if(oneSE)
