@@ -522,6 +522,7 @@ public class GimmickFly : MonoBehaviourPunCallbacks
             if (hitStoneDethTimeCount == HitStoneDethTime)
             {
                 ManagerAccessor.Instance.dataManager.isDeth = true;
+                Debug.Log("aaa");
             }
         }
     }
