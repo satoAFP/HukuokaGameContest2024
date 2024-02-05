@@ -93,7 +93,7 @@ public class AvatarTransformView : MonoBehaviourPunCallbacks, IPunObservable
                     if (distanceFirst)
                     {
                         //1PÇ∆2PÇÃç¿ïWÇÃç∑ÇãLâØ
-                        if (!ManagerAccessor.Instance.dataManager.isAppearCopyKey)
+                        if (ManagerAccessor.Instance.dataManager.copyKey == null) 
                             dis = dataManager.player1.transform.position - dataManager.player2.transform.position;
                         else
                             dis = dataManager.copyKey.transform.position - dataManager.player2.transform.position;
@@ -101,7 +101,7 @@ public class AvatarTransformView : MonoBehaviourPunCallbacks, IPunObservable
                     }
 
                     //2PÇ™1PÇ…í«è]Ç∑ÇÈÇÊÇ§Ç…Ç∑ÇÈ
-                    if (!ManagerAccessor.Instance.dataManager.isAppearCopyKey)
+                    if (ManagerAccessor.Instance.dataManager.copyKey == null)
                         ManagerAccessor.Instance.dataManager.GetPlyerObj("Player2").transform.position = dataManager.player1.transform.position - dis;
                     else
                         ManagerAccessor.Instance.dataManager.GetPlyerObj("Player2").transform.position = dataManager.copyKey.transform.position - dis;

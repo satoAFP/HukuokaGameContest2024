@@ -421,7 +421,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
                             if (distanceFirst)
                             {
                                 //1PÇ∆2PÇÃç¿ïWÇÃç∑ÇãLâØ
-                                if (!ManagerAccessor.Instance.dataManager.isAppearCopyKey)
+                                if (ManagerAccessor.Instance.dataManager.copyKey == null) 
                                     dis = datamanager.player1.transform.position - gameObject.transform.position;
                                 else
                                     dis = datamanager.copyKey.transform.position - gameObject.transform.position;
@@ -430,10 +430,12 @@ public class PlayerController : MonoBehaviourPunCallbacks
                             }
 
                             //2PÇ™1PÇ…í«è]Ç∑ÇÈÇÊÇ§Ç…Ç∑ÇÈ
-                            if (!ManagerAccessor.Instance.dataManager.isAppearCopyKey)
+                            if (ManagerAccessor.Instance.dataManager.copyKey == null)
                                 transform.position = datamanager.player1.transform.position - dis;
                             else
                                 transform.position = datamanager.copyKey.transform.position - dis;
+
+                            Debug.Log("aaa");
                         }
                     }
                 }
