@@ -27,7 +27,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
     private DataManager datamanager;
 
-    private bool movelock = false;//移動処理を停止させる
+    [System.NonSerialized] public bool movelock = false;//移動処理を停止させる
 
     private bool left1P = false;//左向きに移動したときのフラグ(1P用）
     private bool left2P = false;//左向きに移動したときのフラグ(2P用）
@@ -479,78 +479,42 @@ public class PlayerController : MonoBehaviourPunCallbacks
                             //箱を閉じて移動ロックを解除
                             if (gameObject.name == "Player1")
                             {
-                                if (copykeydelete)//コピーキーが削除されたとき
+                                holdtime--;//長押しカウントダウン
+
+                                //ゲームパッド下ボタン長押しで回収
+                                if (holdtime <= 0)//回収カウントが0になると回収
                                 {
-                                    //板を出していなければ箱を閉じる処理をする
-                                    if (ManagerAccessor.Instance.dataManager.board == null)
+                                    if (ManagerAccessor.Instance.dataManager.copyKey != null)
                                     {
-                                        //コピー鍵出現中フラグ
-                                        ManagerAccessor.Instance.dataManager.isAppearCopyKey = false;
-                                        ManagerAccessor.Instance.dataManager.copyKey = null;
-
-                                        change_boxopenimage = false;//箱を閉じた画像にする
-                                        cursorlock = true;//カーソル移動を止める
-
-                                        //当たり判定を戻す
-                                        GetComponent<BoxCollider2D>().isTrigger = false;
-                                        GetComponent<Rigidbody2D>().simulated = true;
-
-                                        holdtime = collecttime;//長押しカウントリセット
-
-                                        if (!firstmovelock)
-                                        {
-                                            transform.GetChild(0).gameObject.SetActive(false); //吹き出しを非表示
-                                            photonView.RPC(nameof(RpcShareMoveLock), RpcTarget.All, false);//箱の移動の制限解除
-                                            firstmovelock = true;
-                                        }
-
-                                        copykeydelete = false;//コピーキー削除済みフラグリセット
-                                        firstboxopen = true;//boxopenフラグ共有再会
+                                        Destroy(ManagerAccessor.Instance.dataManager.copyKey);
                                     }
-                                    else
+                                    if (ManagerAccessor.Instance.dataManager.board != null)
                                     {
-                                        copykeydelete = false;//コピーキー削除済みフラグリセット
+                                        Destroy(ManagerAccessor.Instance.dataManager.board);
                                     }
-                                }
-                                else
-                                {
-                                    holdtime--;//長押しカウントダウン
 
-                                    //ゲームパッド下ボタン長押しで回収
-                                    if (holdtime <= 0)//回収カウントが0になると回収
+                                    //コピー鍵出現中フラグ
+                                    ManagerAccessor.Instance.dataManager.isAppearCopyKey = false;
+                                    ManagerAccessor.Instance.dataManager.copyKey = null;
+
+                                    change_boxopenimage = false;//箱を閉じた画像にする
+                                    cursorlock = true;//カーソル移動を止める
+
+                                    //当たり判定を戻す
+                                    GetComponent<BoxCollider2D>().isTrigger = false;
+                                    GetComponent<Rigidbody2D>().simulated = true;
+
+                                    holdtime = collecttime;//長押しカウントリセット
+
+                                    if (!firstmovelock)
                                     {
-                                        if (ManagerAccessor.Instance.dataManager.copyKey != null)
-                                        {
-                                            Destroy(ManagerAccessor.Instance.dataManager.copyKey);
-                                        }
-                                        if (ManagerAccessor.Instance.dataManager.board != null)
-                                        {
-                                            Destroy(ManagerAccessor.Instance.dataManager.board);
-                                        }
-
-                                        //コピー鍵出現中フラグ
-                                        ManagerAccessor.Instance.dataManager.isAppearCopyKey = false;
-                                        ManagerAccessor.Instance.dataManager.copyKey = null;
-
-                                        change_boxopenimage = false;//箱を閉じた画像にする
-                                        cursorlock = true;//カーソル移動を止める
-
-                                        //当たり判定を戻す
-                                        GetComponent<BoxCollider2D>().isTrigger = false;
-                                        GetComponent<Rigidbody2D>().simulated = true;
-
-                                        holdtime = collecttime;//長押しカウントリセット
-
-                                        if (!firstmovelock)
-                                        {
-                                            transform.GetChild(0).gameObject.SetActive(false); //吹き出しを非表示
-                                            photonView.RPC(nameof(RpcShareMoveLock), RpcTarget.All, false);//箱の移動の制限解除
-                                            firstmovelock = true;
-                                        }
-
-                                        copykeydelete = false;//コピーキー削除済みフラグリセット
-                                        firstboxopen = true;//boxopenフラグ共有再会
+                                        transform.GetChild(0).gameObject.SetActive(false); //吹き出しを非表示
+                                        photonView.RPC(nameof(RpcShareMoveLock), RpcTarget.All, false);//箱の移動の制限解除
+                                        firstmovelock = true;
                                     }
+
+                                    copykeydelete = false;//コピーキー削除済みフラグリセット
+                                    firstboxopen = true;//boxopenフラグ共有再会
                                 }
                             }
                           
@@ -716,9 +680,6 @@ public class PlayerController : MonoBehaviourPunCallbacks
         
     }
 
-
-
-
     private void Move()//移動処理（計算部分）
     {
        // Debug.Log(datamanager.isEnterGoal);
@@ -761,12 +722,6 @@ public class PlayerController : MonoBehaviourPunCallbacks
     {
         DataManager datamanager = ManagerAccessor.Instance.dataManager;
 
-        //プレイヤーが床または着地出来るものに乗っている時、再ジャンプ可能にする
-        //if (collision.gameObject.tag == "Floor")
-        //{
-        //    bjump = false;
-        //}
-
         //プレイヤーが落下した時、ゲームオーバーの処理をする
         if (collision.gameObject.tag == "DeathField")
         {
@@ -806,10 +761,6 @@ public class PlayerController : MonoBehaviourPunCallbacks
             //移動ロックがかかっていなければ移動
             if (!movelock && !ManagerAccessor.Instance.dataManager.isStageMove)
             {
-                
-
-                Debug.Log(firstanimplay);
-
                 if (firstanimplay)
                 {
                     photonView.RPC(nameof(RpcMoveAnimPlay), RpcTarget.All);

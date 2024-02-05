@@ -65,6 +65,8 @@ public class CopyKey : MonoBehaviourPunCallbacks
     private int walkseframe = 0;//se再生時に測るフレーム
     private bool oneDeathSE = true;//各処理一度だけ死亡SEを鳴らす
 
+    private DataManager datamanager;//データマネージャー取得
+
     // Start is called before the first frame update
     void Start()
     {
@@ -89,7 +91,10 @@ public class CopyKey : MonoBehaviourPunCallbacks
     // Update is called once per frame
     void FixedUpdate()
     {
-        DataManager datamanager = ManagerAccessor.Instance.dataManager;
+        //データマネージャー取得
+        datamanager = ManagerAccessor.Instance.dataManager;
+
+        Debug.Log("ani="+firstanimplay);
 
         if (ManagerAccessor.Instance.dataManager.isDeth)
         {
@@ -366,16 +371,20 @@ public class CopyKey : MonoBehaviourPunCallbacks
     //移動処理
     public void OnMove(InputAction.CallbackContext context)
     {
-
-        if (firstanimplay)
+        //操作が競合しないための設定
+        if (photonView.IsMine && PhotonNetwork.IsMasterClient)
         {
-            //Debug.Log("アニメ送信");
-            photonView.RPC(nameof(RpcMoveAnimPlay), RpcTarget.All);
-            firstanimplay = false;
-        }
+            if (firstanimplay)
+            {
+                //Debug.Log("アニメ送信");
+                photonView.RPC(nameof(RpcMoveAnimPlay), RpcTarget.All);
+                firstanimplay = false;
+            }
 
-        //移動方向の入力情報がInputdirectionの中に入るようになる
-        inputDirection = context.ReadValue<Vector2>();
+            //移動方向の入力情報がInputdirectionの中に入るようになる
+            inputDirection = context.ReadValue<Vector2>();
+        }
+  
     }
 
     //ジャンプ

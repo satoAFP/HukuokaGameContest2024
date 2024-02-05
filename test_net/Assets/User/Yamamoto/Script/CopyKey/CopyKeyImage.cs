@@ -15,7 +15,6 @@ public class CopyKeyImage : MonoBehaviour
 
     CopyKey copykey;
 
-
     private Animator anim;//アニメーター
 
 
