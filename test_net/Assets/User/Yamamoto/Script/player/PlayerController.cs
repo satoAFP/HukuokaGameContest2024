@@ -524,6 +524,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
                         }
                         else
                         {
+                            firstCheckDeleteobj = true;//検索再開
                             holdtime = collecttime;//長押しカウントリセット
                         }
 
@@ -1038,6 +1039,6 @@ public class PlayerController : MonoBehaviourPunCallbacks
             Destroy(ManagerAccessor.Instance.dataManager.board);
         }
 
-        firstCheckDeleteobj = true;//検索再開
+       
     }
 }
