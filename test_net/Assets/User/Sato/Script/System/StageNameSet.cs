@@ -13,7 +13,7 @@ public class StageNameSet : MonoBehaviour
 
         //ÉXÉeÅ[ÉWñºï\é¶
         if (stageNum != 1)
-            GetComponent<Text>().text = "ëÊ" + (9 - stageNum) + "ëw";
+            GetComponent<Text>().text = "ëÊ" + (10 - stageNum) + "ëw";
         else
             GetComponent<Text>().text = "ç≈â∫ëw";
     }
