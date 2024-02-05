@@ -125,8 +125,6 @@ public class PlayerController : MonoBehaviourPunCallbacks
     [SerializeField]
     public int holdtime;//設定したアイテム回収時間を代入する
 
-    private bool objdelete_copykey = false;//オブジェクト削除フラグ　コピーキー
-    private bool objdelete_board   = false;//オブジェクト削除フラグ　板
     private bool firstCheckDeleteobj = true;//一度だけ消すオブジェクトを検索
 
 
