@@ -653,9 +653,6 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
     private void Move()//移動処理（計算部分）
     {
-       // Debug.Log(datamanager.isEnterGoal);
-
-
         //ゲームオーバーまたはクリア処理を返すまで移動の計算をする
         if(  　!ManagerAccessor.Instance.dataManager.isDeth 
             && !ManagerAccessor.Instance.dataManager.isClear
@@ -738,17 +735,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
                     firstanimplay = false;
                 }
 
-                //Debug.Log("スティック動かして移動している");
-                //移動方向の入力情報がInputdirectionの中に入るようになる
-                if (islift &&
-                    !((datamanager.isOwnerInputKey_C_L_RIGHT && datamanager.isClientInputKey_C_L_RIGHT) ||
-                    (datamanager.isOwnerInputKey_C_L_LEFT && datamanager.isClientInputKey_C_L_LEFT)))
-                {
-
-                    inputDirection.x = 0;
-                }
-                else
-                    inputDirection = context.ReadValue<Vector2>();
+                inputDirection = context.ReadValue<Vector2>();
             }
             else
             {
