@@ -51,21 +51,29 @@ public class UICursor : MonoBehaviourPunCallbacks
 
         if (ManagerAccessor.Instance.dataManager.player1 != null)
         {
-            //箱を開けている時カーソル移動をする
-            if (!ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().cursorlock)
+            if(datamanager.player1.GetComponent<PlayerController>().movelock)
             {
                 ColorChangeframe++;
 
-                //各プレイヤーのアイコンを元の色に戻す
-                for(int i=0;i < ColorChangeObjects.Length;i++)
-                {
-                    ColorChangeObjects[i].GetComponent<Image>().color = new Color32(255, 255, 255, 255);
-                }
-              
                 //約一秒程度でカーソルの色を変える
                 if (ColorChangeframe >= blinkingtime)
                 {
                     CursorColorChange();
+                }
+            }
+            else
+            {
+                ColorChangeframe = 0;//カーソルの色変化フレーム計算リセット
+                GetComponent<Image>().color = Type1;//カーソルの色を黒に変える
+            }
+
+            //箱を開けている時カーソル移動をする
+            if (!ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().cursorlock)
+            {
+                //各プレイヤーのアイコンを元の色に戻す
+                for (int i = 0; i < ColorChangeObjects.Length; i++)
+                {
+                    ColorChangeObjects[i].GetComponent<Image>().color = new Color32(255, 255, 255, 255);
                 }
 
                 //押されたボタンの左右でカーソルの移動位置を決める
@@ -85,16 +93,14 @@ public class UICursor : MonoBehaviourPunCallbacks
             }
             else
             {
-                ColorChangeframe = 0;//蓋があいてなければカーソルの色を変えない
-
                 //各プレイヤーのアイコンを黒いカラーに変更
-
                 for (int i = 0; i < ColorChangeObjects.Length; i++)
                 {
                     ColorChangeObjects[i].GetComponent<Image>().color = new Color32(0, 0, 0, 192);
                 }
                    
             }
+
         }
 
         if(movestart)
