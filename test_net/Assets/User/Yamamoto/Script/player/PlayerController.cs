@@ -45,8 +45,6 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
     private bool firstmovelock = true;//一度だけ移動制限を行う
 
-    [System.NonSerialized] public bool boxopen = false;//箱の開閉を許可するフラグ
-
     [System.NonSerialized] public bool cursorlock = true;//UIカーソルの移動を制限する
 
     [System.NonSerialized] public string choicecursor;//UIカーソルが現在選択している生成可能アイテム
@@ -447,35 +445,6 @@ public class PlayerController : MonoBehaviourPunCallbacks
                     //プレイヤー1（箱）の移動が制限されているとき（箱が空いている時）
                     if (movelock)
                     {
-                        ////生成アイテムがマップ上にないときのみ箱を閉じる（移動制限解除）
-                        //if (currentBoardObject == null &&
-                        //     currentCopyKeyObject == null)
-                        //{
-                        //    if (firstboxopen)
-                        //    {
-                        //        //boxopen関数を共有する
-                        //        // Debug.Log("firstboxopenが入ってる");
-                        //        photonView.RPC(nameof(RpcShareBoxOpen), RpcTarget.All, true);
-                        //        firstboxopen = false;
-
-                        //        //箱が空いているときにオブジェクトがない場合、十字キー下の吹き出し表示
-                        //        transform.GetChild(0).gameObject.SetActive(true);
-                        //        transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = ManagerAccessor.Instance.spriteManager.CrossDown;
-
-                        //    }
-
-                        //}
-                        //else
-                        //{
-                        //    if (!firstboxopen)
-                        //    {
-                        //        //boxopen関数を共有する
-                        //        photonView.RPC(nameof(RpcShareBoxOpen), RpcTarget.All, false);
-                        //        firstboxopen = true;
-                        //    }
-
-                        //}
-
                         //コントローラーの下ボタンを押したとき箱を閉じる・またはコピーキーが死んだとき板を出していなければ閉じる
                         if (datamanager.isOwnerInputKey_C_D_DOWN
                              && !ManagerAccessor.Instance.dataManager.isUnlockButtonStart)
@@ -840,13 +809,6 @@ public class PlayerController : MonoBehaviourPunCallbacks
     private void VecZero()
     {
         rigid.velocity = new Vector2(0, 0);//元のベクトルを0にする
-    }
-
-    [PunRPC]
-    //boxopen変数を共有する
-    private void RpcShareBoxOpen(bool data)
-    {
-        boxopen = data;
     }
 
     [PunRPC]
