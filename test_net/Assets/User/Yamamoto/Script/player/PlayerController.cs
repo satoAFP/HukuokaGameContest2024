@@ -27,7 +27,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
     private DataManager datamanager;
 
-    private bool movelock = false;//移動処理を停止させる
+    [System.NonSerialized] public bool movelock = false;//移動処理を停止させる
 
     private bool left1P = false;//左向きに移動したときのフラグ(1P用）
     private bool left2P = false;//左向きに移動したときのフラグ(2P用）
