@@ -127,6 +127,11 @@ public class PlayerController : MonoBehaviourPunCallbacks
     [SerializeField]
     public int holdtime;//設定したアイテム回収時間を代入する
 
+    private bool objdelete_copykey = false;//オブジェクト削除フラグ　コピーキー
+    private bool objdelete_board   = false;//オブジェクト削除フラグ　板
+    private bool firstCheckDeleteobj = true;//一度だけ消すオブジェクトを検索
+
+
     void Start()
     {
 
@@ -484,14 +489,13 @@ public class PlayerController : MonoBehaviourPunCallbacks
                                 //ゲームパッド下ボタン長押しで回収
                                 if (holdtime <= 0)//回収カウントが0になると回収
                                 {
-                                    if (ManagerAccessor.Instance.dataManager.copyKey != null)
+                                    //消すオブジェクトがあるか検索
+                                    if(firstCheckDeleteobj)
                                     {
-                                        Destroy(ManagerAccessor.Instance.dataManager.copyKey);
+                                        photonView.RPC(nameof(RpcDeleteObjCheck), RpcTarget.All);
+                                        firstCheckDeleteobj = false;
                                     }
-                                    if (ManagerAccessor.Instance.dataManager.board != null)
-                                    {
-                                        Destroy(ManagerAccessor.Instance.dataManager.board);
-                                    }
+                                    
 
                                     //コピー鍵出現中フラグ
                                     ManagerAccessor.Instance.dataManager.isAppearCopyKey = false;
@@ -517,22 +521,6 @@ public class PlayerController : MonoBehaviourPunCallbacks
                                   //  firstboxopen = true;//boxopenフラグ共有再会
                                 }
                             }
-                            else if (gameObject.name == "Player2")
-                            {
-                                //ゲームパッド下ボタン長押しで回収
-                                if (holdtime <= 0)//回収カウントが0になると回収
-                                {
-                                    if (ManagerAccessor.Instance.dataManager.copyKey != null)
-                                    {
-                                        Destroy(ManagerAccessor.Instance.dataManager.copyKey);
-                                    }
-                                    if (ManagerAccessor.Instance.dataManager.board != null)
-                                    {
-                                        Destroy(ManagerAccessor.Instance.dataManager.board);
-                                    }
-                                }
-                            }   
-                          
                         }
                         else
                         {
@@ -1035,5 +1023,21 @@ public class PlayerController : MonoBehaviourPunCallbacks
     {
         //エフェクト生成
         Instantiate(ManagerAccessor.Instance.dataManager.StarEffect, gameObject.transform);
+    }
+
+    [PunRPC]
+    private void RpcDeleteObjCheck()
+    {
+        //削除するアイテムを検索
+        if (ManagerAccessor.Instance.dataManager.copyKey != null)
+        {
+            Destroy(ManagerAccessor.Instance.dataManager.copyKey);
+        }
+        if (ManagerAccessor.Instance.dataManager.board != null)
+        {
+            Destroy(ManagerAccessor.Instance.dataManager.board);
+        }
+
+        firstCheckDeleteobj = true;//検索再開
     }
 }
