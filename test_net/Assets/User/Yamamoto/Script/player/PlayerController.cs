@@ -806,10 +806,6 @@ public class PlayerController : MonoBehaviourPunCallbacks
             //ˆÚ“®ƒƒbƒN‚ª‚©‚©‚Á‚Ä‚¢‚È‚¯‚ê‚ÎˆÚ“®
             if (!movelock && !ManagerAccessor.Instance.dataManager.isStageMove)
             {
-                
-
-                Debug.Log(firstanimplay);
-
                 if (firstanimplay)
                 {
                     photonView.RPC(nameof(RpcMoveAnimPlay), RpcTarget.All);

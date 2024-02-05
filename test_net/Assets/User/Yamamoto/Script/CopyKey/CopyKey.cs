@@ -94,6 +94,8 @@ public class CopyKey : MonoBehaviourPunCallbacks
         //データマネージャー取得
         datamanager = ManagerAccessor.Instance.dataManager;
 
+        Debug.Log("ani="+firstanimplay);
+
         if (ManagerAccessor.Instance.dataManager.isDeth)
         {
             Destroy(gameObject);//プレイヤーが死亡したときコピーキー削除
@@ -369,16 +371,20 @@ public class CopyKey : MonoBehaviourPunCallbacks
     //移動処理
     public void OnMove(InputAction.CallbackContext context)
     {
-
-        if (firstanimplay)
+        //操作が競合しないための設定
+        if (photonView.IsMine && PhotonNetwork.IsMasterClient)
         {
-            //Debug.Log("アニメ送信");
-            photonView.RPC(nameof(RpcMoveAnimPlay), RpcTarget.All);
-            firstanimplay = false;
-        }
+            if (firstanimplay)
+            {
+                //Debug.Log("アニメ送信");
+                photonView.RPC(nameof(RpcMoveAnimPlay), RpcTarget.All);
+                firstanimplay = false;
+            }
 
-        //移動方向の入力情報がInputdirectionの中に入るようになる
-        inputDirection = context.ReadValue<Vector2>();
+            //移動方向の入力情報がInputdirectionの中に入るようになる
+            inputDirection = context.ReadValue<Vector2>();
+        }
+  
     }
 
     //ジャンプ
