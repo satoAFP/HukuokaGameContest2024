@@ -99,7 +99,10 @@ public class UICursor : MonoBehaviourPunCallbacks
                 {
                     ColorChangeObjects[i].GetComponent<Image>().color = new Color32(0, 0, 0, 192);
                 }
-                   
+
+                ColorChangeframe = 0;//カーソルの色変化フレーム計算リセット
+                GetComponent<Image>().color = Type1;//カーソルの色を黒に変える
+
             }
 
         }
