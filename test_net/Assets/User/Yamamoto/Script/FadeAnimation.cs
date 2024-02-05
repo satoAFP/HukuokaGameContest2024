@@ -30,23 +30,31 @@ public class FadeAnimation : MonoBehaviourPunCallbacks
             //死亡時のフェードアウト
             if (datamanager.isDeth)
             {
-                //死亡時のノックバックが終了したらフェードアウト開始(岩に当たった時）
-                if(datamanager.player1.GetComponent<PlayerController>().knockback_finish
-                || datamanager.player2.GetComponent<PlayerController>().knockback_finish)
+                if (datamanager.player1 != null && datamanager.player2 != null)
                 {
-                    Debug.Log("フェードアウト一回");
+                    //死亡時のノックバックが終了したらフェードアウト開始(岩に当たった時）
+                    if (datamanager.player1.GetComponent<PlayerController>().knockback_finish
+                    || datamanager.player2.GetComponent<PlayerController>().knockback_finish)
+                    {
+                        anim.SetBool("FadeOut", true);//フェードアウトアニメーション開始
+                        firstfadeout = false;
+                    }
+                    //落下時のフェード処理
+                    else if (datamanager.player1.GetComponent<PlayerController>().falling_death
+                    || datamanager.player2.GetComponent<PlayerController>().falling_death)
+                    {
+                        anim.SetBool("FadeOut", true);//フェードアウトアニメーション開始
+                        firstfadeout = false;
+                    }
+                }
+                //落石時のフェード処理
+                if (datamanager.isFlyStart)
+                {
                     anim.SetBool("FadeOut", true);//フェードアウトアニメーション開始
                     firstfadeout = false;
+                    Debug.Log("aaa");
                 }
-                //落下時のフェード処理
-                else if (datamanager.player1.GetComponent<PlayerController>().falling_death
-                || datamanager.player2.GetComponent<PlayerController>().falling_death)
-                {
-                    Debug.Log("フェードアウト落下");
-                    anim.SetBool("FadeOut", true);//フェードアウトアニメーション開始
-                    firstfadeout = false;
-                }
-
+                Debug.Log("bbb");
             }
         }
 

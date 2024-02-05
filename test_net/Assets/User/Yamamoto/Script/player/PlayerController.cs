@@ -356,7 +356,8 @@ public class PlayerController : MonoBehaviourPunCallbacks
                  && !datamanager.isEnterGoal
                  && !ManagerAccessor.Instance.dataManager.isPause
                  && !ManagerAccessor.Instance.dataManager.isDeth
-                 && !ManagerAccessor.Instance.dataManager.isStageMove)
+                 && !ManagerAccessor.Instance.dataManager.isStageMove
+                 && !isFly)
             {
 
                 if(oneSE)

@@ -155,12 +155,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7903f4d7bfbb4f44b354ae1d85fe593, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  BombEffect: {fileID: 20842577314992071, guid: b85e6134c97fc8946ae73ee5c56508ba, type: 3}
   MovePower: 1.5
-  MoveAngle: 3
+  MoveAngle: 5
   correctionAngle: 4
   CoolTime: 20
   GoalTime: 180
   DestroyCount: 3
+  HitStoneDethTime: 60
   rideSE: {fileID: 8300000, guid: f9df13671c38911449f05e1473f54143, type: 3}
   flySE: {fileID: 8300000, guid: 68e7b846284e0a4489887c6289fda752, type: 3}
 --- !u!114 &106794444274010251

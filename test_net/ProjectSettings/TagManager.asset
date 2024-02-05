@@ -15,6 +15,7 @@ TagManager:
   - VirtualCamera
   - Goal
   - StopErea
+  - FallStone
   layers:
   - Default
   - TransparentFX
