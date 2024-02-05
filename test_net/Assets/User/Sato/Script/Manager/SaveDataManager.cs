@@ -40,6 +40,7 @@ public class SaveDataManager : MonoBehaviour
         for (int i = 0; i < ManagerAccessor.Instance.dataManager.StageNum; i++) 
         {
             clearData[i] = PlayerPrefs.GetInt("Stage" + (i + 1), 0);
+            Debug.Log(PlayerPrefs.GetInt("Stage" + (i + 1), 0).ToString());
         }
     }
 
