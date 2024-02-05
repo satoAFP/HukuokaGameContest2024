@@ -42,7 +42,7 @@ public class StageSelectSystem : MonoBehaviour
                 {
                     //クリアしているステージは金色にする
                     door[i].GetComponent<SpriteRenderer>().color = new Color32(255, 238, 186, 255);
-
+                    
                     //クリアしているステージの階段を出す
                     if (ManagerAccessor.Instance.saveDataManager.firstClearData[i] == 0)
                     {
