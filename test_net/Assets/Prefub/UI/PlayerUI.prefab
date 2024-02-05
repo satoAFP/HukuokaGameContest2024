@@ -1140,9 +1140,9 @@ MonoBehaviour:
   - {fileID: 3970369002963808838}
   - {fileID: 8364366051309306867}
   - {fileID: 5899939255798780056}
-  blinkingtime: 30
+  blinkingtime: 15
   Type1: {r: 0.2, g: 0.2, b: 0.2, a: 1}
-  Type2: {r: 1, g: 0.5882353, b: 0, a: 1}
+  Type2: {r: 1, g: 0.6666667, b: 0, a: 1}
 --- !u!1 &6287469681934766328
 GameObject:
   m_ObjectHideFlags: 0
