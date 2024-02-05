@@ -136,7 +136,6 @@ public class Board : MonoBehaviourPunCallbacks
                         ManagerAccessor.Instance.dataManager.player1.transform.GetChild(0).gameObject.SetActive(true);
                         ManagerAccessor.Instance.dataManager.player1.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = ManagerAccessor.Instance.spriteManager.ArrowDown;
 
-
                     }
 
 
@@ -146,7 +145,6 @@ public class Board : MonoBehaviourPunCallbacks
                 //ゲームパッド下ボタンで置きなおし
                 if (datamanager.isOwnerInputKey_CA)
                 {
-                    //holdtime--;//長押しカウントダウン
 
                     //箱側でしか吹き出しを表示させない
                     if (PhotonNetwork.LocalPlayer.IsMasterClient)
@@ -168,33 +166,12 @@ public class Board : MonoBehaviourPunCallbacks
 
                 }
 
-
             }
             else
             {
                 firstcorsor = true;
             }
 
-            ////十字キー下でアイテム回収
-            //if (datamanager.isOwnerInputKey_C_D_DOWN)
-            //{
-            //    holdtime--;//長押しカウントダウン
-
-            //    ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().generatestop = true;//鍵の生成を止める
-            //    ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().cursorlock = true;//カーソル移動を止める
-            //    ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().keymovelock = true;//鍵の移動させない
-
-            //    //ゲームパッド下ボタン長押しで回収
-            //    if (holdtime <= 0)//回収カウントが0になると回収
-            //    {
-            //        DeleteBoard();
-            //    }
-
-            //}
-            //else
-            //{
-            //    holdtime = collecttime;//長押しカウントリセット
-            //}
         }
         else
         {

@@ -6,9 +6,6 @@ using UnityEngine.InputSystem;
 
 public class CopyKey : MonoBehaviourPunCallbacks
 {
-    //[SerializeField, Header("死亡時のコピーキー")]
-    //private Sprite DeathImage;
-
     [SerializeField, Header("移動速度")]
     private float moveSpeed;
 
@@ -240,16 +237,11 @@ public class CopyKey : MonoBehaviourPunCallbacks
                 }
 
             }
-
-          
         }
       
           
         if (copykey_death)
         {
-            // 画像を切り替えます
-            //GetComponent<SpriteRenderer>().sprite = DeathImage;
-
             if (fallingdeath)
             {
                 Debug.Log("コピーキー落下");
@@ -304,8 +296,6 @@ public class CopyKey : MonoBehaviourPunCallbacks
                     Destroy(gameObject);//念のためにコピーキーを削除
                 }
             }
-
-           
         }
        
     }
@@ -326,7 +316,6 @@ public class CopyKey : MonoBehaviourPunCallbacks
             if (!firstanimplay)
             {
                 photonView.RPC(nameof(RpcMoveAnimStop), RpcTarget.All);
-                //  Debug.Log("steam");
             }
 
         }
@@ -424,18 +413,6 @@ public class CopyKey : MonoBehaviourPunCallbacks
                     }
                 }
             }
-
-            ////Input Systemからジャンプの入力があった時に呼ばれる
-            //if (!context.performed || bjump)
-            //{
-            //    return;
-            //}
-            //else
-            //{
-            //    rigid.AddForce(Vector2.up * jumpSpeed, ForceMode2D.Impulse);
-            //    bjump = true;//一度ジャンプしたら着地するまでジャンプできなくする
-            //}
-
         }
     }
 
@@ -451,7 +428,6 @@ public class CopyKey : MonoBehaviourPunCallbacks
     {
         standardCopyKeyImage = false;
         changeliftimage = data;//changeliftimageを共有する
-        //firstChangeLiftImage = true;
     }
 
     [PunRPC]
