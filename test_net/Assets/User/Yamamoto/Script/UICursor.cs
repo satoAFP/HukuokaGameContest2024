@@ -51,6 +51,7 @@ public class UICursor : MonoBehaviourPunCallbacks
 
         if (ManagerAccessor.Instance.dataManager.player1 != null)
         {
+            //箱が空いている時はカーソルを点滅させる
             if(datamanager.player1.GetComponent<PlayerController>().movelock)
             {
                 ColorChangeframe++;
@@ -67,7 +68,7 @@ public class UICursor : MonoBehaviourPunCallbacks
                 GetComponent<Image>().color = Type1;//カーソルの色を黒に変える
             }
 
-            //箱を開けている時カーソル移動をする
+            //箱を開けていてカーソル移動できるとき、カーソル移動をする
             if (!ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().cursorlock)
             {
                 //各プレイヤーのアイコンを元の色に戻す

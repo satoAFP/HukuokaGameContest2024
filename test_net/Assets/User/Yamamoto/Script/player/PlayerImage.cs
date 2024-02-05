@@ -30,7 +30,6 @@ public class PlayerImage : MonoBehaviourPunCallbacks
     // Start is called before the first frame update
     void Start()
     {
-     
         //親オブジェクトの名前を取得
         parentObjectName = transform.parent.name;
 
@@ -54,10 +53,6 @@ public class PlayerImage : MonoBehaviourPunCallbacks
     // Update is called once per frame
     void FixedUpdate()
     {
-        //DataManager datamanager = ManagerAccessor.Instance.dataManager;
-
-        
-
         //箱イラスト
         if (parentObjectName == "Player1")
         {

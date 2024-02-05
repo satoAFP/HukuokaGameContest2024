@@ -144,17 +144,14 @@ public class PlayerController : MonoBehaviourPunCallbacks
         //プレイヤーによってイラストを変える＆データマネージャー設定
         if (gameObject.name == "Player1")
         {
-           // GetComponent<SpriteRenderer>().sprite = p1Image;
             ManagerAccessor.Instance.dataManager.player1 = gameObject;
         }
         if (gameObject.name == "Player2")
         {
-            //GetComponent<SpriteRenderer>().sprite = p2Image;
             ManagerAccessor.Instance.dataManager.player2 = gameObject;
         }
         if (gameObject.name == "CopyKey")
         {
-            //GetComponent<SpriteRenderer>().sprite = p2Image;
             ManagerAccessor.Instance.dataManager.copyKey = gameObject;
         }
 
@@ -167,8 +164,6 @@ public class PlayerController : MonoBehaviourPunCallbacks
     {
         //データマネージャー取得
         datamanager = ManagerAccessor.Instance.dataManager;
-
-        //Debug.Log("cursorlock" + cursorlock);
 
         if(PhotonNetwork.IsMasterClient)
         {
@@ -485,7 +480,6 @@ public class PlayerController : MonoBehaviourPunCallbacks
                                     }
 
                                     copykeydelete = false;//コピーキー削除済みフラグリセット
-                                  //  firstboxopen = true;//boxopenフラグ共有再会
                                 }
                             }
                         }
@@ -525,7 +519,6 @@ public class PlayerController : MonoBehaviourPunCallbacks
                                         generatestop = true;//板が先の場合、板の移動が終わるまで鍵生成をさせない
                                     }
 
-                                    //  Debug.Log("p1側生成");
                                 }
                                 B_instantiatefirst = false;
                             }
@@ -547,12 +540,10 @@ public class PlayerController : MonoBehaviourPunCallbacks
                                     photonView.RPC(nameof(RpcEffectPlay), RpcTarget.All);
 
                                     currentCopyKeyObject = PhotonNetwork.Instantiate("CopyKey", new Vector2(p1pos.x, p1pos.y + 1.0f), Quaternion.identity);
-                                    //movelock = true;
-
+                                  
                                     //コピー鍵出現中フラグ
                                     ManagerAccessor.Instance.dataManager.isAppearCopyKey = true;
-                                    // Debug.Log("鍵だす");
-
+                                   
                                     copykeydelete = false;//鍵削除フラグをfalse
 
                                 }
@@ -653,9 +644,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
     private void Move()//移動処理（計算部分）
     {
-       // Debug.Log(datamanager.isEnterGoal);
-
-
+      
         //ゲームオーバーまたはクリア処理を返すまで移動の計算をする
         if(  　!ManagerAccessor.Instance.dataManager.isDeth 
             && !ManagerAccessor.Instance.dataManager.isClear
@@ -678,12 +667,10 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
         if (inputDirection.x == 0)
         {
-           // firststickprocess = true;
             //現在アニメーションを再生している時
             if (!firstanimplay)
             {
                 photonView.RPC(nameof(RpcMoveAnimStop), RpcTarget.All); 
-              //  Debug.Log("steam");
             }
            
         }
@@ -696,7 +683,6 @@ public class PlayerController : MonoBehaviourPunCallbacks
         //プレイヤーが落下した時、ゲームオーバーの処理をする
         if (collision.gameObject.tag == "DeathField")
         {
-            
             datamanager.DeathPlayerName = this.gameObject.name;
 
             datamanager.isDeth = true;
@@ -830,25 +816,20 @@ public class PlayerController : MonoBehaviourPunCallbacks
         //プレイヤーを持ち上げ時のイラストに変更
         if (gameObject.name == "Player1")
         {
-            //Debug.Log("QQQP1持ち上げ画像");
             change_unloadimage = false;//通常画像から持ち上げ画像に
             change_liftimage = true;
-            //GetComponent<SpriteRenderer>().sprite = p1LiftImage;
-
+         
         }
         else if (gameObject.name == "Player2")
         {
-           // Debug.Log("QQQP2持ち上げ画像");
             change_unloadimage = false;//通常画像から持ち上げ画像に
             change_liftimage = true;
-            //GetComponent<SpriteRenderer>().sprite = p2LiftImage;
         }
     }
 
     [PunRPC]
     private void RpcChangeBoxOpenImage()
     {
-        
         //エフェクト生成
         Instantiate(ManagerAccessor.Instance.dataManager.StarEffect,gameObject.transform);
        
@@ -863,13 +844,11 @@ public class PlayerController : MonoBehaviourPunCallbacks
         //プレイヤーがブロックを降ろしたときイラスト変更
         if (gameObject.name == "Player1")
         {
-           // Debug.Log("P1降ろす画像");
             change_liftimage = false;//持ち上げ画像から元の画像に戻す
             change_unloadimage = true;
         }
         else if (gameObject.name == "Player2")
         {
-          //  Debug.Log("P2降ろす画像");
             change_liftimage = false;//持ち上げ画像から元の画像に戻す
             change_unloadimage = true;
         }
@@ -883,13 +862,10 @@ public class PlayerController : MonoBehaviourPunCallbacks
         {
             if (left1P)
             {
-               // Debug.Log("player1の左");
-                imageleft = true;
                 firstLR_1P = true;
             }
             else
             {
-                 //Debug.Log("player1の右");
                 imageleft = false;
                 firstLR_1P = true;
             }
@@ -899,13 +875,11 @@ public class PlayerController : MonoBehaviourPunCallbacks
         {
             if (left2P)
             {
-                //Debug.Log("player2の左");
                 imageleft = true;
                 firstLR_2P = true;
             }
             else
             {
-                //Debug.Log("player2の右");
                 imageleft = false;
                 firstLR_2P = true;
             }
@@ -925,7 +899,6 @@ public class PlayerController : MonoBehaviourPunCallbacks
                 //ここはノックバックしたとき一度跳ねる処理
                 if (firstdeathjump)
                 {
-                    //Debug.Log("Takeru");
                     rigid.AddForce(Vector2.up * jumpSpeed, ForceMode2D.Impulse);
                     firstdeathjump = false;
                 }
@@ -961,14 +934,12 @@ public class PlayerController : MonoBehaviourPunCallbacks
     [PunRPC]
     private void RpcMoveAnimPlay()
     {
-       // Debug.Log("アニメ再生");
         animplay = true;
     }
 
     [PunRPC]
     private void RpcMoveAnimStop()
     {
-        //Debug.Log("アニメstop");
         animplay = false;
         firstanimplay = true;
     }
@@ -998,7 +969,5 @@ public class PlayerController : MonoBehaviourPunCallbacks
         {
             Destroy(ManagerAccessor.Instance.dataManager.board);
         }
-
-       
     }
 }
