@@ -65,6 +65,8 @@ public class CopyKey : MonoBehaviourPunCallbacks
     private int walkseframe = 0;//se再生時に測るフレーム
     private bool oneDeathSE = true;//各処理一度だけ死亡SEを鳴らす
 
+    private DataManager datamanager;//データマネージャー取得
+
     // Start is called before the first frame update
     void Start()
     {
@@ -89,7 +91,8 @@ public class CopyKey : MonoBehaviourPunCallbacks
     // Update is called once per frame
     void FixedUpdate()
     {
-        DataManager datamanager = ManagerAccessor.Instance.dataManager;
+        //データマネージャー取得
+        datamanager = ManagerAccessor.Instance.dataManager;
 
         if (ManagerAccessor.Instance.dataManager.isDeth)
         {
