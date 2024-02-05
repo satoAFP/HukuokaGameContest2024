@@ -85,16 +85,17 @@ public class UICursor : MonoBehaviourPunCallbacks
             }
             else
             {
-                ColorChangeframe = 0;//蓋があいてなければカーソルの色を変えない
+                ColorChangeframe = 0;//カーソルの色変化フレーム計算リセット
+                GetComponent<Image>().color = Type1;//カーソルの色を黒に変える
 
                 //各プレイヤーのアイコンを黒いカラーに変更
-
                 for (int i = 0; i < ColorChangeObjects.Length; i++)
                 {
                     ColorChangeObjects[i].GetComponent<Image>().color = new Color32(0, 0, 0, 192);
                 }
                    
             }
+
         }
 
         if(movestart)
