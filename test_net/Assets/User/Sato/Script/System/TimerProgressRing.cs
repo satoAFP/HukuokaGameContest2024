@@ -34,17 +34,6 @@ public class TimerProgressRing : MonoBehaviourPunCallbacks
                 {
                     if (dataManager.player1.GetComponent<PlayerController>().movelock)
                         circle.fillAmount = 1.0f / 30.0f * dataManager.player1.GetComponent<PlayerController>().holdtime;
-
-                    ////コピー鍵が出現しているときはコピー鍵を参照
-                    //if ((dataManager.copyKey != null && dataManager.board != null) || dataManager.copyKey != null)
-                    //{
-                    //    circle.fillAmount = 1.0f / 30.0f * dataManager.copyKey.GetComponent<CopyKey>().holdtime;
-                    //}
-                    ////ボードだけの時はボードを参照
-                    //else if (dataManager.board != null)
-                    //{
-                    //    circle.fillAmount = 1.0f / 30.0f * dataManager.board.GetComponent<Board>().holdtime;
-                    //}
                 }
             }
         }

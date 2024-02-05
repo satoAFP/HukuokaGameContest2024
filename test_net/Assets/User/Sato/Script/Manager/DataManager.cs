@@ -14,6 +14,8 @@ public class DataManager : MonoBehaviourPunCallbacks
 
     [Header("星生成エフェクト")] public GameObject StarEffect;
 
+    [Header("タイトルショートカットキー長押しフレーム")] public int TitleKeyFrame;
+
     //それぞれのクリア状況
     [System.NonSerialized] public bool isOwnerClear = false;
     [System.NonSerialized] public bool isClientClear = false;
@@ -169,7 +171,7 @@ public class DataManager : MonoBehaviourPunCallbacks
 
     public Text clear;
 
-
+    private int frameCount = 0;
 
 
     // Start is called before the first frame update
@@ -180,21 +182,51 @@ public class DataManager : MonoBehaviourPunCallbacks
 
     private void Update()
     {
-        if (ManagerAccessor.Instance.dataManager.player1 != null &&
-            ManagerAccessor.Instance.dataManager.player2 != null)
+        DataManager dataManager = ManagerAccessor.Instance.dataManager;
+
+        if (dataManager.player1 != null &&
+            dataManager.player2 != null)
         {
             //スタート、ゴールにいるとき宝箱があかないようにする
-            if (ManagerAccessor.Instance.dataManager.isOwnerNotOpenBox ||
-                ManagerAccessor.Instance.dataManager.isClientNotOpenBox)
+            if (dataManager.isOwnerNotOpenBox ||
+                dataManager.isClientNotOpenBox)
                 ManagerAccessor.Instance.dataManager.isNotOpenBox = true;
             else
                 ManagerAccessor.Instance.dataManager.isNotOpenBox = false;
         }
 
-        //if(Input.GetMouseButton(0))
-        //{
-        //    Instantiate(ManagerAccessor.Instance.dataManager.StarEffect);
-        //}
+        //強制的にタイトルに戻す処理
+        if (ManagerAccessor.Instance.sceneMoveManager.GetSceneName() != "NewTitle")
+        {
+            if (PhotonNetwork.IsMasterClient)
+            {
+                if (dataManager.isOwnerInputKey_C_L1 && dataManager.isOwnerInputKey_C_L2 &&
+                    dataManager.isOwnerInputKey_C_R1 && dataManager.isOwnerInputKey_C_R2)
+                {
+                    frameCount++;
+                    if (frameCount == TitleKeyFrame)
+                    {
+                        ManagerAccessor.Instance.sceneMoveManager.ExitRoom();
+                    }
+                }
+                else
+                    frameCount = 0;
+            }
+            else
+            {
+                if (dataManager.isClientInputKey_C_L1 && dataManager.isClientInputKey_C_L2 &&
+                    dataManager.isClientInputKey_C_R1 && dataManager.isClientInputKey_C_R2)
+                {
+                    frameCount++;
+                    if (frameCount == TitleKeyFrame)
+                    {
+                        ManagerAccessor.Instance.sceneMoveManager.ExitRoom();
+                    }
+                }
+                else
+                    frameCount = 0;
+            }
+        }
     }
 
 

@@ -49,6 +49,7 @@ MonoBehaviour:
   MissFrame: 40
   BGM: {fileID: 0}
   StarEffect: {fileID: 8247187840347389312, guid: 3be1b7c10520b31409c5723d0e6d4f91, type: 3}
+  TitleKeyFrame: 180
   text: {fileID: 0}
   chat: {fileID: 0}
   clear: {fileID: 0}

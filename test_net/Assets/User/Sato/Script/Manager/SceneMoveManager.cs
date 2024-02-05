@@ -60,13 +60,18 @@ public class SceneMoveManager : MonoBehaviourPunCallbacks
         return SceneManager.GetActiveScene().name;
     }
 
-    // 他のプレイヤーが切断されたときに呼ばれるコールバック
-    public override void OnPlayerLeftRoom(Player otherPlayer)
+    public void ExitRoom()
     {
         ManagerAccessor.Instance.sceneMoveManager.SceneMoveName("NewTitle");
 
         // ロビーから退出する
         PhotonNetwork.Disconnect();
+    }
+
+    // 他のプレイヤーが切断されたときに呼ばれるコールバック
+    public override void OnPlayerLeftRoom(Player otherPlayer)
+    {
+        ManagerAccessor.Instance.sceneMoveManager.ExitRoom();
     }
 
 }
