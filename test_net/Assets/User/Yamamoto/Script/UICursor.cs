@@ -55,12 +55,6 @@ public class UICursor : MonoBehaviourPunCallbacks
             {
                 ColorChangeframe++;
 
-                //各プレイヤーのアイコンを元の色に戻す
-                for (int i = 0; i < ColorChangeObjects.Length; i++)
-                {
-                    ColorChangeObjects[i].GetComponent<Image>().color = new Color32(255, 255, 255, 255);
-                }
-
                 //約一秒程度でカーソルの色を変える
                 if (ColorChangeframe >= blinkingtime)
                 {
@@ -76,6 +70,12 @@ public class UICursor : MonoBehaviourPunCallbacks
             //箱を開けている時カーソル移動をする
             if (!ManagerAccessor.Instance.dataManager.player1.GetComponent<PlayerController>().cursorlock)
             {
+                //各プレイヤーのアイコンを元の色に戻す
+                for (int i = 0; i < ColorChangeObjects.Length; i++)
+                {
+                    ColorChangeObjects[i].GetComponent<Image>().color = new Color32(255, 255, 255, 255);
+                }
+
                 //押されたボタンの左右でカーソルの移動位置を決める
                 if (datamanager.isOwnerInputKey_C_D_RIGHT && !movestart)
                 {
