@@ -32,16 +32,18 @@ public class TimerProgressRing : MonoBehaviourPunCallbacks
                 //十字キー下を押しているときのみ表示
                 if (dataManager.isOwnerInputKey_C_D_DOWN)
                 {
-                    //コピー鍵が出現しているときはコピー鍵を参照
-                    if ((dataManager.copyKey != null && dataManager.board != null) || dataManager.copyKey != null)
-                    {
-                        circle.fillAmount = 1.0f / 30.0f * dataManager.copyKey.GetComponent<CopyKey>().holdtime;
-                    }
-                    //ボードだけの時はボードを参照
-                    else if (dataManager.board != null)
-                    {
-                        circle.fillAmount = 1.0f / 30.0f * dataManager.board.GetComponent<Board>().holdtime;
-                    }
+                    circle.fillAmount = 1.0f / 30.0f * dataManager.player1.GetComponent<PlayerController>().holdtime;
+
+                    ////コピー鍵が出現しているときはコピー鍵を参照
+                    //if ((dataManager.copyKey != null && dataManager.board != null) || dataManager.copyKey != null)
+                    //{
+                    //    circle.fillAmount = 1.0f / 30.0f * dataManager.copyKey.GetComponent<CopyKey>().holdtime;
+                    //}
+                    ////ボードだけの時はボードを参照
+                    //else if (dataManager.board != null)
+                    //{
+                    //    circle.fillAmount = 1.0f / 30.0f * dataManager.board.GetComponent<Board>().holdtime;
+                    //}
                 }
             }
         }
