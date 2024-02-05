@@ -517,7 +517,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
                                   //  firstboxopen = true;//boxopenフラグ共有再会
                                 }
                             }
-                            else
+                            else if (gameObject.name == "Player2")
                             {
                                 //ゲームパッド下ボタン長押しで回収
                                 if (holdtime <= 0)//回収カウントが0になると回収
